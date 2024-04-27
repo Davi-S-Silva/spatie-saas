@@ -27,8 +27,12 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        $json = json_encode(['msg'=>'success']);
-        return response()->json($json);
+        // print_r($request->PermissionName);
+
+        $request->validate();
+
+        echo json_encode($request->input());
+        return;
     }
 
     /**
