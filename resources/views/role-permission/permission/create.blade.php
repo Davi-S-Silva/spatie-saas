@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Roles Create') }}
+            {{ __('Permission Create') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -14,11 +14,16 @@
                                 class="btn btn-primary m-0">Permissões</a></h4>
                     </div>
                     <div class="card-body">
+                        {{-- <form name="formAddPermissao" action="{{ route('permissions.store') }}" method="POST"> --}}
                         <form name="formAddPermissao">
                             @csrf
                             <div class="px-3 py-1">
                                 <label for="" class="form-label ">Permissão Nome</label>
                                 <input type="text" name="PermissionName" id="" class="rounded form-control">
+                            </div>
+                            <div class="px-3 py-1">
+                                <label for="" class="form-label ">Permissão Model</label>
+                                <input type="text" name="PermissionModel" id="" class="rounded form-control">
                             </div>
                             <div class="px-3 py-1">
                                 <button type="submit" class="btn btn-primary ">Salvar</button>
