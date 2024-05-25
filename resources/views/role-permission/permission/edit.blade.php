@@ -23,6 +23,10 @@
                                 <input type="text" name="PermissionName" id="" value="{{ $permission->name }}" class="rounded form-control">
                             </div>
                             <div class="px-3 py-1">
+                                <label for="" class="form-label ">Model Nome</label>
+                                <input type="text" name="PermissionModel" id="" value="{{ $permission->model }}" class="rounded form-control">
+                            </div>
+                            <div class="px-3 py-1">
                                 <button type="submit" class="btn btn-primary ">Atualizar</button>
                             </div>
                         </form>

@@ -2,3 +2,23 @@
 a {
     text-decoration: none;
 }
+.hover_menu ul{
+    display: none;
+}
+.hover_menu:hover ul{
+    display: block;
+
+}
+/* .hover_menu ul li
+{
+
+} */
+.hover_menu ul li:hover{
+    -tw-bg-opacity: 1;
+    background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+.hover_menu ul li a{
+    display: block;
+    /* background-color: aquamarine; */
+    padding: 10px;
+}

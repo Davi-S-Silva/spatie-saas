@@ -5,6 +5,9 @@ ini_set('display_errors', 'On');
 
 // require_once '../bootstrap.php';
 
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\LocalApoioController;
 use NFePHP\Common\Certificate;
 use NFePHP\CTe\Common\Standardize;
 use NFePHP\CTe\MakeCTe;
@@ -15,6 +18,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Models\Empresa;
 use Illuminate\Support\Facades\Route;
 
 // use Spatie\DbDumper\Databases\MySql;
@@ -40,6 +44,11 @@ Route::middleware('auth')->group(function () {
         Route::put('roles/{role}/give-permission',[RoleController::class, 'storePermissionToRole'])->name('roles.store-give-permission');
         Route::resource('users',UserController::class);
         Route::put('users/{user}/give-role-user',[UserController::class, 'storeRoleToUser'])->name('users.store-give-role-user');
+        Route::resource('empresa',EmpresaController::class);
+        Route::get('empresas/certificado',[EmpresaController::class, 'certificate'])->name('empresa.certificate');
+        Route::get('empresas/empresas',[EmpresaController::class, 'index'])->name('empresa.empresas');
+        Route::post('empresas/certificado',[EmpresaController::class, 'certificateStore'])->name('empresa.certificate');
+        Route::resource('localapoio',LocalApoioController::class);
     });
 
 

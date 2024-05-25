@@ -10,11 +10,11 @@
 
     <!-- Fonts -->
 
-    <link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <!-- Scripts -->
 
+    <link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     @vite('resources/css/app.css')
 </head>
 

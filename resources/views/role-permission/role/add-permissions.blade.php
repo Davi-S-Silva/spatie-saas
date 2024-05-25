@@ -19,34 +19,35 @@
                             action="{{ route('roles.store-give-permission', ['role' => $role->id]) }}" method="POST">
                             @method('PUT')
                             @csrf
+                            @php
+                                $perm = [];
+                            @endphp
+                            @foreach ($permissions as $permission)
+                                @php
+                                    $perm[$permission->model][] = $permission;
+                                @endphp
+                            @endforeach
                             <div class="px-3 py-1">
                                 {{-- <label for="" class="form-label ">Permissão</label> --}}
                                 <div class="row">
                                     <div class="col">
-                                        <div class="d-flex m-2 flex-wrap">
-                                            @php
-                                                $perm = [];
-                                            @endphp
-                                            @foreach ($permissions as $permission)
-                                                @php
-                                                    $perm[$permission->model][] = $permission;
-                                                @endphp
-                                            @endforeach
+                                        <div class="">
+
                                             @foreach ($perm as $item => $permission)
-                                                <div class="m-2 row">
+                                                <div class="">
                                                     <h1 class="h5 font-extrabold">{{ $item }}</h1>
-                                                    <div class="flex">
+                                                    <div class="">
                                                         @foreach ($perm[$item] as $dados)
                                                             <label class="m-0"
                                                                 for="Permission_{{ $dados->name }}">{{ $dados->name }}</label>
                                                             {{-- {{ $dados->name }} --}}
-                                                            {{-- <input type="checkbox" name="permission[]" multiple
+                                                            <input type="checkbox" name="permission[]" multiple
                                                                 id="Permission_{{ $dados->name }}"
                                                                 value="{{ $dados->name }}"
                                                                 {{ in_array($dados->id, $rolePermission) ? 'checked' : '' }}
-                                                                class="mr-5"> --}}
+                                                                class="mr-5"/>
 
-                                                                <div class="flex items-center space-x-3 cursor-pointer mr-10 ml-2" x-data="{ show: {{ in_array($dados->id, $rolePermission) ? 'true' : 'false' }} }"
+                                                                {{-- <div class="flex items-center space-x-3 cursor-pointer mr-10 ml-2" x-data="{ show: {{ in_array($dados->id, $rolePermission) ? 'true' : 'false' }} }"
                                                                      @click="show =!show">
                                                                     <div class="relative w-10 h-5 transition duration-200 ease-linear rounded-full"
                                                                         :class="[show ? 'bg-indigo-500' : 'bg-gray-300']">
@@ -61,10 +62,10 @@
                                                                         class="hidden w-full h-full rounded-full appearance-none active:outline-none focus:outline-none"
                                                                         {{ in_array($dados->id, $rolePermission) ? 'checked' : '' }}
                                                                         />
-                                                                    </div>
+                                                                    </div> --}}
 
                                                                     {{-- <p class="text-gray-500">Can edit task</p> --}}
-                                                                </div>
+                                                                {{-- </div> --}}
                                                         @endforeach
                                                     </div>
                                                 </div>

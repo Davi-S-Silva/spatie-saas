@@ -136,7 +136,8 @@ class PermissionController extends Controller implements HasMiddleware
 
 
             $request->validate([
-                'PermissionName'=>['required', 'string', 'unique:permissions,name,'.$permission->id]
+                'PermissionName'=>['required', 'string', 'unique:permissions,name,'.$permission->id],
+                'PermissionModel'=>['required', 'string', 'unique:permissions,model,'.$permission->id]
                 // 'PermissionName'=> ['required', 'string', 'unique:permissions,name']
             ]);
 
@@ -144,7 +145,8 @@ class PermissionController extends Controller implements HasMiddleware
 
 
             $permission->update([
-                'name'=>$request->PermissionName
+                'name'=>$request->PermissionName,
+                'model'=>$request->PermissionModel
             ]);
             // echo json_encode($request->input('PermissionName'));
 

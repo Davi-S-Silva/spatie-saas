@@ -48,7 +48,9 @@ class UserController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        //
+        print_r($request->input());
+
+        User::create($request->all());
     }
 
     /**

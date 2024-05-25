@@ -83,6 +83,21 @@ class PermissionSeeder extends Seeder
             'model' => 'User',
             'guard_name' => 'web',
         ]);
+        DB::table('permissions')->insert([
+            'name' => 'Visualizar Certificado',
+            'model' => 'Empresa',
+            'guard_name' => 'web',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Nova Empresa',
+            'model' => 'Empresa',
+            'guard_name' => 'web',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Listar Empresas',
+            'model' => 'Empresa',
+            'guard_name' => 'web',
+        ]);
 
     }
 }
