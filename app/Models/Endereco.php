@@ -11,9 +11,9 @@ class Endereco extends Model
     use HasFactory,HasRoles;
 
     protected $fillable = [
-        'rua','numero','bairro','cidade','estado'
+        'rua','numero','bairro','cep','cidade_id','estado_id'
     ];
-    public function empresa()
+    public function empresas()
     {
         return $this->belongsToMany(Empresa::class);
     }

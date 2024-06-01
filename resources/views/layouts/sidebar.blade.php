@@ -4,9 +4,9 @@
 
 <!-- component -->
 <!-- This is an example component -->
-<div class="max-w-2xl mx-auto">
+<div class="max-w-2xl mx-auto aside_menu">
     <aside class="w-64" aria-label="Sidebar">
-        <div class="px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800">
+        <div class="px-3 py-4 bg-white dark:bg-gray-800">
             <ul class="space-y-1">
                 <li>
                     <a href="{{ route('dashboard') }}"
@@ -37,7 +37,7 @@
                     <ul id="dropdown-example" class="hidden py-2 space-y-2">
                         {{-- ESTOQUE --}}
                         @can('Listar Empresas')
-                        <li class="hover_menu">
+                        <li class="hover_menu position-relative">
                             <a href="{{ route('empresa.index') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                      hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span

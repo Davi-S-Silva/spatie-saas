@@ -23,8 +23,8 @@ class Empresa extends Model
         return $this->hasMany(LocalApoio::class);
     }
 
-    public function endereco():HasMany
+    public function enderecos()
     {
-        return $this->hasMany(Endereco::class);
+        return $this->belongsToMany(Endereco::class);
     }
 }

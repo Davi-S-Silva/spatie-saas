@@ -11,6 +11,15 @@
                     <div>
                         <h1 class="font-bold">{{ $empresa->name }}</h1>
                     </div>
+
+                    <div>
+                        <h1 class="font-bold">Endereco</h1>
+                        @forelse ($empresa->enderecos as $endereco)
+                            {{$endereco->rua}}
+                        @empty
+                            endereco nao cadastrado
+                        @endforelse
+                    </div>
                     <div>
                         <h1>Locais de apoio</h1>
 

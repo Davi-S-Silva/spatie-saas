@@ -2,12 +2,16 @@
 a {
     text-decoration: none;
 }
+.aside_menu{
+    z-index: 1000;
+}
 .hover_menu ul{
     display: none;
+    top:0;
+    margin-left: 100%;    
 }
 .hover_menu:hover ul{
     display: block;
-
 }
 /* .hover_menu ul li
 {
@@ -15,7 +19,7 @@ a {
 } */
 .hover_menu ul li:hover{
     -tw-bg-opacity: 1;
-    background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+    background-color: rgb(243 244 255 / var(--tw-bg-opacity));
 }
 .hover_menu ul li a{
     display: block;

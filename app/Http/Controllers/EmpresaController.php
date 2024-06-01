@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Certificado;
 use App\Models\Empresa;
 use App\Models\Endereco;
+use Exception;
+use Illuminate\Database\Events\TransactionBeginning;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
 class EmpresaController extends Controller
@@ -33,17 +37,50 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        print_r($request->input());
+        try{
 
-        $empresa = new Empresa();
-        $empresa->name = $request->input('RazaoSocial');
+            DB::beginTransaction();
+            // print_r($request->input());
+            
+            
+            
+            // $endereco = Endereco::create($request->all());
 
-        $endereco = Endereco::create($request->all());
+            
+
+            $endereco = new Endereco();
+            $endereco->rua = $request->rua;
+            $endereco->numero = $request->numero;
+            $endereco->bairro = $request->bairro;
+            $endereco->cep = $request->cep;
+            $endereco->cidade_id = $request->cidade_id;
+            $endereco->estado_id = $request->estado_id;
+            $endereco->save();        
+
+            $empresa = new Empresa();
+            $empresa->name = $request->input('RazaoSocial');  
+            $empresa->save();
+
+            $empresa->enderecos()->attach($endereco->id);
+
+            // echo '<pre>';
+            // print_r($empresa);
+            // print_r($endereco);
+            // echo '</pre>';
+            
+            // exit;
+            DB::commit();
+
+            return redirect()->route('empresa.show',['empresa'=>$empresa->id])->with('message', ['status' => 'success', 'msg' => 'Empresa Cadastrada com sucesso!']);
+        }catch(Exception $ex){
+            DB::rollBack();
+
+            echo '<pre>';
+            print_r($ex->getMessage());
+            echo '</pre>';
 
 
-
-        $empresa->endereco_id = $endereco->id;
-        $empresa->save();
+        }
     }
 
     /**
