@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('certificados', function (Blueprint $table) {
+        Schema::create('movimentacao_estoques', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('password');
-            $table->date('validate');
-            $table->string('path');
-            $table->foreignId('empresa_id')->references('id')->on('empresas');
+            $table->integer('quantidade');
+            $table->foreignId('estoque_id')->references('id')->on('estoques');
             $table->foreignId('usuario_id')->references('id')->on('users');
+            $table->foreignId('colaborador_id')->references('id')->on('colaboradors');
+            $table->text('descricao');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('certificados');
+        Schema::dropIfExists('movimentacao_estoques');
     }
 };

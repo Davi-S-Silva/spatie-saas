@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('empresas', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            // $table->foreignId('endereco_id')->references('id')->on('enderecos');
-            $table->timestamps();
+        Schema::create('comprovantes_notas', function (Blueprint $table) {
+            $table->foreignId('nota_id')->references('id')->on('notas');
+            $table->foreignId('comprovante_nota_id')->references('id')->on('comprovante_notas');
         });
     }
 
@@ -24,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('empresas');
+        Schema::dropIfExists('comprovantes_notas');
     }
 };

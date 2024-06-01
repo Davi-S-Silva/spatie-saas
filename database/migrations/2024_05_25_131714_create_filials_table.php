@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('filials', function (Blueprint $table) {
             $table->id();
+            $table->string('razao_social');
+            $table->string('nome_fantasia');
+            $table->string('resposavel');
+            $table->integer('cnpj')->unique();
+            $table->integer('ie')->unique();
+            $table->foreignId('usuario_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

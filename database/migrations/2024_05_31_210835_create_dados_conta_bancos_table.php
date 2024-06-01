@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('enderecos', function (Blueprint $table) {
+        Schema::create('dados_conta_bancos', function (Blueprint $table) {
             $table->id();
-            $table->string('endereco');
-            $table->integer('numero');
-            $table->string('bairro');
-            $table->integer('cidade_id');
-            $table->integer('estado_id');
+            $table->integer('agencia');
+            $table->integer('operacao');
+            $table->integer('conta');
+            $table->foreignId('conta_id')->references('id')->on('conta_pagamentos');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('enderecos');
+        Schema::dropIfExists('dados_conta_bancos');
     }
 };

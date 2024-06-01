@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('local_apoios', function (Blueprint $table) {
+        Schema::create('receitas', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
             $table->timestamps();
-            $table->foreignId('empresa_id')->references('id')->on('empresas');
-            // $table->foreignId('endereco _id')->references('id')->on('enderecos');
         });
     }
 
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('local_apoios');
+        Schema::dropIfExists('receitas');
     }
 };

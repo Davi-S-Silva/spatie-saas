@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('certificados', function (Blueprint $table) {
+        Schema::create('nota_devolucaos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('password');
-            $table->date('validate');
+            $table->integer('nota');
+            $table->double('valor');
+            $table->text('descricao');
             $table->string('path');
-            $table->foreignId('empresa_id')->references('id')->on('empresas');
-            $table->foreignId('usuario_id')->references('id')->on('users');
+            $table->foreignId('cliente_id')->references('id')->on('clientes');
+            $table->foreignId('filial_cliente_id')->references('id')->on('filials');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('certificados');
+        Schema::dropIfExists('nota_devolucaos');
     }
 };

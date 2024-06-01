@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('certificados', function (Blueprint $table) {
+        Schema::create('fornecedors', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('password');
-            $table->date('validate');
-            $table->string('path');
+            $table->string('nome_razao_social');
+            $table->integer('cpf_cnpj')->unique();
+            $table->integer('tipo');//fisico ou juridico
             $table->foreignId('empresa_id')->references('id')->on('empresas');
-            $table->foreignId('usuario_id')->references('id')->on('users');
+            $table->foreignId('endereco_id')->references('id')->on('enderecos');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('certificados');
+        Schema::dropIfExists('fornecedors');
     }
 };

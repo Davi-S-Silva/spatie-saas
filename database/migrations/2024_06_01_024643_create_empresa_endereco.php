@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('certificados', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('password');
-            $table->date('validate');
-            $table->string('path');
+        Schema::create('empresa_endereco', function (Blueprint $table) {
             $table->foreignId('empresa_id')->references('id')->on('empresas');
-            $table->foreignId('usuario_id')->references('id')->on('users');
-            $table->timestamps();
+            $table->foreignId('endereco_id')->references('id')->on('enderecos');
         });
     }
 
@@ -28,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('certificados');
+        Schema::dropIfExists('empresa_endereco');
     }
 };

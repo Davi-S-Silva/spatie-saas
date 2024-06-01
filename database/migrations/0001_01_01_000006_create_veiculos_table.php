@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('certificados', function (Blueprint $table) {
+        Schema::create('veiculos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('password');
-            $table->date('validate');
-            $table->string('path');
+            $table->string('placa');
+            $table->string('foto_path');
             $table->foreignId('empresa_id')->references('id')->on('empresas');
+            $table->foreignId('local_apoio_id')->references('id')->on('local_apoios');
             $table->foreignId('usuario_id')->references('id')->on('users');
+            $table->foreignId('status_id')->references('id')->on('status');
+            $table->foreignId('proprietario_id')->references('id')->on('proprietarios');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('certificados');
+        Schema::dropIfExists('veiculos');
     }
 };
