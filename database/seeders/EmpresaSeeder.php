@@ -15,7 +15,9 @@ class EmpresaSeeder extends Seeder
     public function run(): void
     {
         DB::table('empresas')->insert([
-            'name' => 'SaaS Portal',
+            'nome' => 'SaaS Portal',
+            'nome_fantasia' => 'SaaS Portal',
+            'usuario_id'=> 1
         ]);
     }
 }

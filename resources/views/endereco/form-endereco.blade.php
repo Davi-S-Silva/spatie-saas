@@ -4,19 +4,19 @@
 
     <div>
         <label for="">Rua</label>
-        <input type="text" name="rua" id="">
+        <input type="text" name="rua" id="" value="{{(isset($endereco))?$endereco->endereco:''}}">
     </div>
     <div>
         <label for="">Numero</label>
-        <input type="number" name="numero" id="">
+        <input type="number" name="numero" id="" value="{{(isset($endereco))?$endereco->numero:''}}">
     </div>
     <div>
         <label for="">Bairro</label>
-        <input type="text" name="bairro" id="">
+        <input type="text" name="bairro" id="" value="{{(isset($endereco))?$endereco->bairro:''}}">
     </div>
     <div>
-        <label for="">Numero</label>
-        <input type="number" name="cep" id="">
+        <label for="">Cep</label>
+        <input type="number" name="cep" id="" value="{{(isset($endereco))?$endereco->cep:''}}">
     </div>
     <div>
         <label for="">Cidade</label>
