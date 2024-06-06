@@ -101,18 +101,70 @@
                                 </ul>
                             </li>
                         @endcan
-                        <li>
+                        {{-- <li>
                             <a href="#"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                  hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Invoice</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
 
                 <li>
-                    {{-- <a href="#"
-                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                         hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Estoque</a> --}}
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-colaborador" data-collapse-toggle="dropdown-colaborador">
+                        <i class="fa-solid fa-users font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
+                          dark:text-gray-400 dark:group-hover:text-white "
+                            style="color: #6b7280;" fill="currentColor"></i>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Colaborador</span>
+                        <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <ul id="dropdown-colaborador" class="hidden py-2 space-y-2">
+                        <li><a href="{{ route('colaboradores.index') }}"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">colaboradores</a>
+                        </li>
+                        @can('Criar Colaborador')
+                            <li><a href="{{ route('colaboradores.create') }}"
+                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Colaborador</a></li>
+                        @endcan
+                    </ul>
+                </li>
+                <li>
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-cliente" data-collapse-toggle="dropdown-cliente">
+                        <i class="fa-solid fa-users font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
+                          dark:text-gray-400 dark:group-hover:text-white "
+                            style="color: #6b7280;" fill="currentColor"></i>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Cliente</span>
+                        <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <ul id="dropdown-cliente" class="hidden py-2 space-y-2">
+                        <li><a href="{{ route('clientes.index') }}"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Clientes</a>
+                        </li>
+                        @can('Criar Usuario')
+                            <li><a href="{{ route('clientes.create') }}"
+                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Cliente</a></li>
+                        @endcan
+                    </ul>
+                </li>
+
+                <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-product" data-collapse-toggle="dropdown-product">
@@ -140,6 +192,7 @@
                         @endcan
                     </ul>
                 </li>
+
                 <li>
                     <a href="#"
                         class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">

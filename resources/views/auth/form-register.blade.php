@@ -50,6 +50,7 @@
         @endif
         @if (!$guest)
             <x-select-empresa/>
+            <x-select-colaborador/>
         @endif
         <x-primary-button class="ms-4">
             {{ __('Register') }}

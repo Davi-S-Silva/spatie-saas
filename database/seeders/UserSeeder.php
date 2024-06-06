@@ -16,8 +16,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->insert([
-            'name' => 'Davi Santos da Silva',
-            'email' => 'daviedeus43@gmail.com',
+            'name' => 'Admin Master',
+            'email' => 'adminmaster@gmail.com',
             'password' => Hash::make('password'),
             // 'empresa_id'=>1,
         ]);
@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
         //     'email' => 'marcilenecelestino907@gmail.com',
         //     'password' => Hash::make('password'),
         // ]);
-        $user = User::where('email','daviedeus43@gmail.com')->get()->first();
+        $user = User::where('email','adminmaster@gmail.com')->get()->first();
         $user->syncRoles(['super-admin']);
         // $user = User::where('email','marcilenecelestino907@gmail.com')->get()->first();
         // $user->syncRoles(['admin']);

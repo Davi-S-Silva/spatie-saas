@@ -6,7 +6,10 @@ ini_set('display_errors', 'On');
 // require_once '../bootstrap.php';
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ColaboradorController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\FilialController;
 use App\Http\Controllers\LocalApoioController;
 use NFePHP\Common\Certificate;
 use NFePHP\CTe\Common\Standardize;
@@ -49,6 +52,10 @@ Route::middleware('auth')->group(function () {
         Route::get('empresas/empresas',[EmpresaController::class, 'index'])->name('empresa.empresas');
         Route::post('empresas/certificado',[EmpresaController::class, 'certificateStore'])->name('empresa.certificate');
         Route::resource('localapoio',LocalApoioController::class);
+        Route::resource('colaboradores',ColaboradorController::class);
+        Route::resource('clientes',ClienteController::class);
+        Route::resource('filial',FilialController::class);
+        Route::get('filial/create/cliente/{cliente}',[FilialController::class, 'create'])->name('filial.create');
     });
 
 

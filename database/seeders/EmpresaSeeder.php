@@ -18,7 +18,7 @@ class EmpresaSeeder extends Seeder
             'nome' => 'SaaS Portal',
             'nome_fantasia' => 'SaaS Portal',
             'tipo_doc' => 1,
-            'doc' => 11116354470,
+            'doc' => 00000000000,
             'usuario_id'=> 1
         ]);
     }

@@ -13,12 +13,22 @@ class Empresa extends Model
 {
     use HasFactory,HasRoles;
 
+    public function newId(){
+        $count = $this->all();
+        if($count->count()==0){
+            $this->id = 1;
+        }
+        else{
+            $this->id = $this->all()->last()->id +=1;
+        }
+    }
+
     public function certificate(): HasMany
     {
         return $this->hasMany(Certificado::class);
     }
 
-    public function localapoio():HasMany
+    public function localapoios():HasMany
     {
         return $this->hasMany(LocalApoio::class);
     }
@@ -33,9 +43,7 @@ class Empresa extends Model
         return $this->belongsToMany(Contato::class);
     }
 
-    public function newId(){
-        return Empresa::all()->last()->id +=1;
-    }
+
     public function users()
     {
         return $this->belongsToMany(User::class);

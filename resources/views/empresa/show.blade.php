@@ -23,7 +23,7 @@
                     <div>
                         <h1>Locais de apoio</h1>
 
-                        @forelse ($empresa->localapoio as $apoio)
+                        @forelse ($empresa->localapoios as $apoio)
                             <ul class="px-3 py-1">
                                 <li>{{ $apoio->name }}</li>
                             </ul>

@@ -63,6 +63,8 @@ class EmpresaController extends Controller
             $empresa = new Empresa();
             $empresa->nome = $request->input('RazaoSocial');
             $empresa->nome_fantasia = $request->input('NomeFantasia');
+            $empresa->tipo_doc = $request->PessoaFisicaJuridica;
+            $empresa->doc = $request->CpfCnpj;
             $empresa->usuario_id = Auth::check();
             $empresa->save();
 
@@ -135,11 +137,12 @@ class EmpresaController extends Controller
         // print_r($empresa->getAttributes());
         $empresa->nome = $request->RazaoSocial;
         $empresa->nome_fantasia = $request->NomeFantasia;
-        $empresa->nome = $request->CpfCnpj;
+        $empresa->tipo_doc = $request->PessoaFisicaJuridica;
+        $empresa->doc = $request->CpfCnpj;
 
         if($empresa->enderecos()->count()==0){
             $end = new Endereco();
-            $end->id = $end->newId();
+            $end->newId();
             $end->endereco = $request->rua;
             $end->numero = $request->numero;
             $end->bairro = $request->bairro;
@@ -163,6 +166,7 @@ class EmpresaController extends Controller
 
         if($empresa->contatos()->count()==0){
             $contato = new Contato();
+            $contato->newId();
             $contato->celular =$request->Telefone;
             $contato->whatsapp = $request->WhatsApp;
             $contato->email = $request->Email;
@@ -218,7 +222,7 @@ class EmpresaController extends Controller
         }
 
         $certificado =  new Certificado();
-
+        $certificado->newId();
         $certificado->name = Empresa::find($request->empresa_id)->name;
         $certificado->password = Hash::make($request->SenhaCertificado);
         $certificado->validate = $request->ValidadeCertificado;

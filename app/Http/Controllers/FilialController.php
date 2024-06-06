@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contato;
+use App\Models\Endereco;
 use App\Models\Filial;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FilialController extends Controller
 {
@@ -18,9 +23,9 @@ class FilialController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($cliente)
     {
-        //
+        return view('filial.create', ['cliente'=>$cliente]);
     }
 
     /**
@@ -28,7 +33,46 @@ class FilialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            DB::beginTransaction();
+            echo '<pre>';print_r($request->input());echo '</pre>';
+            $filial = new Filial();
+            $filial->newId();
+            $filial->razao_social = $request->RazaoSocial;
+            $filial->nome_fantasia = $request->NomeFantasia;
+            $filial->responsavel = $request->Responsavel;
+            $filial->cnpj = $request->Cnpj;
+            $filial->ie = $request->IE;
+            $filial->usuario_id=Auth::check();
+            $filial->save();
+            $filial->clientes()->attach($request->Cliente);
+
+            $end = new Endereco();
+            $end->newId();
+            $end->endereco = $request->rua;
+            $end->numero = $request->numero;
+            $end->bairro = $request->bairro;
+            $end->cep = $request->cep;
+            $end->cidade_id = $request->cidade_id;
+            $end->estado_id = $request->estado_id;
+            $end->save();
+
+            $cont = new Contato();
+            $cont->newId();
+            $cont->celular = $request->Telefone;
+            $cont->whatsapp = $request->WhatsApp;
+            $cont->email = $request->Email;
+            $cont->descricao = $request->Descricao;
+            $cont->usuario_id=Auth::check();
+            $cont->save();
+
+            $filial->contatos()->attach($cont->id);
+            $filial->enderecos()->attach($end->id);
+            DB::commit();
+        }catch(Exception $ex){
+            DB::rollback();
+            print_r($ex->getMessage());
+        }
     }
 
     /**

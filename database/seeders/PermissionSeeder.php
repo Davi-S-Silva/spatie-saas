@@ -98,6 +98,11 @@ class PermissionSeeder extends Seeder
             'model' => 'Empresa',
             'guard_name' => 'web',
         ]);
+        DB::table('permissions')->insert([
+            'name' => 'Criar Colaborador',
+            'model' => 'Colaborador',
+            'guard_name' => 'web',
+        ]);
 
     }
 }

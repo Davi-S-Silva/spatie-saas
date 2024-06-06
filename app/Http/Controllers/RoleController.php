@@ -152,11 +152,16 @@ class RoleController extends Controller implements HasMiddleware
     public function destroy(Role $role)
     {
         try {
-            $role->delete();
-            echo json_encode(['status' => 'success', 'msg' => 'Role Deleted Successfuly']);
-            // session(['message'=>['status'=>'success', 'msg'=>'Role Deleted Successfuly']]);
-            session()->flash('message', ['status' => 'success', 'msg' => 'Role Deleted Successfuly!']);
-            return;
+            if($role->id !==1){
+                $role->delete();
+                echo json_encode(['status' => 'success', 'msg' => 'Role Deleted Successfuly']);
+                // session(['message'=>['status'=>'success', 'msg'=>'Role Deleted Successfuly']]);
+                session()->flash('message', ['status' => 'success', 'msg' => 'Role Deleted Successfuly!']);
+                return;
+            }
+            echo json_encode(['status' => 'success', 'msg' => 'não é possivel deletar essa role!']);
+            session()->flash('message', ['status' => 'danger', 'msg' => 'não é possivel deletar essa role!']);
+                return;
         } catch (Exception $ex) {
             echo json_encode(['status' => 'danger', 'msg' => $ex->getMessage()]);
             return;
@@ -195,7 +200,7 @@ class RoleController extends Controller implements HasMiddleware
 
         $role->syncPermissions($request->input('permission'));
 
-        return redirect()->back()->with('message', ['status' => 'success', 'msg' => 'Permission updated to role ' . $role->name]);
+        return redirect()->route('users.index')->with('message', ['status' => 'success', 'msg' => 'Permission updated to role ' . $role->name]);
         // print_r($role->getAttributes());
     }
 }

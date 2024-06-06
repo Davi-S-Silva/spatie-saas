@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             EmpresaSeeder::class,
+            TipoColaboradorSeeder::class,
+            FuncaoColaboradorSeeder::class,
         ]);
     }
 }

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('razao_social');
             $table->string('nome_fantasia');
-            $table->string('resposavel');
-            $table->integer('cnpj')->unique();
-            $table->integer('ie')->unique();
+            $table->string('responsavel');
+            $table->string('cnpj')->unique();
+            $table->string('ie')->unique();
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->timestamps();
         });

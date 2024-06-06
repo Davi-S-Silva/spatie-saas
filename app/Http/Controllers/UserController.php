@@ -19,7 +19,7 @@ class UserController extends Controller implements HasMiddleware
      * Display a listing of the resource.
      */
 
-     public static function middleware(): array
+    public static function middleware(): array
     {
         return [
             // examples with aliases, pipe-separated names, guards, etc:
@@ -36,7 +36,7 @@ class UserController extends Controller implements HasMiddleware
     public function index()
     {
         $users = User::all();
-        return view('user.index', ['users'=>$users]);
+        return view('user.index', ['users' => $users]);
     }
 
     /**
@@ -52,7 +52,7 @@ class UserController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        try{
+        try {
             DB::beginTransaction();
             print_r($request->input());
 
@@ -66,11 +66,10 @@ class UserController extends Controller implements HasMiddleware
             $empresa = Empresa::find($request->empresa_id);
             $user->empresa()->attach($empresa->id);
             DB::commit();
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             DB::rollback();
             return $ex->getMessage();
         }
-
     }
 
     /**
@@ -86,11 +85,17 @@ class UserController extends Controller implements HasMiddleware
      */
     public function edit(string $id)
     {
+        // $msg = 'Dados alterados com sucesso';
+        // $status = 'success';
         $user = User::findOrFail($id);
-
-        $roles = Role::orderBy('name','DESC')->pluck('name','name')->all();
-        $userRoles = $user->roles->pluck('name','name')->all();
-
+        if (isset($user->roles->first()->id) && $user->roles->first()->id == 1) {
+            $msg = 'não é possivel alterar roles e permissions de usuario master';
+            $status = 'danger';
+            return redirect()->back()->with('message', ['status' => $status, 'msg' => $msg]);
+        }
+        $roles = Role::orderBy('name', 'DESC')->pluck('name', 'name')->all();
+        $userRoles = $user->roles->pluck('name', 'name')->all();
+        // return redirect()->back()->with('message', ['status' => $status, 'msg' => $msg]);
         return view('user.edit',['user'=>$user,'roles'=>$roles, 'userRoles'=>$userRoles]);
     }
 
@@ -109,13 +114,20 @@ class UserController extends Controller implements HasMiddleware
      */
     public function destroy(User $user)
     {
-        $user->delete();
-        return redirect()->back()->with('message',['status'=>'success','msg'=>'User '.$user->name.' deleted']);
+        $msg = 'não é possivel deletar usuario master';
+        $status = 'danger';
+        if ($user->roles->first()->id != 1) {
+            $user->delete();
+            $msg = 'User ' . $user->name . ' deleted';
+            $status = 'success';
+        }
+        return redirect()->back()->with('message', ['status' => $status, 'msg' => $msg]);
     }
 
-    public function storeRoleToUser(Request $request , User $user){
+    public function storeRoleToUser(Request $request, User $user)
+    {
         //atualiza permissoes do usuario
         $user->syncRoles($request->input('RolesUser'));
-        return redirect()->back()->with('message',['status'=>'success','msg'=>'Role updated to user '.$user->name]);
+        return redirect()->route('users.index')->with('message', ['status' => 'success', 'msg' => 'Role updated to user ' . $user->name]);
     }
 }

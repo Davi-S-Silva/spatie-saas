@@ -21,9 +21,11 @@
                                     @method('PUT')
                                         <select name="RolesUser[]" multiple id="" class="form-select form-select-lg mb-3">
                                             @foreach ($roles as $role)
+                                            @if ($role !== 'super-admin')
                                             <option value="{{ $role }}"
-                                            {{ in_array($role, $userRoles) ? 'selected' : '' }}>{{ $role }}
-                                        </option>
+                                                {{ in_array($role, $userRoles) ? 'selected' : '' }}>{{ $role }}
+                                            </option>
+                                        @endif
                                         @endforeach
                                     </select>
                                     <input type="submit" value="Atualizar" class="btn btn-primary">

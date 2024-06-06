@@ -3,11 +3,14 @@
 @endphp
 
 <div class="col-5">
-    <label for="">Empresa</label>
-    <select name="empresa_id" id="">
-        <option value="">Selecione a Empresa</option>
+    <label for="">Empresa e local de apoio do colaborador</label>
+    <select name="empresa_local_apoio_id" id="">
+        <option value="">Selecione uma opção</option>
         @foreach (Empresa::All() as $empresa)
-            <option value="{{ $empresa->id }}">{{ $empresa->nome }}</option>
+            {{-- <option value="{{ $empresa->id }}">{{ $empresa->nome }}</option> --}}
+            @foreach ($empresa->localapoios as $local)
+            <option value="{{ $local->id }}">{{ $empresa->nome_fantasia }} - {{ $local->name }}</option>
+            @endforeach
         @endforeach
     </select>
 </div>
