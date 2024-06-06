@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->string('nome_fantasia');
+            $table->integer('tipo_doc');//cpf ou cnpj
+            $table->bigInteger('doc');
             $table->string('logo_path')->nullable();
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->timestamps();

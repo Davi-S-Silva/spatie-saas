@@ -17,4 +17,12 @@ class Endereco extends Model
     {
         return $this->belongsToMany(Empresa::class);
     }
+
+    public function newId(){
+        $count = Endereco::all();
+        if($count->count()==0){
+            return 1;
+        }
+        return Endereco::all()->last()->id +=1;
+    }
 }

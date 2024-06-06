@@ -17,6 +17,8 @@ class EmpresaSeeder extends Seeder
         DB::table('empresas')->insert([
             'nome' => 'SaaS Portal',
             'nome_fantasia' => 'SaaS Portal',
+            'tipo_doc' => 1,
+            'doc' => 11116354470,
             'usuario_id'=> 1
         ]);
     }

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('contatos', function (Blueprint $table) {
             $table->id();
-            $table->integer('celular')->nullable();
-            $table->integer('whatsapp')->nullable();
+            $table->bigInteger('celular')->nullable();
+            $table->bigInteger('whatsapp')->nullable();
             $table->string('email')->nullable();
             $table->string('descricao')->nullable();
             $table->foreignId('usuario_id')->references('id')->on('users');

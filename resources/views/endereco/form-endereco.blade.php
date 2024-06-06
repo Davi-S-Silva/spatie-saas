@@ -1,22 +1,19 @@
-<form action="" method="post">
-
-    rua, numero, bairro, cep, cidade, estado
-
+{{-- <form action="" method="post"> --}}
     <div>
         <label for="">Rua</label>
-        <input type="text" name="rua" id="" value="{{(isset($endereco))?$endereco->endereco:''}}">
+        <input type="text" name="rua" id="" value="{{(!empty($endereco))?$endereco->endereco:''}}">
     </div>
     <div>
         <label for="">Numero</label>
-        <input type="number" name="numero" id="" value="{{(isset($endereco))?$endereco->numero:''}}">
+        <input type="number" name="numero" id="" value="{{(!empty($endereco))?$endereco->numero:''}}">
     </div>
     <div>
         <label for="">Bairro</label>
-        <input type="text" name="bairro" id="" value="{{(isset($endereco))?$endereco->bairro:''}}">
+        <input type="text" name="bairro" id="" value="{{(!empty($endereco))?$endereco->bairro:''}}">
     </div>
     <div>
         <label for="">Cep</label>
-        <input type="number" name="cep" id="" value="{{(isset($endereco))?$endereco->cep:''}}">
+        <input type="number" name="cep" id="" value="{{(!empty($endereco))?$endereco->cep:''}}">
     </div>
     <div>
         <label for="">Cidade</label>
@@ -32,4 +29,4 @@
         </select>
         select estado
     </div>
-</form>
+{{-- </form> --}}

@@ -15,7 +15,7 @@
                     <div>
                         <h1 class="font-bold">Endereco</h1>
                         @forelse ($empresa->enderecos as $endereco)
-                            {{$endereco->rua}}
+                            {{$endereco->endereco}}
                         @empty
                             endereco nao cadastrado
                         @endforelse

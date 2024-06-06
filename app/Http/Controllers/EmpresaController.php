@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Certificado;
+use App\Models\Contato;
 use App\Models\Empresa;
 use App\Models\Endereco;
 use Exception;
@@ -67,6 +68,15 @@ class EmpresaController extends Controller
 
             $empresa->enderecos()->attach($endereco->id);
 
+            $contato = new Contato();
+            $contato->celular =$request->Telefone;
+            $contato->whatsapp = $request->WhatsApp;
+            $contato->email = $request->Email;
+            $contato->descricao = $request->Descricao;
+            $contato->usuario_id = Auth::check();
+            $contato->save();
+            $empresa->contatos()->attach($contato->id);
+
             // echo '<pre>';
             // print_r($empresa);
             // print_r($endereco);
@@ -110,7 +120,8 @@ class EmpresaController extends Controller
     {
         $rota = 'empresa.update';
         $end = $empresa->enderecos()->get()->first();
-        return view('empresa.edit', ['empresa'=>$empresa,'disabled'=>'no', 'rota'=>$rota,'endereco'=>$end]);
+        $cont = $empresa->contatos()->get()->first();
+        return view('empresa.edit', ['empresa'=>$empresa,'disabled'=>'no', 'rota'=>$rota,'endereco'=>$end,'contato'=>$cont]);
     }
 
     /**
@@ -118,7 +129,66 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, Empresa $empresa)
     {
-        //
+        echo '<pre>';
+        print_r($request->input());
+        echo '</pre>';
+        // print_r($empresa->getAttributes());
+        $empresa->nome = $request->RazaoSocial;
+        $empresa->nome_fantasia = $request->NomeFantasia;
+        $empresa->nome = $request->CpfCnpj;
+
+        if($empresa->enderecos()->count()==0){
+            $end = new Endereco();
+            $end->id = $end->newId();
+            $end->endereco = $request->rua;
+            $end->numero = $request->numero;
+            $end->bairro = $request->bairro;
+            $end->cep = $request->cep;
+            $end->cidade_id = 1;
+            $end->estado_id = 1;
+            $end->save();
+            $empresa->enderecos()->attach($end->id);
+            // print_r($end->getAttributes());
+        }else{
+            $end = $empresa->enderecos()->first();
+            $end->endereco = $request->rua;
+            $end->numero = $request->numero;
+            $end->bairro = $request->bairro;
+            $end->cep = $request->cep;
+            $end->cidade_id = 1;
+            $end->estado_id = 1;
+            $end->save();
+        }
+
+
+        if($empresa->contatos()->count()==0){
+            $contato = new Contato();
+            $contato->celular =$request->Telefone;
+            $contato->whatsapp = $request->WhatsApp;
+            $contato->email = $request->Email;
+            $contato->descricao = $request->Descricao;
+            $contato->usuario_id = Auth::check();
+            $contato->save();
+            $empresa->contatos()->attach($contato->id);
+        }else{
+            $contato = $empresa->contatos()->first();
+            $contato->celular =$request->Telefone;
+            $contato->whatsapp = $request->WhatsApp;
+            $contato->email = $request->Email;
+            $contato->descricao = $request->Descricao;
+            $contato->save();
+        }
+        // else{
+        //     // print_r($empresa->enderecos()->first()->getAttributes());
+        // }
+        // echo '</pre>';
+        //     echo 'ola';
+
+        //     print_r($contato->getAttributes());
+        // return;
+        $empresa->save();
+
+        return redirect()->route('empresa.edit',['empresa'=>$empresa->id])->with('message', ['status' => 'success', 'msg' => 'Empresa Atualizada com sucesso!']);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LocalApoio;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class LocalApoioController extends Controller
@@ -39,7 +40,13 @@ class LocalApoioController extends Controller
 
         // print_r($request->input());
 
-        LocalApoio::create($request->all());
+        // LocalApoio::create($request->all());
+        $localApoio = new LocalApoio();
+        $localApoio->name= $request->name;
+        $localApoio->description= $request->description;
+        $localApoio->empresa_id= $request->empresa_id;
+        $localApoio->usuario_id= Auth::check();
+        $localApoio->save();
 
         return redirect()->route('empresa.show',['empresa'=>$request->empresa_id])->with('message', ['status' => 'success', 'msg' => 'Local de apoio adicionado com sucesso!']);
 

@@ -27,4 +27,17 @@ class Empresa extends Model
     {
         return $this->belongsToMany(Endereco::class);
     }
+
+    public function contatos()
+    {
+        return $this->belongsToMany(Contato::class);
+    }
+
+    public function newId(){
+        return Empresa::all()->last()->id +=1;
+    }
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
