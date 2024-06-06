@@ -10,7 +10,7 @@
                 <div class="card col-12 p-2">
                     @foreach ($empresas as $empresa)
                         <ul>
-                            <li><a href="{{ route('empresa.show',['empresa'=>$empresa->id]) }}">{{ $empresa->name }}</a></li>
+                            <li><a href="{{ route('empresa.show',['empresa'=>$empresa->id]) }}">{{ $empresa->nome }}</a></li>
                         </ul>
                     @endforeach
                 </div>

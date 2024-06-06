@@ -46,7 +46,7 @@
 
                                     <ul class="position-absolute bg-white w-56">
                                         @foreach (Empresa::All() as $empresa)
-                                            <li><a href="{{ route('empresa.show',['empresa'=>$empresa->id]) }}">{{ $empresa->name }}</a></li>
+                                            <li><a href="{{ route('empresa.show',['empresa'=>$empresa->id]) }}">{{ $empresa->nome }}</a></li>
                                         @endforeach
                                     </ul>
                         </li>

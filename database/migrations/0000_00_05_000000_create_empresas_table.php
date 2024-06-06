@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('empresas', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nome');
+            $table->string('nome_fantasia');
+            $table->integer('tipo_doc');//cpf ou cnpj
+            $table->bigInteger('doc');
             $table->string('logo_path')->nullable();
-            // $table->foreignId('endereco_id')->references('id')->on('enderecos');
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->timestamps();
         });

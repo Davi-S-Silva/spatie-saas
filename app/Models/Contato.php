@@ -9,4 +9,8 @@ use Spatie\Permission\Traits\HasRoles;
 class Contato extends Model
 {
     use HasFactory,HasRoles;
+
+    public function empresas(){
+        return $this->belongsToMany(Empresa::class);
+    }
 }

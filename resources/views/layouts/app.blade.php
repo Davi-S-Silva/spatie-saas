@@ -59,5 +59,6 @@
 <script src="{{ asset('jquery/jquery-3.7.1.min.js') }}"></script>
 @vite('resources/js/app.js');
 <script src="{{ asset('js/ajax.js') }}"></script>
+<script src="{{ asset('js/script.js') }}"></script>
 
 </html>

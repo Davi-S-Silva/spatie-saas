@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'name' => 'Davi Santos da Silva',
             'email' => 'daviedeus43@gmail.com',
             'password' => Hash::make('password'),
-            'empresa_id'=>1,
+            // 'empresa_id'=>1,
         ]);
         // DB::table('users')->insert([
         //     'name' => 'Marcilene Celestino da Silva',

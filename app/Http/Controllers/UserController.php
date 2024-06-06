@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Empresa;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller implements HasMiddleware
@@ -48,9 +52,25 @@ class UserController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        print_r($request->input());
+        try{
+            DB::beginTransaction();
+            print_r($request->input());
 
-        User::create($request->all());
+            // User::create($request->all());
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+
+            $user->save();
+            $empresa = Empresa::find($request->empresa_id);
+            $user->empresa()->attach($empresa->id);
+            DB::commit();
+        }catch(Exception $ex){
+            DB::rollback();
+            return $ex->getMessage();
+        }
+
     }
 
     /**

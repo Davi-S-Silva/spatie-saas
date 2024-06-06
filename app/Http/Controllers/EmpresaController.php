@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Certificado;
+use App\Models\Contato;
 use App\Models\Empresa;
 use App\Models\Endereco;
 use Exception;
 use Illuminate\Database\Events\TransactionBeginning;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
@@ -29,7 +31,8 @@ class EmpresaController extends Controller
      */
     public function create()
     {
-        return view('empresa.create');
+        $rota = 'empresa.store';
+        return view('empresa.create',['rota'=>$rota]);
     }
 
     /**
@@ -41,33 +44,44 @@ class EmpresaController extends Controller
 
             DB::beginTransaction();
             // print_r($request->input());
-            
-            
-            
+
+
+
             // $endereco = Endereco::create($request->all());
 
-            
+
 
             $endereco = new Endereco();
-            $endereco->rua = $request->rua;
+            $endereco->endereco = $request->rua;
             $endereco->numero = $request->numero;
             $endereco->bairro = $request->bairro;
             $endereco->cep = $request->cep;
             $endereco->cidade_id = $request->cidade_id;
             $endereco->estado_id = $request->estado_id;
-            $endereco->save();        
+            $endereco->save();
 
             $empresa = new Empresa();
-            $empresa->name = $request->input('RazaoSocial');  
+            $empresa->nome = $request->input('RazaoSocial');
+            $empresa->nome_fantasia = $request->input('NomeFantasia');
+            $empresa->usuario_id = Auth::check();
             $empresa->save();
 
             $empresa->enderecos()->attach($endereco->id);
+
+            $contato = new Contato();
+            $contato->celular =$request->Telefone;
+            $contato->whatsapp = $request->WhatsApp;
+            $contato->email = $request->Email;
+            $contato->descricao = $request->Descricao;
+            $contato->usuario_id = Auth::check();
+            $contato->save();
+            $empresa->contatos()->attach($contato->id);
 
             // echo '<pre>';
             // print_r($empresa);
             // print_r($endereco);
             // echo '</pre>';
-            
+
             // exit;
             DB::commit();
 
@@ -104,7 +118,10 @@ class EmpresaController extends Controller
      */
     public function edit(Empresa $empresa)
     {
-        //
+        $rota = 'empresa.update';
+        $end = $empresa->enderecos()->get()->first();
+        $cont = $empresa->contatos()->get()->first();
+        return view('empresa.edit', ['empresa'=>$empresa,'disabled'=>'no', 'rota'=>$rota,'endereco'=>$end,'contato'=>$cont]);
     }
 
     /**
@@ -112,7 +129,66 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, Empresa $empresa)
     {
-        //
+        echo '<pre>';
+        print_r($request->input());
+        echo '</pre>';
+        // print_r($empresa->getAttributes());
+        $empresa->nome = $request->RazaoSocial;
+        $empresa->nome_fantasia = $request->NomeFantasia;
+        $empresa->nome = $request->CpfCnpj;
+
+        if($empresa->enderecos()->count()==0){
+            $end = new Endereco();
+            $end->id = $end->newId();
+            $end->endereco = $request->rua;
+            $end->numero = $request->numero;
+            $end->bairro = $request->bairro;
+            $end->cep = $request->cep;
+            $end->cidade_id = 1;
+            $end->estado_id = 1;
+            $end->save();
+            $empresa->enderecos()->attach($end->id);
+            // print_r($end->getAttributes());
+        }else{
+            $end = $empresa->enderecos()->first();
+            $end->endereco = $request->rua;
+            $end->numero = $request->numero;
+            $end->bairro = $request->bairro;
+            $end->cep = $request->cep;
+            $end->cidade_id = 1;
+            $end->estado_id = 1;
+            $end->save();
+        }
+
+
+        if($empresa->contatos()->count()==0){
+            $contato = new Contato();
+            $contato->celular =$request->Telefone;
+            $contato->whatsapp = $request->WhatsApp;
+            $contato->email = $request->Email;
+            $contato->descricao = $request->Descricao;
+            $contato->usuario_id = Auth::check();
+            $contato->save();
+            $empresa->contatos()->attach($contato->id);
+        }else{
+            $contato = $empresa->contatos()->first();
+            $contato->celular =$request->Telefone;
+            $contato->whatsapp = $request->WhatsApp;
+            $contato->email = $request->Email;
+            $contato->descricao = $request->Descricao;
+            $contato->save();
+        }
+        // else{
+        //     // print_r($empresa->enderecos()->first()->getAttributes());
+        // }
+        // echo '</pre>';
+        //     echo 'ola';
+
+        //     print_r($contato->getAttributes());
+        // return;
+        $empresa->save();
+
+        return redirect()->route('empresa.edit',['empresa'=>$empresa->id])->with('message', ['status' => 'success', 'msg' => 'Empresa Atualizada com sucesso!']);
     }
 
     /**
@@ -147,6 +223,7 @@ class EmpresaController extends Controller
         $certificado->password = Hash::make($request->SenhaCertificado);
         $certificado->validate = $request->ValidadeCertificado;
         $certificado->empresa_id = $request->empresa_id;
+        $certificado->usuario_id = Auth::check();
         $path = $request->file('Certificado')->storeAs('certificados',$certificado->name.'.pfx');
         $certificado->path = $path;
         $certificado->save();
