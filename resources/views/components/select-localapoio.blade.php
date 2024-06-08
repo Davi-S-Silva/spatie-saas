@@ -3,7 +3,7 @@
 @endphp
 
 <div class="col-5">
-    <label for="">Empresa e local de apoio do colaborador</label>
+    <label for="">Empresa e local de apoio</label>
     <select name="empresa_local_apoio_id" id="">
         <option value="">Selecione uma opção</option>
         @foreach (Empresa::All() as $empresa)

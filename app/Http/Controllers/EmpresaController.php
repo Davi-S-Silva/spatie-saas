@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use ZipArchive;
 
 class EmpresaController extends Controller
 {
@@ -234,4 +235,124 @@ class EmpresaController extends Controller
         // return redirect()->back()->with('message', ['status' => 'success', 'msg' => 'Certificado carregado com sucesso']);
     }
 
+    public function notas()
+    {
+        $path = getenv('RAIZ').'/storage/app/public/notas/';
+        $nfes = [];
+        if(file_exists($path)){
+            $notas = dir($path);
+
+            while (($arquivo = $notas->read()) !== false) {
+                // $file = $pasta . '/' . $arquivo;
+                if ($arquivo != '.' && $arquivo != '..' && $arquivo != 'Autorizada' && $arquivo != 'Nao autorizada') {
+                    $nfes[]= str_replace('.xml','',$arquivo);
+                }
+            }
+        }
+        return view('empresa.notas',['notas'=>$nfes]);
+    }
+    public function notasStore(Request $request)
+    {
+        $notas = [];
+        // $empresa = preg_replace('/[^A-Za-z0-9]/', '',str_replace(' ','',strtolower(Empresa::find($request->empresa_id)->nome)));
+        if(empty($request->notas)){
+            throw new Exception('Selecione o arquivo que deseja importar');
+        }
+        foreach($request->notas as $nota){
+            if($nota->getClientOriginalExtension()=='zip' || $nota->getClientOriginalExtension()=='ZIP'){
+                // $notas[]=['nome'=>$nota->getClientOriginalExtension()];
+                Storage::disk('local')->putFileAs('public/notas',$nota, $nota->getClientOriginalName());
+                // $caminhoZip = getEnv('RAIZ').Storage::disk('local')->url($nota->getClientOriginalName());
+                $caminhoZip = getenv('RAIZ').'/storage/app/public/notas/'.$nota->getClientOriginalName();
+                $extractZip = getenv('RAIZ').'/storage/app/public/notas/';
+                // storage\app\public\notas\Autorizada\Transportadas\NFes-49152106000108 (85).zip
+                if(file_exists($caminhoZip)){
+                    $zip = new ZipArchive;
+                    if($zip->open($caminhoZip)){
+                        // echo '<br />existe';
+                        // echo 'zip: '.$extractZip.'<br />';
+                        $zip->extractTo($extractZip);
+                        $zip->close();
+                        if(file_exists($extractZip.'Autorizada/Transportadas')){
+                            // echo 'ola';
+                            $d = dir($extractZip.'Autorizada/Transportadas/');
+                            while($filemove = $d->read()){
+                                if($filemove != '..' && $filemove != 'Autorizada' && $filemove != 'Transportadas'){
+                                    if(is_file($extractZip.'Autorizada/Transportadas/'.$filemove)){
+                                         copy($extractZip.'Autorizada/Transportadas/'.$filemove, $extractZip.$filemove);
+                                        // unset($extractZip.'Autorizada/Transportadas/'.$filemove);
+                                        unlink($extractZip.'Autorizada/Transportadas/'.$filemove);
+                                        // echo $extractZip.'Autorizada/Transportadas/'.$filemove.'<br />';
+                                    }
+                                }
+                            }
+                            // return;
+                        }
+                        unlink($caminhoZip);
+                        // $msg = 'Arquivo descompactado com sucesso.';
+                    }else{
+                        throw new Exception('Erro ao abrir arquivo');
+                    }
+                }else{
+                    throw new Exception("Arquivo zip nao existe", 1);
+                }
+
+            }
+            elseif($nota->getClientOriginalExtension()=='xml')
+            {
+                // $notas[]=['nome'=>$nota->getClientOriginalExtension()];
+                Storage::disk('local')->putFileAs('public/notas',$nota, $nota->getClientOriginalName());
+
+            }else{
+                throw new Exception('formato de arquivo nao permitido');
+            }
+        }
+
+        // exit;
+        $pasta = getEnv('RAIZ') . Storage::disk('local')->url('app/public/notas');
+        $diretorio = dir($pasta);
+        // sleep(5);
+        while (($arquivo = $diretorio->read()) !== false) {
+            $file = $pasta . '/' . $arquivo;
+            if ($arquivo != '.' && $arquivo != '..' && $arquivo != 'Autorizada' && $arquivo != 'Nao autorizada'&& $arquivo != 'Cancelada' && $arquivo != 'Eventos') {
+                // $data = file_get_contents($file);
+                $xml = simplexml_load_file($file);
+
+                if($xml->NFe){
+                    copy($file,$pasta.'/'.$xml->protNFe->infProt->chNFe.'.xml');
+                    if(str_contains($file,'NFe')){
+                        unlink($file);
+                    }
+                    $notas[]= $xml->NFe->infNFe->ide->nNF;
+                }
+            }
+        }
+
+
+
+
+        // return response()->json($xml->protNFe->infProt->chNFe);
+        return response()->json(['status' => 'success', 'msg' =>'Notas carregadas com sucesso!']);
+    }
+
+    public function deletaNotaCarregada($nota){
+        $pasta = getEnv('RAIZ') . Storage::disk('local')->url('app/public/notas');
+        if(file_exists($pasta.'/'.$nota.'.xml')){
+            unlink($pasta.'/'.$nota.'.xml');
+        }
+        if(file_exists($pasta.'/'.$nota.'.zip')){
+            unlink($pasta.'/'.$nota.'.zip');
+        }
+        if(file_exists($pasta.'/'.$nota.'.ZIP')){
+            unlink($pasta.'/'.$nota.'.ZIP');
+        }
+        return response()->json(['status' => 'success', 'msg' =>'Nota '.$nota.' excluida com sucesso!','nota'=>$nota]);
+        // return response()->json($nota);
+    }
+
+    public function deletaTodasNotaCarregada(Request $request){
+
+        return response()->json($request->input());
+
+    }
 }

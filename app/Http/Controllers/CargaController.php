@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carga;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 
 class CargaController extends Controller
@@ -20,7 +21,7 @@ class CargaController extends Controller
      */
     public function create()
     {
-        //
+        return view('carga.create');
     }
 
     /**
@@ -28,7 +29,10 @@ class CargaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        
+
+        return response()->json($request->input());
     }
 
     /**

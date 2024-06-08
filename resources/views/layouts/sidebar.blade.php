@@ -69,6 +69,15 @@
                                     sidebar-toggle-item>Certificado</span></a>
                         </li>
                         @endcan
+                        {{-- @can('Visualizar Certificado') --}}
+                        <li>
+                            <a href="{{ route('empresa.notas') }}"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                     hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span
+                                    class="flex-1 ml-3 text-left whitespace-nowrap"
+                                    sidebar-toggle-item>Notas Transportes</span></a>
+                        </li>
+                        {{-- @endcan --}}
 
                         @can('Visualizar Usuario')
                             <li>
@@ -134,6 +143,60 @@
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Colaborador</a></li>
                         @endcan
+                    </ul>
+                </li>
+                <li>
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-veiculo" data-collapse-toggle="dropdown-veiculo">
+                        <i class="fa-solid fa-users font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
+                          dark:text-gray-400 dark:group-hover:text-white "
+                            style="color: #6b7280;" fill="currentColor"></i>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Veículo</span>
+                        <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <ul id="dropdown-veiculo" class="hidden py-2 space-y-2">
+                        <li><a href="{{ route('veiculo.index') }}"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Veículos</a>
+                        </li>
+                        {{-- @can('Criar Veiculo') --}}
+                            <li><a href="{{ route('veiculo.create') }}"
+                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Veículo</a></li>
+                        {{-- @endcan --}}
+                    </ul>
+                </li>
+                <li>
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-carga" data-collapse-toggle="dropdown-carga">
+                        <i class="fa-solid fa-users font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
+                          dark:text-gray-400 dark:group-hover:text-white "
+                            style="color: #6b7280;" fill="currentColor"></i>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Carga</span>
+                        <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <ul id="dropdown-carga" class="hidden py-2 space-y-2">
+                        <li><a href="{{ route('carga.index') }}"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Cargas</a>
+                        </li>
+                        {{-- @can('Criar carga') --}}
+                            <li><a href="{{ route('carga.create') }}"
+                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Nova Carga</a></li>
+                        {{-- @endcan --}}
                     </ul>
                 </li>
                 <li>

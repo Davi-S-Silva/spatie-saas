@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->integer('remessa')->unique();
             $table->integer('os')->unique();
-            $table->integer('volume')->nullable();
-            $table->double('valor')->nullable();
+            // $table->integer('volume')->nullable();
+            // $table->double('valor')->nullable();
             $table->double('frete')->nullable();
-            $table->date('data');
+            $table->datetime('data');
             $table->foreignId('cliente_id')->references('id')->on('clientes');
             $table->foreignId('filial_cliente_id')->references('id')->on('filials');
             $table->foreignId('empresa_id')->references('id')->on('empresas');

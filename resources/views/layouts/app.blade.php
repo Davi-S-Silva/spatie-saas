@@ -32,10 +32,13 @@
                     {{ $message['msg'] }}
                 </div>
             @endif
-            <div class=" alert response-message-ajax">
+            <div class="alert response-message-ajax">
             </div>
         </div>
 
+        <div class="loading d-none">
+            <img src="{{ asset('img/loading.gif') }}" alt="">
+        </div>
         <!-- Page Heading -->
         @if (isset($header))
             <header class="bg-white overflow-y-hidden shadow">

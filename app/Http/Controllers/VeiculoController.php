@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Filial;
+use App\Models\LocalApoio;
 use App\Models\Veiculo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class VeiculoController extends Controller
 {
@@ -12,7 +16,7 @@ class VeiculoController extends Controller
      */
     public function index()
     {
-        //
+        return view('veiculo.index', ['veiculos'=>Veiculo::all()]);
     }
 
     /**
@@ -20,7 +24,7 @@ class VeiculoController extends Controller
      */
     public function create()
     {
-        //
+        return view('veiculo.create');
     }
 
     /**
@@ -28,7 +32,25 @@ class VeiculoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        echo '<pre>';
+        print_r($request->input());
+        echo '</pre>';
+
+
+        $veiculo = new Veiculo();
+        $veiculo->placa = $request->Placa;
+        $veiculo->empresa_id = LocalApoio::find($request->empresa_local_apoio_id)->empresa->first()->id;
+        $veiculo->local_apoio_id = $request->empresa_local_apoio_id;
+        $veiculo->usuario_id =Auth::check();
+        $veiculo->status_id = 1;
+        $veiculo->proprietario_id = $request->proprietario_id;
+
+        $veiculo->save();
+        echo '<pre>';
+        print_r($veiculo->getAttributes());
+        echo '</pre>';
+
+
     }
 
     /**
@@ -61,5 +83,14 @@ class VeiculoController extends Controller
     public function destroy(Veiculo $veiculo)
     {
         //
+    }
+
+    public function mudarVeiculoDeCliente($veiculo_id, $cliente_id)
+    {
+        $veiculo = DB::table('cliente_veiculo')->where('veiculo_id',$veiculo_id)->update(['cliente_id'=>$cliente_id]);
+
+        print_r($veiculo);
+
+        return;
     }
 }

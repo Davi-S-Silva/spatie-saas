@@ -9,4 +9,9 @@ use Spatie\Permission\Traits\HasRoles;
 class Veiculo extends Model
 {
     use HasFactory,HasRoles;
+
+    public function clientes()
+    {
+        return $this->belongsToMany(Cliente::class);
+    }
 }

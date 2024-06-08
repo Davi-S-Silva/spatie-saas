@@ -8,7 +8,7 @@ a {
 .hover_menu ul{
     display: none;
     top:0;
-    margin-left: 100%;    
+    margin-left: 100%;
 }
 .hover_menu:hover ul{
     display: block;
@@ -25,4 +25,24 @@ a {
     display: block;
     /* background-color: aquamarine; */
     padding: 10px;
+}
+
+.loading{
+    position: fixed;
+    z-index: 100000;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    /* background-color: rgb(255, 255, 255); */
+    /* display: none; */
+    justify-content: center;
+    align-items: center;
+    /* scroll-behavior: smooth; */
+}
+.loading img{
+    width: 200px;
+}
+.exclui_nota:hover{
+    color: brown;
 }

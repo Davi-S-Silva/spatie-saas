@@ -6,6 +6,7 @@ ini_set('display_errors', 'On');
 // require_once '../bootstrap.php';
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\CargaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ColaboradorController;
 use App\Http\Controllers\EmpresaController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VeiculoController;
 use App\Models\Empresa;
 use Illuminate\Support\Facades\Route;
 
@@ -49,13 +51,20 @@ Route::middleware('auth')->group(function () {
         Route::put('users/{user}/give-role-user',[UserController::class, 'storeRoleToUser'])->name('users.store-give-role-user');
         Route::resource('empresa',EmpresaController::class);
         Route::get('empresas/certificado',[EmpresaController::class, 'certificate'])->name('empresa.certificate');
+        Route::get('empresas/notas',[EmpresaController::class, 'notas'])->name('empresa.notas');
+        Route::post('empresas/notas',[EmpresaController::class, 'notasStore'])->name('empresa.notas');
         Route::get('empresas/empresas',[EmpresaController::class, 'index'])->name('empresa.empresas');
         Route::post('empresas/certificado',[EmpresaController::class, 'certificateStore'])->name('empresa.certificate');
+        Route::get('empresas/deleta-nota-carregada/{nota}',[EmpresaController::class, 'deletaNotaCarregada'])->name('empresa.deletaNotaCarregada');
+        Route::post('empresas/delete-todas-notas-carregadas',[EmpresaController::class, 'deletaTodasNotaCarregada'])->name('empresa.deletaTodasNotaCarregada');
         Route::resource('localapoio',LocalApoioController::class);
         Route::resource('colaboradores',ColaboradorController::class);
         Route::resource('clientes',ClienteController::class);
         Route::resource('filial',FilialController::class);
         Route::get('filial/create/cliente/{cliente}',[FilialController::class, 'create'])->name('filial.create');
+        Route::resource('veiculo',VeiculoController::class);
+        Route::get('veiculo/mudarVeiculoDeCliente/{veiculo}/{cliente}',[VeiculoController::class, 'mudarVeiculoDeCliente'])->name('mudarVeiculoDeCliente');
+        Route::resource('carga',CargaController::class);
     });
 
 

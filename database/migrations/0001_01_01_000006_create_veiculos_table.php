@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('veiculos', function (Blueprint $table) {
             $table->id();
-            $table->string('placa');
-            $table->string('foto_path');
+            $table->string('placa')->unique();
+            $table->string('foto_path')->nullable();
             $table->foreignId('empresa_id')->references('id')->on('empresas');
             $table->foreignId('local_apoio_id')->references('id')->on('local_apoios');
             $table->foreignId('usuario_id')->references('id')->on('users');

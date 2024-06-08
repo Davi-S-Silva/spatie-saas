@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ossinante;
+use App\Models\Assinante;
 use Illuminate\Http\Request;
 
 class AssinanteController extends Controller
@@ -34,32 +34,32 @@ class AssinanteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Ossinante $ossinante)
-    {
+    public function show(Assinante $assinante)
+   {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Ossinante $ossinante)
-    {
+    public function edit(Assinante $assinante)
+   {
         //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ossinante $ossinante)
-    {
+    public function update(Request $request, Assinante $assinante)
+   {
         //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ossinante $ossinante)
-    {
+    public function destroy(Assinante $assinante)
+   {
         //
     }
 }
