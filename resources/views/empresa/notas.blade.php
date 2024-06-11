@@ -15,9 +15,9 @@
                                 <label for="">Carregar notas</label>
                                 <input type="file" required name="notas[]" id="" multiple />
                             </div>
-                            <div>
+                            {{-- <div>
                                 <x-select-empresa />
-                            </div>
+                            </div> --}}
                             @csrf
                             <input type="submit" value="Carregar Notas" class="btn btn-primary">
                         </fieldset>

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carga;
+use App\Models\Filial;
+use App\Models\Nota;
+use Exception;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CargaController extends Controller
 {
@@ -30,9 +34,30 @@ class CargaController extends Controller
     public function store(Request $request)
     {
 
-        
+        try{
+            DB::beginTransaction();
+            $carga = new Carga();
+            $carga->newId();
+            $carga->remessa= '';
+            $carga->frete= '';
+            $carga->os = '';
+            $carga->data = '';
+            $carga->cliente_id = Filial::find($request->Filial)->clientes()->first()->id;
 
-        return response()->json($request->input());
+            // $carga->save();
+
+            // DB::commit();
+            // return response()->json([$request->input(),(new Nota())->getNotas($request->Notas, $request->Filial, )]);
+            return response()->json($carga);
+        }catch(Exception $ex){
+            DB::rollback();
+            return response()->json($ex->getMessage());
+        }
+
+
+
+        // return response()->json($request->input());
+        // return response()->json($request->input());
     }
 
     /**

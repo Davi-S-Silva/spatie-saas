@@ -37,6 +37,10 @@
                                 <input type="text" name="os">
                             </div>
                             <div>
+                                <label for="">Frete</label>
+                                <input type="text" name="frete" id="">
+                            </div>
+                            <div>
                                 <label for="">Data e Hora</label>
                                 <input type="datetime-local" name="data" id="">
                             </div>
