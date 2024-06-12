@@ -14,8 +14,12 @@ class IndicacaoPagamento extends Seeder
     public function run(): void
     {
         DB::table('indicacao_pagamentos')->insert([
-            'codigo' => 90,
-            'descricao' => 'Bonificacao',
+            'codigo' => 0,
+            'descricao' => 'A Vista',
+        ]);
+        DB::table('indicacao_pagamentos')->insert([
+            'codigo' => 1,
+            'descricao' => 'A Prazo',
         ]);
     }
 }

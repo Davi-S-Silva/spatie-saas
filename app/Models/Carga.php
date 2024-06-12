@@ -42,4 +42,9 @@ class Carga extends Model
     {
         return $this->belongsTo(Veiculo::class);
     }
+
+    public function filial()
+    {
+        return $this->belongsTo(Filial::class);
+    }
 }

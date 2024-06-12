@@ -2,7 +2,7 @@
 <div class="form-contato">
     <div>
         <label for="">Celular</label>
-        <input type="tel" name="Telefone" id="" value="{{ !empty($contato) ? $contato->celular : '' }}">
+        <input type="tel" name="Telefone" id="" value="{{ !empty($contato) ? $contato->telefone : '' }}">
     </div>
     <div>
         <label for="">WhatsApp</label>

@@ -11,7 +11,7 @@
                 <div>
                     <label for="Filial_{{ $filial->id }}">{{ $filial->razao_social }}</label>
                     <input type="radio" name="Filial" required id="Filial_{{ $filial->id }}"
-                        value="{{ $filial->id }}" {{ (isset($carga->filial_cliente_id) && $carga->filial_cliente_id==$filial->id)?'checked':'' }}>
+                        value="{{ $filial->id }}" {{ (isset($carga->filial_id) && $carga->filial_id==$filial->id)?'checked':'' }}>
                 </div>
             @endforeach
         @endforeach

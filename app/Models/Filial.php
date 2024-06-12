@@ -32,5 +32,9 @@ class Filial extends Model
         return $this->belongsToMany(Contato::class);
     }
 
+    public function cargas()
+    {
+        return $this->hasMany(Carga::class);
+    }
 
 }
