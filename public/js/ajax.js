@@ -378,4 +378,44 @@ $(function () {
         });
         return false;
     });
+
+if($('.form_add_notas').attr('action')==""){
+    $('.form_add_notas').hide();
+}
+
+    $('.add-notas-carga').click(function(){
+        console.log($(this).attr('href'));
+        $('.form_add_notas').show();
+        $('.form_add_notas').attr('action',$(this).attr('href'))
+        $('.form_add_notas legend').text($(this).attr('id'))
+        return false;
+        });
+
+    $('.form_add_notas').submit(function(){
+
+        console.log($('.form_add_notas').attr('action'))
+
+        $.ajax({
+            type:'post',
+            url: $('.form_add_notas').attr('action'),
+            data:$(this).serialize(),
+            dataType: 'json',
+            beforeSend:function(){
+                console.log($('.form_add_notas').attr('action'))
+            },
+            success:function(response){
+                console.log(response)
+            },
+            error:function(response){
+                console.log(response)
+            }
+        });
+
+        return false;
+    });
+    $('.form_add_notas a').click(function(){
+        $('.form_add_notas').hide();
+        return false;
+    });
+
 });

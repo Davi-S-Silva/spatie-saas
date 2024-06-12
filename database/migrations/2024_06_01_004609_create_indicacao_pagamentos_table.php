@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contatos', function (Blueprint $table) {
+        Schema::create('indicacao_pagamentos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('telefone')->nullable();
-            $table->bigInteger('whatsapp')->nullable();
-            $table->string('email')->nullable();
-            $table->string('descricao')->nullable();
-            $table->foreignId('usuario_id')->references('id')->on('users');
+            $table->integer('codigo')->unique();
+            $table->string('descricao');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contatos');
+        Schema::dropIfExists('indicacao_pagamentos');
     }
 };

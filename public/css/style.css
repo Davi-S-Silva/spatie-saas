@@ -46,3 +46,29 @@ a {
 .exclui_nota:hover{
     color: brown;
 }
+
+.form_add_notas{
+    display: none;
+    position: absolute;
+    /* right: 0;
+    margin: 10px; */
+    background-color: aquamarine;
+    z-index: 1000;
+}
+.form_add_notas header{
+    padding: 5px 0;
+    text-align: right;
+}
+.form_add_notas header a{
+    padding: 5px;
+    margin: 3px;
+}
+.form_add_notas header a:hover{
+    background-color: brown;
+}
+.form_add_notas div{
+    margin: 0 auto;
+    background-color: bisque;
+    width: fit-content;
+    text-align: center;
+}

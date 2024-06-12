@@ -2,23 +2,26 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 class Nota extends Model
 {
-    use HasFactory,HasRoles;
+    use HasFactory, HasRoles;
 
 
-    public function newId(){
+    public function newId()
+    {
         $count = $this->all();
-        if($count->count()==0){
+        if ($count->count() == 0) {
             $this->id = 1;
-        }
-        else{
-            $this->id = $this->all()->last()->id +=1;
+        } else {
+            $this->id = $this->all()->last()->id += 1;
         }
     }
 
@@ -29,33 +32,83 @@ class Nota extends Model
         return $array;
     }
 
-    private function limpar_texto($str){
+    private function limpar_texto($str)
+    {
         return preg_replace("/[^0-9]/", "_", $str);
     }
 
-    public function getNotas($notas){
+    public function getNotas($notas, $carga)
+    {
         $pasta = getEnv('RAIZ') . Storage::disk('local')->url('app/public/notas');
         $diretorio = dir($pasta);
-        $arrayNotas = explode('-',$this->formataTextNotas($notas));
+        $arrayNotas = explode('-', $this->formataTextNotas($notas));
 
-        while(($arquivo = $diretorio->read()) !== false){
+        while (($arquivo = $diretorio->read()) !== false) {
             if ($arquivo != '.' && $arquivo != '..' && $arquivo != 'Autorizada' && $arquivo != 'Nao autorizada') {
                 $file = $pasta . '/' . $arquivo;
                 $xml = simplexml_load_file($file);
-                for($i = 0; $i < count($arrayNotas); $i++){
+                for ($i = 0; $i < count($arrayNotas); $i++) {
                     if ((int)$xml->NFe->infNFe->ide->nNF == $arrayNotas[$i]) {
                         // $this->getDadosXmlNota($xml);
                         // $this->getDadosXmlNota($xml);
+
+
+                        $destinatario = Destinatario::where('cpf_cnpj', $xml->NFe->infNFe->dest->CNPJ)->get();
+
+                        if ($destinatario->count() == 0) {
+                            $destinatario = new Destinatario();
+                            $destinatario->newId();
+                            $destinatario->nome_razao_social = $xml->NFe->infNFe->dest->xNome;
+                            $destinatario->cpf_cnpj  = $xml->NFe->infNFe->dest->CNPJ;
+                            $destinatario->ie  = $xml->NFe->infNFe->dest->IE;
+                            $destinatario->tipo = (strlen($xml->NFe->infNFe->dest->CNPJ) == 14) ? 1 : 2; //cpf ou cnpj
+
+                            $end = new Endereco();
+                            $end->newId();
+
+
+                            // throw new Exception('erro: '.$xml->NFe->infNFe->dest->enderDest->xLgr);
+                            $end->endereco = $xml->NFe->infNFe->dest->enderDest->xLgr;
+                            $end->numero = $xml->NFe->infNFe->dest->enderDest->nro;
+                            $end->bairro = $xml->NFe->infNFe->dest->enderDest->xBairro;
+                            $end->cep = $xml->NFe->infNFe->dest->enderDest->CEP;
+                            $end->cidade_id = 1;
+                            $end->estado_id = 1;
+                            $end->save();
+
+                            $destinatario->endereco_id  = $end->id;
+
+                            $cont = new Contato();
+                            $cont->newId();
+                            $cont->telefone = '8134645060';
+                            $cont->usuario_id = Auth::check();
+                            $cont->save();
+                            $destinatario->contato_id = $cont->id;
+                            $destinatario->save();
+
+                            $dest = $destinatario->id;
+                        }else{
+                            $dest=$destinatario->first()->id;
+                        }
+
                         $nota = new Nota();
                         $nota->nota = (int)$xml->NFe->infNFe->ide->nNF;
-                        $nota->chave_acesso = str_replace('NFe','',$xml->NFe->infNFe['Id']);
+                        $nota->chave_acesso = str_replace('NFe', '', $xml->NFe->infNFe['Id']);
                         $nota->volume = (int)$xml->NFe->infNFe->transp->vol->qVol;
                         $nota->prestacao = 0;
-                        $nota->peso = ($xml->NFe->infNFe->transp->vol->pesoL >= $xml->NFe->infNFe->transp->vol->pesoB)? (double)$xml->NFe->infNFe->transp->vol->pesoL:(double)$xml->NFe->infNFe->transp->vol->pesoB;
-                        $nota->indicacao_pagamento = (int)$xml->NFe->infNFe->pag->detPag->indPag;
+                        $nota->peso = ($xml->NFe->infNFe->transp->vol->pesoL >= $xml->NFe->infNFe->transp->vol->pesoB) ? (float)$xml->NFe->infNFe->transp->vol->pesoL : (float)$xml->NFe->infNFe->transp->vol->pesoB;
+                        $nota->indicacao_pagamento_id = (int)$xml->NFe->infNFe->pag->detPag->indPag;
                         $nota->tipo_pagamento = (int)$xml->NFe->infNFe->pag->detPag->tPag;
-                        $nota->valor = (double)$xml->NFe->infNFe->pag->detPag->vPag;
+                        $nota->valor = (float)$xml->NFe->infNFe->pag->detPag->vPag;
+                        $nota->cliente_id = $carga->cliente_id;
+                        $nota->filial_cliente_id = $carga->filial_cliente_id;
+                        $nota->carga_id = $carga->id;
+                        $nota->path_xml = Storage::disk('local')->put(strtolower(str_replace(' ', '', 'public/' . Cliente::find($carga->cliente_id)->name)) . '/' . str_replace(' ', '', strtolower(Filial::find($carga->filial_cliente_id)->razao_social)) . '/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml', file_get_contents($file));
+                        $nota->usuario_id = Auth::check();
+                        $nota->status_id = 1;
+                        $nota->destinatario_id = $dest;
 
+                        $nota->save();
 
                         // return $arrayNotas[$i];
                     }
@@ -67,15 +120,20 @@ class Nota extends Model
     {
         $nota = new Nota();
         $nota->nota = (int)$xml->NFe->infNFe->ide->nNF;
-        $nota->chave_acesso = str_replace('NFe','',$xml->NFe->infNFe['Id']);
+        $nota->chave_acesso = str_replace('NFe', '', $xml->NFe->infNFe['Id']);
         $nota->volume = (int)$xml->NFe->infNFe->transp->vol->qVol;
         $nota->prestacao = 0;
-        $nota->peso = ($xml->NFe->infNFe->transp->vol->pesoL >= $xml->NFe->infNFe->transp->vol->pesoB)? (double)$xml->NFe->infNFe->transp->vol->pesoL:(double)$xml->NFe->infNFe->transp->vol->pesoB;
+        $nota->peso = ($xml->NFe->infNFe->transp->vol->pesoL >= $xml->NFe->infNFe->transp->vol->pesoB) ? (float)$xml->NFe->infNFe->transp->vol->pesoL : (float)$xml->NFe->infNFe->transp->vol->pesoB;
         $nota->indicacao_pagamento = (int)$xml->NFe->infNFe->pag->detPag->indPag;
         $nota->tipo_pagamento = (int)$xml->NFe->infNFe->pag->detPag->tPag;
-        $nota->valor = (double)$xml->NFe->infNFe->pag->detPag->vPag;
+        $nota->valor = (float)$xml->NFe->infNFe->pag->detPag->vPag;
         // $nota->save();
 
         return $nota;
+    }
+
+    public function carga()
+    {
+        return $this->belongsTo(Carga::class);
     }
 }

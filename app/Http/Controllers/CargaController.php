@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carga;
+use App\Models\Empresa;
 use App\Models\Filial;
+use App\Models\LocalApoio;
 use App\Models\Nota;
 use Exception;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CargaController extends Controller
@@ -17,7 +20,7 @@ class CargaController extends Controller
      */
     public function index()
     {
-        //
+        return view('carga.index', ['cargas'=>Carga::all()]);
     }
 
     /**
@@ -38,19 +41,31 @@ class CargaController extends Controller
             DB::beginTransaction();
             $carga = new Carga();
             $carga->newId();
-            $carga->remessa= '';
-            $carga->frete= '';
-            $carga->os = '';
-            $carga->data = '';
+            $carga->remessa= $request->remessa;
+            $carga->frete= $request->frete;
+            $carga->os = $request->os;
+            $carga->data = $request->data;
             $carga->cliente_id = Filial::find($request->Filial)->clientes()->first()->id;
+            $carga->filial_cliente_id=$request->Filial;
+            $carga->empresa_id = LocalApoio::find($request->empresa_local_apoio_id)->empresa->id;
+            $carga->local_apoio_id = $request->empresa_local_apoio_id;
+            $carga->usuario_id = Auth::check();
+            $carga->status_id = 1;
+
+            $carga->save();
+
+            $carga->setNotas($request->Notas);
+
+
 
             // $carga->save();
 
-            // DB::commit();
+            DB::commit();
             // return response()->json([$request->input(),(new Nota())->getNotas($request->Notas, $request->Filial, )]);
-            return response()->json($carga);
+            return response()->json([$carga,$request->input()]);
         }catch(Exception $ex){
             DB::rollback();
+            // return response()->json([$ex->getMessage(),$ex->getLine()]);
             return response()->json($ex->getMessage());
         }
 
@@ -90,5 +105,10 @@ class CargaController extends Controller
     public function destroy(Carga $carga)
     {
         //
+    }
+
+    public function setNotas(Request $request, $carga)
+    {
+        return response()->json([$request->input(),$carga]);
     }
 }

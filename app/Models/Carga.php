@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Traits\HasRoles;
 
 class Carga extends Model
@@ -18,5 +19,16 @@ class Carga extends Model
         else{
             $this->id = $this->all()->last()->id +=1;
         }
+    }
+
+
+    public function setNotas($notas)
+    {
+        (new Nota())->getNotas($notas, $this);
+    }
+
+    public function notas():HasMany
+    {
+        return $this->hasMany(Nota::class);
     }
 }

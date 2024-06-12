@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('destinatarios', function (Blueprint $table) {
             $table->id();
             $table->string('nome_razao_social');
-            $table->integer('cpf_cnpj')->unique();
+            $table->string('cpf_cnpj')->unique();
+            $table->string('ie')->nullable();
             $table->integer('tipo');//fisico ou juridico
+            $table->foreignId('usuario_id')->references('id')->on('users');
             $table->foreignId('endereco_id')->references('id')->on('enderecos');
             $table->foreignId('contato_id')->references('id')->on('contatos');
+
             $table->timestamps();
         });
     }

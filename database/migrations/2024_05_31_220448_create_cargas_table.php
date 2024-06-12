@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreignId('local_apoio_id')->references('id')->on('local_apoios');
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->foreignId('status_id')->references('id')->on('status');
-            $table->foreignId('veiculo_id')->references('id')->on('veiculos');
+            $table->foreignId('veiculo_id')->nullable()->references('id')->on('veiculos');
             $table->foreignId('usuario_conclusao_id')->nullable()->references('id')->on('users');
             $table->date('data_conclusao')->nullable();
             $table->timestamps();

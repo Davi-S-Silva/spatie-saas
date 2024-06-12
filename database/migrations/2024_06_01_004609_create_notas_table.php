@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('notas', function (Blueprint $table) {
             $table->id();
             $table->integer('nota');
-            $table->bigInteger('chave_acesso')->unique();
+            $table->string('chave_acesso')->unique();
             $table->integer('volume');
             $table->integer('prestacao');
+            $table->integer('tipo_pagamento');
             $table->double('peso');
-            $table->integer('indicacao_pagamento');
             $table->double('valor');
             $table->foreignId('cliente_id')->references('id')->on('clientes');
             $table->foreignId('filial_cliente_id')->references('id')->on('filials');
@@ -26,8 +26,9 @@ return new class extends Migration
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->foreignId('status_id')->references('id')->on('status');
             $table->foreignId('usuario_conclusao_id')->nullable()->references('id')->on('users');
-            $table->foreignId('tipo_pagamento_id')->references('id')->on('tipo_pagamentos');
-            $table->date('data_conclusao');
+            $table->foreignId('indicacao_pagamento_id')->references('id')->on('indicacao_pagamentos');
+            // $table->foreignId('tipo_pagamento_id')->references('id')->on('tipo_pagamentos');
+            $table->date('data_conclusao')->nullable();
             $table->string('path_xml');
             $table->foreignId('destinatario_id')->references('id')->on('destinatarios');
             $table->timestamps();

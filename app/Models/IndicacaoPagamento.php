@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 
-class Destinatario extends Model
+class IndicacaoPagamento extends Model
 {
     use HasFactory,HasRoles;
 
@@ -14,8 +14,7 @@ class Destinatario extends Model
         $count = $this->all();
         if($count->count()==0){
             $this->id = 1;
-        }
-        else{
+        }else{
             $this->id = $this->all()->last()->id +=1;
         }
     }
