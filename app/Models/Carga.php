@@ -24,11 +24,22 @@ class Carga extends Model
 
     public function setNotas($notas)
     {
-        (new Nota())->getNotas($notas, $this);
+        return (new Nota())->getNotas($notas, $this);
+        // return $this;
     }
 
     public function notas():HasMany
     {
         return $this->hasMany(Nota::class);
+    }
+
+    public function motorista()
+    {
+        return $this->belongsTo(Colaborador::class);
+    }
+
+    public function veiculo()
+    {
+        return $this->belongsTo(Veiculo::class);
     }
 }

@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('cargas', function (Blueprint $table) {
             $table->id();
-            $table->integer('remessa')->unique();
-            $table->integer('os')->unique();
-            // $table->integer('volume')->nullable();
-            // $table->double('valor')->nullable();
+            $table->string('area');
+            $table->foreignId('motorista_id')->references('id')->on('colaboradors');
+            $table->double('peso');
+            $table->integer('entregas');
+            $table->integer('remessa')->nullable()->unique();
+            $table->integer('os')->nullable()->unique();
             $table->double('frete')->nullable();
             $table->datetime('data');
             $table->foreignId('cliente_id')->references('id')->on('clientes');

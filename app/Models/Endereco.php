@@ -37,4 +37,9 @@ class Endereco extends Model
     {
         return $this->belongsToMany(Colaborador::class);
     }
+
+    public function destinatario()
+    {
+        return $this->hasOne(Nota::class);
+    }
 }

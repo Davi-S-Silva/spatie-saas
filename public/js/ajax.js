@@ -322,6 +322,50 @@ $(function () {
         return false;
     });
 
+    $('form[name="EditCarga"]').submit(function(){
+
+        // console.log($(this).serialize())
+
+        $.ajax({
+            url: $(this).attr('action'),
+            // url: routeCarga,
+            type: "post",
+            data: $(this).serialize(),
+            dataType: 'json',
+            beforeSend: function () {
+                // alert(routeStorePermission)
+                // loading.show()
+
+            },
+            success: function (response) {
+                // alert('success')
+
+
+                console.log(response)
+
+                if (response.status === 'success') {
+                    // alert(response.msg)
+                    console.log(response)
+                    // $('.response-mesage').removeClass('alert-primary')
+                    // $('.response-mesage').addClass('alert-success')
+                    // window.location.href=routeStoreRole
+                }
+                if (response.status === 'danger') {
+                    // alert(response.msg)
+                    // console.log(response)
+                    $('.response-message').html(response.msg)
+                }
+            },
+            error: function (response) {
+                // alert('error')
+                $('.response-message-ajax').addClass('alert-danger').text('erro: '+response.responseJSON.message)
+                // console.log(response.responseJSON.message)
+            }
+        });
+
+        return false;
+    });
+
     $('.exclui_nota').click(function(){
         $.ajax({
             type:'get',
@@ -414,6 +458,7 @@ if($('.form_add_notas').attr('action')==""){
         return false;
     });
     $('.form_add_notas a').click(function(){
+        $('.textarea_notas').val('')
         $('.form_add_notas').hide();
         return false;
     });

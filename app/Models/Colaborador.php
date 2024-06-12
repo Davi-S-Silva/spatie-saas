@@ -30,4 +30,9 @@ class Colaborador extends Model
     {
         return $this->belongsTo(LocalApoio::class);
     }
+
+    public function carga()
+    {
+        return $this->hasMany(Carga::class);
+    }
 }

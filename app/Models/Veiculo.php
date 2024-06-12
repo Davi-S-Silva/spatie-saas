@@ -14,4 +14,9 @@ class Veiculo extends Model
     {
         return $this->belongsToMany(Cliente::class);
     }
+
+    public function cargas()
+    {
+        return $this->hasMany(Carga::class);
+    }
 }

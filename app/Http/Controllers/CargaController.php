@@ -41,7 +41,12 @@ class CargaController extends Controller
             DB::beginTransaction();
             $carga = new Carga();
             $carga->newId();
+            $carga->area = $request->area;
+            $carga->peso= $request->peso;
+            $carga->entregas = $request->entregas;
+            $carga->motorista_id = $request->colaborador;
             $carga->remessa= $request->remessa;
+            $carga->veiculo_id = $request->veiculo;
             $carga->frete= $request->frete;
             $carga->os = $request->os;
             $carga->data = $request->data;
@@ -88,7 +93,7 @@ class CargaController extends Controller
      */
     public function edit(Carga $carga)
     {
-        //
+        return view('carga.edit', ['carga'=>$carga]);
     }
 
     /**
@@ -96,7 +101,7 @@ class CargaController extends Controller
      */
     public function update(Request $request, Carga $carga)
     {
-        //
+        return response()->json($request->input());
     }
 
     /**
@@ -109,6 +114,15 @@ class CargaController extends Controller
 
     public function setNotas(Request $request, $carga)
     {
-        return response()->json([$request->input(),$carga]);
+        try{
+            DB::beginTransaction();
+            $Carga = Carga::find($carga);
+
+            DB::commit();
+            return response()->json($Carga->setNotas($request->Notas));
+        }catch(Exception $ex){
+            DB::rollback();
+            return ['message'=>$ex->getMessage(),'linha'=>$ex->getCode()];
+        }
     }
 }

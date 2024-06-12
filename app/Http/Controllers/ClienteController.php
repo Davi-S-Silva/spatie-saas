@@ -70,7 +70,7 @@ class ClienteController extends Controller
 
         $cont = new Contato();
         $cont->newId();
-        $cont->celular = $request->Telefone;
+        $cont->telefone = $request->Telefone;
         $cont->whatsapp = $request->WhatsApp;
         $cont->email = $request->Email;
         $cont->descricao = $request->Descricao;
