@@ -2,7 +2,7 @@
     use App\Models\Veiculo;
 @endphp
 <div>
-    <select name="veiculo" id="" >
+    <select name="veiculo" id="" required>
         <option value="">Selecione o veiculo</option>
         @foreach (Veiculo::All() as $item)
             @if (isset($veiculo) && $veiculo ==$item->id)

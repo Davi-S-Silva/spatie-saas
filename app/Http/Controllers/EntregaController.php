@@ -12,7 +12,7 @@ class EntregaController extends Controller
      */
     public function index()
     {
-        //
+        return view('entrega.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class EntregaController extends Controller
      */
     public function create()
     {
-        //
+        return view('entrega.create');
     }
 
     /**
@@ -28,7 +28,7 @@ class EntregaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return response()->json($request->input());
     }
 
     /**

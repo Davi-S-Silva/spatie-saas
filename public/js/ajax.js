@@ -463,4 +463,29 @@ if($('.form_add_notas').attr('action')==""){
         return false;
     });
 
+
+    $('form[name="FormEntrega"]').submit(function(){
+
+
+        console.log($(this).serialize())
+
+        $.ajax({
+            type:'post',
+            url: $(this).attr('action'),
+            data:$(this).serialize(),
+            dataType: 'json',
+            beforeSend:function(){
+
+            },
+            success:function(response){
+                console.log(response)
+            },
+            error:function(response){
+                console.log(response)
+            }
+        });
+
+        return false;
+    })
+
 });

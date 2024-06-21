@@ -10,6 +10,7 @@ use App\Http\Controllers\CargaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ColaboradorController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\EntregaController;
 use App\Http\Controllers\FilialController;
 use App\Http\Controllers\LocalApoioController;
 use NFePHP\Common\Certificate;
@@ -67,6 +68,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('carga',CargaController::class);
         Route::post('carga/{carga}/setnotas',[CargaController::class, 'setNotas'])->name('carga.setNotas');
         Route::put('carga/{carga}/update',[CargaController::class, 'update'])->name('carga.update');
+        Route::resource('entrega',EntregaController::class);
     });
 
 
