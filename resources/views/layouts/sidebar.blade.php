@@ -122,7 +122,7 @@
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-colaborador" data-collapse-toggle="dropdown-colaborador">
-                        <i class="fa-solid fa-users font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
+                        <i class="fa-solid fa-people-carry-box font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
                             style="color: #6b7280;" fill="currentColor"></i>
                         <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Colaborador</span>
@@ -149,7 +149,7 @@
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-veiculo" data-collapse-toggle="dropdown-veiculo">
-                        <i class="fa-solid fa-users font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
+                        <i class="fa-solid fa-truck-front font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
                             style="color: #6b7280;" fill="currentColor"></i>
                         <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Veículo</span>
@@ -176,7 +176,7 @@
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-carga" data-collapse-toggle="dropdown-carga">
-                        <i class="fa-solid fa-users font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
+                        <i class="fa-solid fa-truck-ramp-box font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
                             style="color: #6b7280;" fill="currentColor"></i>
                         <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Carga</span>
@@ -203,7 +203,11 @@
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-entrega" data-collapse-toggle="dropdown-entrega">
+<<<<<<< HEAD
                         <i class="fa-solid fa-users font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
+=======
+                        <i class="fa-solid fa-truck-fast font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
+>>>>>>> 506fcbab70c9ebb8befefd76a798fab567186cf2
                           dark:text-gray-400 dark:group-hover:text-white "
                             style="color: #6b7280;" fill="currentColor"></i>
                         <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Entrega</span>
@@ -230,7 +234,7 @@
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-cliente" data-collapse-toggle="dropdown-cliente">
-                        <i class="fa-solid fa-users font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
+                        <i class="fa-solid fa-user-tie font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
                             style="color: #6b7280;" fill="currentColor"></i>
                         <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Cliente</span>

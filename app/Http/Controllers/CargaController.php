@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carga;
+use App\Models\Cliente;
 use App\Models\Empresa;
 use App\Models\Filial;
 use App\Models\LocalApoio;
@@ -51,7 +52,7 @@ class CargaController extends Controller
             $carga->os = $request->os;
             $carga->data = $request->data;
             $carga->cliente_id = Filial::find($request->Filial)->clientes()->first()->id;
-            $carga->filial_cliente_id=$request->Filial;
+            $carga->filial_id=$request->Filial;
             $carga->empresa_id = LocalApoio::find($request->empresa_local_apoio_id)->empresa->id;
             $carga->local_apoio_id = $request->empresa_local_apoio_id;
             $carga->usuario_id = Auth::check();
@@ -124,5 +125,17 @@ class CargaController extends Controller
             DB::rollback();
             return ['message'=>$ex->getMessage(),'linha'=>$ex->getCode()];
         }
+    }
+
+
+    public function getCargasDisponiveis(Filial $filial)
+    {
+        // $cargas = $filial->cargas
+        // return response()->json(['Cliente'=>$filial->clientes()->first()->name]);
+
+        $cargas = $filial->with('cargas')->whereHas('cargas', function($query){
+            $query->where('status_id', 2);
+         })->get();
+        return response()->json($cargas);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\Entrega;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,11 @@ class EntregaController extends Controller
      */
     public function create()
     {
+<<<<<<< HEAD
         return view('entrega.create');
+=======
+        return view('entrega.create',['clientes'=>Cliente::all()]);
+>>>>>>> 506fcbab70c9ebb8befefd76a798fab567186cf2
     }
 
     /**

@@ -168,7 +168,7 @@ class EmpresaController extends Controller
         if($empresa->contatos()->count()==0){
             $contato = new Contato();
             $contato->newId();
-            $contato->celular =$request->Telefone;
+            $contato->telefone =$request->Telefone;
             $contato->whatsapp = $request->WhatsApp;
             $contato->email = $request->Email;
             $contato->descricao = $request->Descricao;
@@ -177,7 +177,7 @@ class EmpresaController extends Controller
             $empresa->contatos()->attach($contato->id);
         }else{
             $contato = $empresa->contatos()->first();
-            $contato->celular =$request->Telefone;
+            $contato->telefone =$request->Telefone;
             $contato->whatsapp = $request->WhatsApp;
             $contato->email = $request->Email;
             $contato->descricao = $request->Descricao;
