@@ -1,7 +1,7 @@
 <fieldset>
     <div>
         <label for="">Placa</label>
-        <input type="text" name="Placa"/>
+        <input type="text" name="Placa" required/>
     </div>
     <div>
         <x-select-localapoio/>

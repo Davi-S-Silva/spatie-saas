@@ -41,7 +41,7 @@ class VeiculoController extends Controller
         $veiculo->placa = $request->Placa;
         $veiculo->empresa_id = LocalApoio::find($request->empresa_local_apoio_id)->empresa->first()->id;
         $veiculo->local_apoio_id = $request->empresa_local_apoio_id;
-        $veiculo->usuario_id =Auth::check();
+        $veiculo->usuario_id =Auth::user()->id;
         $veiculo->status_id = 1;
         $veiculo->proprietario_id = $request->proprietario_id;
 
@@ -58,7 +58,7 @@ class VeiculoController extends Controller
      */
     public function show(Veiculo $veiculo)
     {
-        //
+        dd($veiculo);
     }
 
     /**

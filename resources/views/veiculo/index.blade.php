@@ -14,9 +14,11 @@
                     <ul>
 
                         @forelse ($veiculos as $veiculo)
-                            <li>{{ $veiculo->placa }}
-                                {{ $veiculo->clientes->first()->filials()->first()->razao_social }}
-                                <a href="{{ route('mudarVeiculoDeCliente',['cliente'=>2,'veiculo'=>$veiculo->id]) }}">Alterar de cliente</a>
+                            <li><a href="{{ route('veiculo.show',['veiculo'=>$veiculo->id]) }}">{{ $veiculo->placa }}</a>
+                                @if ($veiculo->clientes->first())
+                                    {{ $veiculo->clientes->first()->filials()->first()->razao_social }}
+                                    <a href="{{ route('mudarVeiculoDeCliente',['cliente'=>2,'veiculo'=>$veiculo->id]) }}">Alterar de cliente</a>
+                                @endif
                             </li>
                         @empty
                         <li>

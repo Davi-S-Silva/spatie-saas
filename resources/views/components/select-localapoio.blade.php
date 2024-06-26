@@ -4,7 +4,7 @@
 
 <div class="col-5">
     <label for="">Empresa e local de apoio</label>
-    <select name="empresa_local_apoio_id" id="">
+    <select name="empresa_local_apoio_id" id="" required>
         <option value="">Selecione uma opção</option>
         @foreach (Empresa::All() as $empresa)
             {{-- <option value="{{ $empresa->id }}">{{ $empresa->nome }}</option> --}}

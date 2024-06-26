@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MovimentacaoEstoque;
+use App\Models\LocalMovimentacao;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
-use function Pest\Laravel\json;
-
-class MovimentacaoEstoqueController extends Controller
+class LocalMovimentacaoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,13 +28,13 @@ class MovimentacaoEstoqueController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(MovimentacaoEstoque $movimentacaoEstoque)
+    public function show(LocalMovimentacao $localMovimentacao)
     {
         //
     }
@@ -45,7 +42,7 @@ class MovimentacaoEstoqueController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(MovimentacaoEstoque $movimentacaoEstoque)
+    public function edit(LocalMovimentacao $localMovimentacao)
     {
         //
     }
@@ -53,7 +50,7 @@ class MovimentacaoEstoqueController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MovimentacaoEstoque $movimentacaoEstoque)
+    public function update(Request $request, LocalMovimentacao $localMovimentacao)
     {
         //
     }
@@ -61,7 +58,7 @@ class MovimentacaoEstoqueController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MovimentacaoEstoque $movimentacaoEstoque)
+    public function destroy(LocalMovimentacao $localMovimentacao)
     {
         //
     }

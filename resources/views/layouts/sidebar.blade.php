@@ -37,45 +37,47 @@
                     <ul id="dropdown-example" class="hidden py-2 space-y-2">
                         {{-- ESTOQUE --}}
                         @can('Listar Empresas')
-                        <li class="hover_menu position-relative">
-                            <a href="{{ route('empresa.index') }}"
-                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                            <li class="hover_menu position-relative">
+                                <a href="{{ route('empresa.index') }}"
+                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                      hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span
-                                    class="flex-1 ml-3 text-left whitespace-nowrap"
-                                    sidebar-toggle-item>Empresas</span></a>
+                                        class="flex-1 ml-3 text-left whitespace-nowrap"
+                                        sidebar-toggle-item>Empresas</span></a>
 
-                                    <ul class="position-absolute bg-white w-56">
-                                        @foreach (Empresa::All() as $empresa)
-                                            <li><a href="{{ route('empresa.show',['empresa'=>$empresa->id]) }}">{{ $empresa->nome }}</a></li>
-                                        @endforeach
-                                    </ul>
-                        </li>
+                                <ul class="position-absolute bg-white w-56">
+                                    @foreach (Empresa::All() as $empresa)
+                                        <li><a
+                                                href="{{ route('empresa.show', ['empresa' => $empresa->id]) }}">{{ $empresa->nome }}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
                         @endcan
                         @can('Nova Empresa')
-                        <li>
-                            <a href="{{ route('empresa.create') }}"
-                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                            <li>
+                                <a href="{{ route('empresa.create') }}"
+                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                      hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span
-                                    class="flex-1 ml-3 text-left whitespace-nowrap"
-                                    sidebar-toggle-item>Nova Empresa</span></a>
-                        </li>
+                                        class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Nova
+                                        Empresa</span></a>
+                            </li>
                         @endcan
                         @can('Visualizar Certificado')
-                        <li>
-                            <a href="{{ route('empresa.certificate') }}"
-                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                            <li>
+                                <a href="{{ route('empresa.certificate') }}"
+                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                      hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span
-                                    class="flex-1 ml-3 text-left whitespace-nowrap"
-                                    sidebar-toggle-item>Certificado</span></a>
-                        </li>
+                                        class="flex-1 ml-3 text-left whitespace-nowrap"
+                                        sidebar-toggle-item>Certificado</span></a>
+                            </li>
                         @endcan
                         {{-- @can('Visualizar Certificado') --}}
                         <li>
                             <a href="{{ route('empresa.notas') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                      hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span
-                                    class="flex-1 ml-3 text-left whitespace-nowrap"
-                                    sidebar-toggle-item>Notas Transportes</span></a>
+                                    class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Notas
+                                    Transportes</span></a>
                         </li>
                         {{-- @endcan --}}
 
@@ -141,7 +143,8 @@
                         @can('Criar Colaborador')
                             <li><a href="{{ route('colaboradores.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Colaborador</a></li>
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
+                                    Colaborador</a></li>
                         @endcan
                     </ul>
                 </li>
@@ -161,14 +164,36 @@
                         </svg>
                     </button>
                     <ul id="dropdown-veiculo" class="hidden py-2 space-y-2">
-                        <li><a href="{{ route('veiculo.index') }}"
+                        <li class="hover_menu position-relative"><a href=""
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Veículos</a>
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Veículo</a>
+                                <ul class="position-absolute bg-white w-56">
+                                    <li><a href="{{ route('veiculo.index') }}">Veiculos</a></li>
+                                    <li><a href="{{ route('veiculo.create') }}">Novo Veiculo</a></li>
+                            </ul>
                         </li>
                         {{-- @can('Criar Veiculo') --}}
-                            <li><a href="{{ route('veiculo.create') }}"
-                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Veículo</a></li>
+                        {{-- <li><a href=""
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
+                                Veículo</a>
+                        </li> --}}
+                        <li class="hover_menu position-relative"><a href="{{ route('veiculo.create') }}"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Abastecimento</a>
+                                <ul class="position-absolute bg-white w-56">
+                                        <li><a href="">Abastecimentos</a></li>
+                                        <li><a href="">Novo Abastecimento</a></li>
+                                </ul>
+                        </li>
+                        <li class="hover_menu position-relative"><a href="{{ route('veiculo.create') }}"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Movimentação</a>
+                                <ul class="position-absolute bg-white w-56">
+                                    <li><a href="{{ route('movimentacao.index') }}">Movimentações</a></li>
+                                    <li><a href="{{ route('movimentacao.create') }}">Nova Movimentação</a></li>
+                            </ul>
+                        </li>
                         {{-- @endcan --}}
                     </ul>
                 </li>
@@ -193,9 +218,10 @@
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Cargas</a>
                         </li>
                         {{-- @can('Criar carga') --}}
-                            <li><a href="{{ route('carga.create') }}"
-                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Nova Carga</a></li>
+                        <li><a href="{{ route('carga.create') }}"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Nova
+                                Carga</a></li>
                         {{-- @endcan --}}
                     </ul>
                 </li>
@@ -220,9 +246,10 @@
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Entregas</a>
                         </li>
                         {{-- @can('Criar entrega') --}}
-                            <li><a href="{{ route('entrega.create') }}"
-                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Nova Entrega</a></li>
+                        <li><a href="{{ route('entrega.create') }}"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Nova
+                                Entrega</a></li>
                         {{-- @endcan --}}
                     </ul>
                 </li>
@@ -249,7 +276,8 @@
                         @can('Criar Usuario')
                             <li><a href="{{ route('clientes.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Cliente</a></li>
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
+                                    Cliente</a></li>
                         @endcan
                     </ul>
                 </li>

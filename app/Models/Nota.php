@@ -67,7 +67,7 @@ class Nota extends Model
                             $destinatario->nome_razao_social = $xml->NFe->infNFe->dest->xNome;
                             $destinatario->cpf_cnpj  = $xml->NFe->infNFe->dest->CNPJ;
                             $destinatario->ie  = $xml->NFe->infNFe->dest->IE;
-                            $destinatario->usuario_id = Auth::check();
+                            $destinatario->usuario_id = Auth::user()->id;
                             $destinatario->tipo = (strlen($xml->NFe->infNFe->dest->CNPJ) == 14) ? 1 : 2; //cpf ou cnpj
 
                             $end = new Endereco();
@@ -88,7 +88,7 @@ class Nota extends Model
                             $cont = new Contato();
                             $cont->newId();
                             $cont->telefone = '8134645060';
-                            $cont->usuario_id = Auth::check();
+                            $cont->usuario_id = Auth::user()->id;
                             $cont->save();
                             $destinatario->contato_id = $cont->id;
                             $destinatario->save();
@@ -114,7 +114,7 @@ class Nota extends Model
                         $pathStorageFile =Storage::disk('local')->put('public/arquivos/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml', file_get_contents($file));
                         $nota->path_xml = Storage::url(getenv('FILESYSTEM_DISK')).'/public/arquivos/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml';
                         // $nota->path_xml = Storage::disk('local')->put(strtolower(str_replace(' ', '', 'public/' . Cliente::find($carga->cliente_id)->name)) . '/' . str_replace(' ', '', strtolower(Filial::find($carga->filial_cliente_id)->razao_social)) . '/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml', file_get_contents($file));
-                        $nota->usuario_id = Auth::check();
+                        $nota->usuario_id = Auth::user()->id;
                         $nota->status_id = 1;
                         $nota->destinatario_id = $dest;
 

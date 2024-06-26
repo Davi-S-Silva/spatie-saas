@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('filials', function (Blueprint $table) {
+        Schema::create('local_movimentacaos', function (Blueprint $table) {
             $table->id();
-            $table->string('razao_social');
-            $table->string('nome_fantasia');
-            $table->string('link');
-            $table->string('responsavel');
-            $table->string('cnpj')->unique();
-            $table->string('ie')->unique();
+            $table->string('title');
+            $table->text('descricao');
+            $table->foreignId('status_id')->references('id')->on('status');
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->timestamps();
         });
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('filials');
+        Schema::dropIfExists('local_movimentacaos');
     }
 };

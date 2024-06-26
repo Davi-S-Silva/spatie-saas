@@ -55,7 +55,7 @@ class CargaController extends Controller
             $carga->filial_id=$request->Filial;
             $carga->empresa_id = LocalApoio::find($request->empresa_local_apoio_id)->empresa->id;
             $carga->local_apoio_id = $request->empresa_local_apoio_id;
-            $carga->usuario_id = Auth::check();
+            $carga->usuario_id = Auth::user()->id;
             $carga->status_id = 1;
 
             $carga->save();
@@ -128,14 +128,27 @@ class CargaController extends Controller
     }
 
 
-    public function getCargasDisponiveis(Filial $filial)
+    public function getCargasDisponiveis($filial)
     {
-        // $cargas = $filial->cargas
-        // return response()->json(['Cliente'=>$filial->clientes()->first()->name]);
+        $Filial = Filial::where('link',$filial)->get();
 
-        $cargas = $filial->with('cargas')->whereHas('cargas', function($query){
-            $query->where('status_id', 2);
-         })->get();
-        return response()->json($cargas);
+        if($Filial->count()==0){
+            return response()->json('erro: nao encontrado');
+        }
+        $cargas = $Filial->first()->cargas;
+        // return response()->json(['Cliente'=>$filial->clientes()->first()->name]);
+        $Dados= [];
+        foreach($cargas as $carga){
+            $Dados[]=['id'=>$carga->id,
+            'area'=>$carga->area,
+            'remessa'=>$carga->remessa,
+            'os'=>$carga->os,
+            'motorista'=>$carga->motorista->name];
+        }
+
+        // $cargas = $filial->with('cargas')->get();
+
+        // dd($Dados);
+        return response()->json(['status'=>200,'cargas'=>$Dados]);
     }
 }
