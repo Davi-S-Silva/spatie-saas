@@ -4,7 +4,7 @@
 
 <div class="col-5">
     <label for="">Selecione o Proprietário</label>
-    <select name="proprietario_id" id="">
+    <select name="proprietario_id" id="" required>
         <option value="">Selecione uma opção</option>
         @foreach(Proprietario::All() as $propietario)
             <option value="{{ $propietario->id }}">{{ $propietario->nome_razao_social }} </option>

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\Contato;
 use App\Models\Endereco;
 use App\Models\Filial;
+use App\Models\LocalMovimentacao;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +45,7 @@ class FilialController extends Controller
             $filial->responsavel = $request->Responsavel;
             $filial->cnpj = $request->Cnpj;
             $filial->ie = $request->IE;
-            $filial->usuario_id=Auth::check();
+            $filial->usuario_id=Auth::user()->id;
             $filial->save();
             $filial->clientes()->attach($request->Cliente);
 
@@ -63,11 +65,18 @@ class FilialController extends Controller
             $cont->whatsapp = $request->WhatsApp;
             $cont->email = $request->Email;
             $cont->descricao = $request->Descricao;
-            $cont->usuario_id=Auth::check();
+            $cont->usuario_id=Auth::user()->id;
             $cont->save();
 
             $filial->contatos()->attach($cont->id);
             $filial->enderecos()->attach($end->id);
+
+            $localMov = new LocalMovimentacao();
+            $localMov->title = $filial->nome_fantasia;
+            $localMov->descricao = 'local de carregamento e descarremento de carga do cliente '. Cliente::find($request->Cliente)->name;
+            $localMov->status_id = 1;
+            $localMov->usuario_id = Auth::user()->id;
+            $localMov->save();
             DB::commit();
         }catch(Exception $ex){
             DB::rollback();

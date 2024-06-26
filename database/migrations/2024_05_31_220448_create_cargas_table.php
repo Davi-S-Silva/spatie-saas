@@ -22,7 +22,7 @@ return new class extends Migration
             $table->double('frete')->nullable();
             $table->datetime('data');
             $table->foreignId('cliente_id')->references('id')->on('clientes');
-            $table->foreignId('filial_cliente_id')->references('id')->on('filials');
+            $table->foreignId('filial_id')->references('id')->on('filials');
             $table->foreignId('empresa_id')->references('id')->on('empresas');
             $table->foreignId('local_apoio_id')->references('id')->on('local_apoios');
             $table->foreignId('usuario_id')->references('id')->on('users');

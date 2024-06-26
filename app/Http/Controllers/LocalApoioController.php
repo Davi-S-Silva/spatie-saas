@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Empresa;
 use App\Models\LocalApoio;
+use App\Models\LocalMovimentacao;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,9 +47,14 @@ class LocalApoioController extends Controller
         $localApoio->name= $request->name;
         $localApoio->description= $request->description;
         $localApoio->empresa_id= $request->empresa_id;
-        $localApoio->usuario_id= Auth::check();
+        $localApoio->usuario_id= Auth::user()->id;
         $localApoio->save();
-
+        $localMov = new LocalMovimentacao();
+        $localMov->title = $localApoio->name;
+        $localMov->descricao = $localApoio->name.' local de apoio da '. Empresa::find($localApoio->empresa_id)->nome;
+        $localMov->status_id = 1;
+        $localMov->usuario_id = Auth::user()->id;
+        $localMov->save();
         return redirect()->route('empresa.show',['empresa'=>$request->empresa_id])->with('message', ['status' => 'success', 'msg' => 'Local de apoio adicionado com sucesso!']);
 
     // } catch (Exception $ex) {

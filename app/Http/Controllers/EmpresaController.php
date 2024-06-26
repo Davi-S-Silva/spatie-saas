@@ -66,7 +66,7 @@ class EmpresaController extends Controller
             $empresa->nome_fantasia = $request->input('NomeFantasia');
             $empresa->tipo_doc = $request->PessoaFisicaJuridica;
             $empresa->doc = $request->CpfCnpj;
-            $empresa->usuario_id = Auth::check();
+            $empresa->usuario_id = Auth::user()->id;
             $empresa->save();
 
             $empresa->enderecos()->attach($endereco->id);
@@ -76,7 +76,7 @@ class EmpresaController extends Controller
             $contato->whatsapp = $request->WhatsApp;
             $contato->email = $request->Email;
             $contato->descricao = $request->Descricao;
-            $contato->usuario_id = Auth::check();
+            $contato->usuario_id = Auth::user()->id;
             $contato->save();
             $empresa->contatos()->attach($contato->id);
 
@@ -172,7 +172,7 @@ class EmpresaController extends Controller
             $contato->whatsapp = $request->WhatsApp;
             $contato->email = $request->Email;
             $contato->descricao = $request->Descricao;
-            $contato->usuario_id = Auth::check();
+            $contato->usuario_id = Auth::user()->id;
             $contato->save();
             $empresa->contatos()->attach($contato->id);
         }else{
@@ -228,7 +228,7 @@ class EmpresaController extends Controller
         $certificado->password = Hash::make($request->SenhaCertificado);
         $certificado->validate = $request->ValidadeCertificado;
         $certificado->empresa_id = $request->empresa_id;
-        $certificado->usuario_id = Auth::check();
+        $certificado->usuario_id = Auth::user()->id;
         $path = $request->file('Certificado')->storeAs('certificados',$certificado->name.'.pfx');
         $certificado->path = $path;
         $certificado->save();

@@ -60,7 +60,7 @@ class ColaboradorController extends Controller
 
             $colaborador->empresa_id = LocalApoio::find($request->empresa_local_apoio_id)->empresa->id;
             $colaborador->local_apoio_id = $request->empresa_local_apoio_id;
-            $colaborador->usuario_id = Auth::check();
+            $colaborador->usuario_id = Auth::user()->id;
             $colaborador->save();
 
             $endereco = new Endereco();
@@ -78,7 +78,7 @@ class ColaboradorController extends Controller
             $contato->whatsapp = $request->WhatsApp;
             $contato->email = $request->Email;
             $contato->descricao = $request->Descricao;
-            $contato->usuario_id = Auth::check();
+            $contato->usuario_id = Auth::user()->id;
             $contato->save();
             $colaborador->contatos()->attach($contato->id);
 

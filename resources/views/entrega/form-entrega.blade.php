@@ -17,11 +17,17 @@
                 <x-select-ajudante/>
             </div>
         </div>
+
         <div>
             <a href="#" class="link-add-colaborador-entrega btn btn-outline-primary mx-2"><i
                     class="fa-regular fa-plus"></i></a>
         </div>
+
+
     </section>
+    {{-- <div>
+        <input type="checkbox" name="SemAjudante" id="SemAjudante"><label for="SemAjudante">Sem Ajudante</label>
+    </div> --}}
     @csrf
     <div>
         <input type="submit" value="Salvar" class="btn btn-primary">

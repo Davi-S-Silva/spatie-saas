@@ -47,4 +47,9 @@ class Carga extends Model
     {
         return $this->belongsTo(Filial::class);
     }
+
+    public function entregas()
+    {
+        return $this->belongsToMany(Entrega::class);
+    }
 }

@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use App\Models\Contato;
 use App\Models\Endereco;
 use App\Models\Filial;
+use App\Models\LocalMovimentacao;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,16 +46,17 @@ class ClienteController extends Controller
         $cliente = new Cliente();
         $cliente->newId();
         $cliente->name = $request->RazaoSocial;
-        $cliente->usuario_id=Auth::check();
+        $cliente->usuario_id=Auth::user()->id;
         $cliente->save();
         $filial = new Filial();
         $filial->newId();
         $filial->razao_social = $request->NomeFantasia;
         $filial->nome_fantasia = $request->NomeFantasia;
+        $filial->link = str_replace(' ','',strtolower($request->NomeFantasia));
         $filial->responsavel = $request->Responsavel;
         $filial->cnpj = $request->Cnpj;
         $filial->ie = $request->IE;
-        $filial->usuario_id=Auth::check();
+        $filial->usuario_id=Auth::user()->id;
         $filial->save();
         $filial->clientes()->attach($cliente->id);
 
@@ -74,12 +76,18 @@ class ClienteController extends Controller
         $cont->whatsapp = $request->WhatsApp;
         $cont->email = $request->Email;
         $cont->descricao = $request->Descricao;
-        $cont->usuario_id=Auth::check();
+        $cont->usuario_id=Auth::user()->id;
         $cont->save();
 
         $filial->contatos()->attach($cont->id);
         $filial->enderecos()->attach($end->id);
 
+        $localMov = new LocalMovimentacao();
+        $localMov->title = $filial->nome_fantasia;
+        $localMov->descricao = 'local de carregamento e descarremento de carga do cliente '.$cliente->name;
+        $localMov->status_id = 1;
+        $localMov->usuario_id = Auth::user()->id;
+        $localMov->save();
         echo '<pre>';
         print_r($cliente->getAttributes());
         print_r($filial->getAttributes());

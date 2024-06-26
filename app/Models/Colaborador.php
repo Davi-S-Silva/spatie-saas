@@ -35,4 +35,12 @@ class Colaborador extends Model
     {
         return $this->hasMany(Carga::class);
     }
+
+    // public function entregas(){
+    //     return $this->belongsToMany(Entrega::class);
+    // }
+
+    public function entregas(){
+        return $this->hasMany(Entrega::class);
+    }
 }

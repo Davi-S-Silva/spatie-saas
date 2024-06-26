@@ -464,28 +464,181 @@ if($('.form_add_notas').attr('action')==""){
     });
 
 
+
+
+    $('.link_carga_entrega').click(function(){
+        $.ajax({
+            type:'get',
+            url: $(this).attr('href'),
+            // data:
+            dataType:'json',
+            success(response){
+                // console.log(response)
+                if(response.status==200){
+                    $('.local_cargas_entrega').html('');
+                    $(response.cargas).each(function(i,e){
+                        $('.local_cargas_entrega').append('<div class="d-flex flex-column"><input type="checkbox" id="Carga_'+e.id+'" name="Cargas[]" title="'+e.os+' - '+e.area+' - '+e.motorista+'" value="'+e.id+'"/><label for="Carga_'+e.id+'" class=""><div><b>Motorista: </b> '+
+                            e.motorista+'</div><div><b>OS: </b> '+e.os+'</div><div><b>Remessa: </b> '+e.remessa+'</div><div><b>Área: </b>'+e.area+'</div></label></div>');
+                    });
+                }
+            },
+            error(response){
+
+            }
+        });
+        return false;
+    });
+
+    // $('form[name="FormEntrega"]').submit(function(){
+    //     console.log($(this).serialize())
+    //     return false;
+    // });
+    // $('input[name="SemAjudante"]').hide()
     $('form[name="FormEntrega"]').submit(function(){
 
 
-        console.log($(this).serialize())
+        // console.log($(this).serialize())
+
+        var Carga = $('input[name="Cargas[]"]')
+
+        if(Carga.length==0){
+            // console.log('selecione o cliente')
+            $('.response-message-ajax').show()
+            $('.response-message-ajax').addClass('alert-danger')
+            $('.response-message-ajax').text('selecione o cliente')
+            return false
+        }
+        var countChecked = 0;
+        var textCargas ='Cargas: '
+        $(Carga).each(function(i,e){
+        //    console.log(e)
+           if(e.checked==true){
+            countChecked++
+            textCargas+= `${e.title} `
+           }
+        //    console.log('valor: '+ e.value)
+        })
+
+        if(Carga.length!= 0 && countChecked<1){
+            // alert('selecione a carga')
+
+            $('.response-message-ajax').show()
+            $('.response-message-ajax').addClass('alert-danger')
+            $('.response-message-ajax').text('Selecione a Carga a ser entregue')
+            return false
+        }
+        // console.log($(this))
+        // var ajudante = $('select[name="ajudante[]"]')
+
+
+        // if(ajudante.length==1){
+        //     $(ajudante).each(function(i,e){
+        //         alert(e.value)
+        //         if(e.value!=''){
+        //             // $('#SemAjudante').hide()
+        //         }
+        //     });
+        // }else if(ajudante.length > 1){
+        //     $(ajudante).each(function(i,e){
+        //         $(e).attr('required')
+        //     })
+        // }
+
+        var confirma = confirm('Deseja Cadastrar Entrega? '+textCargas +'\n');
+
+        if(confirma){
+            $.ajax({
+                type:'post',
+                url: $(this).attr('action'),
+                data:$(this).serialize(),
+                dataType: 'json',
+                beforeSend:function(){
+
+                },
+                success:function(response){
+                    console.log(response)
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').hide()
+                },
+                error:function(response){
+                    console.log(response)
+                }
+            });
+        }
+        return false;
+    })
+
+    $('form[name="FormMovimentacao"]').submit(function(){
+        var partida = $('#LocalPartida')
+        var destino = $('select[name="LocalDestino"]')
+        // alert(partida.value)
+        // console.log(partida.val())
+        if(partida.val() == ''){
+            partida.focus()
+            $('.response-message-ajax').show()
+            $('.response-message-ajax').addClass('alert-danger')
+            $('.response-message-ajax').text('Selecione o local de partida')
+            return false
+        }else{
+            // alert('teste')
+            $('.response-message-ajax').hide()
+        }
+        if(destino.val() == ''){
+            destino.focus()
+            $('.response-message-ajax').show()
+            $('.response-message-ajax').addClass('alert-danger')
+            $('.response-message-ajax').text('Selecione o local de destino')
+            return false
+        }else{
+            // alert('teste')
+            $('.response-message-ajax').hide()
+        }
+
+        if(destino.val()==partida.val()){
+            destino.focus()
+            $('.response-message-ajax').show()
+            $('.response-message-ajax').addClass('alert-danger')
+            $('.response-message-ajax').text('O local de destino nao pode ser igual ao local de partida')
+            return false;
+        }
+
+        var textDesc = $('textarea[name="DescricaoMov"]')
+        if(textDesc.val()==''){
+            textDesc.focus()
+            $('.response-message-ajax').show()
+            $('.response-message-ajax').addClass('alert-danger')
+            $('.response-message-ajax').text('Digite uma descricao ou motivo da movimentacao')
+        }
 
         $.ajax({
             type:'post',
             url: $(this).attr('action'),
+            dataType:'json',
             data:$(this).serialize(),
-            dataType: 'json',
             beforeSend:function(){
 
             },
             success:function(response){
-                console.log(response)
+                if(response.status==200){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').text(response.msg)
+                    return false
+                }else{
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response)
+                    return false;
+                }
             },
             error:function(response){
-                console.log(response)
+                $('.response-message-ajax').show()
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text(response)
+                return false;
             }
-        });
-
+        })
         return false;
-    })
-
+    });
 });
