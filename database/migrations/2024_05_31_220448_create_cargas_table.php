@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('motorista_id')->references('id')->on('colaboradors');
             $table->double('peso');
             $table->integer('entregas');
-            $table->integer('remessa')->nullable()->unique();
-            $table->integer('os')->nullable()->unique();
+            $table->integer('remessa')->nullable();
+            $table->integer('os')->nullable();
             $table->double('frete')->nullable();
             $table->datetime('data');
             $table->foreignId('cliente_id')->references('id')->on('clientes');

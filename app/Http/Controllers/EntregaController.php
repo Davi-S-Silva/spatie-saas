@@ -6,6 +6,8 @@ use App\Models\Carga;
 use App\Models\Cliente;
 use App\Models\Colaborador;
 use App\Models\Entrega;
+use App\Models\Filial;
+use App\Models\MovimentacaoVeiculo;
 use App\Models\Veiculo;
 use Exception;
 use Illuminate\Http\Request;
@@ -19,7 +21,12 @@ class EntregaController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         // return view('entrega.index');
+=======
+        $entrega = Entrega::with('cargas','ajudantes','colaborador','veiculo')->orderBy('id','desc')->paginate(10);
+        return view('entrega.index',['entregas'=>$entrega]);
+>>>>>>> origin/main
     }
 
     /**
@@ -45,11 +52,28 @@ class EntregaController extends Controller
             $entrega->cliente_id =$Carga->cliente_id;
             $entrega->filial_id =$Carga->filial_id;
             $Veiculo = Veiculo::find($request->veiculo);
+            $lastMovVeiculo = MovimentacaoVeiculo::where('veiculo_id',$Veiculo->id)->get();
+            if($lastMovVeiculo->count()!=0){
+                if($lastMovVeiculo->last()->status_id==1 || $lastMovVeiculo->last()->status_id==2){
+                    throw new Exception('Veiculo está indisponivel, existe movimentação para '.$lastMovVeiculo->last()->destino->title.' não concluida para o veiculo');
+                }
+            }
             if($Veiculo->status_id==1){
                 $entrega->veiculo_id =$request->veiculo;
             }else{
                 throw new Exception('Veiculo está indisponivel');
             }
+            $Veiculo->status_id=2;
+            $Veiculo->save();
+
+            $lastMovVeiculo = MovimentacaoVeiculo::where('veiculo_id',$entrega->veiculo_id)->get();
+            if($lastMovVeiculo->count()!=0){
+                $filial = Filial::find($entrega->filial_id);
+                if($lastMovVeiculo->last()->Local_destino_id != $filial->locaismovimetacoes->first()->id){
+                    throw new Exception('Veiculo está indisponivel para este cliente. O veiculo '.$Veiculo->placa.' está em '.$lastMovVeiculo->last()->destino->title.'. Movimente o veiculo para o cliente '.$filial->locaismovimetacoes->first()->title);
+                }
+            }
+            // return response()->json([$lastMovVeiculo->last()->getAttributes(),$filial->locaismovimetacoes->first()->id]);
             $entrega->empresa_id =$Carga->empresa_id;
             $entrega->local_apoio_id =$Carga->local_apoio_id;
 
@@ -86,11 +110,11 @@ class EntregaController extends Controller
                 }
             }
             DB::commit();
-            return response()->json($entrega);
+            return response()->json(['status'=>200,'msg'=>'Entrega Cadastrada Com Sucesso!']);
             // return response()->json($request->input());
         }catch(Exception $ex){
             DB::rollback();
-            return response()->json($ex->getMessage());
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
         }
     }
 

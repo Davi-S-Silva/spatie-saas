@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Colaborador;
 use App\Models\LocalMovimentacao;
 use App\Models\MovimentacaoVeiculo;
+use App\Models\Veiculo;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ class MovimentacaoVeiculoController extends Controller
      */
     public function index()
     {
-        $mov = MovimentacaoVeiculo::all();
+        $mov = MovimentacaoVeiculo::with('partida','destino','veiculo','colaborador')->orderBy('id','desc')->paginate(20);
         return view('veiculo.movimentacao.index',['movimentacoes'=>$mov]);
     }
 
@@ -50,10 +51,14 @@ class MovimentacaoVeiculoController extends Controller
             $Colaborador = $request->colaborador;
             $Veiculo = $request->veiculo;
 
+
             $lastMovVeiculo = MovimentacaoVeiculo::where('veiculo_id',$Veiculo)->get();
             if($lastMovVeiculo->count()!=0){
                 if($lastMovVeiculo->last()->Local_destino_id != $Partida){
                     throw new Exception('Movimentacao incorreta. o veiculo está atualmente em '.LocalMovimentacao::find($lastMovVeiculo->last()->Local_destino_id)->title);
+                }
+                if($lastMovVeiculo->last()->status_id==1){
+                    throw new Exception('Existe movimentação não concluida para o veiculo');
                 }
             }
 
@@ -75,6 +80,13 @@ class MovimentacaoVeiculoController extends Controller
             $Mov->status_id = 1;
 
             $Mov->save();
+
+            $veiculo = Veiculo::find($Veiculo);
+            if($veiculo->status_id!=1){
+                throw new Exception('Veiculo está indisponivel');
+            }
+            $veiculo->status_id=2;
+            $veiculo->save();
             DB::commit();
             return response()->json(['status'=>200,'msg'=>'Movimentação cadastrada com sucesso']);
             // return response()->json($request->input());
@@ -114,5 +126,78 @@ class MovimentacaoVeiculoController extends Controller
     public function destroy(MovimentacaoVeiculo $movimentacaoVeiculo)
     {
         //
+    }
+
+    public function start(Request $request){
+        try{
+            DB::beginTransaction();
+            $movimentacaoVeiculo = MovimentacaoVeiculo::find($request->Mov);
+            if($movimentacaoVeiculo->status_id ==2){
+                throw new Exception('Movimentação já iniciada');
+            }
+            $KmInicial = (int)filter_var($request->KmInicial, FILTER_SANITIZE_NUMBER_INT);
+            //verificar se o km digitado é maior que o ultimo km_final registrado para o veiculo
+            $UltimoKmFinalVeiculo = MovimentacaoVeiculo::where('veiculo_id', $movimentacaoVeiculo->veiculo_id)->get();
+            if($UltimoKmFinalVeiculo->count()!=0){
+                $ultimo_km_fim = $UltimoKmFinalVeiculo->last()->km_fim;
+                // return response()->json($ultimo_km_fim);
+                if($KmInicial<$ultimo_km_fim){
+                    throw new Exception('Km Atual não pode ser menor que o km anterior');
+                }
+            }
+
+            $movimentacaoVeiculo->km_inicio = $KmInicial;
+            $movimentacaoVeiculo->usuario_start_id = Auth::user()->id;
+            $movimentacaoVeiculo->data_hora_inicio = date('Y-m-d H:i:s');
+            $movimentacaoVeiculo->status_id = 2;
+            $movimentacaoVeiculo->colaborador_id= $request->colaborador;
+            $movimentacaoVeiculo->save();
+
+            $colaborador = Colaborador::find($request->colaborador);
+            $colaborador->status_id=2;
+            $colaborador->save();
+            $veiculo = Veiculo::find($movimentacaoVeiculo->veiculo_id);
+            $veiculo->status_id=2;
+            $veiculo->save();
+            DB::commit();
+            return response()->json(['status'=>200,'msg'=>'Movimentação '.$movimentacaoVeiculo->id.' iniciada com sucesso','mov'=>$movimentacaoVeiculo->getAttributes()]);
+        }catch(Exception $ex){
+            DB::rollback();
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+        }
+    }
+
+    public function stop(Request $request){
+        try{
+            DB::beginTransaction();
+            $movimentacaoVeiculo = MovimentacaoVeiculo::find($request->Mov);
+            if($movimentacaoVeiculo->status_id ==1){
+                throw new Exception('Movimentação não pode ser encerrada pois ainda não foi iniciada');
+            } else if($movimentacaoVeiculo->status_id ==3){
+                throw new Exception('Não é possivel encerrar uma movimentação já encerrada');
+            }
+            $KmFinal = (int)filter_var($request->KmFinal, FILTER_SANITIZE_NUMBER_INT);
+            //verificar se o km digitado é maior que o ultimo km_inicio registrado para o veiculo
+            if($movimentacaoVeiculo->km_inicio > $KmFinal){
+                throw new Exception('Km Final não pode ser menor que o km inicial');
+            }
+            $movimentacaoVeiculo->status_id = 3;
+            $movimentacaoVeiculo->km_fim = $KmFinal;
+            $movimentacaoVeiculo->data_hora_fim = date('Y-m-d H:i:s');
+            $movimentacaoVeiculo->usuario_conclusao_id = Auth::user()->id;
+            $movimentacaoVeiculo->save();
+            $veiculo = Veiculo::find($movimentacaoVeiculo->veiculo_id);
+            $veiculo->status_id=1;
+            $veiculo->save();
+            $colaborador = Colaborador::find($movimentacaoVeiculo->colaborador_id);
+            $colaborador->status_id=1;
+            $colaborador->save();
+            // return response()->json($request);
+            DB::commit();
+            return response()->json(['status'=>200,'msg'=>'Movimentação '.$movimentacaoVeiculo->id.' encerrada com sucesso','mov'=>$movimentacaoVeiculo->getAttributes()]);
+        }catch(Exception $ex){
+            DB::rollback();
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+        }
     }
 }

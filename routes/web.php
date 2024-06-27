@@ -72,6 +72,11 @@ Route::middleware('auth')->group(function () {
         Route::put('carga/{carga}/update',[CargaController::class, 'update'])->name('carga.update');
         Route::resource('entrega',EntregaController::class);
         Route::resource('movimentacao',MovimentacaoVeiculoController::class);
+        // Route::post('movimentacao/{movimentacao}',[MovimentacaoVeiculoController::class, 'toggleMov'])->name('movimentacao.toggleMov');
+        // Route::get('movimentacao/{movimentacao}/start',[MovimentacaoVeiculoController::class, 'start'])->name('movimentacao.start');
+        Route::post('movimentacao/{movimentacao}/start',[MovimentacaoVeiculoController::class, 'start'])->name('movimentacao.start');
+        // Route::get('movimentacao/{movimentacao}/stop',[MovimentacaoVeiculoController::class, 'stop'])->name('movimentacao.stop');
+        Route::post('movimentacao/{movimentacao}/stop',[MovimentacaoVeiculoController::class, 'stop'])->name('movimentacao.stop');
     });
 
 

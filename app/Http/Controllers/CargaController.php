@@ -139,11 +139,13 @@ class CargaController extends Controller
         // return response()->json(['Cliente'=>$filial->clientes()->first()->name]);
         $Dados= [];
         foreach($cargas as $carga){
-            $Dados[]=['id'=>$carga->id,
-            'area'=>$carga->area,
-            'remessa'=>$carga->remessa,
-            'os'=>$carga->os,
-            'motorista'=>$carga->motorista->name];
+            if($carga->status_id==1){
+                $Dados[]=['id'=>$carga->id,
+                'area'=>$carga->area,
+                'remessa'=>$carga->remessa,
+                'os'=>$carga->os,
+                'motorista'=>$carga->motorista->name];
+            }
         }
 
         // $cargas = $filial->with('cargas')->get();

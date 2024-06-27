@@ -8,6 +8,7 @@ use App\Models\LocalMovimentacao;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class LocalApoioController extends Controller
@@ -33,35 +34,39 @@ class LocalApoioController extends Controller
      */
     public function store(Request $request)
     {
-        // try{
-        $request->validate([
-            'name'=>'required|string|min:6|max:50',
-            'description'=>'required|string|min:20|max:100',
-            'empresa_id'=>'required',
-        ]);
+        try {
+            DB::beginTransaction();
+            $request->validate([
+                'name' => 'required|string|min:6|max:50',
+                'description' => 'required|string|min:20|max:100',
+                'empresa_id' => 'required',
+            ]);
 
-        // print_r($request->input());
+            // print_r($request->input());
 
-        // LocalApoio::create($request->all());
-        $localApoio = new LocalApoio();
-        $localApoio->name= $request->name;
-        $localApoio->description= $request->description;
-        $localApoio->empresa_id= $request->empresa_id;
-        $localApoio->usuario_id= Auth::user()->id;
-        $localApoio->save();
-        $localMov = new LocalMovimentacao();
-        $localMov->title = $localApoio->name;
-        $localMov->descricao = $localApoio->name.' local de apoio da '. Empresa::find($localApoio->empresa_id)->nome;
-        $localMov->status_id = 1;
-        $localMov->usuario_id = Auth::user()->id;
-        $localMov->save();
-        return redirect()->route('empresa.show',['empresa'=>$request->empresa_id])->with('message', ['status' => 'success', 'msg' => 'Local de apoio adicionado com sucesso!']);
+            // LocalApoio::create($request->all());
+            $localApoio = new LocalApoio();
+            $localApoio->name = $request->name;
+            $localApoio->description = $request->description;
+            $localApoio->empresa_id = $request->empresa_id;
+            $localApoio->usuario_id = Auth::user()->id;
+            $localApoio->save();
+            $localMov = new LocalMovimentacao();
+            $localMov->title = $localApoio->name;
+            $localMov->descricao = $localApoio->name . ' local de apoio da ' . Empresa::find($localApoio->empresa_id)->nome;
+            $localMov->status_id = 1;
+            $localMov->usuario_id = Auth::user()->id;
+            $localMov->save();
+            $localApoio->locaismovimetacoes()->attach($localMov->id);
 
-    // } catch (Exception $ex) {
-    //     // echo json_encode(['status' => 'danger', 'msg' => $ex->getMessage()]);
-    //     // session()->flash('message', ['status' => 'danger', 'msg' => $ex->getMessage()]);
-    //     return back()->withInput();
-    // }
+            DB::commit();
+            return redirect()->route('empresa.show', ['empresa' => $request->empresa_id])->with('message', ['status' => 'success', 'msg' => 'Local de apoio adicionado com sucesso!']);
+        } catch (Exception $ex) {
+            DB::rollback();
+            // echo json_encode(['status' => 'danger', 'msg' => $ex->getMessage()]);
+            // session()->flash('message', ['status' => 'danger', 'msg' => $ex->getMessage()]);
+            return back()->withInput();
+        }
     }
 
     /**

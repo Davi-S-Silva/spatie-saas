@@ -72,3 +72,17 @@ a {
     width: fit-content;
     text-align: center;
 }
+.form_toggle_mov{
+    border:1px solid #ccc;
+    padding: 5px;
+    margin: 5px;
+    width: max-content;
+    text-align: center;
+    display: none;
+}
+.form_toggle_mov input[type="submit"]{
+    margin: 5px 0;
+}
+.stop_mov_ajax{
+    display: none;
+}

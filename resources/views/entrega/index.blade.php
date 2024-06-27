@@ -19,7 +19,7 @@
                                 {{-- <b><a href="{{ route('clientes.show',['cliente'=>$cliente->id]) }}">{{ $cliente->name }}</b></a> --}}
 >>>>>>> c29e677dddec127181733d44fcdbe30fb53ba128
                                 <ul>
-                                    <li>
+                                    <li class="p-2 bg-slate-100">
                                         <header class="d-flex justify-content-between">
                                             <div><b>Motorista: </b>{{ $entrega->colaborador->name }}</div>
                                             <div><b>Veiculo: </b>{{ $entrega->veiculo->placa }}</div>
@@ -41,12 +41,15 @@
 
 
                                             </div>
+                                            <div>
+                                                <b>Status: </b>{{ $entrega->status() }}
+                                            </div>
                                         </header>
                                             <ul class="px-3">
                                             @foreach ($entrega->cargas as $item)
                                                 <li><b>Remessa: </b>{{ $item->remessa }} <b>OS: </b>{{ $item->os }} <b>Motorista OS: </b>{{ $item->motorista->name }} <b>Área: </b>{{ $item->area }}</li>
                                             @endforeach
-                                        </ul>
+                                            </ul>
                                     </li>
                                 </ul>
                                 {{-- <a class="btn btn-primary" href="{{ route('filial.create',['cliente'=>$cliente->id]) }}">Nova Filial</a> --}}

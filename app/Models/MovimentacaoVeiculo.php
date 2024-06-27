@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Permission\Traits\HasRoles;
 
 class MovimentacaoVeiculo extends Model
@@ -20,7 +21,13 @@ class MovimentacaoVeiculo extends Model
     }
 
     public function partida(){
-        return $this->belongsTo(LocalMovimentacao::class,'id','Local_partida_id');
+        return $this->belongsTo(LocalMovimentacao::class,'Local_partida_id');
+    }
+    public function destino(){
+        return $this->belongsTo(LocalMovimentacao::class,'Local_destino_id');
+    }
+    public function veiculo(){
+        return $this->belongsTo(Veiculo::class);
     }
 
     public function colaborador(){

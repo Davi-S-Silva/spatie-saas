@@ -19,4 +19,9 @@ class Veiculo extends Model
     {
         return $this->hasMany(Carga::class);
     }
+
+    public function movimentacaos()
+    {
+        return $this->hasMany(MovimentacaoVeiculo::class);
+    }
 }
