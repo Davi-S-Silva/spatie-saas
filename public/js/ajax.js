@@ -556,9 +556,21 @@ if($('.form_add_notas').attr('action')==""){
 
                 },
                 success:function(response){
-                    console.log(response)
-                    $('.response-message-ajax').removeClass('alert-danger')
-                    $('.response-message-ajax').hide()
+                    // console.log(response)
+                    if(response.status==200){
+                        $('.response-message-ajax').removeClass('alert-danger')
+                        $('.response-message-ajax').addClass('alert-success')
+                        $('.response-message-ajax').text(response.msg)
+                        $('.response-message-ajax').show()
+                    }
+                    if(response.status==0)
+                        {
+                        $('.response-message-ajax').removeClass('alert-success')
+                        $('.response-message-ajax').addClass('alert-danger')
+                        $('.response-message-ajax').text(response.msg)
+                        $('.response-message-ajax').show()
+                        return false
+                    }
                 },
                 error:function(response){
                     console.log(response)
@@ -608,6 +620,7 @@ if($('.form_add_notas').attr('action')==""){
             $('.response-message-ajax').show()
             $('.response-message-ajax').addClass('alert-danger')
             $('.response-message-ajax').text('Digite uma descricao ou motivo da movimentacao')
+            return false
         }
 
         $.ajax({
@@ -641,4 +654,114 @@ if($('.form_add_notas').attr('action')==""){
         })
         return false;
     });
+
+
+    // $('.stop_mov_ajax').hide()
+
+    $('.start_mov').click(function(){
+        // alert($(this).attr('href'))
+        $('form[name="StartMov"]').show()
+        $('form[name="StartMov"]').attr('action',$(this).attr('href'))
+        $('form[name="StartMov"] span').text($(this).attr('mov'))
+        $('select[name="colaborador"]').val($(this).attr('mot'))
+        $('input[name="Mov"]').val($(this).attr('mov'))
+        $('form[name="StopMov"]').hide()
+        return false
+    })
+
+    $('form[name="StartMov"]').submit(function(){
+        // alert(
+        //     $(this).attr('action')
+        // )
+        // return false
+        $.ajax({
+            type:'post',
+            url: $(this).attr('action'),
+            dataType:'json',
+            data:$(this).serialize(),
+            beforeSend:function(){
+
+            },
+            success:function(response){
+                // alert(response)
+                // console.log(response)
+                if(response.status==0){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                }
+                if(response.status==200){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').text(response.msg)
+
+                    $('#Start_Mov_'+response.mov.id).hide()
+                    $('form[name="StartMov"]').hide()
+
+                    // console.log()
+                    $('#Stop_Mov_'+response.mov.id).removeClass('d-none')
+                    $('input[name="KmInicial"]').val('')
+                }
+            },
+            error:function(response){
+                $('.response-message-ajax').show()
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text(response.msg)
+                return false;
+            }
+        })
+        return false
+    })
+
+    $('.stop_mov').click(function(){
+        $('form[name="StopMov"]').show()
+        $('form[name="StopMov"]').attr('action',$(this).attr('href'))
+        $('form[name="StopMov"] span').text($(this).attr('mov'))
+        $('input[name="Mov"]').val($(this).attr('mov'))
+        // alert($('input[name="Mov"]').val())
+        $('form[name="StartMov"]').hide()
+        return false
+    })
+
+    $('form[name="StopMov"]').submit(function(){
+        // alert($('input[name="Mov"]').val())
+        $.ajax({
+            type:'post',
+            url: $(this).attr('action'),
+            dataType:'json',
+            data:$(this).serialize(),
+            beforeSend:function(){
+
+            },
+            success:function(response){
+                // alert(response)
+                // console.log(response)
+                if(response.status==0){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                }
+                if(response.status==200){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').text(response.msg)
+
+                    $('#Stop_Mov_'+response.mov.id).hide()
+                    $('form[name="StopMov"]').hide()
+                    $('input[name="KmFinal"]').val('')
+                }
+            },
+            error:function(response){
+                $('.response-message-ajax').show()
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text(response.msg)
+                return false;
+            }
+        })
+        return false
+    })
 });

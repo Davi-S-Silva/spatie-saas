@@ -19,7 +19,16 @@ class LocalMovimentacao extends Model
         }
     }
 
-    // public function movimentacoes(){
-    //     return $this->belongsTo(MovimentacaoVeiculo::class);
-    // }
+    public function movimentacoes(){
+        return $this->hasOne(MovimentacaoVeiculo::class);
+    }
+
+    public function filials()
+    {
+        return $this->belongsToMany(Filial::class);
+    }
+    public function locaisapoios()
+    {
+        return $this->belongsToMany(LocalApoio::class);
+    }
 }

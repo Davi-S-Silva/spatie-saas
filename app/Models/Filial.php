@@ -37,4 +37,8 @@ class Filial extends Model
         return $this->hasMany(Carga::class);
     }
 
+    public function locaismovimetacoes()
+    {
+        return $this->belongsToMany(LocalMovimentacao::class);
+    }
 }

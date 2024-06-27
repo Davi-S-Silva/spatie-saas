@@ -22,4 +22,9 @@ class LocalApoio extends Model
     {
         return $this->hasMany(Colaborador::class);
     }
+
+    public function locaismovimetacoes()
+    {
+        return $this->belongsToMany(LocalMovimentacao::class);
+    }
 }

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->dateTime('data_hora_inicio')->nullable();
             $table->dateTime('data_hora_fim')->nullable();
             $table->foreignId('usuario_id')->references('id')->on('users');
+            $table->foreignId('usuario_start_id')->nullable()->references('id')->on('users');
             $table->foreignId('usuario_conclusao_id')->nullable()->references('id')->on('users');
             $table->foreignId('status_id')->references('id')->on('status');
             $table->timestamps();

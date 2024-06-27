@@ -42,6 +42,7 @@ class FilialController extends Controller
             $filial->newId();
             $filial->razao_social = $request->RazaoSocial;
             $filial->nome_fantasia = $request->NomeFantasia;
+            $filial->link = str_replace(' ','',strtolower($request->NomeFantasia));
             $filial->responsavel = $request->Responsavel;
             $filial->cnpj = $request->Cnpj;
             $filial->ie = $request->IE;
@@ -61,7 +62,7 @@ class FilialController extends Controller
 
             $cont = new Contato();
             $cont->newId();
-            $cont->celular = $request->Telefone;
+            $cont->telefone = $request->Telefone;
             $cont->whatsapp = $request->WhatsApp;
             $cont->email = $request->Email;
             $cont->descricao = $request->Descricao;
@@ -77,6 +78,7 @@ class FilialController extends Controller
             $localMov->status_id = 1;
             $localMov->usuario_id = Auth::user()->id;
             $localMov->save();
+            $filial->locaismovimetacoes()->attach($localMov->id);
             DB::commit();
         }catch(Exception $ex){
             DB::rollback();
