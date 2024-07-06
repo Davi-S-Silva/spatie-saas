@@ -52,4 +52,16 @@ class Carga extends Model
     {
         return $this->belongsToMany(Entrega::class);
     }
+    public function status($status)
+    {
+        return Status::where('name',$status)->where('tipo',1)->get()->first()->id;
+    }
+
+    public function getStatus(){
+        return Status::find($this->status_id);
+    }
+
+    public function setStatus($status){
+        $this->status_id = Status::where('name',$status)->where('tipo',1)->get()->first()->id;
+    }
 }

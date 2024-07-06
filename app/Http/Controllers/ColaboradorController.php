@@ -61,7 +61,7 @@ class ColaboradorController extends Controller
             $colaborador->empresa_id = LocalApoio::find($request->empresa_local_apoio_id)->empresa->id;
             $colaborador->local_apoio_id = $request->empresa_local_apoio_id;
             $colaborador->usuario_id = Auth::user()->id;
-            $colaborador->status_id = 1;
+            $colaborador->setStatus('Disponivel');
             $colaborador->save();
 
             $endereco = new Endereco();

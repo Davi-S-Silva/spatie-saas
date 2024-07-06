@@ -63,7 +63,7 @@ class MovimentacaoVeiculoController extends Controller
             }
 
             $movBd = MovimentacaoVeiculo::where('Local_partida_id',$Partida)->where('Local_destino_id',$Destino)
-            ->where('status_id',1)->where('veiculo_id',$Veiculo)->get();
+            ->where('status_id',$lastMovVeiculo->status('Disponivel'))->where('veiculo_id',$Veiculo)->get();
             if($movBd->count()!=0){
                 throw new Exception('Já existe uma movimentacao para esse destino com esse veiculo');
             }
@@ -77,15 +77,14 @@ class MovimentacaoVeiculoController extends Controller
             $Mov->veiculo_id = $Veiculo;
             $Mov->descricao = $DescMov;
             $Mov->usuario_id = Auth::user()->id;
-            $Mov->status_id = 1;
-
+            $Mov->setStatus('Pendente');//movimentacao pendente
             $Mov->save();
 
             $veiculo = Veiculo::find($Veiculo);
             if($veiculo->status_id!=1){
                 throw new Exception('Veiculo está indisponivel');
             }
-            $veiculo->status_id=2;
+            $veiculo->status_id=2;//
             $veiculo->save();
             DB::commit();
             return response()->json(['status'=>200,'msg'=>'Movimentação cadastrada com sucesso']);

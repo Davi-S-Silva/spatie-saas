@@ -24,4 +24,16 @@ class Veiculo extends Model
     {
         return $this->hasMany(MovimentacaoVeiculo::class);
     }
+    public function status($status)
+    {
+        return Status::where('name',$status)->where('tipo',2)->get()->first()->id;
+    }
+
+    public function getStatus(){
+        return Status::find($this->status_id);
+    }
+
+    public function setStatus($status){
+        $this->status_id = Status::where('name',$status)->where('tipo',2)->get()->first()->id;
+    }
 }

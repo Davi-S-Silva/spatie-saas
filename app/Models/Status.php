@@ -20,4 +20,9 @@ class Status extends Model
             $this->id = $this->all()->last()->id +=1;
         }
     }
+
+    public function entregas()
+    {
+        return $this->hasMany(Entrega::class);
+    }
 }

@@ -9,10 +9,6 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
                     <form action="{{ route('entrega.store') }}" name="FormEntrega" method="post">
-<<<<<<< HEAD
-                        @include('entrega.form-entrega')
-                    </form>
-=======
 
                     @foreach ($clientes as $cliente)
                         <ul>
@@ -28,13 +24,12 @@
                     <hr>
                     <section class="cargas_entrega">
                         <b>Cargas</b>
-                        <div class="local_cargas_entrega d-flex justify-content-between flex-wrap">
+                        <div class="local_cargas_entrega d-flex justify-content-around flex-wrap">
 
                         </div>
                     </section>
                     @include('entrega.form-entrega')
                 </form>
->>>>>>> c29e677dddec127181733d44fcdbe30fb53ba128
                 </div>
             </div>
         </div>

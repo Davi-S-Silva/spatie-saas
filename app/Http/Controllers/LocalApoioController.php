@@ -64,7 +64,7 @@ class LocalApoioController extends Controller
         } catch (Exception $ex) {
             DB::rollback();
             // echo json_encode(['status' => 'danger', 'msg' => $ex->getMessage()]);
-            // session()->flash('message', ['status' => 'danger', 'msg' => $ex->getMessage()]);
+            session()->flash('message', ['status' => 'danger', 'msg' => $ex->getMessage()]);
             return back()->withInput();
         }
     }

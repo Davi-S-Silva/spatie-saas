@@ -43,4 +43,18 @@ class Colaborador extends Model
     public function entregas(){
         return $this->hasMany(Entrega::class);
     }
+
+
+    public function status($status)
+    {
+        return Status::where('name',$status)->where('tipo',5)->get()->first()->id;
+    }
+
+    public function getStatus(){
+        return Status::find($this->status_id);
+    }
+
+    public function setStatus($status){
+        $this->status_id = Status::where('name',$status)->where('tipo',5)->get()->first()->id;
+    }
 }

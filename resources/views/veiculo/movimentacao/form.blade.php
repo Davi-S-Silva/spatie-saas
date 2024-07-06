@@ -9,7 +9,7 @@
         </select>
     </div>
     <div>
-        <label for="">Local de destindo</label>
+        <label for="">Local de destido</label>
         <select name="LocalDestino" id="">
             <option value="">Selecione o local de destino do veiculo</option>
             @foreach ($localMovimentacao as $local)

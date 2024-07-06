@@ -1,6 +1,7 @@
 $(function () {
 
     var base = 'http://localhost:8000/';
+    // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
     //      PERMISSIONS
@@ -476,10 +477,27 @@ if($('.form_add_notas').attr('action')==""){
                 // console.log(response)
                 if(response.status==200){
                     $('.local_cargas_entrega').html('');
+                    if($(response.cargas).length!=0){
+                        $('.response-message-ajax').show()
+                        $('.response-message-ajax').removeClass('alert-danger')
+                        $('.response-message-ajax').addClass('alert-success')
+                        $('.response-message-ajax').text('Cargas encontradas para o cliente '+response.cliente)
+                    }else{
+                        $('.response-message-ajax').show()
+                        $('.response-message-ajax').addClass('alert-danger')
+                        $('.response-message-ajax').removeClass('alert-success')
+                        $('.response-message-ajax').text('Cargas não encontradas para o cliente '+response.cliente)
+                    }
                     $(response.cargas).each(function(i,e){
                         $('.local_cargas_entrega').append('<div class="d-flex flex-column"><input type="checkbox" id="Carga_'+e.id+'" name="Cargas[]" title="'+e.os+' - '+e.area+' - '+e.motorista+'" value="'+e.id+'"/><label for="Carga_'+e.id+'" class=""><div><b>Motorista: </b> '+
                             e.motorista+'</div><div><b>OS: </b> '+e.os+'</div><div><b>Remessa: </b> '+e.remessa+'</div><div><b>Área: </b>'+e.area+'</div></label></div>');
                     });
+                }
+                if(response.status==0){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                    return false
                 }
             },
             error(response){
@@ -725,6 +743,7 @@ if($('.form_add_notas').attr('action')==""){
         return false
     })
 
+
     $('form[name="StopMov"]').submit(function(){
         // alert($('input[name="Mov"]').val())
         $.ajax({
@@ -764,4 +783,106 @@ if($('.form_add_notas').attr('action')==""){
         })
         return false
     })
+
+
+    $('.start_entrega').click(function(){
+        $('form[name="StartEntrega"]').show()
+        $('form[name="StopEntrega"]').hide()
+        $('form[name="StartEntrega"]').attr('action',$(this).attr('href'))
+        $('form[name="StartEntrega"] span').text($(this).attr('entrega'))
+        $('input[name="Entrega"]').val($(this).attr('Entrega'))
+        // // alert($('input[name="Mov"]').val())
+        // $('form[name="StartMov"]').hide()
+        return false
+    })
+    $('.stop_entrega').click(function(){
+        $('form[name="StartEntrega"]').hide()
+        $('form[name="StopEntrega"]').show()
+        $('form[name="StopEntrega"]').attr('action',$(this).attr('href'))
+        $('form[name="StopEntrega"] span').text($(this).attr('entrega'))
+        $('input[name="Entrega"]').val($(this).attr('Entrega'))
+        // // alert($('input[name="Mov"]').val())
+        // $('form[name="StartMov"]').hide()
+        return false
+    })
+    $('form[name="StartEntrega"]').submit(function(){
+        // alert($(this).attr('action'))
+        $.ajax({
+            type:'post',
+            url: $(this).attr('action'),
+            dataType:'json',
+            data:$(this).serialize(),
+            beforeSend:function(){
+
+            },
+            success:function(response){
+                // alert(response)
+                // console.log(response)
+                if(response.status==0){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                }
+                if(response.status==200){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').text(response.msg)
+                    console.log(response.msg)
+                    // $('#Stop_Mov_'+response.mov.id).hide()
+                    $('form[name="StopMov"]').hide()
+                    $('input[name="KmFinal"]').val('')
+                }
+            },
+            error:function(response){
+                $('.response-message-ajax').show()
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text(response.msg)
+                return false;
+            }
+        })
+        return false
+    })
+    $('form[name="StopEntrega"]').submit(function(){
+        // alert($(this).attr('action'))
+        $.ajax({
+            type:'post',
+            url: $(this).attr('action'),
+            dataType:'json',
+            data:$(this).serialize(),
+            beforeSend:function(){
+
+            },
+            success:function(response){
+                // alert(response)
+                // console.log(response)
+                if(response.status==0){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                }
+                if(response.status==200){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').text(response.msg)
+                    console.log(response.msg)
+                    // $('#Stop_Mov_'+response.mov.id).hide()
+                    $('form[name="StopMov"]').hide()
+                    $('input[name="KmFinal"]').val('')
+                }
+            },
+            error:function(response){
+                $('.response-message-ajax').show()
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text(response.msg)
+                return false;
+            }
+        })
+        return false
+    })
+
+
 });

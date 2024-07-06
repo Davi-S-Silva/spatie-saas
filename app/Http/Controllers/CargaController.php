@@ -21,7 +21,7 @@ class CargaController extends Controller
      */
     public function index()
     {
-        return view('carga.index', ['cargas'=>Carga::all()]);
+        return view('carga.index', ['cargas' => Carga::all()]);
     }
 
     /**
@@ -38,29 +38,29 @@ class CargaController extends Controller
     public function store(Request $request)
     {
 
-        try{
+        try {
             DB::beginTransaction();
             $carga = new Carga();
             $carga->newId();
             $carga->area = $request->area;
-            $carga->peso= $request->peso;
+            $carga->peso = $request->peso;
             $carga->entregas = $request->entregas;
             $carga->motorista_id = $request->colaborador;
-            $carga->remessa= $request->remessa;
+            $carga->remessa = $request->remessa;
             $carga->veiculo_id = $request->veiculo;
-            $carga->frete= $request->frete;
+            $carga->frete = $request->frete;
             $carga->os = $request->os;
             $carga->data = $request->data;
             $carga->cliente_id = Filial::find($request->Filial)->clientes()->first()->id;
-            $carga->filial_id=$request->Filial;
+            $carga->filial_id = $request->Filial;
             $carga->empresa_id = LocalApoio::find($request->empresa_local_apoio_id)->empresa->id;
             $carga->local_apoio_id = $request->empresa_local_apoio_id;
             $carga->usuario_id = Auth::user()->id;
-            $carga->status_id = 1;
+            $carga->setStatus('Pendente');//carga pendente
 
             $carga->save();
 
-            $carga->setNotas($request->Notas);
+            // $carga->setNotas($request->Notas);
 
 
 
@@ -68,8 +68,8 @@ class CargaController extends Controller
 
             DB::commit();
             // return response()->json([$request->input(),(new Nota())->getNotas($request->Notas, $request->Filial, )]);
-            return response()->json([$carga,$request->input()]);
-        }catch(Exception $ex){
+            return response()->json([$carga, $request->input()]);
+        } catch (Exception $ex) {
             DB::rollback();
             // return response()->json([$ex->getMessage(),$ex->getLine()]);
             return response()->json($ex->getMessage());
@@ -94,7 +94,7 @@ class CargaController extends Controller
      */
     public function edit(Carga $carga)
     {
-        return view('carga.edit', ['carga'=>$carga]);
+        return view('carga.edit', ['carga' => $carga]);
     }
 
     /**
@@ -115,42 +115,50 @@ class CargaController extends Controller
 
     public function setNotas(Request $request, $carga)
     {
-        try{
+        try {
             DB::beginTransaction();
             $Carga = Carga::find($carga);
 
             DB::commit();
             return response()->json($Carga->setNotas($request->Notas));
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             DB::rollback();
-            return ['message'=>$ex->getMessage(),'linha'=>$ex->getCode()];
+            return ['message' => $ex->getMessage(), 'linha' => $ex->getCode()];
         }
     }
 
 
     public function getCargasDisponiveis($filial)
     {
-        $Filial = Filial::where('link',$filial)->get();
+        try {
 
-        if($Filial->count()==0){
-            return response()->json('erro: nao encontrado');
-        }
-        $cargas = $Filial->first()->cargas;
-        // return response()->json(['Cliente'=>$filial->clientes()->first()->name]);
-        $Dados= [];
-        foreach($cargas as $carga){
-            if($carga->status_id==1){
-                $Dados[]=['id'=>$carga->id,
-                'area'=>$carga->area,
-                'remessa'=>$carga->remessa,
-                'os'=>$carga->os,
-                'motorista'=>$carga->motorista->name];
+
+            $Filial = Filial::where('link', $filial)->get();
+
+            if ($Filial->count() == 0) {
+                throw new Exception('Cargas não encontradas para cliente '. $filial);
             }
+            $cargas = $Filial->first()->cargas;
+            // return response()->json(['Cliente'=>$filial->clientes()->first()->name]);
+            $Dados = [];
+            foreach ($cargas as $carga) {
+                if ($carga->status_id == 1) {
+                    $Dados[] = [
+                        'id' => $carga->id,
+                        'area' => $carga->area,
+                        'remessa' => $carga->remessa,
+                        'os' => $carga->os,
+                        'motorista' => $carga->motorista->name
+                    ];
+                }
+            }
+
+            // $cargas = $filial->with('cargas')->get();
+
+            // dd($Dados);
+            return response()->json(['status' => 200, 'cargas' => $Dados,'cliente'=>$Filial->first()->nome_fantasia]);
+        } catch (Exception $ex) {
+            return response()->json(['status' => 0, 'msg' => $ex->getMessage()]);
         }
-
-        // $cargas = $filial->with('cargas')->get();
-
-        // dd($Dados);
-        return response()->json(['status'=>200,'cargas'=>$Dados]);
     }
 }

@@ -33,4 +33,25 @@ class MovimentacaoVeiculo extends Model
     public function colaborador(){
         return $this->belongsTo(Colaborador::class);
     }
+
+    public function status($status)
+    {
+        return Status::where('name',$status)->where('tipo',3)->get()->first()->id;
+    }
+
+    public function getStatus(){
+        // return Status::find($this->status_id);
+        return $this->belongsTo(Status::class,'status_id');
+    }
+
+    public function setStatus($status){
+        $this->status_id = Status::where('name',$status)->where('tipo',3)->get()->first()->id;
+    }
+
+    public static function getMovimentacaoVeiculo($veiculo)
+    {
+        return MovimentacaoVeiculo::where('veiculo_id',$veiculo)->get();
+        // $mov = new MovimentacaoVeiculo();
+        // return $mov->status($status);
+    }
 }

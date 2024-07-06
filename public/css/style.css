@@ -72,7 +72,7 @@ a {
     width: fit-content;
     text-align: center;
 }
-.form_toggle_mov{
+.form_toggle_mov,.form_toggle_entrega{
     border:1px solid #ccc;
     padding: 5px;
     margin: 5px;
