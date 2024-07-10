@@ -33,6 +33,9 @@ sudo apt-get install -y php8.3-mysql php8.3-zip php8.3-gd php8.3-mbstring php8.3
 sudo apt install -y php8.3-zip
 sudo /etc/init.d/apache2 restart
 
+
+
+
 cd $APACHE_DIR/sites-available
 sudo mv virtualhost.conf app.conf
 sudo /etc/init.d/apache2 restart
@@ -61,6 +64,12 @@ sudo a2ensite app.conf
 sudo a2enmod rewrite
 sudo /etc/init.d/apache2 restart
 
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+source ~/.bashrc
+nvm install v22.4.1
+
+
 cd $WEBSITE_DIR
 
 sudo chown -R $WEB_USER:$WEB_USER .
@@ -86,4 +95,10 @@ composer update
 php artisan key:generate
 php artisan migrate
 
+
+php artisan breeze:install
+php artisan migrate
+npm install
+
+npm run build
 sudo /etc/init.d/apache2 restart
