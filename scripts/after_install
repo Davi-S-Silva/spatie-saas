@@ -20,7 +20,7 @@ export SERVER_ALIAS=$(wget -qO- ifconfig.me/ip)
 #
 #  //************************
 
-sudo apt install php8.1 -y
+sudo apt install php8.2 -y
 sudo apt install composer -y
 
 # sudo apt-get install php-curl
@@ -28,7 +28,7 @@ sudo apt install composer -y
 # sudo apt-get install php-dom
 # sudo apt-get install php-xml
 # sudo apt-get install php-simplexml
-sudo apt-get install -y php8.1-mysql php8.1-zip php8.1-gd php8.1-mbstring php8.1-curl php8.1-dom php8.1-xml php8.1-gd
+sudo apt-get install -y php8.2-mysql php8.2-zip php8.2-gd php8.2-mbstring php8.2-curl php8.2-dom php8.2-xml php8.2-gd
 sudo /etc/init.d/apache2 restart
 
 cd $APACHE_DIR/sites-available
@@ -81,7 +81,7 @@ composer update
 
 # npm install
 
-php artisan migrate
 php artisan key:generate
+php artisan migrate
 
 sudo /etc/init.d/apache2 restart
