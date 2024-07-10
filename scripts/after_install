@@ -14,10 +14,10 @@ export SERVER_ALIAS=$(wget -qO- ifconfig.me/ip)
 
 
 # //*************************
-# 
+#
 #   ALTERAR move_upload_file_size no php.ini
-# 
-# 
+#
+#
 #  //************************
 
 sudo apt install php8.1 -y
@@ -27,7 +27,7 @@ sudo apt install composer -y
 # sudo apt-get install php-zip
 # sudo apt-get install php-dom
 # sudo apt-get install php-xml
-# sudo apt-get install php-simplexml  
+# sudo apt-get install php-simplexml
 sudo apt-get install -y php8.1-mysql php8.1-zip php8.1-gd php8.1-mbstring php8.1-curl php8.1-dom php8.1-xml php8.1-gd
 sudo /etc/init.d/apache2 restart
 
@@ -69,19 +69,19 @@ sudo chown -R $WEB_USER:$WEB_USER .
 # sudo chmod -R g+w storage/*
 # sudo chmod -R 777 storage/*
 # sudo chown -R www-data storage
-
+sudo cp .env.example .env
 sudo chmod -R u+x .
 sudo chmod -R g+w 777 storage
 sudo chmod -R 777 storage/*
 sudo chown -R $WEB_USER_DATA:$WEB_USER_DATA storage/*
 
 # instalar dependencias do projeto
-# composer install 
+# composer install
 composer update
 
 # npm install
 
-php artisan migrate 
+php artisan migrate
 php artisan key:generate
 
 sudo /etc/init.d/apache2 restart
