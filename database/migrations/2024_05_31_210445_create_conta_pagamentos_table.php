@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('banco');
             $table->integer('tipo');
             $table->foreignId('usuario_id')->references('id')->on('users');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

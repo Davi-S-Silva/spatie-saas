@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->foreignId('carga_id')->references('id')->on('cargas');
             $table->foreignId('status_id')->references('id')->on('status');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

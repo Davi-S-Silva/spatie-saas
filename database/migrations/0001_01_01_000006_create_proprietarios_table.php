@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome_razao_social');
             $table->string('cpf_cnpj');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

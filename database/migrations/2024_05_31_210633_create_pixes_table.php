@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('chave')->unique();
             $table->foreignId('conta_id')->references('id')->on('conta_pagamentos');
             $table->foreignId('usuario_id')->references('id')->on('users');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

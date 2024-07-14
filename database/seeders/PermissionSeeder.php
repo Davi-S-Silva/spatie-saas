@@ -99,6 +99,16 @@ class PermissionSeeder extends Seeder
             'guard_name' => 'web',
         ]);
         DB::table('permissions')->insert([
+            'name' => 'Novo Tenant',
+            'model' => 'Tenant',
+            'guard_name' => 'web',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Listar Tenants',
+            'model' => 'Tenant',
+            'guard_name' => 'web',
+        ]);
+        DB::table('permissions')->insert([
             'name' => 'Criar Colaborador',
             'model' => 'Colaborador',
             'guard_name' => 'web',

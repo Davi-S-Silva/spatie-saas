@@ -20,7 +20,12 @@ export SERVER_ALIAS=$(wget -qO- ifconfig.me/ip)
 #
 #  //************************
 
-sudo apt install php8.2 -y
+# sudo apt install php8.2 -y
+sudo dpkg -l | grep php | tee packages.txt
+sudo add-apt-repository ppa:ondrej/php # Press enter when prompted.
+sudo apt update
+sudo apt install php8.2 php8.2-cli php8.2-{bz2,curl,mbstring,intl}
+
 sudo apt install composer -y
 
 # sudo apt-get install php-curl
@@ -28,7 +33,7 @@ sudo apt install composer -y
 # sudo apt-get install php-dom
 # sudo apt-get install php-xml
 # sudo apt-get install php-simplexml
-sudo apt-get install -y php8.2-mysql php8.2-zip php8.2-gd php8.2-mbstring php8.2-curl php8.2-dom php8.2-xml php8.2-gd
+sudo apt-get install -y php8.3-mysql php8.3-zip php8.3-gd php8.3-mbstring php8.3-curl php8.3-dom php8.3-xml php8.3-gd php8.3-soap php8.3-ext-bcmath
 sudo /etc/init.d/apache2 restart
 
 cd $APACHE_DIR/sites-available

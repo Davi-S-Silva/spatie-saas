@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('tipo');//fisico ou juridico
             $table->foreignId('empresa_id')->references('id')->on('empresas');
             $table->foreignId('endereco_id')->references('id')->on('enderecos');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

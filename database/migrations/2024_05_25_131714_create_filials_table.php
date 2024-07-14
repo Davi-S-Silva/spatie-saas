@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('responsavel');
             $table->string('cnpj')->unique();
             $table->string('ie')->unique();
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->timestamps();
         });

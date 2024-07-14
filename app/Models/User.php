@@ -3,7 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use  Notifiable, HasRoles, Tenantable;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'empresa_id',
+        'tenant_id',
     ];
 
     /**
@@ -48,8 +49,23 @@ class User extends Authenticatable
         ];
     }
 
+    public function newId(){
+        $count = $this->all();
+        if($count->count()==0){
+            $this->id = 1;
+        }
+        else{
+            $this->id = $this->all()->last()->id +=1;
+        }
+    }
+
     public function empresa()
     {
         return $this->belongsToMany(Empresa::class);
+    }
+
+    public function tenant()
+    {
+        return $this->belongsToMany(Tenant::class);
     }
 }

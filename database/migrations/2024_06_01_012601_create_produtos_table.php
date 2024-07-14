@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nome');
             $table->string('foto_path');
             $table->timestamps();
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
         });
     }
 

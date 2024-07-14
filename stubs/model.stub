@@ -2,13 +2,14 @@
 
 namespace {{ namespace }};
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Traits\Tenantable;
 
 class {{ class }} extends Model
 {
-    use HasFactory,HasRoles;
+    use HasRoles, Tenantable;
+    protected $guarded = ['id'];
 
     public function newId(){
         $count = $this->all();

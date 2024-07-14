@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('nota');
             $table->double('valor');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

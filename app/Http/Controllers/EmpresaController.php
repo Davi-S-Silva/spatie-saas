@@ -72,7 +72,7 @@ class EmpresaController extends Controller
             $empresa->enderecos()->attach($endereco->id);
 
             $contato = new Contato();
-            $contato->celular =$request->Telefone;
+            $contato->telefone =$request->Telefone;
             $contato->whatsapp = $request->WhatsApp;
             $contato->email = $request->Email;
             $contato->descricao = $request->Descricao;

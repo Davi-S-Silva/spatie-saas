@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('operacao');
             $table->integer('conta');
             $table->foreignId('conta_id')->references('id')->on('conta_pagamentos');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

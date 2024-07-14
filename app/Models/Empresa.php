@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,7 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Empresa extends Model
 {
-    use HasFactory,HasRoles;
+    use Tenantable,HasRoles;
 
     public function newId(){
         $count = $this->all();

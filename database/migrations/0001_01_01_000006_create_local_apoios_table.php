@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->timestamps();
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->foreignId('empresa_id')->references('id')->on('empresas');
             $table->foreignId('usuario_id')->references('id')->on('users');
             // $table->foreignId('endereco _id')->references('id')->on('enderecos');

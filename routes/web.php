@@ -23,15 +23,25 @@ use NFePHP\DA\CTe\Dacte;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VeiculoController;
 use App\Models\Empresa;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 // use Spatie\DbDumper\Databases\MySql;
 
 Route::get('/', function () {
     return view('welcome');
+    $users = User::all();
+    echo session('tenant_id');
+
+    echo '<pre>';
+    foreach($users as $user){
+        print_r($user->getAttributes());
+    }
+    echo '</pre>';
 });
 
 Route::get('/dashboard', function () {
@@ -44,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Route::get('/permission', [PermissionController::class, 'index'])->name('permission.index');
-    Route::middleware(['role:super-admin|admin'])->group(function(){
+    Route::middleware(['role:super-admin'])->group(function(){
         Route::resource('permissions',PermissionController::class);
         Route::resource('roles',RoleController::class);
         Route::get('roles/{role}/give-permission',[RoleController::class, 'addEditPermissionToRole'])->name('roles.give-permission');
@@ -52,6 +62,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('users',UserController::class);
         Route::put('users/{user}/give-role-user',[UserController::class, 'storeRoleToUser'])->name('users.store-give-role-user');
         Route::resource('empresa',EmpresaController::class);
+        Route::resource('tenant',TenantController::class);
         Route::get('empresas/certificado',[EmpresaController::class, 'certificate'])->name('empresa.certificate');
         Route::get('empresas/notas',[EmpresaController::class, 'notas'])->name('empresa.notas');
         Route::post('empresas/notas',[EmpresaController::class, 'notasStore'])->name('empresa.notas');
