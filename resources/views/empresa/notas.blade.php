@@ -34,9 +34,9 @@
                             </div>
                             @csrf
                             @forelse ($notas as $nota)
-                                @if ($nota != '.' && $nota != '..' && $nota != 'Autorizada' && $nota != 'Transportadas')
+                                @if ($nota != '.' && $nota != '..')
                                     {{-- <li>{{ $nota }} <a href="{{ $nota }}" class="exclui_nota"><i class="fa-regular fa-trash-can"></i></a></li> --}}
-                                    <li class="d-flex justify-around mb-3" id="nota{{ $nota }}">
+                                    <li class="d-flex justify-around mb-3" id="nota{{ str_replace(' ','_',$nota) }}">
                                         <div>
                                             <input type="checkbox" name="Notas[]" value="{{ $nota }}" id="" class="mr-2">{{ $nota }}
                                             </div>

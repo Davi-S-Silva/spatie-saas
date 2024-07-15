@@ -64,6 +64,7 @@ class TenantController extends Controller
             $empresa->nome_fantasia = $request->input('NomeFantasia');
             $empresa->tipo_doc = $request->PessoaFisicaJuridica;
             $empresa->doc = $request->CpfCnpj;
+            $empresa->tenant_id = $tenant->id;
             $empresa->usuario_id = Auth::user()->id;
             $empresa->save();
 
@@ -96,10 +97,10 @@ class TenantController extends Controller
             return redirect()->route('empresa.show',['empresa'=>$empresa->id])->with('message', ['status' => 'success', 'msg' => 'Empresa Cadastrada com sucesso!']);
         }catch(Exception $ex){
             DB::rollBack();
-
-            echo '<pre>';
-            print_r($ex->getMessage());
-            echo '</pre>';
+            return redirect()->back()->with('message', ['status' => 'danger', 'msg' => 'Empresa não Cadastrada! erro: '.$ex->getCode()]);
+            // echo '<pre>';
+            // print_r($ex->getMessage());
+            // echo '</pre>';
 
 
         }

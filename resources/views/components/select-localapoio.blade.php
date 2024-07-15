@@ -15,8 +15,6 @@
                 @else
                     <option value="{{ $local->id }}">{{ $empresa->nome_fantasia }} - {{ $local->name }}</option>
                 @endif
-
-
             @endforeach
         @endforeach
     </select>

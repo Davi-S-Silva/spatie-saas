@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Tenantable;
+// use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 
 class Status extends Model
 {
-    use Tenantable,HasRoles;
+    use HasRoles;
     protected $table = 'status';
 
     public function newId(){

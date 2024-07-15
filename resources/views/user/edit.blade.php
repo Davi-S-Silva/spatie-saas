@@ -21,11 +21,20 @@
                                     @method('PUT')
                                         <select name="RolesUser[]" multiple id="" class="form-select form-select-lg mb-3">
                                             @foreach ($roles as $role)
-                                            @if ($role !== 'super-admin')
-                                            <option value="{{ $role }}"
-                                                {{ in_array($role, $userRoles) ? 'selected' : '' }}>{{ $role }}
-                                            </option>
-                                        @endif
+                                            @if ($role->name !== 'super-admin')
+                                                @if ($userLogado->roles->first()->id !=1)
+                                                    @if (str_contains($role->name,'tenant'))
+                                                        <option value="{{ $role->name }}"
+                                                            {{ in_array($role, $userRoles) ? 'selected' : '' }}>{{ str_replace('tenant-','',$role->name)}}
+                                                        </option>
+                                                    @endif
+                                                @else
+                                                    <option value="{{ $role->name }}"
+                                                        {{ in_array($role, $userRoles) ? 'selected' : '' }}>{{ $role->name }}
+                                                    </option>
+                                                @endif
+                                                {{-- {{ in_array($role, $userRoles) ? 'selected' : '' }}>{{ $role }} --}}
+                                            @endif
                                         @endforeach
                                     </select>
                                     <input type="submit" value="Atualizar" class="btn btn-primary">

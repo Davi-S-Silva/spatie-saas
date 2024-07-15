@@ -86,3 +86,9 @@ a {
 .stop_mov_ajax{
     display: none;
 }
+#NovoProp{
+    display: none;
+}
+input[name=NameProp],input[name=DocProp]{
+    display: none;
+}

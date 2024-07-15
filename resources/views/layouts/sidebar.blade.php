@@ -20,6 +20,7 @@
                         <span class="ml-3">Dashboard</span>
                     </a>
                 </li>
+                @can('Listar Empresas')
                 <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -35,9 +36,10 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </button>
+
                     <ul id="dropdown-empresa" class="hidden py-2 space-y-2">
                         {{-- ESTOQUE --}}
-                        @can('Listar Empresas')
+
                             <li class="hover_menu position-relative">
                                 <a href="{{ route('empresa.index') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
@@ -53,7 +55,7 @@
                                     @endforeach
                                 </ul>
                             </li>
-                        @endcan
+
                         @can('Nova Empresa')
                             <li>
                                 <a href="{{ route('empresa.create') }}"
@@ -72,7 +74,7 @@
                                         sidebar-toggle-item>Certificado</span></a>
                             </li>
                         @endcan
-                        {{-- @can('Visualizar Certificado') --}}
+                        @can('Carrega Notas')
                         <li>
                             <a href="{{ route('empresa.notas') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
@@ -80,7 +82,7 @@
                                     class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Notas
                                     Transportes</span></a>
                         </li>
-                        {{-- @endcan --}}
+                        @endcan
 
                         @can('Visualizar Usuario')
                             <li>
@@ -120,6 +122,8 @@
                         </li> --}}
                     </ul>
                 </li>
+                @endcan
+
                 @can('Listar Tenants')
                 <li>
                     <button type="button"
@@ -156,7 +160,7 @@
                                 </ul>
                             </li>
 
-                        @can('Nova Empresa')
+                        @can('Novo Tenant')
                             <li>
                                 <a href="{{ route('tenant.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group

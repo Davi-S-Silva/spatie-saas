@@ -32,16 +32,27 @@ class RoleSeeder extends Seeder
             'guard_name' => 'web',
         ]);
         DB::table('roles')->insert([
+            'name' => 'tenant-usuario',
+            'guard_name' => 'web',
+        ]);
+        DB::table('roles')->insert([
             'name' => 'colaborador',
+            'guard_name' => 'web',
+        ]);
+        DB::table('roles')->insert([
+            'name' => 'tenant-colaborador',
             'guard_name' => 'web',
         ]);
         DB::table('roles')->insert([
             'name' => 'funcionario',
             'guard_name' => 'web',
         ]);
+        DB::table('roles')->insert([
+            'name' => 'tenant-funcionario',
+            'guard_name' => 'web',
+        ]);
 
         $role = Role::where('name','super-admin')->get()->first();
-
         $role->syncPermissions(Permission::all());
 
     }

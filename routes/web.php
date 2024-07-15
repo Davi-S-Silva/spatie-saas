@@ -43,6 +43,9 @@ Route::get('/', function () {
     }
     echo '</pre>';
 });
+Route::get('/info', function () {
+    return phpinfo();
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -53,16 +56,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Route::get('/permission', [PermissionController::class, 'index'])->name('permission.index');
-    Route::middleware(['role:super-admin'])->group(function(){
-        Route::resource('permissions',PermissionController::class);
-        Route::resource('roles',RoleController::class);
-        Route::get('roles/{role}/give-permission',[RoleController::class, 'addEditPermissionToRole'])->name('roles.give-permission');
-        Route::put('roles/{role}/give-permission',[RoleController::class, 'storePermissionToRole'])->name('roles.store-give-permission');
-        Route::resource('users',UserController::class);
-        Route::put('users/{user}/give-role-user',[UserController::class, 'storeRoleToUser'])->name('users.store-give-role-user');
+
+    // Route::middleware(['role:tenant-colaborador|admin|tenant-admin|super-admin'])->group(function(){
+    // Route::group(['middleware'=>['role:tenant-admin|admin|super-admin']],function(){
         Route::resource('empresa',EmpresaController::class);
-        Route::resource('tenant',TenantController::class);
         Route::get('empresas/certificado',[EmpresaController::class, 'certificate'])->name('empresa.certificate');
         Route::get('empresas/notas',[EmpresaController::class, 'notas'])->name('empresa.notas');
         Route::post('empresas/notas',[EmpresaController::class, 'notasStore'])->name('empresa.notas');
@@ -70,6 +67,9 @@ Route::middleware('auth')->group(function () {
         Route::post('empresas/certificado',[EmpresaController::class, 'certificateStore'])->name('empresa.certificate');
         Route::get('empresas/deleta-nota-carregada/{nota}',[EmpresaController::class, 'deletaNotaCarregada'])->name('empresa.deletaNotaCarregada');
         Route::post('empresas/delete-todas-notas-carregadas',[EmpresaController::class, 'deletaTodasNotaCarregada'])->name('empresa.deletaTodasNotaCarregada');
+
+        Route::resource('users',UserController::class);
+        Route::put('users/{user}/give-role-user',[UserController::class, 'storeRoleToUser'])->name('users.store-give-role-user');
         Route::resource('localapoio',LocalApoioController::class);
         Route::resource('colaboradores',ColaboradorController::class);
         Route::resource('clientes',ClienteController::class);
@@ -90,8 +90,23 @@ Route::middleware('auth')->group(function () {
         Route::post('movimentacao/{movimentacao}/start',[MovimentacaoVeiculoController::class, 'start'])->name('movimentacao.start');
         // Route::get('movimentacao/{movimentacao}/stop',[MovimentacaoVeiculoController::class, 'stop'])->name('movimentacao.stop');
         Route::post('movimentacao/{movimentacao}/stop',[MovimentacaoVeiculoController::class, 'stop'])->name('movimentacao.stop');
+    // });
+
+
+    // Route::get('/permission', [PermissionController::class, 'index'])->name('permission.index');
+    Route::middleware(['role:super-admin'])->group(function(){
+        Route::resource('permissions',PermissionController::class);
+        Route::resource('roles',RoleController::class);
+        Route::get('roles/{role}/give-permission',[RoleController::class, 'addEditPermissionToRole'])->name('roles.give-permission');
+        Route::put('roles/{role}/give-permission',[RoleController::class, 'storePermissionToRole'])->name('roles.store-give-permission');
+        // Route::resource('empresa',EmpresaController::class);
+        Route::resource('tenant',TenantController::class);
+        // Route::post('empresa/store',[EmpresaController::class, 'store'])->name('empresa.store');
     });
 
+    Route::group(['middleware'=>['role:tenant-colaborador']],function(){
+        // Route::get('empresa',[EmpresaController::class, 'index'])->name('empresa.index');
+    });
 
     Route::get('/dacte',function(){
 
