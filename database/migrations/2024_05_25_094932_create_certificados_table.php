@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('password');
             $table->date('validate');
             $table->string('path');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->foreignId('empresa_id')->references('id')->on('empresas');
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->timestamps();

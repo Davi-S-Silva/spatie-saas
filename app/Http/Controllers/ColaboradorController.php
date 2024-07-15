@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Colaborador;
 use App\Models\Contato;
+use App\Models\Empresa;
 use App\Models\Endereco;
 use App\Models\FuncaoColaborador;
 use App\Models\LocalApoio;
@@ -47,7 +48,6 @@ class ColaboradorController extends Controller
             // echo '</pre>';
             // exit;
             $colaborador = new Colaborador();
-
             $colaborador->newId();
             $colaborador->name = $request->name;
             $colaborador->apelido = $request->apelido;
@@ -59,6 +59,7 @@ class ColaboradorController extends Controller
 
 
             $colaborador->empresa_id = LocalApoio::find($request->empresa_local_apoio_id)->empresa->id;
+            $colaborador->tenant_id = (is_null($colaborador->tenant_id))?Empresa::find($colaborador->empresa_id)->tenant_id:$colaborador->tenant_id;
             $colaborador->local_apoio_id = $request->empresa_local_apoio_id;
             $colaborador->usuario_id = Auth::user()->id;
             $colaborador->setStatus('Disponivel');
@@ -84,9 +85,9 @@ class ColaboradorController extends Controller
             $contato->save();
             $colaborador->contatos()->attach($contato->id);
 
-            echo '<pre>';
+            // echo '<pre>';
             // print_r($colaborador->getAttributes());
-            echo '</pre>';
+            // echo '</pre>';
             // exit;
             DB::commit();
         }catch(Exception $ex){

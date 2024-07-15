@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nome');
             $table->foreignId('filial_id')->references('id')->on('filials');
             $table->foreignId('contato_id')->references('id')->on('contatos');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

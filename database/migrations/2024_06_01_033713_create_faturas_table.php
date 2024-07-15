@@ -16,6 +16,7 @@ return new class extends Migration
             $table->double('valor');
             $table->text('descricao');
             $table->foreignId('empresa_id')->references('id')->on('empresas');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->foreignId('cliente_id')->references('id')->on('clientes');
             $table->foreignId('filial_cliente_id')->references('id')->on('filials');
             $table->foreignId('local_apoio_id')->references('id')->on('local_apoios');

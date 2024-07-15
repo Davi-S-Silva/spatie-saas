@@ -17,6 +17,7 @@ return new class extends Migration
             $table->double('valor');
             $table->text('descricao');
             $table->foreignId('prestacao_carga_id')->references('id')->on('prestacao_cargas');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

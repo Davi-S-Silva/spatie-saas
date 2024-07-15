@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('foto_path')->nullable();
             $table->string('email')->unique();
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

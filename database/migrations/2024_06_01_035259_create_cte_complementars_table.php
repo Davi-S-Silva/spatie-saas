@@ -16,6 +16,7 @@ return new class extends Migration
             // $table->bigInteger('chave_acesso_cte')->unique();
             $table->foreignId('cte_original_id')->references('id')->on('ctes');
             $table->foreignId('cte_id')->references('id')->on('ctes');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

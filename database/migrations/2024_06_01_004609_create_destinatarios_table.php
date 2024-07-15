@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('cpf_cnpj')->unique();
             $table->string('ie')->nullable();
             $table->integer('tipo');//fisico ou juridico
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->foreignId('endereco_id')->references('id')->on('enderecos');
             $table->foreignId('contato_id')->references('id')->on('contatos');

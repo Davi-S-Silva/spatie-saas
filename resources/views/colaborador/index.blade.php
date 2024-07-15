@@ -18,7 +18,7 @@
                                 </ul>
                             </li>
                         </ul>
-                        <b>{{ $colaborador->localApoio->name }}</b>
+                        <b>{{ $colaborador->empresa->nome }} - {{ $colaborador->localApoio->name }}</b>
                     @endforeach
                 </div>
             </div>

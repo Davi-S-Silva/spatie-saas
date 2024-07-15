@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('cep');
             $table->integer('cidade_id');
             $table->integer('estado_id');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

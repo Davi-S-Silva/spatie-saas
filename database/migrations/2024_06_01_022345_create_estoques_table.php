@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('minimo');
             $table->foreignId('produto_id')->references('id')->on('produtos');
             $table->foreignId('empresa_id')->references('id')->on('empresas');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->foreignId('local_apoio_id')->references('id')->on('local_apoios');
             $table->timestamps();
         });

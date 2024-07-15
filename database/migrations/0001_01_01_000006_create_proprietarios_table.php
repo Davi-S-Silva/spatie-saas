@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('proprietarios', function (Blueprint $table) {
             $table->id();
             $table->string('nome_razao_social');
-            $table->string('cpf_cnpj');
+            $table->string('cpf_cnpj')->unique();
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

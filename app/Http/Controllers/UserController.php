@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -93,10 +94,24 @@ class UserController extends Controller implements HasMiddleware
             $status = 'danger';
             return redirect()->back()->with('message', ['status' => $status, 'msg' => $msg]);
         }
-        $roles = Role::orderBy('name', 'DESC')->pluck('name', 'name')->all();
+        $roles = Role::select('name')->orderBy('name', 'ASC')->get();
+        // $roles = Role::orderBy('name', 'DESC')->pluck('name', 'name')->all();
+
+        // return $user->roles;
+
+        $userLogado = User::findOrFail(Auth::user()->id);
+        // if(isset($userLogado->roles->first()->id) && $userLogado->roles->first()->id == 3){
+        //     // $roles = Role::orderBy('name', 'DESC')->whereLike('name','%tenant%')->pluck('name', 'name')->get();
+        //     $roles = Role::where('name','like','%tenant%')->orderBy('name', 'ASC')->get();
+        //     // $roles = Role::where('name','like','%tenant%')->orderBy('name', 'DESC')->pluck('name', 'name')->get();
+        // }
+        // if(isset($user->roles->first()->id) && $user->roles->first()->id == 2){
+        //     $roles = Role::orderBy('name', 'DESC')->pluck('name', 'name')->where('name','!like','%tenant%')->get();
+        // }
+
         $userRoles = $user->roles->pluck('name', 'name')->all();
         // return redirect()->back()->with('message', ['status' => $status, 'msg' => $msg]);
-        return view('user.edit',['user'=>$user,'roles'=>$roles, 'userRoles'=>$userRoles]);
+        return view('user.edit',['user'=>$user,'userLogado'=>$userLogado,'roles'=>$roles, 'userRoles'=>$userRoles]);
     }
 
     /**

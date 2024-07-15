@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('tipo_cte');//normal ou complementar
             $table->double('valor');
             $table->foreignId('empresa_id')->references('id')->on('empresas');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->foreignId('local_apoio_id')->references('id')->on('local_apoios');
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->foreignId('cliente_id')->references('id')->on('clientes');

@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('mdfes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('empresa_id')->references('id')->on('empresas');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
+            $table->foreignId('local_apoio_id')->references('id')->on('local_apoios');
+            $table->foreignId('usuario_id')->references('id')->on('users');
+            $table->foreignId('cliente_id')->references('id')->on('clientes');
+            $table->foreignId('filial_cliente_id')->references('id')->on('filials');
+            $table->foreignId('carga_id')->references('id')->on('cargas');
+            $table->foreignId('status_id')->references('id')->on('status');
             $table->timestamps();
         });
     }

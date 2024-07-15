@@ -1,6 +1,6 @@
 $(function () {
 
-    var base = 'http://localhost:8000/';
+    var base = 'http://localhost:8080/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
@@ -376,6 +376,8 @@ $(function () {
                 $('.response-message-ajax').addClass('alert-success')
                 $('.response-message-ajax').text(response.msg)
                 var nota = response.nota;
+
+                console.log(nota)
                 $("#nota"+nota).removeClass('d-flex')
                 $("#nota"+nota).css('display','none')
                 // window.location.href=''
@@ -416,6 +418,12 @@ $(function () {
             },
             success:function(response){
                 console.log(response)
+                $('.response-message-ajax').addClass('alert-success')
+                $('.response-message-ajax').text(response.msg)
+                var nota = response.nota;
+                $("#nota"+nota).removeClass('d-flex')
+                $("#nota"+nota).css('display','none')
+                window.location.href=''
             },
             error:function(response){
                 console.log(response)
@@ -883,6 +891,104 @@ if($('.form_add_notas').attr('action')==""){
         })
         return false
     })
+    var NameProp = $('input[name="NameProp"]')
+    var DocProp = $('input[name="DocProp"]')
+    NameProp.attr('disabled','disabled')
+    DocProp.attr('disabled','disabled')
+    $("#LinkNovoProp").click(function(){
+        $('#NovoProp').toggle()
+        var selectProp=$('#PropVeiculo')
 
+
+        if(selectProp.attr('disabled')){
+            selectProp.removeClass('d-none')
+            selectProp.removeAttr('disabled')
+            NameProp.attr('disabled','disabled')
+            DocProp.attr('disabled','disabled')
+        }else{
+            selectProp.attr('disabled','disabled')
+            selectProp.addClass('d-none')
+            DocProp.removeAttr('disabled')
+            NameProp.removeAttr('disabled')
+            NameProp.toggle()
+            DocProp.toggle()
+
+            selectProp.val('')
+
+            // alert(NameProp.val())
+            if(NameProp.val()==''){
+                NameProp.focus()
+                $('.response-message-ajax').show()
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text('Digite o nome do Proprietário')
+                return false
+            }
+            // alert(NameProp.val())
+            if(DocProp.val()==''){
+                DocProp.focus()
+                $('.response-message-ajax').show()
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text('Digite o documento do Proprietário')
+                return false
+            }
+        }
+        return false
+    })
+
+
+    $('form[name="FormVeiculo"]').submit(function(){
+        var selectProp=$('#PropVeiculo')
+        if(NameProp.val()=='' && selectProp.val()==''){
+            NameProp.focus()
+            $('.response-message-ajax').show()
+            $('.response-message-ajax').addClass('alert-danger')
+            $('.response-message-ajax').text('Digite o nome do Proprietário')
+            return false
+        }
+        // alert(NameProp.val())
+        if(DocProp.val()=='' && selectProp.val()==''){
+            DocProp.focus()
+            $('.response-message-ajax').show()
+            $('.response-message-ajax').addClass('alert-danger')
+            $('.response-message-ajax').text('Digite o documento do Proprietário')
+            return false
+        }
+        // console.log($(this).serialize())
+
+        $.ajax({
+            type:'post',
+            url: $(this).attr('action'),
+            dataType:'json',
+            data:$(this).serialize(),
+            beforeSend:function(){
+
+            },
+            success:function(response){
+                // alert(response)
+                // console.log(response)
+                if(response.status==0){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                }
+                if(response.status==200){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').text(response.msg)
+                    console.log(response.msg)
+
+                }
+            },
+            error:function(response){
+                $('.response-message-ajax').show()
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text(response.msg)
+                return false;
+            }
+        })
+        return false
+    });
 
 });

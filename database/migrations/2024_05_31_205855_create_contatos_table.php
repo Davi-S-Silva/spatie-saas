@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('whatsapp')->nullable();
             $table->string('email')->nullable();
             $table->string('descricao')->nullable();
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->timestamps();
         });

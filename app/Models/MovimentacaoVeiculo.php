@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Permission\Traits\HasRoles;
 
 class MovimentacaoVeiculo extends Model
 {
-    use HasFactory,HasRoles;
+    use Tenantable,HasRoles;
 
     public function newId(){
         $count = $this->all();

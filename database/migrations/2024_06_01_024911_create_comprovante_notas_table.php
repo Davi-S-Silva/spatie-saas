@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->double('valor');
             $table->string('path');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 
 class Colaborador extends Model
 {
-    use HasFactory,HasRoles;
+    use Tenantable,HasRoles;
     public function newId(){
         $count = $this->all();
         if($count->count()==0){
@@ -56,5 +56,10 @@ class Colaborador extends Model
 
     public function setStatus($status){
         $this->status_id = Status::where('name',$status)->where('tipo',5)->get()->first()->id;
+    }
+
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class);
     }
 }

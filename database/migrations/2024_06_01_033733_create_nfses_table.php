@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('chave_acesso');
             $table->double('valor');
             $table->foreignId('fatura_id')->references('id')->on('faturas');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->foreignId('status_id')->references('id')->on('status');
             $table->timestamps();
         });
