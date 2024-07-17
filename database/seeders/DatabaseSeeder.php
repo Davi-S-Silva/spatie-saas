@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             TipoColaboradorSeeder::class,
             FuncaoColaboradorSeeder::class,
             Status::class,
+            CombustivelSeeder::class,
         ]);
     }
 }

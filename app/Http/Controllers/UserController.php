@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empresa;
+use App\Models\FuncaoColaborador;
+use App\Models\TipoColaborador;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -23,15 +25,12 @@ class UserController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            // examples with aliases, pipe-separated names, guards, etc:
-            // 'role_or_permission:manager|edit articles',
             new Middleware('permission:Deletar Usuario', only: ['destroy']),
-            new Middleware('permission:Visualizar Usuario', only: ['index', 'show']),
+            new Middleware('permission:Show Usuario', only: ['show']),
+            new Middleware('permission:Listar Usuario', only: ['index']),
             new Middleware('permission:Editar Usuario', only: ['edit', 'update']),
             new Middleware('permission:Criar Usuario', only: ['create', 'store']),
             new Middleware('permission:Modificar Role Usuario', only: ['storeRoleToUser']),
-            // new Middleware(\Spatie\Permission\Middleware\RoleMiddleware::using('manager'), except:['show']),
-            // new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('delete role'), only:['destroy']),
         ];
     }
     public function index()
@@ -55,18 +54,34 @@ class UserController extends Controller implements HasMiddleware
     {
         try {
             DB::beginTransaction();
-            print_r($request->input());
+            // print_r($request->input());
 
             // User::create($request->all());
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
-
-            $user->save();
             $empresa = Empresa::find($request->empresa_id);
+            if($empresa->id != 1){
+                $user->tenant_id = $empresa->tenant_id;
+            }
+            $user->save();
             $user->empresa()->attach($empresa->id);
+            if($empresa->id == 1){
+                $user->roles()->attach(4);//
+            }else{
+                $user->roles()->attach(5);//
+            }
+            if(!is_null($request->colaborador_id)){
+                $ColabUser = DB::table('colaborador_user')->where('colaborador_id',$request->colaborador_id)->get();
+
+                if($ColabUser->count()!=0){
+                    throw new Exception('Colaborador ja tem Usuario atribuido');
+                }
+                $user->colaborador()->attach($request->colaborador_id);
+            }
             DB::commit();
+            return 'usuario cadastrado e atribuido ao colaborador com sucesso';
         } catch (Exception $ex) {
             DB::rollback();
             return $ex->getMessage();
@@ -89,7 +104,7 @@ class UserController extends Controller implements HasMiddleware
         // $msg = 'Dados alterados com sucesso';
         // $status = 'success';
         $user = User::findOrFail($id);
-        if (isset($user->roles->first()->id) && $user->roles->first()->id == 1) {
+        if (isset($user->roles->first()->id) && ($user->roles->first()->name == 'super-admin' || $user->roles->first()->name == 'tenant-admin-master')) {
             $msg = 'não é possivel alterar roles e permissions de usuario master';
             $status = 'danger';
             return redirect()->back()->with('message', ['status' => $status, 'msg' => $msg]);
@@ -111,7 +126,9 @@ class UserController extends Controller implements HasMiddleware
 
         $userRoles = $user->roles->pluck('name', 'name')->all();
         // return redirect()->back()->with('message', ['status' => $status, 'msg' => $msg]);
-        return view('user.edit',['user'=>$user,'userLogado'=>$userLogado,'roles'=>$roles, 'userRoles'=>$userRoles]);
+        $TipoColaborador = TipoColaborador::orderby('tipo','asc')->get();
+        $FuncaoColaborador = FuncaoColaborador::orderby('funcao','asc')->get();
+        return view('user.edit',['user'=>$user,'userLogado'=>$userLogado,'roles'=>$roles, 'userRoles'=>$userRoles,'TipoColaborador'=>$TipoColaborador,'FuncaoColaborador'=>$FuncaoColaborador]);
     }
 
     /**
@@ -129,9 +146,9 @@ class UserController extends Controller implements HasMiddleware
      */
     public function destroy(User $user)
     {
-        $msg = 'não é possivel deletar usuario master';
+        $msg = 'não é possivel deletar este usuario';
         $status = 'danger';
-        if ($user->roles->first()->id != 1) {
+        if ($user->roles->first()->name != 'super-admin' && $user->roles->first()->name != 'tenant-admin-master') {
             $user->delete();
             $msg = 'User ' . $user->name . ' deleted';
             $status = 'success';

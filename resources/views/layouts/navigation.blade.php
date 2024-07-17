@@ -1,3 +1,4 @@
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,15 +16,17 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    @role('super-admin|admin')
+                    @role('super-admin')
                         @can('Visualizar Permissao')
                             <x-nav-link :href="route('permissions.index')" :active="request()->routeIs('permissions.index')">
                                 {{ __('Permissions') }}
                             </x-nav-link>
                         @endcan
+                        @can('Visualizar Regra')
                         <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
                             {{ __('Roles') }}
                         </x-nav-link>
+                        @endcan
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                             {{ __('Users') }}
                         </x-nav-link>
@@ -31,15 +34,21 @@
                 </div>
             </div>
 
-
+            <div class="hidden sm:flex sm:items-center sm:ms-6">
+                {{ Auth::user()->empresa->first()->nome }}
+            </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->roles->first()->name }} - {{ Auth::user()->name }}</div>
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md
+                             text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            {{-- <div>{{(str_contains( Auth::user()->roles->first()->name, 'tenant'))?str_replace('tenant-','', Auth::user()->roles->first()->name): Auth::user()->roles->first()->name }} --}}
+                            <div>
+                                {{ (count(Auth::user()->colaborador)!=0)?Auth::user()->colaborador->first()->id.' - '.Auth::user()->colaborador->first()->funcao->funcao:Auth::user()->roles->first()->name }}
+                                - {{ Auth::user()->name }}</div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"

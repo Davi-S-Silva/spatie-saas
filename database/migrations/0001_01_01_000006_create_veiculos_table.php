@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('foto_path')->nullable();
             $table->foreignId('empresa_id')->references('id')->on('empresas');
             $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
-            $table->foreignId('local_apoio_id')->references('id')->on('local_apoios');
+            $table->foreignId('local_apoio_id')->nullable()->references('id')->on('local_apoios');
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->foreignId('status_id')->references('id')->on('status');
             $table->foreignId('proprietario_id')->references('id')->on('proprietarios');

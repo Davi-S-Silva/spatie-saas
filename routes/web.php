@@ -5,6 +5,7 @@ ini_set('display_errors', 'On');
 
 // require_once '../bootstrap.php';
 
+use App\Http\Controllers\AbastecimentoController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CargaController;
 use App\Http\Controllers\ClienteController;
@@ -23,6 +24,7 @@ use NFePHP\DA\CTe\Dacte;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VeiculoController;
@@ -75,8 +77,13 @@ Route::middleware('auth')->group(function () {
         Route::resource('clientes',ClienteController::class);
         Route::resource('filial',FilialController::class);
         Route::get('filial/create/cliente/{cliente}',[FilialController::class, 'create'])->name('filial.create');
+
         Route::resource('veiculo',VeiculoController::class);
         Route::get('veiculo/mudarVeiculoDeCliente/{veiculo}/{cliente}',[VeiculoController::class, 'mudarVeiculoDeCliente'])->name('mudarVeiculoDeCliente');
+        Route::post('veiculo/{veiculo}/associa-colaborador',[VeiculoController::class, 'associaColaborador'])->name('associaColaborador');
+        // Route::post('veiculo/associa-colaborador/{veiculo}/{colaborador}',[VeiculoController::class, 'associaColaborador'])->name('associaColaboradorStore');
+
+
         Route::resource('carga',CargaController::class);
         Route::post('carga/{carga}/setnotas',[CargaController::class, 'setNotas'])->name('carga.setNotas');
         Route::get('carga/{filial}/getCargasDisponiveis',[CargaController::class, 'getCargasDisponiveis'])->name('carga.getCargasDisponiveis');
@@ -90,8 +97,12 @@ Route::middleware('auth')->group(function () {
         Route::post('movimentacao/{movimentacao}/start',[MovimentacaoVeiculoController::class, 'start'])->name('movimentacao.start');
         // Route::get('movimentacao/{movimentacao}/stop',[MovimentacaoVeiculoController::class, 'stop'])->name('movimentacao.stop');
         Route::post('movimentacao/{movimentacao}/stop',[MovimentacaoVeiculoController::class, 'stop'])->name('movimentacao.stop');
-    // });
+        // });
 
+        Route::resource('abastecimento',AbastecimentoController::class);
+
+        //SEARCH
+        Route::post('search',[SearchController::class,'search'])->name('search');
 
     // Route::get('/permission', [PermissionController::class, 'index'])->name('permission.index');
     Route::middleware(['role:super-admin'])->group(function(){

@@ -11,14 +11,26 @@
                     {{-- <form action="{{ route('veiculo.store') }}" method="post" enctype="multipart/form-data">
                         @include('colaborador.form-colaborador')
                     </form> --}}
+                    <div>
+                        <form action="" name="ColaboradorVeiculo" method="post">
+                            <span></span>
+                            {{-- <input type="hidden" name="Veiculo"> --}}
+                            <x-select-colaborador :funcao=null/>
+                            @csrf
+                            <input type="submit" value="Salvar" class="btn btn-primary my-2">
+                        </form>
+                    </div>
                     <ul>
-
                         @forelse ($veiculos as $veiculo)
                             <li><a href="{{ route('veiculo.show',['veiculo'=>$veiculo->id]) }}">{{ $veiculo->placa }}</a>
-                                @if ($veiculo->clientes->first())
+                                @can('Associar Colaborador')
+                                |<a href="{{ route('associaColaborador',$veiculo->id) }}" id="Veiculo_{{ $veiculo->id }}" class="a_colaborador_veiculo"
+                                    placa={{ $veiculo->placa }}> {{(count($veiculo->colaborador)!=0)?$veiculo->colaborador->first()->name:'add colaborador' }}</a>
+                                    @if ($veiculo->clientes->first())
                                     {{ $veiculo->clientes->first()->filials()->first()->razao_social }}
                                     <a href="{{ route('mudarVeiculoDeCliente',['cliente'=>2,'veiculo'=>$veiculo->id]) }}">Alterar de cliente</a>
-                                @endif
+                                    @endif
+                                @endcan
                             </li>
                         @empty
                         <li>

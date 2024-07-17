@@ -29,7 +29,10 @@ class CargaController extends Controller
      */
     public function create()
     {
-        return view('carga.create');
+        $clientes = Cliente::all();
+        $disabled = ($clientes->count()==0)?'disabled':'';
+
+        return view('carga.create',['clientes'=>$clientes,'disabled'=>$disabled,'link'=>'clientes.create','text'=>'Não há clientes cadastrados']);
     }
 
     /**

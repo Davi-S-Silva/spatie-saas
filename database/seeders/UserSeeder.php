@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
         // ]);
         $user = User::where('email','adminmaster@gmail.com')->get()->first();
         $user->syncRoles(['super-admin']);
+        // $user->empresa()->attach(1);
         // $user = User::where('email','marcilenecelestino907@gmail.com')->get()->first();
         // $user->syncRoles(['admin']);
     }

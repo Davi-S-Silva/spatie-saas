@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+// use App\Models\Scopes\TenantScope;
 use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
@@ -9,12 +10,14 @@ use Spatie\Permission\Traits\HasRoles;
 class Colaborador extends Model
 {
     use Tenantable,HasRoles;
+
     public function newId(){
-        $count = $this->all();
+        //contando excluindo o global scope
+        $count = $this->withoutGlobalScopes()->get();
         if($count->count()==0){
             $this->id = 1;
         }else{
-            $this->id = $this->all()->last()->id +=1;
+          $this->id = $this->withoutGlobalScopes()->get()->last()->id +=1;
         }
     }
 
@@ -61,5 +64,21 @@ class Colaborador extends Model
     public function empresa()
     {
         return $this->belongsTo(Empresa::class);
+    }
+
+    public function veiculo(){
+        return $this->belongsToMany(Veiculo::class);
+    }
+
+    public function usuario(){
+        return $this->belongsToMany(User::class);
+    }
+    public function funcao(){
+        return $this->belongsTo(FuncaoColaborador::class);
+    }
+
+    public function abastecimentos()
+    {
+        return $this->hasMany(Abastecimento::class);
     }
 }

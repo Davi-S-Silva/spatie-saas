@@ -11,11 +11,12 @@ class Endereco extends Model
     use Tenantable,HasRoles;
 
     public function newId(){
-        $count = $this->all();
+        //contando excluindo o global scope
+        $count = $this->withoutGlobalScopes()->get();
         if($count->count()==0){
             $this->id = 1;
         }else{
-            $this->id = $this->all()->last()->id +=1;
+          $this->id = $this->withoutGlobalScopes()->get()->last()->id +=1;
         }
     }
 

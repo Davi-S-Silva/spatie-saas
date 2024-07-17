@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('colaborador_usuario', function (Blueprint $table) {
-            $table->foreignId('colaborador_id')->references('id')->on('colaboradors');
-            $table->foreignId('user_id')->references('id')->on('users');
+        Schema::create('servicos', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('tenant_id')->references('id')->on('tenants');
+            $table->timestamps();
         });
     }
 
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('colaborador_usuario');
+        Schema::dropIfExists('servicos');
     }
 };

@@ -7,13 +7,25 @@ use App\Models\Contato;
 use App\Models\Endereco;
 use App\Models\Filial;
 use App\Models\LocalMovimentacao;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class ClienteController extends Controller
+class ClienteController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:Deletar Cliente', only: ['destroy']),
+            new Middleware('permission:Listar Cliente', only: ['index']),
+            new Middleware('permission:Show Cliente', only: ['show']),
+            new Middleware('permission:Editar Cliente', only: ['edit', 'update']),
+            new Middleware('permission:Criar Cliente', only: ['create', 'store']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */
@@ -106,7 +118,7 @@ class ClienteController extends Controller
      */
     public function show(Cliente $cliente)
     {
-        //
+        dd($cliente);
     }
 
     /**

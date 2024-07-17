@@ -2,6 +2,7 @@
     use App\Models\Veiculo;
 @endphp
 <div>
+    <label for="">Veiculo</label>
     <select name="veiculo" id="" required>
         <option value="">Selecione o veiculo</option>
         @foreach (Veiculo::All() as $item)

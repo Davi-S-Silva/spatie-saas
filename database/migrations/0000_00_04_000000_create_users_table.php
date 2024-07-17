@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });

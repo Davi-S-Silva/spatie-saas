@@ -25,33 +25,24 @@ class EmpresaController extends Controller implements HasMiddleware
      */
 
 
-     public static function middleware(): array
+    public static function middleware(): array
     {
         return [
-            // examples with aliases, pipe-separated names, guards, etc:
-            // 'role_or_permission:manager|edit articles',
             new Middleware('permission:Deletar Empresa', only: ['destroy']),
-            new Middleware('permission:Listar Empresas', only: ['index']),
+            new Middleware('permission:Listar Empresa', only: ['index']),
             new Middleware('permission:Show Empresa', only: ['show']),
             new Middleware('permission:Editar Empresa', only: ['edit', 'update']),
             new Middleware('permission:Nova Empresa', only: ['create', 'store']),
             new Middleware('permission:Carrega Notas', only: ['notas', 'notasStore']),
-            new Middleware('permission:Visualizar Certificado', only: ['certificate','certificateStore']),
-            new Middleware('permission:Deletar Nota', only: ['deletaNotaCarregada','deletaTodasNotaCarregada']),
-            // new Middleware(\Spatie\Permission\Middleware\RoleMiddleware::using('manager'), except:['show']),
-            // new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('delete role'), only:['destroy']),
+            new Middleware('permission:Visualizar Certificado', only: ['certificate', 'certificateStore']),
+            new Middleware('permission:Deletar Nota', only: ['deletaNotaCarregada', 'deletaTodasNotaCarregada']),
         ];
     }
-
-    // function __construct()
-    // {
-    //     $this->middleware(['permission:Carrega Notas'],['only'=>['notas','notasStore']]);
-    // }
 
     public function index()
     {
         $empresas = Empresa::All();
-        return view('empresa.index',['empresas'=>$empresas]);
+        return view('empresa.index', ['empresas' => $empresas]);
     }
 
     /**
@@ -60,7 +51,7 @@ class EmpresaController extends Controller implements HasMiddleware
     public function create()
     {
         $rota = 'empresa.store';
-        return view('empresa.create',['rota'=>$rota]);
+        return view('empresa.create', ['rota' => $rota]);
     }
 
     /**
@@ -68,16 +59,11 @@ class EmpresaController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        try{
+        try {
 
             DB::beginTransaction();
             // print_r($request->input());
-
-
-
             // $endereco = Endereco::create($request->all());
-
-
 
             $endereco = new Endereco();
             $endereco->endereco = $request->rua;
@@ -99,7 +85,7 @@ class EmpresaController extends Controller implements HasMiddleware
             $empresa->enderecos()->attach($endereco->id);
 
             $contato = new Contato();
-            $contato->telefone =$request->Telefone;
+            $contato->telefone = $request->Telefone;
             $contato->whatsapp = $request->WhatsApp;
             $contato->email = $request->Email;
             $contato->descricao = $request->Descricao;
@@ -115,15 +101,13 @@ class EmpresaController extends Controller implements HasMiddleware
             // exit;
             DB::commit();
 
-            return redirect()->route('empresa.show',['empresa'=>$empresa->id])->with('message', ['status' => 'success', 'msg' => 'Empresa Cadastrada com sucesso!']);
-        }catch(Exception $ex){
+            return redirect()->route('empresa.show', ['empresa' => $empresa->id])->with('message', ['status' => 'success', 'msg' => 'Empresa Cadastrada com sucesso!']);
+        } catch (Exception $ex) {
             DB::rollBack();
 
             echo '<pre>';
             print_r($ex->getMessage());
             echo '</pre>';
-
-
         }
     }
 
@@ -140,7 +124,7 @@ class EmpresaController extends Controller implements HasMiddleware
 
         // $Certificados = Certificado::with('empresa')->get();
         // return view('empresa.show',['certificados'=>$Certificados]);
-        return view('empresa.show',['empresa'=>$empresa]);
+        return view('empresa.show', ['empresa' => $empresa]);
     }
 
     /**
@@ -151,7 +135,7 @@ class EmpresaController extends Controller implements HasMiddleware
         $rota = 'empresa.update';
         $end = $empresa->enderecos()->get()->first();
         $cont = $empresa->contatos()->get()->first();
-        return view('empresa.edit', ['empresa'=>$empresa,'disabled'=>'no', 'rota'=>$rota,'endereco'=>$end,'contato'=>$cont]);
+        return view('empresa.edit', ['empresa' => $empresa, 'disabled' => 'no', 'rota' => $rota, 'endereco' => $end, 'contato' => $cont]);
     }
 
     /**
@@ -168,7 +152,7 @@ class EmpresaController extends Controller implements HasMiddleware
         $empresa->tipo_doc = $request->PessoaFisicaJuridica;
         $empresa->doc = $request->CpfCnpj;
 
-        if($empresa->enderecos()->count()==0){
+        if ($empresa->enderecos()->count() == 0) {
             $end = new Endereco();
             $end->newId();
             $end->endereco = $request->rua;
@@ -180,7 +164,7 @@ class EmpresaController extends Controller implements HasMiddleware
             $end->save();
             $empresa->enderecos()->attach($end->id);
             // print_r($end->getAttributes());
-        }else{
+        } else {
             $end = $empresa->enderecos()->first();
             $end->endereco = $request->rua;
             $end->numero = $request->numero;
@@ -192,19 +176,19 @@ class EmpresaController extends Controller implements HasMiddleware
         }
 
 
-        if($empresa->contatos()->count()==0){
+        if ($empresa->contatos()->count() == 0) {
             $contato = new Contato();
             $contato->newId();
-            $contato->telefone =$request->Telefone;
+            $contato->telefone = $request->Telefone;
             $contato->whatsapp = $request->WhatsApp;
             $contato->email = $request->Email;
             $contato->descricao = $request->Descricao;
             $contato->usuario_id = Auth::user()->id;
             $contato->save();
             $empresa->contatos()->attach($contato->id);
-        }else{
+        } else {
             $contato = $empresa->contatos()->first();
-            $contato->telefone =$request->Telefone;
+            $contato->telefone = $request->Telefone;
             $contato->whatsapp = $request->WhatsApp;
             $contato->email = $request->Email;
             $contato->descricao = $request->Descricao;
@@ -220,7 +204,7 @@ class EmpresaController extends Controller implements HasMiddleware
         // return;
         $empresa->save();
 
-        return redirect()->route('empresa.edit',['empresa'=>$empresa->id])->with('message', ['status' => 'success', 'msg' => 'Empresa Atualizada com sucesso!']);
+        return redirect()->route('empresa.edit', ['empresa' => $empresa->id])->with('message', ['status' => 'success', 'msg' => 'Empresa Atualizada com sucesso!']);
     }
 
     /**
@@ -231,11 +215,13 @@ class EmpresaController extends Controller implements HasMiddleware
         //
     }
 
-    public function certificate(){
+    public function certificate()
+    {
         $empresas = Empresa::All();
-        return view('empresa.certificado',['empresas'=>$empresas]);
+        return view('empresa.certificado', ['empresas' => $empresas]);
     }
-    public function certificateStore(Request $request){
+    public function certificateStore(Request $request)
+    {
 
         //salvar no banco de dados as informacoes do certificado
 
@@ -243,12 +229,11 @@ class EmpresaController extends Controller implements HasMiddleware
 
         // echo $path = $request->file('Certificado')->store('certificados');
         // echo $path = Storage::putFile('Certificados', $request->file('Certificado'));
-        if($request->file('Certificado')->getClientOriginalExtension()!= 'pfx')
-        {
+        if ($request->file('Certificado')->getClientOriginalExtension() != 'pfx') {
             echo 'erro de arquivo';
-            return ;
+            return;
         }
-        $empresa = str_replace(' ','',strtolower(Auth::user()->empresa->first()->nome));
+        $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
         $certificado =  new Certificado();
         $certificado->newId();
         $certificado->name = Empresa::find($request->empresa_id)->nome;
@@ -256,7 +241,7 @@ class EmpresaController extends Controller implements HasMiddleware
         $certificado->validate = $request->ValidadeCertificado;
         $certificado->empresa_id = $request->empresa_id;
         $certificado->usuario_id = Auth::user()->id;
-        $path = $request->file('Certificado')->storeAs('public/'.$empresa.'/certificados',$certificado->name.'.pfx');
+        $path = $request->file('Certificado')->storeAs('public/' . $empresa . '/certificados', $certificado->name . '.pfx');
         $certificado->path = $path;
         $certificado->save();
         // return redirect()->back()->with('message', ['status' => 'success', 'msg' => 'Certificado carregado com sucesso']);
@@ -264,169 +249,172 @@ class EmpresaController extends Controller implements HasMiddleware
 
     public function notas()
     {
-        $empresa = str_replace(' ','',strtolower(Auth::user()->empresa->first()->nome));
+        $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
         // return response()->json(['status' => 'success', 'msg' =>str_replace(' ','',strtolower(Auth::user()->empresa->first()->nome))]);
         // if(Auth::user()->can('Carrega Notas')){
-            $path = getenv('RAIZ').'/storage/app/public/'.$empresa.'/notas/';
-            $nfes = [];
-            if(!file_exists($path)){
-                mkdir($path,777,true);
-            }
-            if(file_exists($path)){
-                $notas = dir($path);
+        $path = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/';
+        $nfes = [];
+        if (!file_exists($path)) {
+            mkdir($path, 777, true);
+        }
+        if (file_exists($path)) {
+            $notas = dir($path);
 
-                while (($arquivo = $notas->read()) !== false) {
-                    // $file = $pasta . '/' . $arquivo;
-                    if ($arquivo != '.' && $arquivo != '..') {
-                        $nfes[]= str_replace('.xml','',$arquivo);
-                    }
+            while (($arquivo = $notas->read()) !== false) {
+                // $file = $pasta . '/' . $arquivo;
+                if ($arquivo != '.' && $arquivo != '..') {
+                    $nfes[] = str_replace('.xml', '', $arquivo);
                 }
             }
-            return view('empresa.notas',['notas'=>$nfes]);
+        }
+        return view('empresa.notas', ['notas' => $nfes]);
         // }
         // abort(403);
     }
     public function notasStore(Request $request)
     {
-        // return response()->json(['status' => 'success', 'msg' =>Auth::user()->empresa->first()->nome]);
+        try {
+            // return response()->json(['status' => 0, 'msg' =>Auth::user()->empresa->first()->nome]);
 
-        $notas = [];
-        // $empresa = preg_replace('/[^A-Za-z0-9]/', '',str_replace(' ','',strtolower(Empresa::find($request->empresa_id)->nome)));
-        $empresa = str_replace(' ','',strtolower(Auth::user()->empresa->first()->nome));
-        if(empty($request->notas)){
-            throw new Exception('Selecione o arquivo que deseja importar');
-        }
-        $extractZip = getenv('RAIZ').'/storage/app/public/'.$empresa.'/notas/';
-        foreach($request->notas as $nota){
-            if($nota->getClientOriginalExtension()=='zip' || $nota->getClientOriginalExtension()=='ZIP'){
-                // $notas[]=['nome'=>$nota->getClientOriginalExtension()];
-                Storage::disk('local')->putFileAs('public/'.$empresa.'/notas',$nota, $nota->getClientOriginalName());
-                // $caminhoZip = getEnv('RAIZ').Storage::disk('local')->url($nota->getClientOriginalName());
-                $caminhoZip = getenv('RAIZ').'/storage/app/public/'.$empresa.'/notas/'.$nota->getClientOriginalName();
+            $notas = [];
+            // $empresa = preg_replace('/[^A-Za-z0-9]/', '',str_replace(' ','',strtolower(Empresa::find($request->empresa_id)->nome)));
+            $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
+            if (empty($request->notas)) {
+                throw new Exception('Selecione o arquivo que deseja importar');
+            }
+            $extractZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/';
+            foreach ($request->notas as $nota) {
+                if ($nota->getClientOriginalExtension() == 'zip' || $nota->getClientOriginalExtension() == 'ZIP') {
+                    // $notas[]=['nome'=>$nota->getClientOriginalExtension()];
+                    Storage::disk('local')->putFileAs('public/' . $empresa . '/notas', $nota, $nota->getClientOriginalName());
+                    // $caminhoZip = getEnv('RAIZ').Storage::disk('local')->url($nota->getClientOriginalName());
+                    $caminhoZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/' . $nota->getClientOriginalName();
 
-                // storage\app\public\notas\Autorizada\Transportadas\NFes-49152106000108 (85).zip
-                if(file_exists($caminhoZip)){
-                    $zip = new ZipArchive;
-                    if($zip->open($caminhoZip)){
-                        // echo '<br />existe';
-                        // echo 'zip: '.$extractZip.'<br />';
-                        $zip->extractTo($extractZip);
-                        $zip->close();
-                        if(file_exists($extractZip.'Autorizada/Transportadas')){
-                            // echo 'ola';
-                            $d = dir($extractZip.'Autorizada/Transportadas/');
-                            while($filemove = $d->read()){
-                                if($filemove != '..' && $filemove != 'Autorizada' && $filemove != 'Transportadas'){
-                                    if(is_file($extractZip.'Autorizada/Transportadas/'.$filemove)){
-                                         copy($extractZip.'Autorizada/Transportadas/'.$filemove, $extractZip.$filemove);
-                                        // unset($extractZip.'Autorizada/Transportadas/'.$filemove);
-                                        unlink($extractZip.'Autorizada/Transportadas/'.$filemove);
-                                        // echo $extractZip.'Autorizada/Transportadas/'.$filemove.'<br />';
+                    // storage\app\public\notas\Autorizada\Transportadas\NFes-49152106000108 (85).zip
+                    if (file_exists($caminhoZip)) {
+                        $zip = new ZipArchive;
+                        if ($zip->open($caminhoZip)) {
+                            // echo '<br />existe';
+                            // echo 'zip: '.$extractZip.'<br />';
+                            $zip->extractTo($extractZip);
+                            $zip->close();
+                            if (file_exists($extractZip . 'Autorizada/Transportadas')) {
+                                // echo 'ola';
+                                $d = dir($extractZip . 'Autorizada/Transportadas/');
+                                while ($filemove = $d->read()) {
+                                    if ($filemove != '..' && $filemove != 'Autorizada' && $filemove != 'Transportadas') {
+                                        if (is_file($extractZip . 'Autorizada/Transportadas/' . $filemove)) {
+                                            copy($extractZip . 'Autorizada/Transportadas/' . $filemove, $extractZip . $filemove);
+                                            // unset($extractZip.'Autorizada/Transportadas/'.$filemove);
+                                            unlink($extractZip . 'Autorizada/Transportadas/' . $filemove);
+                                            // echo $extractZip.'Autorizada/Transportadas/'.$filemove.'<br />';
+                                        }
                                     }
                                 }
+                                // return;
                             }
-                            // return;
+                            unlink($caminhoZip);
+                            // $msg = 'Arquivo descompactado com sucesso.';
+                        } else {
+                            throw new Exception('Erro ao abrir arquivo');
                         }
-                        unlink($caminhoZip);
-                        // $msg = 'Arquivo descompactado com sucesso.';
-                    }else{
-                        throw new Exception('Erro ao abrir arquivo');
+                    } else {
+                        throw new Exception("Arquivo zip nao existe", 1);
                     }
-                }else{
-                    throw new Exception("Arquivo zip nao existe", 1);
+                } elseif ($nota->getClientOriginalExtension() == 'xml') {
+                    // $notas[]=['nome'=>$nota->getClientOriginalExtension()];
+                    Storage::disk('local')->putFileAs('public/' . $empresa . '/notas', $nota, $nota->getClientOriginalName());
+                } else {
+                    throw new Exception('formato de arquivo nao permitido');
                 }
             }
-            elseif($nota->getClientOriginalExtension()=='xml')
-            {
-                // $notas[]=['nome'=>$nota->getClientOriginalExtension()];
-                Storage::disk('local')->putFileAs('public/'.$empresa.'/notas',$nota, $nota->getClientOriginalName());
 
-            }else{
-                throw new Exception('formato de arquivo nao permitido');
-            }
-        }
+            // exit;
+            $pasta = getEnv('RAIZ') . Storage::disk('local')->url('app/public/' . $empresa . '/notas');
+            $diretorio = dir($pasta);
+            // sleep(5);
+            while (($arquivo = $diretorio->read()) !== false) {
+                $file = $pasta . '/' . $arquivo;
+                if ($arquivo != '.' && $arquivo != '..' && $arquivo != 'Autorizada' && $arquivo != 'Nao autorizada' && $arquivo != 'Cancelada' && $arquivo != 'Eventos') {
+                    // $data = file_get_contents($file);
+                    $xml = simplexml_load_file($file);
 
-        // exit;
-        $pasta = getEnv('RAIZ') . Storage::disk('local')->url('app/public/notas');
-        $diretorio = dir($pasta);
-        // sleep(5);
-        while (($arquivo = $diretorio->read()) !== false) {
-            $file = $pasta . '/' . $arquivo;
-            if ($arquivo != '.' && $arquivo != '..' && $arquivo != 'Autorizada' && $arquivo != 'Nao autorizada'&& $arquivo != 'Cancelada' && $arquivo != 'Eventos') {
-                // $data = file_get_contents($file);
-                $xml = simplexml_load_file($file);
-
-                if($xml->NFe){
-                    copy($file,$pasta.'/'.$xml->protNFe->infProt->chNFe.'.xml');
-                    if(str_contains($file,'NFe')){
-                        unlink($file);
+                    if ($xml->NFe) {
+                        copy($file, $pasta . '/' . $xml->protNFe->infProt->chNFe . '.xml');
+                        if (str_contains($file, 'NFe')) {
+                            unlink($file);
+                        }
+                        $notas[] = $xml->NFe->infNFe->ide->nNF;
                     }
-                    $notas[]= $xml->NFe->infNFe->ide->nNF;
                 }
             }
+
+
+
+
+            // return response()->json($xml->protNFe->infProt->chNFe);
+            return response()->json(['status' => 200, 'msg' => 'Notas carregadas com sucesso!']);
+        } catch (Exception $ex) {
+            return response()->json(['status' => 0, 'msg' => 'erro: '.$ex->getMessage().' - '.$ex->getLine()]);
         }
-
-
-
-
-        // return response()->json($xml->protNFe->infProt->chNFe);
-        return response()->json(['status' => 'success', 'msg' =>'Notas carregadas com sucesso!']);
     }
 
-    public function deletaNotaCarregada($nota){
-        $empresa = str_replace(' ','',strtolower(Auth::user()->empresa->first()->nome));
+    public function deletaNotaCarregada($nota)
+    {
+        $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
         // $pasta = getEnv('RAIZ') . Storage::disk('local')->url('app/public/'.$empresa.'/notas');
-        $pasta = getenv('RAIZ').'/storage/app/public/'.$empresa.'/notas/';
-        if(file_exists($pasta.'/'.$nota.'.xml')){
-            unlink($pasta.'/'.$nota.'.xml');
-        }else
-        if(file_exists($pasta.'/'.$nota.'.zip')){
-            unlink($pasta.'/'.$nota.'.zip');
-        }else
-        if(file_exists($pasta.'/'.$nota.'.ZIP')){
-            unlink($pasta.'/'.$nota.'.ZIP');
+        $pasta = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/';
+        if (file_exists($pasta . '/' . $nota . '.xml')) {
+            unlink($pasta . '/' . $nota . '.xml');
+        } else
+        if (file_exists($pasta . '/' . $nota . '.zip')) {
+            unlink($pasta . '/' . $nota . '.zip');
+        } else
+        if (file_exists($pasta . '/' . $nota . '.ZIP')) {
+            unlink($pasta . '/' . $nota . '.ZIP');
+        } else {
+            $this->deleteDirectory($pasta . $nota);
         }
-        else{
-            $this->deleteDirectory($pasta.$nota);
-        }
-        return response()->json(['status' => 'success', 'msg' =>'Nota '.$nota.' excluida com sucesso!','nota'=>str_replace(' ','_',$nota)]);
+        return response()->json(['status' => 'success', 'msg' => 'Nota ' . $nota . ' excluida com sucesso!', 'nota' => str_replace(' ', '_', $nota)]);
         // return response()->json($nota);
     }
 
-    public function deletaTodasNotaCarregada(Request $request){
-        $empresa = str_replace(' ','',strtolower(Auth::user()->empresa->first()->nome));
-        foreach($request->Notas as $nota){
-            $file = getenv('RAIZ').'/storage/app/public/'.$empresa.'/notas/';
-            if(is_file($file.$nota.'.xml')){
-                unlink($file.$nota.'.xml');
-            }else{
-                $this->deleteDirectory($file.$nota);
+    public function deletaTodasNotaCarregada(Request $request)
+    {
+        $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
+        foreach ($request->Notas as $nota) {
+            $file = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/';
+            if (is_file($file . $nota . '.xml')) {
+                unlink($file . $nota . '.xml');
+            } else {
+                $this->deleteDirectory($file . $nota);
                 // return response()->json(['status' => 'success', 'msg' =>'excluidas com sucesso']);
             }
         }
-        return response()->json(['status' => 'success', 'msg' =>'excluidas com sucesso']);
+        return response()->json(['status' => 'success', 'msg' => 'excluidas com sucesso']);
     }
 
 
-    public function deleteDirectory($diretorio) {
+    public function deleteDirectory($diretorio)
+    {
         /* valido se realmente é um diretorio */
         if (is_dir($diretorio)) {
             /* Busco todos os arquivos que estão dentro da pasta */
             $files = scandir($diretorio);
             /* Deleto um a um */
             foreach ($files as $file) {
-                if ($file!= "." && $file!="..") {
-                    if (filetype($diretorio. DIRECTORY_SEPARATOR . $file) == "dir") {
+                if ($file != "." && $file != "..") {
+                    if (filetype($diretorio . DIRECTORY_SEPARATOR . $file) == "dir") {
                         /* Se dentro da pasta conter outra pasta, deleto ela também recursivamente */
-                        $this->deleteDirectory($diretorio. DIRECTORY_SEPARATOR . $file);
+                        $this->deleteDirectory($diretorio . DIRECTORY_SEPARATOR . $file);
                     } else {
-                        unlink($diretorio. DIRECTORY_SEPARATOR . $file);
+                        unlink($diretorio . DIRECTORY_SEPARATOR . $file);
                     }
                 }
             }
-          reset($files);
-          rmdir($diretorio);
-        //   return response()->json(['status' => 'success', 'msg' =>'excluidas com sucesso']);
+            reset($files);
+            rmdir($diretorio);
+            //   return response()->json(['status' => 'success', 'msg' =>'excluidas com sucesso']);
         }
     }
 }

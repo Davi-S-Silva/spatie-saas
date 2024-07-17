@@ -92,3 +92,84 @@ a {
 input[name=NameProp],input[name=DocProp]{
     display: none;
 }
+[name="ColaboradorVeiculo"]{
+    display: none;
+}
+
+.modal-info{
+    background-color: rgba(108, 108, 109, 0.521);
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.area-modal-info{
+    background-color: #fff;
+    width: 50vw;
+    height: 50vh;
+    z-index: 1500;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+.area-modal-info a{
+    z-index: 2000;
+    text-align: center;
+    color: #fff;
+}
+.btn-simple{
+    background-color: #1100ff;
+    padding: 5px 20px;
+    display: block;
+    width: max-content;
+    border-radius: 5px;
+    margin: 5px auto;
+    box-shadow:  2px 2px 1px #0b00a3;
+}
+.btn-simple:hover{
+    background-color: #002fff;
+    font-weight: bold;
+}
+
+.bg-claro{
+background-color: #ccc;
+}
+.bg-mais-claro{
+    background-color: #e7e7e74d;
+}
+.btn-search{
+    border-radius: 0 50px 50px 0;
+    border: 1px solid #000;
+    padding: 7px;
+    margin: 0;
+    font-weight: lighter;
+    border: none;
+    box-shadow: rgba(0, 0, 255, 0.37) 1px 1px 5px;
+    color:#999;
+}
+.btn-search:hover{
+    background-color: #74747427;
+    /* color:#fff; */
+}
+input[name="search"]{
+    border-radius: 50px 0 0 50px;
+    border: none;
+    box-shadow: rgba(0, 0, 255, 0.37) 1px 1px 5px;
+}
+
+input[name="search"]:focus{
+    /* outline-color: #00ff0d;
+    border-color:red; */
+    /* outline-color: blue; */
+    box-shadow: blue 1px 1px 5px;
+    /* border-color: blue; */
+
+    /* outline: 1px dashed red; */
+}

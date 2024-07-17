@@ -19,6 +19,8 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
+                                    <th scope="col">Empresa</th>
+                                    <th scope="col">Funcao</th>
                                     <th scope="col">Roles</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -28,11 +30,19 @@
                                     <tr>
                                         <th scope="row">{{ $item->id }}</th>
                                         <td>{{ $item->name }}</td>
+                                        <td>{{ (count($item->empresa)!=0)?$item->empresa->first()->nome:'-' }}</td>
+                                        <td>{{ (count($item->colaborador)!=0)?$item->colaborador->first()->funcao->funcao:'-' }}</td>
                                         <td>
 
                                             @if (!empty($item->getRoleNames()))
                                                 @foreach ($item->getRoleNames() as $rolename)
-                                                <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill">{{ $rolename }}</span>
+                                                <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill">
+                                                    @role('tenant-admin-master|tenant-admin')
+                                                    {{ str_replace('tenant-','',$rolename) }}
+                                                @else
+                                                   {{ $rolename }}
+                                                @endrole
+                                                </span>
                                                 @endforeach
                                             @endif
 
