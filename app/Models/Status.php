@@ -11,13 +11,13 @@ class Status extends Model
     use HasRoles;
     protected $table = 'status';
 
-    public function newId(){
-        $count = $this->all();
+   public function newId(){
+        //contando excluindo o global scope
+        $count = $this->withoutGlobalScopes()->get();
         if($count->count()==0){
             $this->id = 1;
-        }
-        else{
-            $this->id = $this->all()->last()->id +=1;
+        }else{
+          $this->id = $this->withoutGlobalScopes()->get()->last()->id +=1;
         }
     }
 

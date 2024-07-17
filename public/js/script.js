@@ -23,5 +23,26 @@ $(function () {
         return false;
     });
 
+    if($('.modal-info').hasClass('scroll-stop')){
+        $('body').css('overflow','hidden')
+    }
+
+    $('input[name="search"]').on('focusin',function(){
+        $('.btn-search').css({
+            "outline-color":"#00ff0d",
+            "box-shadow":"blue 1px 1px 5px",
+            "border-color":"#ccc",
+            "background-color":"rgba(0, 0, 255, 0.37)",
+            "color":"#fff"
+        });
+    }).on('focusout',function(){
+        $('.btn-search').css({
+            "outline-color":"#00ff0d",
+            "box-shadow":"rgba(0, 0, 255, 0.37) 1px 1px 5px",
+            "border":"none",
+            "background-color":"white",
+            "color":"#999"
+        });
+    });
 
 });

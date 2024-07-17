@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('fornecedors', function (Blueprint $table) {
             $table->id();
-            $table->string('nome_razao_social');
-            $table->integer('cpf_cnpj')->unique();
-            $table->integer('tipo');//fisico ou juridico
-            $table->foreignId('empresa_id')->references('id')->on('empresas');
+            $table->string('name');
+            $table->integer('doc')->unique();
+            $table->integer('tipodoc');//fisico ou juridico
+            $table->foreignId('especialidade_id')->references('id')->on('especialidades');
             $table->foreignId('endereco_id')->references('id')->on('enderecos');
             $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();

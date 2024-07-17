@@ -2,11 +2,11 @@
     use App\Models\Cliente;
 @endphp
 
-<fieldset>
+<fieldset {{ $disabled }}>
     <div>
         <label for="">Cliente</label>
 
-        @foreach (Cliente::all() as $filials)
+        @foreach ($clientes as $filials)
             @foreach ($filials->filials as $filial)
                 <div>
                     <label for="Filial_{{ $filial->id }}">{{ $filial->razao_social }}</label>
@@ -16,6 +16,11 @@
             @endforeach
         @endforeach
     </div>
+    @if (!empty($disabled))
+        <div class="modal-info scroll-stop">
+            <x-modal-info :link=$link :text=$text/>
+        </div>
+    @endif
     <div>
         <label for="">Area Atendimento</label>
         <input type="text" name="area" id="" value="{{ isset($carga->area) ? $carga->area : '' }}">

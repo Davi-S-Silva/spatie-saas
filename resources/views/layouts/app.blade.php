@@ -40,13 +40,20 @@
             <img src="{{ asset('img/loading.gif') }}" alt="">
         </div>
         <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white overflow-y-hidden shadow">
+        <header class="bg-white overflow-y-hidden shadow d-flex align-items-center">
+            @if (isset($header))
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-7">
                     {{ $header }}
                 </div>
-            </header>
-        @endif
+            @endif
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-7">
+                <form action="{{ route('search') }}" method="post" name="FormSearch" class="d-flex">
+                    <input type="search" name="search" id="" placeholder="Digite para pesquisar">
+                    @csrf
+                    <button class="btn-search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+        </header>
 
         <!-- Page Content -->
         <main class="d-flex">

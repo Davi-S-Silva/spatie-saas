@@ -2,6 +2,7 @@
     use App\Models\Empresa;
 @endphp
 
+{{-- @unlessrole ('super-admin') --}}
 <div class="col-5">
     <label for="">Empresa e local de apoio</label>
     <select name="empresa_local_apoio_id" id="" required>
@@ -19,3 +20,4 @@
         @endforeach
     </select>
 </div>
+{{-- @endunlessrole --}}

@@ -37,7 +37,7 @@ class RoleController extends Controller implements HasMiddleware
     // }
     public function index()
     {
-        $roles = Role::get();
+        $roles = Role::orderBy('name','asc')->get();
 
         return view('role-permission.role.index', ['roles' => $roles]);
     }
@@ -189,17 +189,12 @@ class RoleController extends Controller implements HasMiddleware
     public function storePermissionToRole(Request $request, string $roleId)
     {
         // echo '<pre>';print_r($request->input());echo '</pre>';
-
         // return;
-
         $request->validate([
             'permission' => 'required'
         ]);
-
         $role = Role::findOrFail($roleId);
-
         $role->syncPermissions($request->input('permission'));
-
         return redirect()->route('users.index')->with('message', ['status' => 'success', 'msg' => 'Permission updated to role ' . $role->name]);
         // print_r($role->getAttributes());
     }

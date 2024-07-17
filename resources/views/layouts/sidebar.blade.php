@@ -20,7 +20,7 @@
                         <span class="ml-3">Dashboard</span>
                     </a>
                 </li>
-                @can('Listar Empresas')
+                @can('Listar Empresa')
                 <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -84,37 +84,7 @@
                         </li>
                         @endcan
 
-                        @can('Visualizar Usuario')
-                            <li>
-                                <button type="button"
-                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                    aria-controls="dropdown-user" data-collapse-toggle="dropdown-user">
-                                    <i class="fa-solid fa-user font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
-                                     dark:text-gray-400 dark:group-hover:text-white "
-                                        style="color: #6b7280;" fill="currentColor"></i>
-                                    <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Usuario</span>
-                                    <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
 
-                                <ul id="dropdown-user" class="hidden py-2 space-y-2">
-                                    <li><a href="{{ route('users.index') }}"
-                                            class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                         hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Usuarios</a>
-                                    </li>
-                                    @can('Criar Usuario')
-                                        <li><a href="{{ route('users.create') }}"
-                                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                         hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
-                                                Usuario</a></li>
-                                    @endcan
-                                </ul>
-                            </li>
-                        @endcan
                         {{-- <li>
                             <a href="#"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
@@ -123,8 +93,38 @@
                     </ul>
                 </li>
                 @endcan
+                @can('Listar Usuario')
+                <li>
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-user" data-collapse-toggle="dropdown-user">
+                        <i class="fa-solid fa-user font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
+                         dark:text-gray-400 dark:group-hover:text-white "
+                            style="color: #6b7280;" fill="currentColor"></i>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Usuario</span>
+                        <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
 
-                @can('Listar Tenants')
+                    <ul id="dropdown-user" class="hidden py-2 space-y-2">
+                        <li><a href="{{ route('users.index') }}"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                             hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Usuarios</a>
+                        </li>
+                        @can('Criar Usuario')
+                            <li><a href="{{ route('users.create') }}"
+                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                             hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
+                                    Usuario</a></li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcan
+                @can('Listar Tenant')
                 <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -160,18 +160,18 @@
                                 </ul>
                             </li>
 
-                        @can('Novo Tenant')
+                        @can('Criar Tenant')
                             <li>
                                 <a href="{{ route('tenant.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                      hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span
-                                        class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Nova
-                                        Tenant</span></a>
+                                        class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Novo Tenant</span></a>
                             </li>
                         @endcan
                     </ul>
                 </li>
                 @endcan
+                @can('Listar Colaborador')
                 <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -188,18 +188,21 @@
                         </svg>
                     </button>
                     <ul id="dropdown-colaborador" class="hidden py-2 space-y-2">
+                        @can('Listar Colaborador')
                         <li><a href="{{ route('colaboradores.index') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">colaboradores</a>
                         </li>
+                        @endcan
                         @can('Criar Colaborador')
                             <li><a href="{{ route('colaboradores.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
-                                    Colaborador</a></li>
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Colaborador</a></li>
                         @endcan
                     </ul>
                 </li>
+                @endcan
+                @can('Listar Veiculo')
                 <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -221,23 +224,28 @@
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Veículo</a>
                                 <ul class="position-absolute bg-white w-56">
                                     <li><a href="{{ route('veiculo.index') }}">Veiculos</a></li>
+                                    @can('Criar Veiculo')
                                     <li><a href="{{ route('veiculo.create') }}">Novo Veiculo</a></li>
+                                    @endcan
                             </ul>
                         </li>
-                        {{-- @can('Criar Veiculo') --}}
                         {{-- <li><a href=""
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
                                 Veículo</a>
                         </li> --}}
+                        {{-- @can('Listar Abastecimento')
                         <li class="hover_menu position-relative"><a href="{{ route('veiculo.create') }}"
-                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Abastecimento</a>
-                                <ul class="position-absolute bg-white w-56">
-                                        <li><a href="">Abastecimentos</a></li>
-                                        <li><a href="">Novo Abastecimento</a></li>
-                                </ul>
+                            class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                            hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Abastecimento</a>
+                            <ul class="position-absolute bg-white w-56">
+                                <li><a href="{{ route('abastecimento.index') }}">Abastecimentos</a></li>
+                                @can('Criar Abastecimento')
+                                    <li><a href="{{ route('abastecimento.create') }}">Novo Abastecimento</a></li>
+                                @endcan
+                            </ul>
                         </li>
+                        @endcan --}}
                         <li class="hover_menu position-relative"><a href="{{ route('veiculo.create') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Movimentação</a>
@@ -246,9 +254,45 @@
                                     <li><a href="{{ route('movimentacao.create') }}">Nova Movimentação</a></li>
                             </ul>
                         </li>
-                        {{-- @endcan --}}
                     </ul>
                 </li>
+                @endcan
+                @can('Listar Abastecimento')
+                <li>
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-abastecimento" data-collapse-toggle="dropdown-abastecimento">
+                        <i class="fa-solid fa-gas-pump font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
+                          dark:text-gray-400 dark:group-hover:text-white "
+                            style="color: #6b7280;" fill="currentColor"></i>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Abastecimento</span>
+                        <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <ul id="dropdown-abastecimento" class="hidden py-2 space-y-2">
+                        <li class="hover_menu position-relative"><a href="{{ route('abastecimento.index') }}"
+                            class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                            hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Abastecimento</a></li>
+                            {{-- <ul class="position-absolute bg-white w-56"> --}}
+                                {{-- <li><a href="{{ route('abastecimento.index') }}">Abastecimentos</a></li> --}}
+                                @can('Criar Abastecimento')
+                                <li class="hover_menu position-relative"><a href="{{ route('abastecimento.create') }}"
+                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                    hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Abastecimento</a></li>
+                                    {{-- <li><a href="{{ route('abastecimento.create') }}">Novo Abastecimento</a></li> --}}
+                                @endcan
+                            {{-- </ul>
+                        </li> --}}
+                    </ul>
+                </li>
+                @endcan
+                @can('Listar Carga')
+
+
                 <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -277,6 +321,8 @@
                         {{-- @endcan --}}
                     </ul>
                 </li>
+                @endcan
+                @can('Listar Entrega')
                 <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -305,6 +351,8 @@
                         {{-- @endcan --}}
                     </ul>
                 </li>
+                @endcan
+                @can('Listar Cliente')
                 <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -325,7 +373,7 @@
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Clientes</a>
                         </li>
-                        @can('Criar Usuario')
+                        @can('Criar Cliente')
                             <li><a href="{{ route('clientes.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
@@ -333,7 +381,7 @@
                         @endcan
                     </ul>
                 </li>
-
+                @endcan
                 <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"

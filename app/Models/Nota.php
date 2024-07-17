@@ -13,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Nota extends Model
 {
-    use HasFactory, HasRoles;
+    use  Tenantable,HasRoles;
 
 
     public function newId()

@@ -223,8 +223,8 @@ $(function () {
 
     $('form[name="FormCarregaNotas"]').submit(function(){
 
-        // var confirma = confirm('Deseja Cadastrar Carga?');
-        var confirma = true;
+        var confirma = confirm('Deseja Carregar Notas?');
+        // var confirma = true;
         // var form = $(this)
         // var dados = new FormData(form)
         if (confirma) {
@@ -242,27 +242,28 @@ $(function () {
                     // alert(routeStorePermission)
                     loading.css('display','flex')
                     loading.removeClass('d-none');
-                    $("body").css("overflow", "hidden");
+                    // $("body").css("overflow", "hidden");
                 },
                 success: function (response) {
                     // alert('success')
-
-
                     // console.log(response)
                     loading.addClass('d-none');
-                    $("body").css("overflow", "auto");
-                    if (response.status === 'success') {
+                    // $("body").css("overflow", "auto");
+                    if (response.status == 200) {
                         // alert(response.msg)
                         // console.log(response)
-                        // $('.response-message-ajax').removeClass('alert-primary')
+                        $('.response-message-ajax').removeClass('alert-danger')
                         $('.response-message-ajax').addClass('alert-success')
                         $('.response-message-ajax').text(response.msg)
                         window.location.href=''
                     }
-                    if (response.status === 'danger') {
+                    if (response.status == 0) {
                         // alert(response.msg)
+                        // $('.response-message-ajax').show()
                         // console.log(response)
-                        $('.response-message').html(response.msg)
+                        $('.response-message-ajax').removeClass('alert-success')
+                        $('.response-message-ajax').addClass('alert-danger')
+                        $('.response-message-ajax').html(response.msg)
                     }
                 },
                 error: function (response) {
@@ -991,4 +992,66 @@ if($('.form_add_notas').attr('action')==""){
         return false
     });
 
+
+    $('.a_colaborador_veiculo').click(function(){
+        // alert($(this).attr('id'))
+        $('form[name="ColaboradorVeiculo"]').show()
+        $('form[name="ColaboradorVeiculo"] span').text('Veiculo '+$(this).attr('placa'))
+        $('form[name="ColaboradorVeiculo"]').attr('action',$(this).attr('href'))
+        // $('input[name="Veiculo"]').val($(this).attr('veiculo'))
+        // console.log($('form[name="ColaboradorVeiculo"]').attr('action'))
+        return false;
+    });
+    // $('form[name="ColaboradorVeiculo"]').focusout(function(){
+    //     $(this).hide()
+    // })
+    $('form[name="ColaboradorVeiculo"]').submit(function(){
+        // alert($(this).serialize())
+        // return false
+        $.ajax({
+            type:'post',
+            url: $(this).attr('action'),
+            dataType:'json',
+            data:$(this).serialize(),
+            beforeSend:function(){
+
+            },
+            success:function(response){
+                // alert(response)
+                // console.log(response)
+                if(response.status==0){
+                    $('.response-message-ajax').show().fadeOut(5000)
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                }
+                if(response.status==200){
+                    $('.response-message-ajax').show().fadeOut(5000)
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').text(response.msg.success)
+                    // console.log(response.msg)
+                    // console.log('#Veiculo_'+response.msg.veiculo)
+                    // console.log(response.msg.veiculoLimpo)
+                    $('#Veiculo_'+response.msg.veiculo).text(response.msg.colaborador)
+                    if(typeof response.msg.veiculoLimpo.msg === 'undefined'){
+                        $('#Veiculo_'+response.msg.veiculoLimpo).text('add colaborador')
+                    }else{
+                        // $('#Veiculo_'+response.msg.veiculo).text(response.msg.veiculoLimpo.msg)
+                        // console.log('tste: '+'#Veiculo_'+response.msg.veiculo)
+                        $('.response-message-ajax').text(response.msg.veiculoLimpo.msg)
+                    }
+                    $('select[name="colaborador"]').val('')
+                    $('form[name="ColaboradorVeiculo"]').hide()
+                }
+            },
+            error:function(response){
+                $('.response-message-ajax').show().fadeOut(5000)
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text(response.msg)
+                return false;
+            }
+        })
+        return false
+    });
 });

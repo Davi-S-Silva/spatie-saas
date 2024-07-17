@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Colaborador;
 use App\Models\Empresa;
 use App\Models\Filial;
 use App\Models\LocalApoio;
@@ -20,18 +21,12 @@ class VeiculoController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            // examples with aliases, pipe-separated names, guards, etc:
-            // 'role_or_permission:manager|edit articles',
             new Middleware('permission:Deletar Veiculo', only: ['destroy']),
-            new Middleware('permission:Listar Veiculos', only: ['index']),
-            new Middleware('permission:Show Empresa', only: ['show']),
-            new Middleware('permission:Editar Empresa', only: ['edit', 'update']),
-            new Middleware('permission:Nova Empresa', only: ['create', 'store']),
-            new Middleware('permission:Carrega Notas', only: ['notas', 'notasStore']),
-            new Middleware('permission:Visualizar Certificado', only: ['certificate','certificateStore']),
-            new Middleware('permission:Deletar Nota', only: ['deletaNotaCarregada','deletaTodasNotaCarregada']),
-            // new Middleware(\Spatie\Permission\Middleware\RoleMiddleware::using('manager'), except:['show']),
-            // new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('delete role'), only:['destroy']),
+            new Middleware('permission:Listar Veiculo', only: ['index']),
+            new Middleware('permission:Show Veiculo', only: ['show']),
+            new Middleware('permission:Editar Veiculo', only: ['edit', 'update']),
+            new Middleware('permission:Criar Veiculo', only: ['create', 'store']),
+            new Middleware('permission:Associar Colaborador', only: ['associaColaborador']),
         ];
     }
     /**
@@ -63,8 +58,9 @@ class VeiculoController extends Controller implements HasMiddleware
             // return response()->json(['status' => 200, 'msg' =>$request->input()]);
             $veiculo = new Veiculo();
             $veiculo->placa = $request->Placa;
-            $veiculo->empresa_id = LocalApoio::find((int)$request->empresa_local_apoio_id)->empresa_id;
-            $veiculo->local_apoio_id = $request->empresa_local_apoio_id;
+            // $veiculo->empresa_id = LocalApoio::find((int)$request->empresa_local_apoio_id)->empresa_id;
+            $veiculo->empresa_id = (!is_null($request->empresa_local_apoio_id))?LocalApoio::find($request->empresa_local_apoio_id)->empresa->id:1;
+            $veiculo->local_apoio_id = (!is_null($request->empresa_local_apoio_id))?$request->empresa_local_apoio_id:null;
             $veiculo->tenant_id = (is_null($veiculo->tenant_id))? Empresa::find($veiculo->empresa_id)->tenant_id :$veiculo->tenant_id;
             $veiculo->usuario_id =Auth::user()->id;
             $veiculo->setStatus('Disponivel');
@@ -90,7 +86,7 @@ class VeiculoController extends Controller implements HasMiddleware
             return response()->json(['status' => 200, 'msg' =>'Veiculo cadastrado com sucesso!']);
         }catch(Exception $ex){
             DB::rollBack();
-            return response()->json(['status' => 0, 'msg' =>$ex->getMessage()]);
+            return response()->json(['status' => 0, 'msg' =>$ex->getMessage(). ' - '.$ex->getLine()]);
         }
 
     }
@@ -135,4 +131,18 @@ class VeiculoController extends Controller implements HasMiddleware
 
         return;
     }
+
+    public function associaColaborador(Request $request, $veiculo)
+    {
+        try{
+            $Veiculo = Veiculo::find($veiculo);
+            $response = $Veiculo->associaColaborador($request->colaborador);
+            return response()->json(['status'=>200,'msg'=>['veiculo'=>(int)$veiculo,'colaborador'=>Colaborador::find($request->colaborador)->name,
+            'veiculoLimpo'=>$response,'success'=>'Colaborador associado com sucesso!']]);
+        }catch(Exception $ex){
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+        }
+    }
+
+
 }

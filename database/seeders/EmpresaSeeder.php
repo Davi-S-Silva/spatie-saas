@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -21,5 +22,9 @@ class EmpresaSeeder extends Seeder
             'doc' => 00000000000,
             'usuario_id'=> 1
         ]);
+
+        $user = User::find(1);
+        $user->empresa()->attach(1);
+
     }
 }

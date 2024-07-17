@@ -37,7 +37,11 @@ class FilialController extends Controller
     {
         try{
             DB::beginTransaction();
-            echo '<pre>';print_r($request->input());echo '</pre>';
+            // echo '<pre>';print_r($request->input());echo '</pre>';
+
+            if(Filial::where('cnpj',$request->Cnpj)->where('tenant_id',Auth::user()->tenant_id)->get()->count()!=0){
+                throw new Exception('Cliente já cadastrado para esse Tenant');
+            }
             $filial = new Filial();
             $filial->newId();
             $filial->razao_social = $request->RazaoSocial;

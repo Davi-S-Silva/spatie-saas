@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Contato;
 use App\Models\Empresa;
 use App\Models\Endereco;
+use App\Models\LocalApoio;
+use App\Models\LocalMovimentacao;
 use App\Models\Tenant;
 use App\Models\User;
 use Exception;
@@ -46,7 +48,7 @@ class TenantController extends Controller
             $tenant->tipo_doc = $request->PessoaFisicaJuridica;
             $tenant->doc = $request->CpfCnpj;
             $tenant->save();
-            $tenant->user()->attach(Auth::user()->id);
+            // $tenant->user()->attach(Auth::user()->id);
 
             $endereco = new Endereco();
             $endereco->newId();
@@ -70,6 +72,20 @@ class TenantController extends Controller
 
             $empresa->enderecos()->attach($endereco->id);
 
+            $localApoio = new LocalApoio();
+            $localApoio->name = $request->input('RazaoSocial');
+            $localApoio->description = 'Sede da empresa '.$request->input('RazaoSocial');
+            $localApoio->empresa_id = $empresa->id;
+            $localApoio->usuario_id = Auth::user()->id;
+            $localApoio->save();
+            $localMov = new LocalMovimentacao();
+            $localMov->title = $localApoio->name;
+            $localMov->descricao = $localApoio->name . ' local de apoio da ' . Empresa::find($empresa->id)->nome;
+            $localMov->status_id = 1;
+            $localMov->usuario_id = Auth::user()->id;
+            $localMov->save();
+            $localApoio->locaismovimetacoes()->attach($localMov->id);
+
             $contato = new Contato();
             $contato->newId();
             $contato->telefone =$request->Telefone;
@@ -85,19 +101,19 @@ class TenantController extends Controller
             $user->name = $request->input('RazaoSocial');
             $user->email = $request->Email;
             $user->tenant_id = $tenant->id;
-            $user->password = Hash::make($request->CpfCnpj);
+            $user->password = Hash::make('password');
 
             $user->save();
             $user->empresa()->attach($empresa->id);
             $user->tenant()->attach(Auth::user()->id);
-            $user->syncRoles(['tenant-admin']);
+            $user->syncRoles(['tenant-admin-master']);
 
             DB::commit();
 
             return redirect()->route('empresa.show',['empresa'=>$empresa->id])->with('message', ['status' => 'success', 'msg' => 'Empresa Cadastrada com sucesso!']);
         }catch(Exception $ex){
             DB::rollBack();
-            return redirect()->back()->with('message', ['status' => 'danger', 'msg' => 'Empresa não Cadastrada! erro: '.$ex->getCode()]);
+            return redirect()->back()->with('message', ['status' => 'danger', 'msg' => 'Empresa não Cadastrada! erro: '.$ex->getMessage().' - '.$ex->getCode()]);
             // echo '<pre>';
             // print_r($ex->getMessage());
             // echo '</pre>';
