@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Colaborador;
+use App\Models\Km;
 use App\Models\LocalMovimentacao;
 use App\Models\MovimentacaoVeiculo;
 use App\Models\Veiculo;
@@ -42,14 +43,17 @@ class MovimentacaoVeiculoController extends Controller
             $Partida = $request->LocalPartida;
             $Destino = $request->LocalDestino;
             $colabBd = Colaborador::find($request->colaborador);
-            if($colabBd->status_id!=1){
+            // $class = get_class_vars('App\Models\Colaborador');
+            if($colabBd->status_id!=$colabBd->getStatusId('Disponivel')){
                 throw new Exception('Motorista Indisponivel');
             }
-            $colabBd->status_id=2;
+            $colabBd->status_id=21;
             $colabBd->save();
+
 
             $Colaborador = $request->colaborador;
             $Veiculo = $request->veiculo;
+
 
 
             $lastMovVeiculo = MovimentacaoVeiculo::where('veiculo_id',$Veiculo)->get();
@@ -62,11 +66,11 @@ class MovimentacaoVeiculoController extends Controller
                 }
             }
 
-            $movBd = MovimentacaoVeiculo::where('Local_partida_id',$Partida)->where('Local_destino_id',$Destino)
-            ->where('status_id',$lastMovVeiculo->status('Disponivel'))->where('veiculo_id',$Veiculo)->get();
-            if($movBd->count()!=0){
-                throw new Exception('Já existe uma movimentacao para esse destino com esse veiculo');
-            }
+            // $movBd = MovimentacaoVeiculo::where('Local_partida_id',$Partida)->where('Local_destino_id',$Destino)
+            // ->where('status_id',$lastMovVeiculo->getStatusId('Disponivel'))->where('veiculo_id',$Veiculo)->get();
+            // if($movBd->count()!=0){
+            //     throw new Exception('Já existe uma movimentacao para esse destino com esse veiculo');
+            // }
 
 
             $DescMov = htmlspecialchars($request->DescricaoMov,ENT_QUOTES);
@@ -81,10 +85,10 @@ class MovimentacaoVeiculoController extends Controller
             $Mov->save();
 
             $veiculo = Veiculo::find($Veiculo);
-            if($veiculo->status_id!=1){
+            if($veiculo->status_id!=$veiculo->getStatusId('Disponivel')){
                 throw new Exception('Veiculo está indisponivel');
             }
-            $veiculo->status_id=2;//
+            $veiculo->status_id=$veiculo->getStatusId('Indisponivel');//
             $veiculo->save();
             DB::commit();
             return response()->json(['status'=>200,'msg'=>'Movimentação cadastrada com sucesso']);
@@ -92,6 +96,7 @@ class MovimentacaoVeiculoController extends Controller
         }catch(Exception $ex){
             DB::rollback();
             return response()->json($ex->getMessage());
+            // return response()->json($ex->getMessage() . 'File: '.$ex->getFile(). 'Line: '.$ex->getLine());
         }
     }
 
@@ -129,40 +134,51 @@ class MovimentacaoVeiculoController extends Controller
 
     public function start(Request $request){
         try{
+            // throw new Exception('trocando as informacoes do km');
             DB::beginTransaction();
             $movimentacaoVeiculo = MovimentacaoVeiculo::find($request->Mov);
-            if($movimentacaoVeiculo->status_id ==2){
+            if(($movimentacaoVeiculo->status_id==$movimentacaoVeiculo->getStatusId('Iniciada')) || ($movimentacaoVeiculo->status_id==$movimentacaoVeiculo->getStatusId('Rota'))){
                 throw new Exception('Movimentação já iniciada');
             }
             $KmInicial = (int)filter_var($request->KmInicial, FILTER_SANITIZE_NUMBER_INT);
             //verificar se o km digitado é maior que o ultimo km_final registrado para o veiculo
             $UltimoKmFinalVeiculo = MovimentacaoVeiculo::where('veiculo_id', $movimentacaoVeiculo->veiculo_id)->get();
+
+
             if($UltimoKmFinalVeiculo->count()!=0){
                 $ultimo_km_fim = $UltimoKmFinalVeiculo->last()->km_fim;
+                // throw new Exception('trocando as informacoes do km');
                 // return response()->json($ultimo_km_fim);
                 if($KmInicial<$ultimo_km_fim){
                     throw new Exception('Km Atual não pode ser menor que o km anterior');
                 }
             }
 
-            $movimentacaoVeiculo->km_inicio = $KmInicial;
+
+            $veiculo = Veiculo::find($movimentacaoVeiculo->veiculo_id);
+            $veiculo->status_id=2;
+            $veiculo->save();
+            $KmModel = new Km();
+            $KmModel->setKm($veiculo,$KmInicial);
+            $KmModel->save();
+            $movimentacaoVeiculo->km_inicio = $KmModel->id;
             $movimentacaoVeiculo->usuario_start_id = Auth::user()->id;
             $movimentacaoVeiculo->data_hora_inicio = date('Y-m-d H:i:s');
-            $movimentacaoVeiculo->status_id = 2;
+            $movimentacaoVeiculo->status_id = $movimentacaoVeiculo->getStatusId('Rota');
             $movimentacaoVeiculo->colaborador_id= $request->colaborador;
             $movimentacaoVeiculo->save();
 
             $colaborador = Colaborador::find($request->colaborador);
-            $colaborador->status_id=2;
+            $colaborador->status_id=$colaborador->getStatusId('Indisponivel');
             $colaborador->save();
-            $veiculo = Veiculo::find($movimentacaoVeiculo->veiculo_id);
-            $veiculo->status_id=2;
-            $veiculo->save();
+            // throw new Exception('trocando as informacoes do km');
+
             DB::commit();
             return response()->json(['status'=>200,'msg'=>'Movimentação '.$movimentacaoVeiculo->id.' iniciada com sucesso','mov'=>$movimentacaoVeiculo->getAttributes()]);
         }catch(Exception $ex){
             DB::rollback();
-            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+            // return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+            return response()->json(['status'=>0, 'msg'=>$ex->getMessage() . 'File: '.$ex->getFile(). 'Line: '.$ex->getLine()]);
         }
     }
 

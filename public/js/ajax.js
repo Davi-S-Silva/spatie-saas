@@ -522,10 +522,7 @@ if($('.form_add_notas').attr('action')==""){
     // });
     // $('input[name="SemAjudante"]').hide()
     $('form[name="FormEntrega"]').submit(function(){
-
-
         // console.log($(this).serialize())
-
         var Carga = $('input[name="Cargas[]"]')
 
         if(Carga.length==0){
@@ -549,7 +546,7 @@ if($('.form_add_notas').attr('action')==""){
         if(Carga.length!= 0 && countChecked<1){
             // alert('selecione a carga')
 
-            $('.response-message-ajax').show()
+            $('.response-message-ajax').show().fadeOut(5000)
             $('.response-message-ajax').addClass('alert-danger')
             $('.response-message-ajax').text('Selecione a Carga a ser entregue')
             return false
@@ -614,7 +611,7 @@ if($('.form_add_notas').attr('action')==""){
         // console.log(partida.val())
         if(partida.val() == ''){
             partida.focus()
-            $('.response-message-ajax').show()
+            $('.response-message-ajax').show().fadeOut(5000)
             $('.response-message-ajax').addClass('alert-danger')
             $('.response-message-ajax').text('Selecione o local de partida')
             return false
@@ -635,7 +632,7 @@ if($('.form_add_notas').attr('action')==""){
 
         if(destino.val()==partida.val()){
             destino.focus()
-            $('.response-message-ajax').show()
+            $('.response-message-ajax').show().fadeOut(5000)
             $('.response-message-ajax').addClass('alert-danger')
             $('.response-message-ajax').text('O local de destino nao pode ser igual ao local de partida')
             return false;
@@ -644,7 +641,7 @@ if($('.form_add_notas').attr('action')==""){
         var textDesc = $('textarea[name="DescricaoMov"]')
         if(textDesc.val()==''){
             textDesc.focus()
-            $('.response-message-ajax').show()
+            $('.response-message-ajax').show().fadeOut(5000)
             $('.response-message-ajax').addClass('alert-danger')
             $('.response-message-ajax').text('Digite uma descricao ou motivo da movimentacao')
             return false
@@ -660,20 +657,21 @@ if($('.form_add_notas').attr('action')==""){
             },
             success:function(response){
                 if(response.status==200){
-                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').show().fadeOut(5000)
                     $('.response-message-ajax').removeClass('alert-danger')
                     $('.response-message-ajax').addClass('alert-success')
                     $('.response-message-ajax').text(response.msg)
+                    console.log(response.msg)
                     return false
                 }else{
-                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').show().fadeOut(5000)
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response)
                     return false;
                 }
             },
             error:function(response){
-                $('.response-message-ajax').show()
+                $('.response-message-ajax').show().fadeOut(5000)
                 $('.response-message-ajax').addClass('alert-danger')
                 $('.response-message-ajax').text(response)
                 return false;
@@ -711,14 +709,16 @@ if($('.form_add_notas').attr('action')==""){
             },
             success:function(response){
                 // alert(response)
-                // console.log(response)
+                console.log(response)
                 if(response.status==0){
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
+                    console.log(response)
                 }
                 if(response.status==200){
+                    console.log(response)
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-danger')
                     $('.response-message-ajax').addClass('alert-success')

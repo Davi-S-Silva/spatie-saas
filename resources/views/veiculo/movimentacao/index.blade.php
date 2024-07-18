@@ -41,14 +41,14 @@
                              {{-- <form action="{{ route('movimentacao.toggleMov',['movimentacao'=>$movimentacao->id]) }}" method="post" name="FormToggleMov"> --}}
                                 {{-- @csrf --}}
                                 {{-- <input type="image" name="StartMove" src="{{ asset('img/play.png') }}" value="1"></form> --}}
-                                @if ($movimentacao->status_id==1)
+                                @if ($movimentacao->status_id==$movimentacao->getStatusId('Pendente'))
                                     <a  href="{{ route('movimentacao.start',['movimentacao'=>$movimentacao->id]) }}"
                                         id="Start_Mov_{{ $movimentacao->id }}"
                                         class="text-green-600 btn btn-outline-success start_mov"
                                         mov="{{ $movimentacao->id }}"
                                         mot="{{ $movimentacao->colaborador_id }}"><i class="fa-solid fa-play"></i></a>
                                 @endif
-                                @if ($movimentacao->status_id==2)
+                                @if (($movimentacao->status_id==$movimentacao->getStatusId('Iniciada')) || ($movimentacao->status_id==$movimentacao->getStatusId('Rota')))
                                     <a  href="{{ route('movimentacao.stop',['movimentacao'=>$movimentacao->id]) }}" class="text-red-600 btn btn-outline-danger stop_mov"
                                         id="Stop_Mov_{{ $movimentacao->id }}"
                                         mov="{{ $movimentacao->id }}"><i class="fa-solid fa-stop"></i></a>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\Tenantable;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
@@ -10,6 +11,18 @@ use Spatie\Permission\Traits\HasRoles;
 class Veiculo extends Model
 {
     use Tenantable,HasRoles;
+
+    protected $guarded = ['id'];
+
+    public function newId(){
+        //contando excluindo o global scope
+        $count = $this->withoutGlobalScopes()->get();
+        if($count->count()==0){
+            $this->id = 1;
+        }else{
+          $this->id = $this->withoutGlobalScopes()->get()->last()->id +=1;
+        }
+    }
 
     public function clientes()
     {
@@ -25,7 +38,7 @@ class Veiculo extends Model
     {
         return $this->hasMany(MovimentacaoVeiculo::class);
     }
-    public function status($status)
+    public function getStatusId($status)
     {
         return Status::where('name',$status)->where('tipo',2)->get()->first()->id;
     }
@@ -80,4 +93,10 @@ class Veiculo extends Model
         }
         return $veiculoLimpo;
     }
+
+    public function kms()
+    {
+        return $this->hasMany(Km::class);
+    }
+
 }

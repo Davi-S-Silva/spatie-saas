@@ -72,7 +72,7 @@ class Status extends Seeder
         ]);
         //Movimentação
         DB::table('status')->insert([
-            'name' => 'Pendete',
+            'name' => 'Pendente',
             'tipo' => 3,
             'descricao' => 'Movimentação Pendente',
         ]);

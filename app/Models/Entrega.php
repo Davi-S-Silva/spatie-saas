@@ -39,7 +39,7 @@ class Entrega extends Model
         return $this->belongsTo(Veiculo::class);
     }
 
-    public function status($status)
+    public function getStatusId($status)
     {
         return Status::where('name',$status)->where('tipo',4)->get()->first()->id;
     }
