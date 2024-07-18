@@ -24,6 +24,10 @@
                 {{-- </fieldset> --}}
             {{-- </form> --}}
         </div>
+        <div>
+            <label for="">Km Atual</label>
+            <input type="number" name="Km" id="" required>
+        </div>
     </div>
     @csrf
     <input type="submit" value="Salvar" class="btn btn-primary">

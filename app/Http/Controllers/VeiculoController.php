@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Colaborador;
 use App\Models\Empresa;
 use App\Models\Filial;
+use App\Models\Km;
 use App\Models\LocalApoio;
 use App\Models\Proprietario;
 use App\Models\Veiculo;
@@ -57,6 +58,7 @@ class VeiculoController extends Controller implements HasMiddleware
             DB::beginTransaction();
             // return response()->json(['status' => 200, 'msg' =>$request->input()]);
             $veiculo = new Veiculo();
+            $veiculo->newId();
             $veiculo->placa = $request->Placa;
             // $veiculo->empresa_id = LocalApoio::find((int)$request->empresa_local_apoio_id)->empresa_id;
             $veiculo->empresa_id = (!is_null($request->empresa_local_apoio_id))?LocalApoio::find($request->empresa_local_apoio_id)->empresa->id:1;
@@ -79,6 +81,13 @@ class VeiculoController extends Controller implements HasMiddleware
             }
 
             $veiculo->save();
+
+            $km = new Km();
+            $km->newId();
+            $km->setKm($veiculo,$request->Km);
+            $km->save();
+
+            // $km->veiculo()->attach($veiculo->id);
             // echo '<pre>';
             // print_r($veiculo->getAttributes());
             // echo '</pre>';
@@ -96,7 +105,8 @@ class VeiculoController extends Controller implements HasMiddleware
      */
     public function show(Veiculo $veiculo)
     {
-        dd($veiculo);
+        dd($veiculo->getAttributes());
+        dd($veiculo->kms()->get()->first()->veiculo->placa);
     }
 
     /**

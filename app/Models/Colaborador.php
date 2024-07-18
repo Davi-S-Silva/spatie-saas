@@ -48,7 +48,7 @@ class Colaborador extends Model
     }
 
 
-    public function status($status)
+    public function getStatusId($status)
     {
         return Status::where('name',$status)->where('tipo',5)->get()->first()->id;
     }

@@ -52,7 +52,7 @@ class Carga extends Model
     {
         return $this->belongsToMany(Entrega::class);
     }
-    public function status($status)
+    public function getStatusId($status)
     {
         return Status::where('name',$status)->where('tipo',1)->get()->first()->id;
     }
