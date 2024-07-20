@@ -156,12 +156,12 @@ class MovimentacaoVeiculoController extends Controller
 
 
             $veiculo = Veiculo::find($movimentacaoVeiculo->veiculo_id);
-            $veiculo->status_id=2;
+            $veiculo->status_id=$veiculo->getStatusId('Indisponivel');
             $veiculo->save();
             $KmModel = new Km();
             $KmModel->setKm($veiculo,$KmInicial);
             $KmModel->save();
-            $movimentacaoVeiculo->km_inicio = $KmModel->id;
+            $movimentacaoVeiculo->km_inicio_id = $KmModel->id;
             $movimentacaoVeiculo->usuario_start_id = Auth::user()->id;
             $movimentacaoVeiculo->data_hora_inicio = date('Y-m-d H:i:s');
             $movimentacaoVeiculo->status_id = $movimentacaoVeiculo->getStatusId('Rota');
@@ -193,17 +193,21 @@ class MovimentacaoVeiculoController extends Controller
             }
             $KmFinal = (int)filter_var($request->KmFinal, FILTER_SANITIZE_NUMBER_INT);
             //verificar se o km digitado é maior que o ultimo km_inicio registrado para o veiculo
-            if($movimentacaoVeiculo->km_inicio > $KmFinal){
-                throw new Exception('Km Final não pode ser menor que o km inicial');
+            if($movimentacaoVeiculo->km_inicio >= $KmFinal){
+                throw new Exception('Km Final não pode ser menor ou igual que o km inicial');
             }
-            $movimentacaoVeiculo->status_id = 3;
-            $movimentacaoVeiculo->km_fim = $KmFinal;
+            $veiculo = Veiculo::find($movimentacaoVeiculo->veiculo_id);
+            $veiculo->status_id=$veiculo->getStatusId('Disponivel');
+            $veiculo->save();
+            $KmModel = new Km();
+            $KmModel->setKm($veiculo,$KmFinal);
+            $KmModel->save();
+            $movimentacaoVeiculo->status_id = $movimentacaoVeiculo->getStatusId('Finalizada');;
+            $movimentacaoVeiculo->km_fim_id = $KmFinal;
             $movimentacaoVeiculo->data_hora_fim = date('Y-m-d H:i:s');
             $movimentacaoVeiculo->usuario_conclusao_id = Auth::user()->id;
             $movimentacaoVeiculo->save();
-            $veiculo = Veiculo::find($movimentacaoVeiculo->veiculo_id);
-            $veiculo->status_id=1;
-            $veiculo->save();
+
             $colaborador = Colaborador::find($movimentacaoVeiculo->colaborador_id);
             $colaborador->status_id=1;
             $colaborador->save();

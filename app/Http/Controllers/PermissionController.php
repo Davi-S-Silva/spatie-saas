@@ -47,7 +47,7 @@ class PermissionController extends Controller implements HasMiddleware
     public function index()
     {
 
-        return view('role-permission.permission.index', ['permissions'=>Permission::all()]);
+        return view('role-permission.permission.index', ['permissions'=>Permission::paginate(10)]);
     }
 
     /**

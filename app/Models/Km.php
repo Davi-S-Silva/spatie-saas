@@ -44,4 +44,10 @@ class Km extends Model
     {
         return $this->belongsToMany(MovimentacaoVeiculo::class);
     }
+
+    // public function movimentacaos()
+    // {
+    //     // return $this->belongsTo(MovimentacaoVeiculo::class);
+    //     return $this->hasOne(MovimentacaoVeiculo::class);
+    // }
 }

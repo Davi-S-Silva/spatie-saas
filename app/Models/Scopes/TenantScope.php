@@ -22,9 +22,9 @@ class TenantScope implements Scope
             if(session()->has('noTenatable')){
                 $builder->where('tenant_id',null);
             }
-            if($model->getActualClassNameForMorph($model::class) != $model->getActualClassNameForMorph(User::class)){
-                $builder->where('tenant_id',null);
-            }
+            // if($model->getActualClassNameForMorph($model::class) != $model->getActualClassNameForMorph(User::class)){
+            //     $builder->where('tenant_id',null);
+            // }
         }
     }
 }

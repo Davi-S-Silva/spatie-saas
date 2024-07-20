@@ -18,8 +18,14 @@ return new class extends Migration
             $table->foreignId('veiculo_id')->references('id')->on('veiculos');
             $table->foreignId('colaborador_id')->nullable()->references('id')->on('colaboradors');
             $table->text('descricao');
-            $table->foreignId('km_inicio')->nullable()->references('id')->on('kms');
-            $table->foreignId('km_fim')->nullable()->references('id')->on('kms');
+            // $table->unsignedBigInteger('km_id_inicio');
+            // $table->foreignId('km_id_inicio')->constrained('kms','id','km_id');
+            $table->foreignId('km_inicio_id')->nullable()->references('id')->on('kms');
+            $table->foreignId('km_fim_id')->nullable()->references('id')->on('kms');
+            // $table->foreignId('km_id')->nullable()->references('id')->on('kms');
+            // $table->foreignId('km_fim_id')->nullable()->references('id','km_id')->on('kms');
+            // $table->foreignId('km_id_inicio')->nullable()->constrained('kms','id','km_id_inicio');
+            // $table->foreignId('km_id_fim')->nullable()->constrained('kms','id','km_id_fim');
             $table->dateTime('data_hora_inicio')->nullable();
             $table->dateTime('data_hora_fim')->nullable();
             $table->foreignId('usuario_id')->references('id')->on('users');

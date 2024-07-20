@@ -37,7 +37,9 @@
                              <b>Partida</b> {{ $movimentacao->partida->title }}
                              <b>Destino</b> {{ $movimentacao->destino->title }}
                              <b>Placa</b> {{ $movimentacao->veiculo->placa }}
-                             <b>Km Inicio</b>{{ $movimentacao->km_inicio }}
+                             <b>Km Inicio</b>{{  $movimentacao->kmInicio->km }}
+                             <b>Km fim</b>{{  $movimentacao->kmFim->km }}
+                             <b>Km Percorrido</b>{{  ($movimentacao->kmFim->km-$movimentacao->kmInicio->km) }}
                              {{-- <form action="{{ route('movimentacao.toggleMov',['movimentacao'=>$movimentacao->id]) }}" method="post" name="FormToggleMov"> --}}
                                 {{-- @csrf --}}
                                 {{-- <input type="image" name="StartMove" src="{{ asset('img/play.png') }}" value="1"></form> --}}
@@ -58,6 +60,8 @@
                                         id="Stop_Mov_{{ $movimentacao->id }}"
                                         mov="{{ $movimentacao->id }}"><i class="fa-solid fa-stop"></i></a>
                                 @endif
+
+                                <a href="" class="btn btn-danger">Fazer a funcao cancelar</a>
                             </li>
                         @empty
                         não há movimentações

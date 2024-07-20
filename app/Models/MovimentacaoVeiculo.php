@@ -60,4 +60,13 @@ class MovimentacaoVeiculo extends Model
         return $this->hasMany(Km::class);
     }
 
+    public function kmInicio()
+    {
+        return $this->belongsTo(Km::class,'km_inicio_id');
+    }
+    public function kmFim()
+    {
+        return $this->belongsTo(Km::class,'km_fim_id');
+    }
+
 }
