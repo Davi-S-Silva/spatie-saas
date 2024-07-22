@@ -24,6 +24,7 @@ class Carga extends Model
 
     public function setNotas($notas)
     {
+        // return $notas;
         return (new Nota())->getNotas($notas, $this);
         // return $this;
     }
@@ -63,5 +64,33 @@ class Carga extends Model
 
     public function setStatus($status){
         $this->status_id = Status::where('name',$status)->where('tipo',1)->get()->first()->id;
+    }
+
+    public function localApoio()
+    {
+        return $this->belongsTo(LocalApoio::class);
+    }
+
+    public function cidades()
+    {
+        $notas = $this->notas()->with('destinatario','destinatario.endereco','destinatario.endereco.cidade');
+
+        $array = [];
+        foreach($notas->get() as $nota){
+            $array[] = $nota->destinatario->endereco->cidade->nome;
+        }
+        // dd($array);
+        return array_unique($array);
+    }
+
+    public function paradas()
+    {
+        $notas = $this->notas()->with('destinatario');
+        $array = [];
+        foreach($notas->get() as $nota){
+            $array[] = $nota->destinatario->id;
+        }
+        // dd($array);
+        return array_unique($array);
     }
 }

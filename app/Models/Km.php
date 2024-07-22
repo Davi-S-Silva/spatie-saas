@@ -33,7 +33,7 @@ class Km extends Model
         $kmAnterior = (!is_null($veiculo->kms()) && $veiculo->kms()->count()!=0)?$veiculo->kms()->get()->last()->km:0;
         // throw new Exception($km. ' - '.$kmAnterior);
         if($km<$kmAnterior){
-            throw new Exception('Km Atual não pode ser menor que o Km Anterior');
+            throw new Exception('Km Atual '.$km.'não pode ser menor que o Km Anterior '.$kmAnterior);
         }
         $this->usuario_id = Auth::user()->id;
         $this->km = $km;

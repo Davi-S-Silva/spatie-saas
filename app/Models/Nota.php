@@ -38,16 +38,21 @@ class Nota extends Model
     {
         return preg_replace("/[^0-9]/", "_", $str);
     }
-
+    public function getStatusId($status)
+    {
+        return Status::where('name',$status)->where('tipo',1)->get()->first()->id;
+    }
     public function getNotas($notas, $carga)
     {
-
+        $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
         // return $carga;
-        $pasta = getEnv('RAIZ') . Storage::disk('local')->url('app/public/notas');
+        $pasta = getEnv('RAIZ') . Storage::disk('local')->url('app/public/' . $empresa . '/notas');
         $diretorio = dir($pasta);
 
         // return $this->formataTextNotas($notas);
-        $arrayNotas = explode('-', $this->formataTextNotas($notas));
+        // $arrayNotas = explode('-', $this->formataTextNotas($notas));
+        $arrayNotas = $notas;
+        $encontradas = [];
 
         while (($arquivo = $diretorio->read()) !== false) {
             if ($arquivo != '.' && $arquivo != '..' && $arquivo != 'Autorizada' && $arquivo != 'Nao autorizada') {
@@ -55,9 +60,15 @@ class Nota extends Model
                 $xml = simplexml_load_file($file);
                 for ($i = 0; $i < count($arrayNotas); $i++) {
                     if ((int)$xml->NFe->infNFe->ide->nNF == $arrayNotas[$i]) {
+                        // throw new Exception($arrayNotas[$i]);
                         // $this->getDadosXmlNota($xml);
                         // $this->getDadosXmlNota($xml);
+                        $encontradas[] = $arrayNotas[$i];
 
+                        $notaBd = Nota::where('chave_acesso',str_replace('NFe', '', $xml->NFe->infNFe['Id']))->get();
+                        if($notaBd->count()!=0){
+                            throw new Exception('Nota '.$arrayNotas[$i].' já existe em nosso banco de dados');
+                        }
 
                         $destinatario = Destinatario::where('cpf_cnpj', $xml->NFe->infNFe->dest->CNPJ)->get();
 
@@ -79,8 +90,10 @@ class Nota extends Model
                             $end->numero = (int)$xml->NFe->infNFe->dest->enderDest->nro;
                             $end->bairro = $xml->NFe->infNFe->dest->enderDest->xBairro;
                             $end->cep = $xml->NFe->infNFe->dest->enderDest->CEP;
-                            $end->cidade_id = 1;
-                            $end->estado_id = 1;
+                            $end->cidade_id = Municipio::where('codigo',(int)$xml->NFe->infNFe->dest->enderDest->cMun)->get()->first()->id;
+                            // return ['cMun'=>(int)$xml->NFe->infNFe->dest->enderDest->cMun,'cidade'=>Municipio::where('codigo',(int)$xml->NFe->infNFe->dest->enderDest->cMun)->get()->first()];
+                            // return Estado::where('uf',$xml->NFe->infNFe->dest->enderDest->UF)->get()->first()->id;
+                            $end->estado_id = Estado::where('uf',$xml->NFe->infNFe->dest->enderDest->UF)->get()->first()->id;
                             $end->save();
 
                             $destinatario->endereco_id  = $end->id;
@@ -109,27 +122,35 @@ class Nota extends Model
                         $nota->tipo_pagamento = (int)$xml->NFe->infNFe->pag->detPag->tPag;
                         $nota->valor = (float)$xml->NFe->infNFe->pag->detPag->vPag;
                         $nota->cliente_id = $carga->cliente_id;
-                        $nota->filial_cliente_id = $carga->filial_cliente_id;
+
+                        // throw new Exception ($carga);
+                        $nota->filial_id = $carga->filial_id;
                         $nota->carga_id = $carga->id;
-                        $pathStorageFile =Storage::disk('local')->put('public/arquivos/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml', file_get_contents($file));
-                        $nota->path_xml = Storage::url(getenv('FILESYSTEM_DISK')).'/public/arquivos/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml';
+                        $pathStorageFile =Storage::disk('local')->put('public/' . $empresa . '/arquivos/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml', file_get_contents($file));
+                        $nota->path_xml = Storage::url(getenv('FILESYSTEM_DISK')).'/public/' . $empresa . '/arquivos/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml';
                         // $nota->path_xml = Storage::disk('local')->put(strtolower(str_replace(' ', '', 'public/' . Cliente::find($carga->cliente_id)->name)) . '/' . str_replace(' ', '', strtolower(Filial::find($carga->filial_cliente_id)->razao_social)) . '/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml', file_get_contents($file));
                         $nota->usuario_id = Auth::user()->id;
-                        $nota->status_id = 1;
+                        $nota->status_id = $nota->getStatusId('Pendente');
                         $nota->destinatario_id = $dest;
+                        $nota->save();
+                        $notaBd = Nota::find($nota->id);
 
-                        if($nota->save()){
+                       //apagando o xml usado e movido
+                        if(!is_null($notaBd)){
                             unlink($file);
                         }else{
                             unlink($nota->path_xml);
                         }
-
                         // return $arrayNotas[$i];
-
                     }
                 }
             }
         }
+        $diferenca = array_diff($arrayNotas,$encontradas);
+        if(!is_null($diferenca)){
+            return $diferenca;
+        }
+        return true;
     }
     private function getDadosXmlNota($xml)
     {
@@ -155,5 +176,20 @@ class Nota extends Model
     public function destinatario()
     {
         return $this->belongsTo(Destinatario::class);
+    }
+
+    public function filial()
+    {
+        return $this->belongsTo(Filial::class);
+    }
+
+    public function status()
+    {
+        // return Status::find($this->status_id);
+        return $this->belongsTo(Status::class);
+    }
+    public function usuarioConclusao()
+    {
+        return $this->belongsTo(User::class,'usuario_conclusao_id');
     }
 }

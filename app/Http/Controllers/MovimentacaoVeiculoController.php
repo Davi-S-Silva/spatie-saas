@@ -61,7 +61,7 @@ class MovimentacaoVeiculoController extends Controller
                 if($lastMovVeiculo->last()->Local_destino_id != $Partida){
                     throw new Exception('Movimentacao incorreta. o veiculo está atualmente em '.LocalMovimentacao::find($lastMovVeiculo->last()->Local_destino_id)->title);
                 }
-                if($lastMovVeiculo->last()->status_id==1){
+                if($lastMovVeiculo->last()->status_id!=$lastMovVeiculo->last()->getStatusId('Finalizada')){
                     throw new Exception('Existe movimentação não concluida para o veiculo');
                 }
             }
@@ -177,8 +177,8 @@ class MovimentacaoVeiculoController extends Controller
             return response()->json(['status'=>200,'msg'=>'Movimentação '.$movimentacaoVeiculo->id.' iniciada com sucesso','mov'=>$movimentacaoVeiculo->getAttributes()]);
         }catch(Exception $ex){
             DB::rollback();
-            // return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
-            return response()->json(['status'=>0, 'msg'=>$ex->getMessage() . 'File: '.$ex->getFile(). 'Line: '.$ex->getLine()]);
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+            // return response()->json(['status'=>0, 'msg'=>$ex->getMessage() . 'File: '.$ex->getFile(). 'Line: '.$ex->getLine()]);
         }
     }
 
@@ -186,15 +186,16 @@ class MovimentacaoVeiculoController extends Controller
         try{
             DB::beginTransaction();
             $movimentacaoVeiculo = MovimentacaoVeiculo::find($request->Mov);
-            if($movimentacaoVeiculo->status_id ==1){
+            if($movimentacaoVeiculo->status_id ==$movimentacaoVeiculo->getStatusId('Pendente')){
                 throw new Exception('Movimentação não pode ser encerrada pois ainda não foi iniciada');
-            } else if($movimentacaoVeiculo->status_id ==3){
+            } else if($movimentacaoVeiculo->status_id ==$movimentacaoVeiculo->getStatusId('Finalizada')){
                 throw new Exception('Não é possivel encerrar uma movimentação já encerrada');
             }
             $KmFinal = (int)filter_var($request->KmFinal, FILTER_SANITIZE_NUMBER_INT);
+            // return response()->json(['status'=>0,'msg'=>$movimentacaoVeiculo->kmInicio->km]);
             //verificar se o km digitado é maior que o ultimo km_inicio registrado para o veiculo
-            if($movimentacaoVeiculo->km_inicio >= $KmFinal){
-                throw new Exception('Km Final não pode ser menor ou igual que o km inicial');
+            if($movimentacaoVeiculo->kmInicio->km >= $KmFinal || $KmFinal <= $movimentacaoVeiculo->veiculo->kms()->get()->last()->km){
+                throw new Exception('Km Final não pode ser menor ou igual que o km inicial ');
             }
             $veiculo = Veiculo::find($movimentacaoVeiculo->veiculo_id);
             $veiculo->status_id=$veiculo->getStatusId('Disponivel');
@@ -203,19 +204,20 @@ class MovimentacaoVeiculoController extends Controller
             $KmModel->setKm($veiculo,$KmFinal);
             $KmModel->save();
             $movimentacaoVeiculo->status_id = $movimentacaoVeiculo->getStatusId('Finalizada');;
-            $movimentacaoVeiculo->km_fim_id = $KmFinal;
+            $movimentacaoVeiculo->km_fim_id = $KmModel->id;
             $movimentacaoVeiculo->data_hora_fim = date('Y-m-d H:i:s');
             $movimentacaoVeiculo->usuario_conclusao_id = Auth::user()->id;
             $movimentacaoVeiculo->save();
 
             $colaborador = Colaborador::find($movimentacaoVeiculo->colaborador_id);
-            $colaborador->status_id=1;
+            $colaborador->status_id=$colaborador->getStatusId('Disponivel');
             $colaborador->save();
             // return response()->json($request);
             DB::commit();
             return response()->json(['status'=>200,'msg'=>'Movimentação '.$movimentacaoVeiculo->id.' encerrada com sucesso','mov'=>$movimentacaoVeiculo->getAttributes()]);
         }catch(Exception $ex){
             DB::rollback();
+            // return response()->json(['status'=>0,'msg'=>$ex->getMessage().' - '.$ex->getFile().' - '.$ex->getLine()]);
             return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
         }
     }

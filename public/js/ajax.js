@@ -437,8 +437,11 @@ if($('.form_add_notas').attr('action')==""){
     $('.form_add_notas').hide();
 }
 
+$('.response-message-ajax').click(function(){
+    $(this).hide()
+})
     $('.add-notas-carga').click(function(){
-        console.log($(this).attr('href'));
+        // console.log($(this).attr('href'));
         $('.form_add_notas').show();
         $('.form_add_notas').attr('action',$(this).attr('href'))
         $('.form_add_notas legend').text($(this).attr('id'))
@@ -447,18 +450,56 @@ if($('.form_add_notas').attr('action')==""){
 
     $('.form_add_notas').submit(function(){
 
-        console.log($('.form_add_notas').attr('action'))
-
+        // console.log($('.form_add_notas').attr('action'))
+        var txt = '';
+        var notas = []
         $.ajax({
             type:'post',
             url: $('.form_add_notas').attr('action'),
             data:$(this).serialize(),
             dataType: 'json',
             beforeSend:function(){
-                console.log($('.form_add_notas').attr('action'))
+                // console.log($('.form_add_notas').attr('action'))
+                // loading.show()
+                loading.css('display','flex')
+                loading.removeClass('d-none');
             },
             success:function(response){
-                console.log(response)
+                // console.log(response)
+                loading.hide()
+                if(response.status==0){
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').show()
+                    if(response.notas != undefined){
+                        console.log(response.notas)
+                        // response.notas.each(function(index){
+                            // })
+                            // i = 0
+                            $.each(response.notas,function(i, val){
+                                notas.push(val);
+                            })
+                            $.each(notas,function(i, val){
+                                txt+=val
+                                if(i < (notas.length -1)){
+                                    txt+='-'
+                                }
+                            })
+                            // console.log(notas.length)
+                        $('.response-message-ajax').text('Notas '+txt+' não encontradas')
+                        return
+                    }
+                    $('.response-message-ajax').text(response.msg)
+                    // $('.response-message-ajax').fadeOut(10000)
+
+                }
+                if(response.status==200){
+                    console.log(response.msg);
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').text(response.msg)
+                }
             },
             error:function(response){
                 console.log(response)
@@ -771,13 +812,14 @@ if($('.form_add_notas').attr('action')==""){
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
+                    console.log(response.msg)
                 }
                 if(response.status==200){
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-danger')
                     $('.response-message-ajax').addClass('alert-success')
                     $('.response-message-ajax').text(response.msg)
-
+                    console.log(response.msg)
                     $('#Stop_Mov_'+response.mov.id).hide()
                     $('form[name="StopMov"]').hide()
                     $('input[name="KmFinal"]').val('')
@@ -787,6 +829,7 @@ if($('.form_add_notas').attr('action')==""){
                 $('.response-message-ajax').show()
                 $('.response-message-ajax').addClass('alert-danger')
                 $('.response-message-ajax').text(response.msg)
+                console.log(response.msg)
                 return false;
             }
         })
@@ -1054,4 +1097,56 @@ if($('.form_add_notas').attr('action')==""){
         })
         return false
     });
+
+    $('.area-show-detalhe').hide()
+    $('.show-detalhe-cargas').click(function(){
+        // $('.area-show-detalhe').hide()
+        // console.log($(this).text())
+        // $('.area-show-detalhe').toggle()
+        $('#Carga_'+$(this).attr('Carga')).toggle()
+        // $('.show-detalhe-cargas').text('+')
+        if($(this).html()=='<i class="fa-regular fa-square-minus"></i>'){
+            // console.log('negativo')
+            $(this).html('<i class="fa-regular fa-square-plus"></i>')
+        }else{
+            // console.log('positivo')
+            $(this).html('<i class="fa-regular fa-square-minus"></i>')
+        }
+        // $(this).text('-')
+
+        return false;
+    })
+
+    $('.atualiza-nota-component').click(function(){
+        console.log('atualizar nota')
+        return false
+    })
+
+    $('form[name="FormEncerraEntrega"]').submit(function(){
+        // console.log($(this).attr('action'))
+        $.ajax({
+            type:'post',
+            url: $(this).attr('action'),
+            dataType:'json',
+            data:$(this).serialize(),
+            beforeSend:function(){
+
+            },
+            success:function(response){
+                // alert(response)
+                console.log(response)
+                if(response.status==0){
+
+                }
+                if(response.status==200){
+
+                }
+            },
+            error:function(response){
+
+                return false;
+            }
+        })
+        return false
+    })
 });

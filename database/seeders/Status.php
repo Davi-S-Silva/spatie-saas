@@ -139,6 +139,41 @@ class Status extends Seeder
             'tipo' => 5,
             'descricao' => 'Colaborador desligado da empresa',
         ]);
+        DB::table('status')->insert([
+            'name' => 'Ativo',
+            'tipo' => 6,
+            'descricao' => 'Local de movimentação ativa',
+        ]);
+        DB::table('status')->insert([
+            'name' => 'Desativado',
+            'tipo' => 6,
+            'descricao' => 'Local de movimentação desativado',
+        ]);
+        DB::table('status')->insert([
+            'name' => 'Pendente',
+            'tipo' => 7,
+            'descricao' => 'Nota Pendente',
+        ]);
+        DB::table('status')->insert([
+            'name' => 'Entregue',
+            'tipo' => 7,
+            'descricao' => 'Nota Entregue',
+        ]);
+        DB::table('status')->insert([
+            'name' => 'Aberto',
+            'tipo' => 7,
+            'descricao' => 'Nota com pagamento em aberto',
+        ]);
+        DB::table('status')->insert([
+            'name' => 'Paga',
+            'tipo' => 7,
+            'descricao' => 'Nota Paga',
+        ]);
+        DB::table('status')->insert([
+            'name' => 'Finalizada',
+            'tipo' => 7,
+            'descricao' => 'Nota Paga e Prestado Conta',
+        ]);
 
     }
 }

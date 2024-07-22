@@ -21,7 +21,7 @@ return new class extends Migration
             $table->double('peso');
             $table->double('valor');
             $table->foreignId('cliente_id')->references('id')->on('clientes');
-            $table->foreignId('filial_cliente_id')->references('id')->on('filials');
+            $table->foreignId('filial_id')->references('id')->on('filials');
             $table->foreignId('carga_id')->references('id')->on('cargas');
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->foreignId('status_id')->references('id')->on('status');

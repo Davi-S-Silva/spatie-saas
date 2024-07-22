@@ -43,4 +43,8 @@ class Endereco extends Model
     {
         return $this->hasOne(Nota::class);
     }
+    public function cidade()
+    {
+        return $this->belongsTo(Municipio::class);
+    }
 }

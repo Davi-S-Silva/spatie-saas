@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('numero');
             $table->string('bairro');
             $table->integer('cep');
-            $table->integer('cidade_id');
-            $table->integer('estado_id');
+            $table->foreignId('cidade_id')->nullable()->references('id')->on('municipios');
+            $table->foreignId('estado_id')->nullable()->references('id')->on('estados');
             $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });

@@ -32,8 +32,13 @@ class LocalMovimentacao extends Model
         return $this->belongsToMany(LocalApoio::class);
     }
 
-    public function getLocalMovimentacao($local)
+    public static function getLocalMovimentacao($local)
     {
-        return LocalMovimentacao::where('title','Rota')->get()->first();
+        return LocalMovimentacao::where('title',$local)->get()->first();
+    }
+
+    public function getStatusId($status)
+    {
+        return Status::where('name',$status)->where('tipo',6)->get()->first()->id;
     }
 }

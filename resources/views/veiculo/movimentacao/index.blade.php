@@ -33,13 +33,17 @@
                     </form>
                     <ul>
                         @forelse ($movimentacoes as $movimentacao)
-                        <li class="my-2"> {{ $movimentacao->colaborador->name }}
+                        <li class="my-2"> {{ (!is_null( $movimentacao->colaborador))? $movimentacao->colaborador->name:'-' }}
                              <b>Partida</b> {{ $movimentacao->partida->title }}
                              <b>Destino</b> {{ $movimentacao->destino->title }}
                              <b>Placa</b> {{ $movimentacao->veiculo->placa }}
-                             <b>Km Inicio</b>{{  $movimentacao->kmInicio->km }}
-                             <b>Km fim</b>{{  $movimentacao->kmFim->km }}
-                             <b>Km Percorrido</b>{{  ($movimentacao->kmFim->km-$movimentacao->kmInicio->km) }}
+
+                             {{-- @php
+                                 dd($movimentacao->kmInicio);
+                             @endphp --}}
+                             <b>Km Inicio</b>{{  (!is_null( $movimentacao->kmInicio))? $movimentacao->kmInicio->km:'-' }}
+                             <b>Km fim</b>{{  (!is_null( $movimentacao->kmFim))?$movimentacao->kmFim->km:'-' }}
+                             {{-- <b>Km Percorrido</b>{{  ($movimentacao->kmFim->km-$movimentacao->kmInicio->km) }} --}}
                              {{-- <form action="{{ route('movimentacao.toggleMov',['movimentacao'=>$movimentacao->id]) }}" method="post" name="FormToggleMov"> --}}
                                 {{-- @csrf --}}
                                 {{-- <input type="image" name="StartMove" src="{{ asset('img/play.png') }}" value="1"></form> --}}

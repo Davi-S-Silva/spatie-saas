@@ -60,6 +60,7 @@ class ClienteController extends Controller implements HasMiddleware
         $cliente->name = $request->RazaoSocial;
         $cliente->usuario_id=Auth::user()->id;
         $cliente->save();
+
         $filial = new Filial();
         $filial->newId();
         $filial->razao_social = $request->NomeFantasia;
@@ -97,15 +98,19 @@ class ClienteController extends Controller implements HasMiddleware
         $localMov = new LocalMovimentacao();
         $localMov->title = $filial->nome_fantasia;
         $localMov->descricao = 'local de carregamento e descarremento de carga do cliente '.$cliente->name;
-        $localMov->status_id = 1;
+        $localMov->status_id = $localMov->getStatusId('Ativo');
         $localMov->usuario_id = Auth::user()->id;
         $localMov->save();
+        $filial->locaismovimetacoes()->attach($localMov->id);
+
         echo '<pre>';
         print_r($cliente->getAttributes());
         print_r($filial->getAttributes());
         print_r($end->getAttributes());
         print_r($cont ->getAttributes());
         echo '</pre>';
+
+        // dd($cliente);
         DB::commit();
     }catch(Exception $ex){
         DB::rollback();

@@ -78,12 +78,14 @@ class TenantController extends Controller
             $localApoio->empresa_id = $empresa->id;
             $localApoio->usuario_id = Auth::user()->id;
             $localApoio->save();
+
             $localMov = new LocalMovimentacao();
             $localMov->title = $localApoio->name;
-            $localMov->descricao = $localApoio->name . ' local de apoio da ' . Empresa::find($empresa->id)->nome;
-            $localMov->status_id = 1;
+            $localMov->descricao = $localApoio->name . ' local de apoio da ' . $request->input('RazaoSocial');
+            $localMov->status_id = $localMov->getStatusId('Ativo');
             $localMov->usuario_id = Auth::user()->id;
             $localMov->save();
+
             $localApoio->locaismovimetacoes()->attach($localMov->id);
 
             $contato = new Contato();
@@ -113,7 +115,7 @@ class TenantController extends Controller
             return redirect()->route('empresa.show',['empresa'=>$empresa->id])->with('message', ['status' => 'success', 'msg' => 'Empresa Cadastrada com sucesso!']);
         }catch(Exception $ex){
             DB::rollBack();
-            return redirect()->back()->with('message', ['status' => 'danger', 'msg' => 'Empresa não Cadastrada! erro: '.$ex->getMessage().' - '.$ex->getCode()]);
+            return redirect()->back()->with('message', ['status' => 'danger', 'msg' => 'Empresa não Cadastrada! erro: '.$ex->getMessage().' - '.$ex->getFile(). ' - '.$ex->getLine()]);
             // echo '<pre>';
             // print_r($ex->getMessage());
             // echo '</pre>';

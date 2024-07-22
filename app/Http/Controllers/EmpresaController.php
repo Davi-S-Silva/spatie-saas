@@ -6,6 +6,8 @@ use App\Models\Certificado;
 use App\Models\Contato;
 use App\Models\Empresa;
 use App\Models\Endereco;
+use App\Models\LocalApoio;
+use App\Models\LocalMovimentacao;
 use Exception;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -83,6 +85,23 @@ class EmpresaController extends Controller implements HasMiddleware
             $empresa->save();
 
             $empresa->enderecos()->attach($endereco->id);
+
+
+            $localApoio = new LocalApoio();
+            $localApoio->name = $request->input('RazaoSocial');
+            $localApoio->description = 'Sede da empresa '.$request->input('RazaoSocial');
+            $localApoio->empresa_id = $empresa->id;
+            $localApoio->usuario_id = Auth::user()->id;
+            $localApoio->save();
+
+            $localMov = new LocalMovimentacao();
+            $localMov->title = $localApoio->name;
+            $localMov->descricao = 'Sede da empresa ' . $request->input('RazaoSocial');
+            $localMov->status_id = $localMov->getStatusId('Ativo');
+            $localMov->usuario_id = Auth::user()->id;
+            $localMov->save();
+
+            $localApoio->locaismovimetacoes()->attach($localMov->id);
 
             $contato = new Contato();
             $contato->telefone = $request->Telefone;

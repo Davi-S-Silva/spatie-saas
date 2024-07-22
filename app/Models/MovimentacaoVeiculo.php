@@ -48,12 +48,12 @@ class MovimentacaoVeiculo extends Model
         $this->status_id = Status::where('name',$status)->where('tipo',3)->get()->first()->id;
     }
 
-    // public static function getMovimentacaoVeiculo($veiculo)
-    // {
-    //     return MovimentacaoVeiculo::where('veiculo_id',$veiculo)->get();
-    //     // $mov = new MovimentacaoVeiculo();
-    //     // return $mov->status($status);
-    // }
+    public static function getMovimentacaoVeiculo($veiculo)
+    {
+        return MovimentacaoVeiculo::where('veiculo_id',$veiculo)->get();
+        // $mov = new MovimentacaoVeiculo();
+        // return $mov->status($status);
+    }
 
     public function kms()
     {

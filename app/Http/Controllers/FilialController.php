@@ -83,6 +83,7 @@ class FilialController extends Controller
             $localMov->usuario_id = Auth::user()->id;
             $localMov->save();
             $filial->locaismovimetacoes()->attach($localMov->id);
+
             DB::commit();
         }catch(Exception $ex){
             DB::rollback();

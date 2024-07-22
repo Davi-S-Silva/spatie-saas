@@ -24,12 +24,16 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+            Status::class,
+            LocalMovimentacaoSeeder::class,
             EmpresaSeeder::class,
             IndicacaoPagamento::class,
             TipoColaboradorSeeder::class,
             FuncaoColaboradorSeeder::class,
-            Status::class,
             CombustivelSeeder::class,
+            RegiaoSeeder::class,
+            EstadoSeeder::class,
+            MunicipioSeeder::class,
         ]);
     }
 }

@@ -91,6 +91,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('entrega',EntregaController::class);
         Route::post('entrega/{entrega}/start',[EntregaController::class, 'start'])->name('entrega.start');
         Route::post('entrega/{entrega}/stop',[EntregaController::class, 'stop'])->name('entrega.stop');
+        Route::post('entrega/{entrega}/receberVariasNotas',[EntregaController::class,'receberVariasNotas'])->name('receberVariasNotas');
         Route::resource('movimentacao',MovimentacaoVeiculoController::class);
         // Route::post('movimentacao/{movimentacao}',[MovimentacaoVeiculoController::class, 'toggleMov'])->name('movimentacao.toggleMov');
         // Route::get('movimentacao/{movimentacao}/start',[MovimentacaoVeiculoController::class, 'start'])->name('movimentacao.start');

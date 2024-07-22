@@ -8,6 +8,7 @@ use App\Models\Empresa;
 use App\Models\Filial;
 use App\Models\LocalApoio;
 use App\Models\Nota;
+use App\Models\Uteis;
 use Exception;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
@@ -21,7 +22,8 @@ class CargaController extends Controller
      */
     public function index()
     {
-        return view('carga.index', ['cargas' => Carga::all()]);
+        $carga = Carga::with('veiculo','notas','notas.filial','notas.status','notas.destinatario','notas.destinatario.endereco')->get();
+        return view('carga.index', ['cargas' => $carga]);
     }
 
     /**
@@ -89,7 +91,7 @@ class CargaController extends Controller
      */
     public function show(Carga $carga)
     {
-        //
+        return view('carga.show',['carga'=>$carga]);
     }
 
     /**
@@ -121,12 +123,30 @@ class CargaController extends Controller
         try {
             DB::beginTransaction();
             $Carga = Carga::find($carga);
+            if(is_null($request->Notas)){
+                throw new Exception('Digite as notas a serem inseridas');
+            }
+            // $request->validate([
+            //     'Notas'=>'required|alpha_dash'
+            // ]);
+            // $array =   Uteis::limpar_texto(str_replace('Número: ', '', $request->Notas));
+            $array =   Uteis::limpar_texto($request->Notas);
+            $response = $Carga->setNotas($array);
 
+            if(is_null($response)){
+                throw new Exception('Verifique as informações digitadas');
+            }
+
+            // sleep(5);
+            if(count($response)!=0){
+                return response()->json(['status'=>0,'msg'=>'notas nao encontradas','notas'=>$response]);
+            }
+            // return response()->json(['status'=>200,'msg'=>$request->Notas]);
             DB::commit();
-            return response()->json($Carga->setNotas($request->Notas));
+            return response()->json(['status'=>200,'msg'=>'Notas Cadastradas com sucesso!']);
         } catch (Exception $ex) {
             DB::rollback();
-            return ['message' => $ex->getMessage(), 'linha' => $ex->getCode()];
+            return ['status'=>0,'msg' => $ex->getMessage(), 'linha' => $ex->getCode().' - file '.$ex->getFile().' - line '.$ex->getLine()];
         }
     }
 

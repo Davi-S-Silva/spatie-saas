@@ -45,4 +45,19 @@ $(function () {
         });
     });
 
+    $('.area-info-nota-component').hide()
+    $('.info-nota-component').click(function(){
+        // $(this).css('background-color','#8ED3FF')
+        // alert($(this).attr('href'))
+        $('#Info_Nota_'+$(this).attr('nota')).show()
+        // console.log('teste');
+        return false
+    })
+    $('.close-area-info-nota-component').click(function(){
+        // console.log($(this).attr('id'))
+        $('#Info_Nota_'+$(this).attr('nota')).hide()
+        return false
+    })
+
+
 });

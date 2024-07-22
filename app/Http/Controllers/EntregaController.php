@@ -7,6 +7,7 @@ use App\Models\Cliente;
 use App\Models\Colaborador;
 use App\Models\Entrega;
 use App\Models\Filial;
+use App\Models\Km;
 use App\Models\LocalMovimentacao;
 use App\Models\MovimentacaoVeiculo;
 use App\Models\Status;
@@ -61,7 +62,7 @@ class EntregaController extends Controller
 
             // exit;
 
-            if($Veiculo->status_id==$Veiculo->status('Disponivel')){
+            if($Veiculo->status_id==$Veiculo->getStatusId('Disponivel')){
                 $entrega->veiculo_id =$request->veiculo;
             }else{
                 throw new Exception('Veiculo está indisponivel');
@@ -87,12 +88,12 @@ class EntregaController extends Controller
             // return response()->json($Motorista->status('Disponivel'));
 
             // exit;
-            if($Motorista->status_id==$Motorista->status('Disponivel')){
+            if($Motorista->status_id==$Motorista->getStatusId('Disponivel')){
                 $entrega->colaborador_id =$request->colaborador;
             }else{
                 throw new Exception('Motorista está indisponivel ');
             }
-            $Motorista->status_id=$Motorista->status('Rota');
+            $Motorista->status_id=$Motorista->getStatusId('Rota');
             $Motorista->save();
 
             $entrega->setStatus('Pendente') ;//entrega pendente
@@ -113,7 +114,7 @@ class EntregaController extends Controller
             if(count($request->ajudante)>0 && $request->ajudante[0]!=null){
                 foreach($request->ajudante as $ajudante){
                     $Ajudante = Colaborador::find($ajudante);
-                    if($Ajudante->status_id==$Ajudante->status('Disponivel')){
+                    if($Ajudante->status_id==$Ajudante->getStatusId('Disponivel')){
                         $entrega->ajudantes()->attach($Ajudante);
                         $Ajudante->setStatus('Indisponivel');//colaborador indisponivel
                         $Ajudante->save();
@@ -127,8 +128,8 @@ class EntregaController extends Controller
             // return response()->json($request->input());
         }catch(Exception $ex){
             DB::rollback();
-            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
-            // return response()->json(['status'=>0,'msg'=>$ex->getMessage(). ' file: '.$ex->getFile(). ' linha: '.$ex->getLine()]);
+            // return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage(). ' file: '.$ex->getFile(). ' linha: '.$ex->getLine()]);
         }
     }
 
@@ -137,7 +138,7 @@ class EntregaController extends Controller
      */
     public function show(Entrega $entrega)
     {
-        //
+        return view('entrega.show',['entrega'=>$entrega]);
     }
 
     /**
@@ -170,12 +171,13 @@ class EntregaController extends Controller
             DB::beginTransaction();
             $entrega = Entrega::find($request->Entrega);
             $localMov = $entrega->filial->locaismovimetacoes->first();
+            // return response()->json(['status'=>200,'msg'=>$localMov]);
             $movPendente = MovimentacaoVeiculo::getMovimentacaoVeiculo($entrega->veiculo_id);
             if($movPendente->count() != 0){
                 // return response()->json(['status'=>200,'msg'=>$movPendente->last()->status('Rota')]);
-                if($movPendente->last()->status_id == $movPendente->last()->status('Rota') ||
-                    $movPendente->last()->status_id == $movPendente->last()->status('Pendente') ||
-                    $movPendente->last()->status_id == $movPendente->last()->status('Iniciada')){
+                if($movPendente->last()->status_id == $movPendente->last()->getStatusId('Rota') ||
+                    $movPendente->last()->status_id == $movPendente->last()->getStatusId('Pendente') ||
+                    $movPendente->last()->status_id == $movPendente->last()->getStatusId('Iniciada')){
                     throw new Exception('Existe Movimentação não finalizada para veiculo '. $entrega->veiculo->placa);
                 }
             }
@@ -185,20 +187,35 @@ class EntregaController extends Controller
             $Mov->Local_destino_id = $localMov->getLocalMovimentacao('Rota')->id;
             $Mov->colaborador_id = $entrega->colaborador_id;
             $Mov->veiculo_id = $entrega->veiculo_id;
-            $Mov->descricao = $localMov->getLocalMovimentacao('Rota')->descricao . ' de entrega do cliente: '. strtoupper($entrega->filial->nome_fantasia);
+            $Mov->descricao = $localMov->getLocalMovimentacao('Rota')->descricao . ' do cliente: '. strtoupper($entrega->filial->nome_fantasia);
+            $Mov->data_hora_inicio = date('Y-m-d H:i:s');
             $Mov->usuario_id = Auth::user()->id;
-            $Mov->km_inicio = $request->KmInicial;
+            $veiculo = Veiculo::find($Mov->veiculo_id);
+            $veiculo->status_id=$veiculo->getStatusId('Disponivel');
+            $veiculo->save();
+
+            $KmModel = new Km();
+            $KmModel->setKm($veiculo,$request->KmInicial);
+            $KmModel->save();
+
+            $Mov->km_inicio_id = $KmModel->id;
             $Mov->setStatus('Rota');//movimentacao iniciada
             $Mov->save();
             $entrega->setStatus('Rota');
             $entrega->save();
 
+            //atualizar status da carga
+            foreach($entrega->cargas as $carga){
+                $carga->setStatus('Rota');
+                $carga->save();
+            }
+
             DB::commit();
-            return response()->json(['status'=>200,'msg'=>$Mov]);
+            return response()->json(['status'=>200,'msg'=>'Entrega Iniciada com sucesso']);
         }catch(Exception $ex){
             DB::rollback();
-            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
-            // return response()->json(['status'=>0,'msg'=>$ex->getMessage(). ' - '. $ex->getFile(). ' - '.$ex->getLine()]);
+            // return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage(). ' - '. $ex->getFile(). ' - '.$ex->getLine()]);
         }
     }
 
@@ -207,13 +224,6 @@ class EntregaController extends Controller
         try{
             DB::beginTransaction();
             $entrega = Entrega::find($request->Entrega);
-            //encerrar entrega
-
-
-            $Mov = MovimentacaoVeiculo::where('veiculo_id',$entrega->veiculo_id)->get()->last();
-            //encerrar movimentacao
-
-            //criar nova movimentacao
 
             //liberar ajudante e motorista
             // ajudantes
@@ -224,16 +234,58 @@ class EntregaController extends Controller
             // motorista
             $entrega->colaborador->setStatus('Disponivel');
             $entrega->colaborador->save();
+            $Mov = MovimentacaoVeiculo::where('veiculo_id',$entrega->veiculo_id)->get()->last();
+
+            //encerrar entrega
+            $entrega->status_id = $entrega->getStatusId('Finalizada');
+            $entrega->save();
+
+
+            $veiculo = Veiculo::find($Mov->veiculo_id);
+            $veiculo->status_id=$veiculo->getStatusId('Disponivel');
+            $veiculo->save();
 
             //verifica km anterior
-            if($Mov->km_inicio>=$request->KmFinal){
+            //   return response()->json(['status'=>200,'msg'=>$Mov->kmInicio]);
+            if($Mov->kmInicio->km>=$request->KmFinal){
                 throw new Exception('Km final não pode ser menor ou igual a km inicial');
             }
-            $Mov->km_fim =(int) $request->KmFinal;
+            $KmModel = new Km();
+            $KmModel->setKm($veiculo,$request->KmFinal);
+            $KmModel->save();
+            //encerrar movimentacao
+            $Mov->km_fim_id = $KmModel->id;
+            $Mov->usuario_conclusao_id= Auth::user()->id;
+            $Mov->setStatus('Finalizada');
+            $Mov->data_hora_fim = date('Y-m-d H:i:s');
+            $Mov->save();
 
-            return response()->json(['status'=>200,'msg'=>$entrega->colaborador]);
+            //VERIFICAR SE O DESTINO E PARTIDA SAO IGUAIS
+            if($Mov->Local_destino_id==(int)$request->LocalDestino){
+                throw new Exception('Local de partida e Local de destino não pode ser o mesmo');
+            }
+            //NOVA MOVIMENTACAO
+            $newMov = new MovimentacaoVeiculo();
+            $newMov->newId();
+            $newMov->Local_partida_id = $Mov->Local_destino_id;
+            $newMov->Local_destino_id = (int)$request->LocalDestino;
+            $newMov->colaborador_id = $entrega->colaborador->id;
+            $newMov->veiculo_id = $entrega->veiculo_id;
+            $newMov->usuario_id = Auth::user()->id;
+            $newMov->descricao = (new LocalMovimentacao())->getLocalMovimentacao($entrega->filial->nome_fantasia)->descricao . ' '. strtoupper($entrega->filial->nome_fantasia);
+            $newMov->setStatus('Pendente');//movimentacao pendente
+            $newMov->save();
+            // $Mov->km_fim_id =(int) $request->KmFinal;
+
+            //ATUALIZA PARA FINALIZADA A CARGA
+            foreach($entrega->cargas as $carga){
+                $carga->setStatus('Finalizada');
+                $carga->save();
+            }
+
             // return response()->json(['status'=>200,'msg'=>$request->input()]);
-            // DB::commit();
+            DB::commit();
+            return response()->json(['status'=>200,'msg'=>'Entrega Finalizada com sucesso']);
         }catch(Exception $ex){
             DB::rollback();
             return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
@@ -241,5 +293,10 @@ class EntregaController extends Controller
 
 
 
+    }
+
+    public function receberVariasNotas(Request $request)
+    {
+        return $request->Notas;
     }
 }
