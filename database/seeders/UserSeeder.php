@@ -16,16 +16,16 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->insert([
-            'name' => 'Admin Master',
+            'name' => 'Super Admin',
             'email' => 'adminmaster@gmail.com',
             'password' => Hash::make('password'),
             // 'empresa_id'=>1,
         ]);
-        DB::table('users')->insert([
-            'name' => 'Marcilene Celestino da Silva',
-            'email' => 'marcilenecelestino907@gmail.com',
-            'password' => Hash::make('password'),
-        ]);
+        // DB::table('users')->insert([
+        //     'name' => 'Marcilene Celestino da Silva',
+        //     'email' => 'marcilenecelestino907@gmail.com',
+        //     'password' => Hash::make('password'),
+        // ]);
 
         $user = User::where('email','adminmaster@gmail.com')->get()->first();
         $user->syncRoles(['super-admin']);
