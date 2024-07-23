@@ -301,7 +301,30 @@ class EmpresaController extends Controller implements HasMiddleware
             if (empty($request->notas)) {
                 throw new Exception('Selecione o arquivo que deseja importar');
             }
+
+            $path = getenv('RAIZ').'/storage/app/public/'.$empresa;
+            $linux=true;
+            if(!file_exists($path)){
+                mkdir($path);
+                chmod($path,777);
+            }
+            if(!file_exists($path.'/notas')){
+                mkdir($path.'/notas');
+                chmod($path.'/notas',777);
+            }
+            if(!file_exists($path.'/notas/Autorizada') && $linux){
+                mkdir($path.'/notas/Autorizada');
+                chmod($path.'/notas/Autorizada', 777);
+            }
+            if(!file_exists($path.'/notas/Autorizada/Transportadas') && $linux){
+                mkdir($path.'/notas/Autorizada/Transportadas');
+                chmod($path.'/notas/Autorizada/Transportadas', 777);
+            }
+
+
             $extractZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/';
+
+
             foreach ($request->notas as $nota) {
                 if ($nota->getClientOriginalExtension() == 'zip' || $nota->getClientOriginalExtension() == 'ZIP') {
                     // $notas[]=['nome'=>$nota->getClientOriginalExtension()];
