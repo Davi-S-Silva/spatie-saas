@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Carga;
 use App\Models\Cliente;
+use App\Models\DistanceCity;
 use App\Models\Empresa;
 use App\Models\Filial;
 use App\Models\LocalApoio;
+use App\Models\ModeloUmFrete;
 use App\Models\Nota;
 use App\Models\Uteis;
 use Exception;
@@ -47,7 +49,7 @@ class CargaController extends Controller
             DB::beginTransaction();
             $carga = new Carga();
             $carga->newId();
-            $carga->area = $request->area;
+            $carga->destino = $request->area;
             $carga->peso = $request->peso;
             $carga->entregas = $request->entregas;
             $carga->motorista_id = $request->colaborador;
@@ -91,6 +93,7 @@ class CargaController extends Controller
      */
     public function show(Carga $carga)
     {
+        // $Carga = Carga::find($carga->id)->with('filial')->get()->first();
         return view('carga.show',['carga'=>$carga]);
     }
 
@@ -168,7 +171,7 @@ class CargaController extends Controller
                 if ($carga->status_id == 1) {
                     $Dados[] = [
                         'id' => $carga->id,
-                        'area' => $carga->area,
+                        'destino' => $carga->destino,
                         'remessa' => $carga->remessa,
                         'os' => $carga->os,
                         'motorista' => $carga->motorista->name
@@ -183,5 +186,74 @@ class CargaController extends Controller
         } catch (Exception $ex) {
             return response()->json(['status' => 0, 'msg' => $ex->getMessage()]);
         }
+
     }
+        public function cidadeFrete($carga)
+        {
+            try{
+                DB::beginTransaction();
+
+                    $maior = array();
+                    $Carga = Carga::find($carga);
+                    if(!is_null($Carga->frete)){
+                        throw new Exception('Frete já calculado! Não é possivel calcular novamente!');
+                    }
+                    foreach($Carga->cidades() as $cidade){
+                        $distancia = (new DistanceCity($cidade->getCoordenadas($Carga->filial->enderecos->first()->cidade->codigo),"$cidade->longitude,$cidade->latitude"))->showDistance();
+                        array_push($maior, [$distancia,$cidade]);
+                    }
+                    sort($maior);
+                    $CidadeFinal = end($maior)[1];
+                    $destino = $CidadeFinal->nome . ', '.$CidadeFinal->estado->uf;
+                    $Carga->destino = $destino;
+                    // $modelUmFrete = ModeloUmFrete::where('cidades','like',"%alemana%")->get();
+                    $modelUmFrete = ModeloUmFrete::where('cidades','like',"%".$CidadeFinal->nome."%")->get();
+                    $pesoCarga = $Carga->peso();
+
+                    if($modelUmFrete->count()==0){
+                        throw new Exception('Cidade não encontrada');
+                    }
+                    $modeloUmFrete = $modelUmFrete->first();
+                    // $cidade->getCoordenadas($carga->filial->enderecos->first()->cidade->codigo);
+                    $pesoCalculo = 0;
+                    if($pesoCarga > 0 && $pesoCarga <15000){
+                        $pesoCalculo = 14;
+                    }
+
+                    $qtdEntregas = count($Carga->paradas());
+                    $preco = 0;
+                if($qtdEntregas==1){
+                    $preco = $modeloUmFrete->um;
+                }elseif($qtdEntregas==2 || $qtdEntregas==3){
+                    $preco = $modeloUmFrete->dois;
+                }elseif($qtdEntregas==4 || $qtdEntregas==5){
+                    $preco = $modeloUmFrete->tres;
+                }elseif($qtdEntregas==6 || $qtdEntregas==7){
+                    $preco = $modeloUmFrete->quatro;
+                }elseif($qtdEntregas>=8 && $qtdEntregas<=10){
+                    $preco = $modeloUmFrete->cinco;
+                }elseif($qtdEntregas>=11 && $qtdEntregas<=13){
+                    $preco = $modeloUmFrete->seis;
+                }elseif($qtdEntregas>=14 && $qtdEntregas<=16){
+                    $preco = $modeloUmFrete->sete;
+                }elseif($qtdEntregas>=17 && $qtdEntregas<=19){
+                    $preco = $modeloUmFrete->oito;
+                }elseif($qtdEntregas>=20 && $qtdEntregas<=23){
+                    $preco = $modeloUmFrete->nome;
+                }else{
+                    $preco = $modeloUmFrete->dez;
+                }
+
+                $valorFrete = ($pesoCalculo*$preco);
+                $Carga->frete = $valorFrete;
+
+                $Carga->save();
+                DB::commit();
+                return response()->json(['status' => 200, 'msg' => ['cidade'=>$destino,'frete'=>number_format($valorFrete,2,',','.')]]);
+                // return response()->json(['status' => 200, 'msg' => end($maior)[1]]);
+            }catch(Exception $ex){
+                DB::rollback();
+                return response()->json(['status' => 0, 'msg' => $ex->getMessage()]);
+            }
+        }
 }

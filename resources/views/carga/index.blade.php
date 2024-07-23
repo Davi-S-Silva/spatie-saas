@@ -71,7 +71,7 @@
                             <td><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->os }}</a></td>
                             <td>{{ $carga->motorista->name }}</td>
                             <td>{{ $carga->filial->nome_fantasia }}</td>
-                            <td>{{ $carga->area }}</td>
+                            <td>{{ $carga->destino }}</td>
                             <td class="cursor-pointer" title="Clique para trocar de veículo">{{ $carga->veiculo->placa }}</td>
                             <td>{{ $carga->notas()->count() }}</td>
                             <td>{{ count($carga->paradas()) }}</td>
@@ -103,6 +103,7 @@
                                   </ul>
                                   <div class="tab-content" id="myTabContent_{{ $carga->id }}">
                                     <div class="tab-pane fade show active" id="home_{{ $carga->id }}" role="tabpanel" aria-labelledby="home-tab_{{ $carga->id }}">
+                                        <a class="btn btn-primary add-notas-carga" href="{{ route('carga.setNotas',['carga'=>$carga->id]) }}" id="Carga {{$carga->id}}">Add Notas</a>
                                         <table class="text-center col-12">
                                             <thead>
                                                 <tr class="border-secondary border">
@@ -110,6 +111,7 @@
                                                     <th>Chave de Acesso</th>
                                                     <th>Emitente</th>
                                                     <th>Destinatario</th>
+                                                    <th>Endereco</th>
                                                     <th>Status</th>
                                                 </tr>
                                             </thead>
@@ -123,6 +125,9 @@
                                                     <td>{{ $nota->chave_acesso }}</td>
                                                     <td>{{ $nota->filial->nome_fantasia }}</td>
                                                     <td>{{ $nota->destinatario->nome_razao_social }}</td>
+                                                    <td>{{ strtolower($nota->destinatario->endereco->endereco) }}, {{ $nota->destinatario->endereco->numero }},
+                                                        {{ strtolower($nota->destinatario->endereco->bairro) }}, {{ $nota->destinatario->endereco->cep }} -
+                                                        {{ $nota->destinatario->endereco->cidade->nome }}</td>
                                                     <td>{{ $nota->status->descricao }}</td>
                                                 </tr>
                                                 @php

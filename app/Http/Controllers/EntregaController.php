@@ -63,7 +63,7 @@ class EntregaController extends Controller
             // exit;
 
             if($Veiculo->status_id==$Veiculo->getStatusId('Disponivel')){
-                $entrega->veiculo_id =$request->veiculo;
+                $entrega->veiculo_id = $request->veiculo;
             }else{
                 throw new Exception('Veiculo está indisponivel');
             }
@@ -242,8 +242,8 @@ class EntregaController extends Controller
 
 
             $veiculo = Veiculo::find($Mov->veiculo_id);
-            $veiculo->status_id=$veiculo->getStatusId('Disponivel');
-            $veiculo->save();
+            // $veiculo->status_id=$veiculo->getStatusId('Disponivel');
+            // $veiculo->save();
 
             //verifica km anterior
             //   return response()->json(['status'=>200,'msg'=>$Mov->kmInicio]);

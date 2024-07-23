@@ -1,3 +1,8 @@
+@php
+    use App\Models\Municipio;
+    use App\Models\Estado;
+@endphp
+
 {{-- <form action="" method="post"> --}}
     <div>
         <label for="">Rua</label>
@@ -19,13 +24,19 @@
         <label for="">Cidade</label>
         select cidade
         <select name="cidade_id" id="">
-            <option value="1" selected>cidade 1</option>
+            <option value="" selected>Selecione Uma Cidade</option>
+            @foreach (Municipio::orderBy('nome','asc')->get() as $cidade)
+                <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
+            @endforeach
         </select>
     </div>
     <div>
         <label for="">Estado</label>
         <select name="estado_id" id="">
-            <option value="1" selected>Estado 1</option>
+            <option value="" selected>Selecione Um Estado</option>
+            @foreach (Estado::orderBy('nome','asc')->get() as $estado)
+                <option value="{{ $estado->id }}">{{ $estado->uf }}</option>
+            @endforeach
         </select>
         select estado
     </div>

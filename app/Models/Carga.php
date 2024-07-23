@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 
 class Carga extends Model
@@ -77,7 +78,7 @@ class Carga extends Model
 
         $array = [];
         foreach($notas->get() as $nota){
-            $array[] = $nota->destinatario->endereco->cidade->nome;
+            $array[] = $nota->destinatario->endereco->cidade;
         }
         // dd($array);
         return array_unique($array);
@@ -92,5 +93,13 @@ class Carga extends Model
         }
         // dd($array);
         return array_unique($array);
+    }
+    public function peso(){
+        // return DB::raw();
+        return $this->notas()->sum('peso');
+    }
+    public function valor(){
+        // return DB::raw();
+        return $this->notas()->sum('valor');
     }
 }

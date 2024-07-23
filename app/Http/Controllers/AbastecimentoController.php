@@ -90,6 +90,24 @@ class AbastecimentoController extends Controller implements HasMiddleware
     public function store(Request $request)
     {
         try{
+
+            $request->validate([
+                'Cupom'=>'required|numeric',
+                'Km'=>'required|numeric',
+                'Litro'=>'required|numeric',
+                'Valor'=>'required|numeric',
+                'FotoCupom'=>'required'
+            ]);
+
+            $cupom = $request->FotoCupom;
+            $arrayFilesPermited = ["png","jpg","jpeg"];
+            if (in_array($cupom->getClientOriginalExtension(),$arrayFilesPermited)) {
+                echo $cupom->getClientOriginalExtension();
+                throw new Exception('erro');
+            }
+            echo 'ola'.$cupom->getClientOriginalExtension();
+            exit;
+
             DB::beginTransaction();
             $abastecimento = new Abastecimento();
             $abastecimento->cupom = $request->Cupom;
@@ -120,7 +138,9 @@ class AbastecimentoController extends Controller implements HasMiddleware
             // return $abastecimento->veiculo->kms()->get()->last()->km;
 
             if(($abastecimento->kmAnterior>=$abastecimento->kmAtual) || ($abastecimento->veiculo->kms()->get()->last()->km > $abastecimento->kmAtual)){
-                return 'erro: O km anterior não pode ser menor ou igual ao km atual. '.$abastecimento->kmAtual. ' --- '.$abastecimento->veiculo->kms()->get()->last()->km. ' ---- '.$abastecimento->kmAnterior;
+                return 'erro: O km anterior não pode ser menor ou igual ao km atual. km digitado: '.$abastecimento->kmAtual.
+                ' ultimo km regitrado: '.$abastecimento->veiculo->kms()->get()->last()->km.
+                ' abastecimento anterior: '.$abastecimento->kmAnterior;
             }
 
             $Veiculo = Veiculo::find($abastecimento->veiculo_id);

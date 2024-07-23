@@ -1149,4 +1149,53 @@ $('.response-message-ajax').click(function(){
         })
         return false
     })
+
+    $('.cidade_frete').click(function(){
+        $.ajax({
+            type:'get',
+            url:$(this).attr('href'),
+            beforeSend: function () {
+                // alert(routeStorePermission)
+                loading.css('display','flex')
+                loading.removeClass('d-none');
+                // $("body").css("overflow", "hidden");
+            },
+            success:function(response){
+                // console.log(response)
+                if(response.status==200){
+
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').text("Cidade: "+response.msg.cidade+" Frete: "+"R$ "+response.msg.frete)
+                    // var nota = response.nota;
+
+                    // console.log(response.msg)
+                    $("#CidadeFrete").text(response.msg.cidade)
+                    $("#ValorFrete").text("R$ "+response.msg.frete)
+                    $("#FreteCity").show()
+                    $("#FreteCity").addClass('d-flex ')
+                    $("#FreteCity").css({
+                        // "background-color":"green",
+                        "height":"fit-content",
+                        "padding":"10px"
+                    })
+
+                }
+
+                if(response.status==0){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                }
+
+                loading.addClass('d-none');
+            },
+            error:function(response){
+                console.log(response)
+            }
+        })
+        return false;
+    });
 });

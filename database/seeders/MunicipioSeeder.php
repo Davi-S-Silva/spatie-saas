@@ -268,6 +268,22 @@ class MunicipioSeeder extends Seeder
             echo $count.' cidades salvas com sucesso.'.PHP_EOL;
             Schema::dropIfExists('convert_uf_id_cities');
             echo 'tabela de conversao apagada com sucesso'.PHP_EOL;
+            $path = getenv('RAIZ')."/utils/teste.csv";
+            $arquivo = fopen($path,"r");
+            // echo '<pre>';
+            while($linha = fgetcsv($arquivo,100,';')){
+                if(isset($linha[2])){
+                    $cidade = Municipio::where('codigo',$linha[0])->get()->first();
+                    $cidade->longitude = $linha[2];
+                    $cidade->latitude = $linha[3];
+                    $cidade->save();
+
+                    echo 'Cidade: '.$cidade->nome. ' - coordenada: long='.$linha[2].' lat='.$linha[3].PHP_EOL;
+                }
+                // print_r($linha);
+            }
+            // echo '</pre>';
+            echo 'coordenadas atualizadas com sucesso';
         }else{
             echo 'todas as cidades ja estão cadastradas'.PHP_EOL;
         }

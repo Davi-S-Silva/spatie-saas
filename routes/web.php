@@ -28,11 +28,26 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VeiculoController;
+use App\Models\DistanceCity;
 use App\Models\Empresa;
+use App\Models\Municipio;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 // use Spatie\DbDumper\Databases\MySql;
+
+Route::get('/calcula', function(){
+    $origem = '-34.87171,-8.02677';
+    // $destino = '-34.84127309569868,-7.0133321019514865';
+    $destino = '-38.229605080601,-6.76337800';
+$distance = new DistanceCity($origem, $destino);
+
+echo '<pre>';
+print_r($distance->showDuration());echo '</br >';
+print_r($distance->showDistance());echo '</br >';
+print_r($distance->showWaypoints());echo '</br >';
+echo '</pre>';
+});
 
 Route::get('/', function () {
     return view('welcome');
@@ -87,7 +102,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('carga',CargaController::class);
         Route::post('carga/{carga}/setnotas',[CargaController::class, 'setNotas'])->name('carga.setNotas');
         Route::get('carga/{filial}/getCargasDisponiveis',[CargaController::class, 'getCargasDisponiveis'])->name('carga.getCargasDisponiveis');
+        Route::get('carga/cidadeFrete/{carga}',[CargaController::class, 'cidadeFrete'])->name('carga.cidadeFrete');
         Route::put('carga/{carga}/update',[CargaController::class, 'update'])->name('carga.update');
+
         Route::resource('entrega',EntregaController::class);
         Route::post('entrega/{entrega}/start',[EntregaController::class, 'start'])->name('entrega.start');
         Route::post('entrega/{entrega}/stop',[EntregaController::class, 'stop'])->name('entrega.stop');

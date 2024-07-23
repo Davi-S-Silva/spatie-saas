@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cargas', function (Blueprint $table) {
             $table->id();
-            $table->string('area');
+            $table->string('destino');
             $table->foreignId('motorista_id')->references('id')->on('colaboradors');
             $table->double('peso');
             $table->integer('entregas');

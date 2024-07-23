@@ -34,10 +34,6 @@
                         <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                         <span role="status">Loading...</span>
                     </button> --}}
-
-
-
-
                     {{-- <div class="card col-3 m-2">
                         <div class="card-body">
                             <h5 class="card-title">Card title</h5>
@@ -46,7 +42,6 @@
                             <a href="#" class="btn btn-primary">Button</a>
                         </div>
                     </div> --}}
-
                     {{-- @include('layouts.modal') --}}
                 </div>
             </div>

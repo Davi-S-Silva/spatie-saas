@@ -1,3 +1,6 @@
+@php
+    use App\Models\DistanceCity;
+@endphp
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -15,18 +18,38 @@
                     {{-- <pre>
                         {{ print_r($carga->getAttributes()) }}
                     </pre> --}}
-                    {{ $carga->filial->razao_social }}
-                    {{ $carga->localApoio->name }}
-                    {{ $carga->getStatus()->descricao }}
-                    {{ $carga->veiculo->placa }}
-                    {{ count($carga->paradas()) }}
+                    <ul>
+                        <li>{{ $carga->filial->razao_social }}</li>
+                        <li>{{ $carga->localApoio->name }}</li>
+                        <li>{{ $carga->getStatus()->descricao }}</li>
+                        <li>{{ $carga->veiculo->placa }}</li>
+                        <li>{{ $carga->frete }}</li>
+                        <li>{{ $carga->destino }}</li>
+                        <li>{{ count($carga->paradas()) }}</li>
+                        <li>Peso: <b>{{ number_format($carga->peso(),2,',','.') }}</b></li>
+                        <li>Valor: <b>{{ number_format($carga->valor(),2,',','.') }}</b></li>
+                    </ul>
+                    Cidades:
+                    <ul class="d-flex">
                     @foreach ($carga->cidades() as $cidade)
-                        {{ $cidade }}
+                        <li class="mr-4"> {{ $cidade->nome }}</li>
                     @endforeach
+                    </ul>
+                    @if (is_null($carga->frete))
+                        <div class="col-5 d-flex justify-between align-items-center">
+                            <a href="{{ route('carga.cidadeFrete',['carga'=>$carga->id]) }}" class="btn btn-primary cidade_frete m-5">Consultar Frete</a>
+                            <div id="FreteCity" class="">
+                                <ul class="text-center">
+                                    <li>Cidade: <span id="CidadeFrete"></span></li>
+                                    <li>Frete: <span id="ValorFrete"></span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    @endif
                     <div>
                         <header>Notas</header>
-                        <section>
-                            @foreach ($carga->notas()->with('destinatario')->orderBy('destinatario_id','asc')->get() as $nota)
+                        <section class="d-flex flex-wrap justify-around">
+                            @foreach ($carga->notas()->with('destinatario','carga')->orderBy('destinatario_id','asc')->get() as $nota)
                                 <x-nota :nota=$nota/>
                             @endforeach
                         </section>

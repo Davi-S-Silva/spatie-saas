@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer('codigo');
             $table->string('nome');
+            $table->string('longitude')->nullable();
+            $table->string('latitude')->nullable();
             // $table->integer('uf');
             $table->foreignId('estado_id')->references('id')->on('estados');
             $table->timestamps();

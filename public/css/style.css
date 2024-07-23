@@ -235,3 +235,15 @@ input[name="search"]:focus{
     width: 100%;
     display: none;
 }
+#FreteCity{
+display: none;
+}
+
+@media (max-width: 600px) {
+    .aside_menu{
+        display: none;
+    }
+    .leading-tight{
+        display: none;
+    }
+  }

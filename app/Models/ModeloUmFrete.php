@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-// use App\Models\Traits\Tenantable;
+use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 
-class Municipio extends Model
+class ModeloUmFrete extends Model
 {
-    use HasRoles;
+    use HasRoles, Tenantable;
     protected $guarded = ['id'];
 
     public function newId(){
@@ -19,15 +19,5 @@ class Municipio extends Model
         }else{
           $this->id = $this->withoutGlobalScopes()->get()->last()->id +=1;
         }
-
-    }
-    public function estado(){
-        return $this->belongsTo(Estado::class);
-    }
-
-    public function getCoordenadas($codigo)
-    {
-        $coordenada = Municipio::where('codigo',$codigo)->first();
-        return $coordenada->longitude.','.$coordenada->latitude;
     }
 }

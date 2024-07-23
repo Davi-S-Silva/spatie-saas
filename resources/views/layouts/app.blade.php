@@ -46,7 +46,7 @@
                     {{ $header }}
                 </div>
             @endif
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-7">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-7 text-center">
                 <form action="{{ route('search') }}" method="post" name="FormSearch" class="d-flex">
                     <input type="search" name="search" id="" placeholder="Digite para pesquisar">
                     @csrf
@@ -67,7 +67,7 @@
 </body>
 <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('jquery/jquery-3.7.1.min.js') }}"></script>
-@vite('resources/js/app.js');
+@vite('resources/js/app.js')
 <script src="{{ asset('js/ajax.js') }}"></script>
 <script src="{{ asset('js/script.js') }}"></script>
 
