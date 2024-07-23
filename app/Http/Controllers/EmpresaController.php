@@ -274,7 +274,8 @@ class EmpresaController extends Controller implements HasMiddleware
         $path = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/';
         $nfes = [];
         if (!file_exists($path)) {
-            mkdir($path, 777, true);
+            mkdir($path);
+            chmod($path,777);
         }
         if (file_exists($path)) {
             $notas = dir($path);
