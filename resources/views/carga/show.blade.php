@@ -35,7 +35,7 @@
                         <li class="mr-4"> {{ $cidade->nome }}</li>
                     @endforeach
                     </ul>
-                    @if (is_null($carga->frete))
+                    @if (is_null($carga->frete) || $carga->frete ==0)
                         <div class="col-5 d-flex justify-between align-items-center">
                             <a href="{{ route('carga.cidadeFrete',['carga'=>$carga->id]) }}" class="btn btn-primary cidade_frete m-5">Consultar Frete</a>
                             <div id="FreteCity" class="">

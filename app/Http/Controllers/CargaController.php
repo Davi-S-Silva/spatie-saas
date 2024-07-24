@@ -195,7 +195,7 @@ class CargaController extends Controller
 
                     $maior = array();
                     $Carga = Carga::find($carga);
-                    if(!is_null($Carga->frete)){
+                    if(!is_null($Carga->frete) && $Carga->frete !=0){
                         throw new Exception('Frete já calculado! Não é possivel calcular novamente!');
                     }
                     foreach($Carga->cidades() as $cidade){

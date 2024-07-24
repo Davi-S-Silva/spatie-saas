@@ -302,6 +302,9 @@ class EmpresaController extends Controller implements HasMiddleware
                 throw new Exception('Selecione o arquivo que deseja importar');
             }
             $extractZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/';
+            if (!file_exists($extractZip)) {
+                mkdir($extractZip, 777, true);
+            }
             foreach ($request->notas as $nota) {
                 if ($nota->getClientOriginalExtension() == 'zip' || $nota->getClientOriginalExtension() == 'ZIP') {
                     // $notas[]=['nome'=>$nota->getClientOriginalExtension()];
@@ -309,6 +312,9 @@ class EmpresaController extends Controller implements HasMiddleware
                     // $caminhoZip = getEnv('RAIZ').Storage::disk('local')->url($nota->getClientOriginalName());
                     $caminhoZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/' . $nota->getClientOriginalName();
 
+                    if(!file_exists($caminhoZip)){
+                        throw new Exception('arquivo zip nao existe');
+                    }
                     // storage\app\public\notas\Autorizada\Transportadas\NFes-49152106000108 (85).zip
                     if (file_exists($caminhoZip)) {
                         $zip = new ZipArchive;
