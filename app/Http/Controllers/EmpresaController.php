@@ -274,11 +274,11 @@ class EmpresaController extends Controller implements HasMiddleware
         $path = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/';
         $nfes = [];
         if (!file_exists($path)) {
-            mkdir($path, 777, true);
+            mkdir($path);
+            chmod($path,777);
         }
         if (file_exists($path)) {
             $notas = dir($path);
-
             while (($arquivo = $notas->read()) !== false) {
                 // $file = $pasta . '/' . $arquivo;
                 if ($arquivo != '.' && $arquivo != '..') {
@@ -301,20 +301,49 @@ class EmpresaController extends Controller implements HasMiddleware
             if (empty($request->notas)) {
                 throw new Exception('Selecione o arquivo que deseja importar');
             }
+
+            $path = getenv('RAIZ').'/storage/app/public/'.$empresa;
+            $linux=true;
+            if(!file_exists($path)){
+                mkdir($path);
+            }
+            chmod($path,777);
+            if(!file_exists($path.'/notas')){
+                mkdir($path.'/notas');
+            }
+            chmod($path.'/notas',777);
+            if(!file_exists($path.'/notas/Autorizada') && $linux){
+                mkdir($path.'/notas/Autorizada');
+            }
+            chmod($path.'/notas/Autorizada', 777);
+            if(!file_exists($path.'/notas/Autorizada/Transportadas') && $linux){
+                mkdir($path.'/notas/Autorizada/Transportadas');
+            }
+            chmod($path.'/notas/Autorizada/Transportadas', 777);
             $extractZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/';
+<<<<<<< HEAD
             if (!file_exists($extractZip)) {
                 mkdir($extractZip, 777, true);
             }
+=======
+
+>>>>>>> origin/main-dois
             foreach ($request->notas as $nota) {
-                if ($nota->getClientOriginalExtension() == 'zip' || $nota->getClientOriginalExtension() == 'ZIP') {
+                if ($nota->getClientOriginalExtension() == 'zip' || $nota->getClientOriginalExtension() == 'rar') {
                     // $notas[]=['nome'=>$nota->getClientOriginalExtension()];
                     Storage::disk('local')->putFileAs('public/' . $empresa . '/notas', $nota, $nota->getClientOriginalName());
                     // $caminhoZip = getEnv('RAIZ').Storage::disk('local')->url($nota->getClientOriginalName());
+<<<<<<< HEAD
                     $caminhoZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/' . $nota->getClientOriginalName();
 
                     if(!file_exists($caminhoZip)){
                         throw new Exception('arquivo zip nao existe');
                     }
+=======
+                    // $caminhoZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/' . $nota->getClientOriginalName();
+                    $file = 'app/public/'.$empresa.'/notas/'. $nota->getClientOriginalName();
+                    $caminhoZip = getEnv('RAIZ').Storage::disk('local')->url($file);
+>>>>>>> origin/main-dois
                     // storage\app\public\notas\Autorizada\Transportadas\NFes-49152106000108 (85).zip
                     if (file_exists($caminhoZip)) {
                         $zip = new ZipArchive;
@@ -327,7 +356,7 @@ class EmpresaController extends Controller implements HasMiddleware
                                 // echo 'ola';
                                 $d = dir($extractZip . 'Autorizada/Transportadas/');
                                 while ($filemove = $d->read()) {
-                                    if ($filemove != '..' && $filemove != 'Autorizada' && $filemove != 'Transportadas') {
+                                    if ($filemove != '.' &&$filemove != '..' && $filemove != 'Autorizada' && $filemove != 'Transportadas') {
                                         if (is_file($extractZip . 'Autorizada/Transportadas/' . $filemove)) {
                                             copy($extractZip . 'Autorizada/Transportadas/' . $filemove, $extractZip . $filemove);
                                             // unset($extractZip.'Autorizada/Transportadas/'.$filemove);

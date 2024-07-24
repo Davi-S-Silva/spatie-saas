@@ -1,6 +1,7 @@
 $(function () {
 
-    var base = 'http://localhost:8080/';
+    // var base = 'http://localhost:8080/';
+    var base = 'http://3.142.144.198/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
