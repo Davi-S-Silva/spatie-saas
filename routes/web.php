@@ -36,6 +36,9 @@ use Illuminate\Support\Facades\Route;
 
 // use Spatie\DbDumper\Databases\MySql;
 
+Route::get('/phpinfo', function(){
+    return print_r(phpinfo());
+});
 Route::get('/calcula', function(){
     $origem = '-34.87171,-8.02677';
     // $destino = '-34.84127309569868,-7.0133321019514865';

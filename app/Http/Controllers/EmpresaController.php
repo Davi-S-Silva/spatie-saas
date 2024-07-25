@@ -321,29 +321,19 @@ class EmpresaController extends Controller implements HasMiddleware
             }
             chmod($path.'/notas/Autorizada/Transportadas', 777);
             $extractZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/';
-<<<<<<< HEAD
             if (!file_exists($extractZip)) {
                 mkdir($extractZip, 777, true);
             }
-=======
-
->>>>>>> origin/main-dois
             foreach ($request->notas as $nota) {
                 if ($nota->getClientOriginalExtension() == 'zip' || $nota->getClientOriginalExtension() == 'rar') {
                     // $notas[]=['nome'=>$nota->getClientOriginalExtension()];
                     Storage::disk('local')->putFileAs('public/' . $empresa . '/notas', $nota, $nota->getClientOriginalName());
                     // $caminhoZip = getEnv('RAIZ').Storage::disk('local')->url($nota->getClientOriginalName());
-<<<<<<< HEAD
                     $caminhoZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/' . $nota->getClientOriginalName();
 
                     if(!file_exists($caminhoZip)){
                         throw new Exception('arquivo zip nao existe');
                     }
-=======
-                    // $caminhoZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/' . $nota->getClientOriginalName();
-                    $file = 'app/public/'.$empresa.'/notas/'. $nota->getClientOriginalName();
-                    $caminhoZip = getEnv('RAIZ').Storage::disk('local')->url($file);
->>>>>>> origin/main-dois
                     // storage\app\public\notas\Autorizada\Transportadas\NFes-49152106000108 (85).zip
                     if (file_exists($caminhoZip)) {
                         $zip = new ZipArchive;
