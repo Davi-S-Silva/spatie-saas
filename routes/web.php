@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function () {
         // });
 
         Route::resource('abastecimento',AbastecimentoController::class);
+        Route::get('abastecimento/{abastecimento}/getfotos',[AbastecimentoController::class,'getFotos'])->name('getFotos');
 
         //SEARCH
         Route::post('search',[SearchController::class,'search'])->name('search');

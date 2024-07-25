@@ -25,9 +25,17 @@
                                         ['name' => 'Litros', 'item' => 'litros'],
                                         ['name' => 'Valor', 'item' => 'valor'],
                                         ['name' => 'Veiculo', 'item' => 'veiculo_id'],
-                                        ['name' => 'Colaborador', 'item' => 'colaborador_id'],
-                                        ['name' => 'Média', 'item' => ''],
                                     ];
+                                    if(Auth::user()->roles()->first()->name == 'colaborador'){
+                                        $array[]=['name' => 'Data', 'item' => 'created_at'];
+                                    }else{
+                                        $array[]=['name' => 'Colaborador', 'item' => 'colaborador_id'];
+                                    }
+                                    if(Auth::user()->roles()->first()->name == 'super-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'tenant-admin' ){
+                                        $array[]=['name' => 'Data', 'item' => 'created_at'];
+                                    }
+                                    $array[]=['name' => 'Média', 'item' => ''];
+
                                 @endphp
                                 @foreach ($array as $item)
                                     <th>
@@ -68,7 +76,7 @@
                                     @php
                                         $kmRodado = $abastecimento->kmAtual - $abastecimento->kmAnterior;
                                     @endphp
-                                    <td>{{ $abastecimento->cupom }}</td>
+                                    <td> <a href="{{ route('abastecimento.show',['abastecimento'=>$abastecimento->id]) }}">{{ $abastecimento->cupom }}</a></td>
                                     <td>{{ $abastecimento->kmAnterior }}</td>
                                     <td>{{ $abastecimento->kmAtual }}</td>
                                     <td>{{ $kmRodado }}</td>
@@ -78,12 +86,23 @@
                                             href="{{ route('veiculo.show', ['veiculo' => $abastecimento->veiculo->id]) }}">{{ $abastecimento->veiculo->placa }}</a>
                                     </td>
                                     <td>
-                                        @if ($abastecimento->colaborador->usuario()->withTrashed()->get()->count() != 0)
+                                        @if ($abastecimento->colaborador->usuario()->withTrashed()->get()->count() == 0)
+                                            @if (Auth::user()->roles()->first()->name == 'colaborador')
+                                                {{ $abastecimento->created_at }}
+                                            @else
                                             {{ $abastecimento->colaborador->usuario()->withTrashed()->first()->name }}
+                                            @endif
                                         @else
-                                            {{ $abastecimento->colaborador->usuario()->first()->name }}
+                                            @if (Auth::user()->roles()->first()->name == 'colaborador')
+                                                {{ $abastecimento->created_at }}
+                                            @else
+                                                {{ $abastecimento->colaborador->usuario()->first()->name }}
+                                            @endif
                                         @endif
                                     </td>
+                                    @if(Auth::user()->roles()->first()->name == 'super-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'tenant-admin' )
+                                        <td>{{ $abastecimento->created_at }}</td>
+                                    @endif
                                     @php
                                         if ($kmRodado == $abastecimento->kmAtual) {
                                             $kmRodado = 0;

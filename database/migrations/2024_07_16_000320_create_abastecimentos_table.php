@@ -18,6 +18,9 @@ return new class extends Migration
             $table->integer('kmAtual');
             $table->integer('litros');
             $table->double('valor');
+            $table->string('pathFotoCupom')->nullable();
+            $table->string('pathFotoHodometro')->nullable();
+            $table->string('pathFotoBomba')->nullable();
             $table->foreignId('combustivel_id')->references('id')->on('combustivels');
             $table->foreignId('fornecedor_id')->references('id')->on('fornecedors');
             $table->foreignId('veiculo_id')->references('id')->on('veiculos');
