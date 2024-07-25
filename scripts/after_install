@@ -86,7 +86,7 @@ nvm install v22.4.1
 cd $WEBSITE_DIR
 
 # sudo chown -R $WEB_USER:$WEB_USER .
-sudo chown -R "www-data":"www-data" .
+sudo chown -R "ubuntu":"ubuntu" .
 # sudo chown -R www-data storage
 # sudo chmod -R u+x .
 # sudo chmod -r 777 storage
@@ -98,7 +98,8 @@ sudo cp .env.example .env
 sudo chmod -R 775 storage
 sudo chmod -R 775 bootstrap
 sudo chmod -R 775 storage
-# sudo chown -R www-data:www-data storage
+sudo chmod -R 775 storage/*
+sudo chown -R www-data:www-data storage
 # sudo chown -R ubuntu:ubuntu storage/*
 # sudo chown -R $WEB_USER_DATA:$WEB_USER_DATA storage/*
 

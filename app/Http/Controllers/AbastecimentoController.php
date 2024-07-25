@@ -101,12 +101,12 @@ class AbastecimentoController extends Controller implements HasMiddleware
 
             $cupom = $request->FotoCupom;
             $arrayFilesPermited = ["png","jpg","jpeg"];
-            if (in_array($cupom->getClientOriginalExtension(),$arrayFilesPermited)) {
-                echo $cupom->getClientOriginalExtension();
+            if (!in_array($cupom->getClientOriginalExtension(),$arrayFilesPermited)) {
+                // echo $cupom->getClientOriginalExtension();
                 throw new Exception('erro');
             }
-            echo 'ola'.$cupom->getClientOriginalExtension();
-            exit;
+            // echo 'ola'.$cupom->getClientOriginalExtension();
+            // exit;
 
             DB::beginTransaction();
             $abastecimento = new Abastecimento();
@@ -150,8 +150,9 @@ class AbastecimentoController extends Controller implements HasMiddleware
             $Veiculo->associaColaborador($abastecimento->colaborador_id);
             // $abastecimento->Fornecedor_id = 1;
             // return $abastecimento->getAttributes();
-            DB::commit();
+            return 'salvo';
             $abastecimento->save();
+            DB::commit();
         }catch(Exception $ex){
             DB::rollback();
             return $ex->getMessage(). '-'.$ex->getFile().'-'.$ex->getLine();
