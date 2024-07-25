@@ -271,14 +271,18 @@ class EmpresaController extends Controller implements HasMiddleware
         $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
         // return response()->json(['status' => 'success', 'msg' =>str_replace(' ','',strtolower(Auth::user()->empresa->first()->nome))]);
         // if(Auth::user()->can('Carrega Notas')){
-        $path = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/';
+        $path = getenv('RAIZ') . '/storage/app/public/' . $empresa ;
         $nfes = [];
         if (!file_exists($path)) {
-            mkdir($path);
-            chmod($path,777);
+            mkdir($path,0755,true);
         }
+        // chmod($path,777);
+        if (!file_exists($path.'/notas')) {
+            mkdir($path.'/notas');
+        }
+        // chmod($path.'/notas',777);
         if (file_exists($path)) {
-            $notas = dir($path);
+            $notas = dir($path.'/notas');
             while (($arquivo = $notas->read()) !== false) {
                 // $file = $pasta . '/' . $arquivo;
                 if ($arquivo != '.' && $arquivo != '..') {
@@ -305,21 +309,21 @@ class EmpresaController extends Controller implements HasMiddleware
             $path = getenv('RAIZ').'/storage/app/public/'.$empresa;
             $linux=true;
             if(!file_exists($path)){
-                mkdir($path);
+                mkdir($path,0755,true);
             }
-            chmod($path,777);
+            // chmod($path,777);
             if(!file_exists($path.'/notas')){
-                mkdir($path.'/notas');
+                mkdir($path.'/notas',0755,true);
             }
-            chmod($path.'/notas',777);
+            // chmod($path.'/notas',777);
             if(!file_exists($path.'/notas/Autorizada') && $linux){
-                mkdir($path.'/notas/Autorizada');
+                mkdir($path.'/notas/Autorizada',0755,true);
             }
-            chmod($path.'/notas/Autorizada', 777);
+            // chmod($path.'/notas/Autorizada', 777);
             if(!file_exists($path.'/notas/Autorizada/Transportadas') && $linux){
-                mkdir($path.'/notas/Autorizada/Transportadas');
+                mkdir($path.'/notas/Autorizada/Transportadas',0755,true);
             }
-            chmod($path.'/notas/Autorizada/Transportadas', 777);
+            // chmod($path.'/notas/Autorizada/Transportadas', 777);
             $extractZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/';
             if (!file_exists($extractZip)) {
                 mkdir($extractZip, 777, true);
@@ -386,7 +390,7 @@ class EmpresaController extends Controller implements HasMiddleware
                     if ($xml->NFe) {
                         copy($file, $pasta . '/' . $xml->protNFe->infProt->chNFe . '.xml');
                         if (str_contains($file, 'NFe')) {
-                            unlink($file);
+                            // unlink($file);
                         }
                         $notas[] = $xml->NFe->infNFe->ide->nNF;
                     }
