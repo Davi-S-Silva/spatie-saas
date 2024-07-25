@@ -102,6 +102,15 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('abastecimento.index')" :active="request()->routeIs('abastecimento.index')">
+                {{ __('Abastecimentos') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('abastecimento.create')" :active="request()->routeIs('abastecimento.create')">
+                {{ __('Novo abastecimento') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('entrega.index')" :active="request()->routeIs('entrega.index')">
+                {{ __('Entregas') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->

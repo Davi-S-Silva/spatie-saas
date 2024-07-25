@@ -1,7 +1,7 @@
 $(function () {
 
     var base = 'http://localhost:8080/';
-    // var base = 'http://3.142.144.198/';
+    // var base = 'http://3.142.92.240/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
@@ -1199,4 +1199,61 @@ $('.response-message-ajax').click(function(){
         })
         return false;
     });
+
+    $('form[name="FormAbastecimento"]').submit(function(){
+        $('input[name="ajax"]').remove()
+        $(this).append('<input type="hidden" name="ajax" value="ajax"/>')
+        console.log($(this).serialize())
+        $.ajax({
+            type:'post',
+            url:$(this).attr('action'),
+            // data: $(this).serialize(),
+            data: new FormData(this),
+                // dataType: 'json',
+                // cache: false,
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                // alert(routeStorePermission)
+                loading.css('display','flex')
+                loading.removeClass('d-none');
+                // $("body").css("overflow", "hidden");
+            },
+            success:function(response){
+                // console.log(response)
+                if(response.status==200){
+
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').text(response.msg)
+                    // var nota = response.nota;
+
+                    // console.log(response.msg)
+
+                }
+
+                if(response.status==0){
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                    // console.log(response.msg)
+                }
+                loading.addClass('d-none');
+            },
+            error:function(response){
+                // console.log(response)
+                $('.response-message-ajax').show()
+                $('.response-message-ajax').removeClass('alert-success')
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text(response)
+                loading.addClass('d-none');
+            }
+        })
+        return false;
+    });
+
+
 });
+

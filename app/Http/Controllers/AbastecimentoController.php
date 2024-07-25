@@ -12,6 +12,8 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class AbastecimentoController extends Controller implements HasMiddleware
 {
@@ -31,9 +33,9 @@ class AbastecimentoController extends Controller implements HasMiddleware
     public function index()
     {
         if(Auth::user()->roles()->first()->name== 'tenant-colaborador' || Auth::user()->roles()->first()->name== 'colaborador'){
-            $abast = Abastecimento::where('colaborador_id',Auth::user()->colaborador->first()->id)->with('veiculo','colaborador');
+            $abast = Abastecimento::orderBy('id','desc')->where('colaborador_id',Auth::user()->colaborador->first()->id)->with('veiculo','colaborador');
         }else{
-            $abast = Abastecimento::with('veiculo','colaborador');
+            $abast = Abastecimento::orderBy('id','desc')->with('veiculo','colaborador');
         }
         if((!empty($_GET['item']) && !empty($_GET['order']))){
             $abast->orderBy($_GET['item'],$_GET['order']);
@@ -90,26 +92,66 @@ class AbastecimentoController extends Controller implements HasMiddleware
     public function store(Request $request)
     {
         try{
-
-            $request->validate([
+            // return response()->json(['status'=>200,'msg'=>$request->input()]);
+            $validator = Validator::make($request->all(),[
                 'Cupom'=>'required|numeric',
                 'Km'=>'required|numeric',
                 'Litro'=>'required|numeric',
                 'Valor'=>'required|numeric',
-                'FotoCupom'=>'required'
+                'Combustivel'=>'required|numeric',
+                'FotoCupom'=>'required',
+                'FotoHodometro'=>'required',
+                'FotoBomba'=>'required',
             ]);
+            // $validator = $request->validate([
+            //     'Cupom'=>'required|numeric',
+            //     'Km'=>'required|numeric',
+            //     'Litro'=>'required|numeric',
+            //     'Valor'=>'required|numeric',
+            //     'FotoCupom'=>'required',
+            //     'FotoHodometro'=>'required',
+            //     'FotoBomba'=>'required',
+            // ]);
 
-            $cupom = $request->FotoCupom;
+            $FotoCupom = $request->FotoCupom;
+            $FotoHodometro = $request->FotoHodometro;
+            $FotoBomba = $request->FotoBomba;
             $arrayFilesPermited = ["png","jpg","jpeg"];
-            if (in_array($cupom->getClientOriginalExtension(),$arrayFilesPermited)) {
-                echo $cupom->getClientOriginalExtension();
-                throw new Exception('erro');
-            }
-            echo 'ola'.$cupom->getClientOriginalExtension();
-            exit;
 
+
+            if($validator->fails())
+            {
+                if(!is_null($request->ajax)){
+                    // if(!is_null($erro['Cupom'])){
+                    foreach($validator->errors()->all() as $erro){
+                        throw new Exception($erro);
+                    }
+                    // }
+                }
+
+                return redirect()->back()
+                                ->withErrors($validator)
+                                ->withInput();
+            }
+
+            // return response()->json(['status'=>200,'msg'=>'Abastecimento cadastrado com sucesso']);
+            // exit;
+            if (!in_array($FotoCupom->getClientOriginalExtension(),$arrayFilesPermited)) {
+                // echo $cupom->getClientOriginalExtension();
+                throw new Exception('Adicione a foto do cupom fiscal');
+            }
+            if(!in_array($FotoHodometro->getClientOriginalExtension(),$arrayFilesPermited)){
+                throw new Exception('adicione a foto do hodometro/velocimetro');
+            }
+            if(!in_array($FotoBomba->getClientOriginalExtension(),$arrayFilesPermited)){
+                throw new Exception('adicione a foto da bomba de abastecimento');
+            }
+            // echo 'ola'.$cupom->getClientOriginalExtension();
+            // exit;
+            // return response()->json(['status'=>200,'msg'=>$request->input()]);
             DB::beginTransaction();
             $abastecimento = new Abastecimento();
+            $abastecimento->newId();
             $abastecimento->cupom = $request->Cupom;
             $abastecimento->kmAtual = $request->Km;
             $abastecimento->litros = number_format((double)$request->Litro,2,'.','');
@@ -121,7 +163,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
                 $abastecimento->colaborador_id = Auth::user()->colaborador->first()->id;
                 // echo '<br />';
                 if(count(Auth::user()->colaborador->first()->veiculo)!=0){
-                    echo Auth::user()->colaborador->first()->veiculo->first()->placa;
+                    // echo Auth::user()->colaborador->first()->veiculo->first()->placa;
                     $abastecimento->veiculo_id = Auth::user()->colaborador->first()->veiculo->first()->id;
                 }else{
                     $abastecimento->veiculo_id = $request->veiculo;
@@ -133,14 +175,16 @@ class AbastecimentoController extends Controller implements HasMiddleware
             }
             $kmAnterior = Abastecimento::where('veiculo_id',$abastecimento->veiculo_id)->get();
             $abastecimento->kmAnterior = ($kmAnterior->count()!=0)?$kmAnterior->last()->kmAtual:0;
-
-
             // return $abastecimento->veiculo->kms()->get()->last()->km;
-
             if(($abastecimento->kmAnterior>=$abastecimento->kmAtual) || ($abastecimento->veiculo->kms()->get()->last()->km > $abastecimento->kmAtual)){
-                return 'erro: O km anterior não pode ser menor ou igual ao km atual. km digitado: '.$abastecimento->kmAtual.
-                ' ultimo km regitrado: '.$abastecimento->veiculo->kms()->get()->last()->km.
-                ' abastecimento anterior: '.$abastecimento->kmAnterior;
+                if(!is_null($request->ajax)){
+                    throw new Exception("erro: O km anterior não pode ser menor ou igual ao km atual. km digitado:".$abastecimento->kmAtual." ultimo km regitrado: ".$abastecimento->veiculo->kms()->get()->last()->km."
+                     abastecimento anterior: ".$abastecimento->kmAnterior);
+                }else{
+                    return 'erro: O km anterior não pode ser menor ou igual ao km atual. km digitado: '.$abastecimento->kmAtual.
+                    ' ultimo km regitrado: '.$abastecimento->veiculo->kms()->get()->last()->km.
+                    ' abastecimento anterior: '.$abastecimento->kmAnterior;
+                }
             }
 
             $Veiculo = Veiculo::find($abastecimento->veiculo_id);
@@ -150,11 +194,35 @@ class AbastecimentoController extends Controller implements HasMiddleware
             $Veiculo->associaColaborador($abastecimento->colaborador_id);
             // $abastecimento->Fornecedor_id = 1;
             // return $abastecimento->getAttributes();
-            DB::commit();
+
+            // return 'salvo';
+
+
+            //SALVAR AS FOTOS NO SERVIDOR
+            $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
+            $path = 'app/public/'.$empresa.'/abastecimentos';
+            if(!file_exists($path)){
+                mkdir($path,0775, true);
+            }
+            $data = date('d-m-Y_H-i-s');
+            $abastecimento->pathFotoCupom = $FotoCupom->storeAS($path,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            $abastecimento->pathFotoHodometro = $FotoHodometro->storeAS($path,'Hodometro_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            $abastecimento->pathFotoBomba = $FotoBomba->storeAS($path,'Bomba_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
             $abastecimento->save();
+            // echo '<pre>';
+            // print_r($abastecimento->getAttributes());
+            // echo '</pre>';
+            //
+            DB::commit();
+            if(!is_null($request->ajax)){
+                return response()->json(['status'=>200,'msg'=>'Abastecimento cadastrado com sucesso']);
+            }else{
+                return redirect()->route('abastecimento.index')->with(['message'=>['status'=>'success','msg'=>'abastecimento salvo com sucesso']]);
+            }
         }catch(Exception $ex){
             DB::rollback();
-            return $ex->getMessage(). '-'.$ex->getFile().'-'.$ex->getLine();
+            // return $ex->getMessage(). '-'.$ex->getFile().'-'.$ex->getLine();
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
         }
     }
 
@@ -163,7 +231,19 @@ class AbastecimentoController extends Controller implements HasMiddleware
      */
     public function show(string $id)
     {
-        //
+        // $abastecimento = Abastecimento::where('id',$id)->get()->first();
+
+        if(Auth::user()->roles()->first()->name== 'tenant-colaborador' || Auth::user()->roles()->first()->name== 'colaborador'){
+            // $abast = Abastecimento::orderBy('id','desc')->where('colaborador_id',Auth::user()->colaborador->first()->id)->with('veiculo','colaborador');
+            $abast = Abastecimento::orderBy('id','desc')->where('colaborador_id',Auth::user()->colaborador->first()->id)->where('id',$id)->with('veiculo','colaborador');
+        }else{
+            $abast = Abastecimento::find($id);
+        }
+
+        if($abast->count()==0){
+            return redirect()->route('dashboard')->with(['message'=>['status'=>'danger','msg'=>'Acesso não permitido']]);
+        }
+        return view('veiculo.abastecimento.show',['abastecimento'=>$abast->first()]);
     }
 
     /**
@@ -188,5 +268,15 @@ class AbastecimentoController extends Controller implements HasMiddleware
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getFotos($abastecimento)
+    {
+        $abast = Abastecimento::find($abastecimento);
+        // $url = Storage::temporaryUrl(
+        //     $abast->pathFotoCupom, now()->addMinutes(5)
+        // );
+        $url = Storage::url( $abast->pathFotoCupom);
+        return response()->json(['status'=>200,'msg'=>$url]);
     }
 }
