@@ -38,4 +38,12 @@ class Abastecimento extends Model
     {
         return $this->belongsTo(Combustivel::class);
     }
+
+    public function media()
+    {
+        $abastecimento = $this;
+        $kmRodado = $abastecimento->kmAtual - $abastecimento->kmAnterior;
+        $media = $kmRodado / $abastecimento->litros;
+        return $media;
+    }
 }

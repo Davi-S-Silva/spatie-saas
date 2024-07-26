@@ -120,8 +120,9 @@ Route::middleware('auth')->group(function () {
         Route::post('movimentacao/{movimentacao}/stop',[MovimentacaoVeiculoController::class, 'stop'])->name('movimentacao.stop');
         // });
 
+        Route::get('abastecimento/ranking',[AbastecimentoController::class,'getRanking'])->name('getRanking');
         Route::resource('abastecimento',AbastecimentoController::class);
-        Route::get('abastecimento/{abastecimento}/getfotos',[AbastecimentoController::class,'getFotos'])->name('getFotos');
+
 
         //SEARCH
         Route::post('search',[SearchController::class,'search'])->name('search');

@@ -270,13 +270,14 @@ class AbastecimentoController extends Controller implements HasMiddleware
         //
     }
 
-    public function getFotos($abastecimento)
+    public function getRanking()
     {
-        $abast = Abastecimento::find($abastecimento);
+        $abastecimentos = Abastecimento::selectRaw('((kmAtual-kmAnterior)/litros) as media, colaborador_id')->orderBy('media','desc')->with('veiculo','colaborador')->get()->unique('colaborador_id');
         // $url = Storage::temporaryUrl(
         //     $abast->pathFotoCupom, now()->addMinutes(5)
         // );
-        $url = Storage::url( $abast->pathFotoCupom);
-        return response()->json(['status'=>200,'msg'=>$url]);
+        // $url = Storage::url( $abast->pathFotoCupom);
+        // return response()->json(['status'=>200,'msg'=>$url]);
+        return view('veiculo.abastecimento.ranking',['abastecimentos'=>$abastecimentos]);
     }
 }
