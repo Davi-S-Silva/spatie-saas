@@ -12,7 +12,7 @@
                         @include('veiculo.abastecimento.form-abastecimento')
                     </form> --}}
 
-                    <table class="text-center">
+                    <table class="text-center table-index-abastecimento">
                         <thead>
                             <tr>
                                 {{-- <th>Id</th> --}}
@@ -115,7 +115,45 @@
                                 @endphp
                             @endforeach
                         </tbody>
-                    </table>
+                    </table> {{-- fim table-index-abastecimento --}}
+
+
+                    <section class="section-index-abastecimento">
+                        <ul class="col-12">
+                            @foreach ($Abastecimentos as $abastecimento)
+                                <li class="d-flex justify-between mx-1 my-4 card-index-abastecimento col-12">
+                                    <ul class="col-6">
+                                        <li>Cupom</li>
+                                        <li>Km Anterior</li>
+                                        <li>Km Atual</li>
+                                        <li>Km Percorrido</li>
+                                        <li>Litros</li>
+                                        <li>Valor</li>
+                                        <li>Veículo</li>
+                                        <li>Colaborador</li>
+                                        <li>Data</li>
+                                        <li>Média</li>
+                                    </ul>
+                                    <ul class="col-6">
+                                        <li>{{ $abastecimento->cupom }}</li>
+                                        <li>{{ $abastecimento->kmAnterior }}</li>
+                                        <li>{{ $abastecimento->kmAtual }}</li>
+                                        @php
+                                            $kmRodado = $abastecimento->kmAtual - $abastecimento->kmAnterior;
+                                        @endphp
+                                        <li>{{ $kmRodado }}</li>
+                                        <li>{{ $abastecimento->litros }}</li>
+                                        <li>{{ $abastecimento->valor }}</li>
+                                        <li>{{ $abastecimento->veiculo->placa }}</li>
+                                        <li>{{ $abastecimento->colaborador->name }}</li>
+                                        <li>{{ date('d/m/Y H:i:s', strtotime($abastecimento->created_at)) }}</li>
+                                        <li>{{ number_format($kmRodado / $abastecimento->litros, 5, ',', '.') }}</li>
+                                    </ul>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </section>
+
                     <div class="my-2">
                         <div class="col-12 text-center">
                             <b>Paginação</b>
@@ -148,7 +186,10 @@
                             </div>
                         </div>
                         {{ $Abastecimentos->links() }}
-                    </div>
+                    </div>{{-- fim paginacao --}}
+
+
+
                 </div>
             </div>
         </div>

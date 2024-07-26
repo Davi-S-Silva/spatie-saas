@@ -12,7 +12,7 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-        //
+        return view('fornecedor.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class FornecedorController extends Controller
      */
     public function create()
     {
-        //
+        return view('fornecedor.create');
     }
 
     /**
@@ -36,7 +36,7 @@ class FornecedorController extends Controller
      */
     public function show(Fornecedor $fornecedor)
     {
-        //
+        return view('fornecedor.show');
     }
 
     /**
@@ -44,7 +44,7 @@ class FornecedorController extends Controller
      */
     public function edit(Fornecedor $fornecedor)
     {
-        //
+        return view('fornecedor.edit');
     }
 
     /**

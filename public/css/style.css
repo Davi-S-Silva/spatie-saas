@@ -238,7 +238,26 @@ input[name="search"]:focus{
 #FreteCity{
 display: none;
 }
-
+.section-index-abastecimento{
+    display: none;
+}
+.card-index-abastecimento{
+    /* background-color: #ecebeb; */
+    border: 1px solid rgb(158, 158, 160);
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: rgb(158, 158, 160) 2px 2px 10px;
+}
+.card-index-abastecimento ul:first-child li{
+    font-weight: bold;
+}
+.card-index-abastecimento ul{
+    /* background-color: #999; */
+}
+.card-index-abastecimento ul li{
+    /* background-color: #ccc; */
+    border-bottom: 1px solid #999;
+}
 @media (max-width: 600px) {
     .aside_menu{
         display: none;
@@ -246,4 +265,11 @@ display: none;
     .leading-tight{
         display: none;
     }
-  }
+
+    .table-index-abastecimento{
+        display: none;
+    }
+    .section-index-abastecimento{
+        display: block;
+    }
+}

@@ -13,6 +13,7 @@ use App\Http\Controllers\ColaboradorController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EntregaController;
 use App\Http\Controllers\FilialController;
+use App\Http\Controllers\FornecedorController;
 use App\Http\Controllers\LocalApoioController;
 use App\Http\Controllers\MovimentacaoVeiculoController;
 use NFePHP\Common\Certificate;
@@ -119,6 +120,8 @@ Route::middleware('auth')->group(function () {
         // Route::get('movimentacao/{movimentacao}/stop',[MovimentacaoVeiculoController::class, 'stop'])->name('movimentacao.stop');
         Route::post('movimentacao/{movimentacao}/stop',[MovimentacaoVeiculoController::class, 'stop'])->name('movimentacao.stop');
         // });
+
+        Route::resource('fornecedor',FornecedorController::class);
 
         Route::resource('abastecimento',AbastecimentoController::class);
         Route::get('abastecimento/{abastecimento}/getfotos',[AbastecimentoController::class,'getFotos'])->name('getFotos');
