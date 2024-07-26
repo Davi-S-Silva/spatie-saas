@@ -13,6 +13,7 @@ use App\Http\Controllers\ColaboradorController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EntregaController;
 use App\Http\Controllers\FilialController;
+use App\Http\Controllers\FornecedorController;
 use App\Http\Controllers\LocalApoioController;
 use App\Http\Controllers\MovimentacaoVeiculoController;
 use NFePHP\Common\Certificate;

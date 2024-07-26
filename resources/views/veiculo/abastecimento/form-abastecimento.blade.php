@@ -45,6 +45,14 @@
         @endif
     </div>
     <div>
+        <x-select-fornecedor/>
+        @if ($errors->has('Fornecedor'))
+        <div class="alert alert-danger">
+            {{ $errors->first('Fornecedor') }}
+        </div>
+        @endif
+    </div>
+    <div>
         <x-select-combustivel/>
         @if ($errors->has('Combustivel'))
         <div class="alert alert-danger">
@@ -68,7 +76,7 @@
         @endif
     @endhasanyrole
 
-    <div class="my-2">
+    <div class="my-3">
         <label for="">Foto Cupom</label>
         <input type="file" name="FotoCupom" id="" class="form-control">
         @if ($errors->has('FotoCupom'))
@@ -77,21 +85,22 @@
         </div>
         @endif
     </div>
-    <div class="my-2">
-        <label for="">Foto Hodometro / Velocimetro</label>
-        <input type="file" name="FotoHodometro" id="" class="form-control">
-        @if ($errors->has('FotoHodometro'))
-        <div class="alert alert-danger">
-            {{ $errors->first('FotoHodometro') }}
-        </div>
-        @endif
-    </div>
-    <div class="my-2">
+
+    <div class="my-3">
         <label for="">Foto Bomba de Abastecimento</label>
         <input type="file" name="FotoBomba" id="" class="form-control">
         @if ($errors->has('FotoBomba'))
         <div class="alert alert-danger">
             {{ $errors->first('FotoBomba') }}
+        </div>
+        @endif
+    </div>
+    <div class="my-3">
+        <label for="">Foto Hodometro / Velocimetro</label>
+        <input type="file" name="FotoHodometro" id="" class="form-control">
+        @if ($errors->has('FotoHodometro'))
+        <div class="alert alert-danger">
+            {{ $errors->first('FotoHodometro') }}
         </div>
         @endif
     </div>
