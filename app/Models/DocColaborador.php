@@ -20,4 +20,9 @@ class DocColaborador extends Model
           $this->id = $this->withoutGlobalScopes()->get()->last()->id +=1;
         }
     }
+
+    public function getTipoDocId($name)
+    {
+        return TipoDoc::where('name',$name)->get()->first()->id;
+    }
 }

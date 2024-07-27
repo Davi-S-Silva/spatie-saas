@@ -166,7 +166,11 @@ class AbastecimentoController extends Controller implements HasMiddleware
                     // echo Auth::user()->colaborador->first()->veiculo->first()->placa;
                     $abastecimento->veiculo_id = Auth::user()->colaborador->first()->veiculo->first()->id;
                 }else{
-                    $abastecimento->veiculo_id = $request->veiculo;
+                    if(!is_null($request->veiculo)){
+                        $abastecimento->veiculo_id = $request->veiculo;
+                    }else{
+                        throw new Exception('Entre em contato com o responsavel identificando qual o veiculo que está abastecendo!');
+                    }
                 }
             }else{
                 $abastecimento->veiculo_id = $request->veiculo;
@@ -192,7 +196,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
             $KmModel->setKm($Veiculo,$abastecimento->kmAtual);
             $KmModel->save();
             $Veiculo->associaColaborador($abastecimento->colaborador_id);
-            // $abastecimento->Fornecedor_id = 1;
+            $abastecimento->Fornecedor_id = $request->Fornecedor;
             // return $abastecimento->getAttributes();
 
             // return 'salvo';

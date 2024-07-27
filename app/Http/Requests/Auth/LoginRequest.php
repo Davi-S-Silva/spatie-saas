@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\Colaborador;
+use App\Models\DocColaborador;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +29,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'cpf' => ['required', 'string', 'numeric'],
             'password' => ['required', 'string'],
         ];
     }
@@ -40,9 +42,12 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        // $this->email = ;
+        // dd($email);
+        // dd($this->email);
+        // $this->only('email', 'password')
+        if (! Auth::attempt(['email'=>Colaborador::find(DocColaborador::where('numero',$this->cpf)->get()->first()->colaborador_id)->usuario->first()->email,'password'=>$_REQUEST['password']], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
-            // dd('login');
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Colaborador;
 use App\Models\Contato;
+use App\Models\DocColaborador;
 use App\Models\Empresa;
 use App\Models\Endereco;
 use App\Models\FuncaoColaborador;
@@ -80,6 +81,13 @@ class ColaboradorController extends Controller implements HasMiddleware
             $colaborador->setStatus('Disponivel');
             $colaborador->save();
 
+            $DocColaborador = new DocColaborador();
+            $DocColaborador->newId();
+            $DocColaborador->tipo_id = $DocColaborador->getTipoDocId('CPF');
+            $DocColaborador->colaborador_id = $colaborador->id;
+            $DocColaborador->numero = $request->CPF;
+            $DocColaborador->save();
+
             $endereco = new Endereco();
             $endereco->newId();
             $endereco->endereco = $request->rua;
@@ -130,7 +138,7 @@ class ColaboradorController extends Controller implements HasMiddleware
             DB::commit();
         }catch(Exception $ex){
             DB::rollback();
-            print_r($ex->getMessage().' - '.$ex->getLine());
+            print_r($ex->getMessage().' - File: '.$ex->getFile().' - '.$ex->getLine());
         }
     }
 

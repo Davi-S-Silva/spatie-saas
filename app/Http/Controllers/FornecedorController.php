@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contato;
+use App\Models\Endereco;
 use App\Models\Fornecedor;
+use App\Models\TipoDoc;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FornecedorController extends Controller
 {
@@ -28,7 +34,60 @@ class FornecedorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            echo '<pre>';
+            print_r($request->input());
+            echo '</pre>';
+
+            $fornecedor = new Fornecedor();
+            $fornecedor->name = $request->Name;
+            $fornecedor->doc = $request->Doc;
+            if (strlen($fornecedor->doc) == 11) {
+                $doc = TipoDoc::getTipoDocId('CPF');
+            } elseif (strlen($fornecedor->doc) == 14) {
+                $doc = TipoDoc::getTipoDocId('CPF');;
+            } else {
+                throw new Exception('Verifique o número do documento digitado');
+            }
+            $fornecedor->TipoDoc = $doc;
+            $fornecedor->Descricao = $request->Descricao;
+            $fornecedor->especialidade_id = $request->Especialidade;
+            $endereco = new Endereco();
+            $endereco->newId();
+            $endereco->endereco = $request->rua;
+            $endereco->numero = $request->numero;
+            $endereco->bairro = $request->bairro;
+            $endereco->cep = $request->cep;
+            $endereco->cidade_id = $request->cidade_id;
+            $endereco->estado_id = $request->estado_id;
+            $endereco->save();
+
+            $fornecedor->endereco_id = $endereco->id;
+            $fornecedor->save();
+
+            $contato = new Contato();
+            $contato->newId();
+            $contato->telefone = $request->Telefone;
+            $contato->whatsapp = $request->WhatsApp;
+            $contato->email = $request->Email;
+            $contato->descricao = $request->Descricao;
+            $contato->usuario_id = Auth::user()->id;
+            $contato->usuario_id = Auth::user()->id;
+            $contato->save();
+
+            $fornecedor->contatos()->attach($contato->id);
+
+            echo '<pre>';
+            print_r($fornecedor->getAttributes());
+            echo '</pre>';
+            // return ;
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollback();
+            return 'erro'. $ex->getMessage();
+        }
     }
 
     /**

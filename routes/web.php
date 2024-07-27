@@ -40,18 +40,18 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/phpinfo', function(){
 //     return print_r(phpinfo());
 // });
-Route::get('/calcula', function(){
-    $origem = '-34.87171,-8.02677';
-    // $destino = '-34.84127309569868,-7.0133321019514865';
-    $destino = '-38.229605080601,-6.76337800';
-$distance = new DistanceCity($origem, $destino);
+// Route::get('/calcula', function(){
+//     $origem = '-34.87171,-8.02677';
+//     // $destino = '-34.84127309569868,-7.0133321019514865';
+//     $destino = '-38.229605080601,-6.76337800';
+// $distance = new DistanceCity($origem, $destino);
 
-echo '<pre>';
-print_r($distance->showDuration());echo '</br >';
-print_r($distance->showDistance());echo '</br >';
-print_r($distance->showWaypoints());echo '</br >';
-echo '</pre>';
-});
+// echo '<pre>';
+// print_r($distance->showDuration());echo '</br >';
+// print_r($distance->showDistance());echo '</br >';
+// print_r($distance->showWaypoints());echo '</br >';
+// echo '</pre>';
+// });
 
 Route::get('/', function () {
     return view('welcome');

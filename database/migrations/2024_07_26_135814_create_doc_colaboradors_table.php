@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('doc_colaboradors', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tipo_id')->references('id')->on('tipo_docs');
-            $table->string('path_img');
-            $table->string('numero');
-            $table->foreignId('tenant_id')->references('id')->on('tenants');
+            $table->foreignId('colaborador_id')->references('id')->on('colaboradors');
+            $table->string('path')->nullable();
+            $table->string('numero')->unique();
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

@@ -6,9 +6,9 @@
     <option value="">Selecione o Fornecedor</option>
     @foreach (Fornecedor::all() as $item)
     @if (!is_null(old('Fornecedor')) && old('Fornecedor')==$item->id)
-        <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
+        <option value="{{ $item->id }}" selected>{{ $item->name }} - {{ $item->descricao }}</option>
     @else
-        <option value="{{ $item->id }}">{{ $item->name }}</option>
+        <option value="{{ $item->id }}">{{ $item->name }} - {{ $item->descricao }}</option>
     @endif
     @endforeach
 </select>

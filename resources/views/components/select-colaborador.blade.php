@@ -8,7 +8,7 @@
         @elseif($funcao==1)
         <label for="">Motorista</label>
         @else
-        Todos colaboradores
+        Colaborador
         @endif
         {{-- <a href="#" class="remove_select_colaborador">X</a> --}}
     </div>

@@ -81,4 +81,8 @@ class Colaborador extends Model
     {
         return $this->hasMany(Abastecimento::class);
     }
+    public function doc()
+    {
+        return $this->hasMany(TipoDoc::class);
+    }
 }

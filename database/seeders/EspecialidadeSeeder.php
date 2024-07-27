@@ -18,14 +18,19 @@ class EspecialidadeSeeder extends Seeder
             'Combustível',
             'Peças',
             'Manutenção',
+            'Mecânico',
+            'Eletricista',
+            'Pneu',
         ];
 
 
+
         foreach($array as $item){
-            $qtd = Especialidade::where('name',$item)->get();
+            $qtd = Especialidade::where('nome',$item)->get();
             if($qtd->count()==0){
                 DB::table('especialidades')->insert([
-                    'name' => $item
+                    'nome' => $item,
+                    'descricao'=>'',
                 ]);
                 echo 'Especialidade '.$item.' Criada com sucesso!'.PHP_EOL;
             }else{
