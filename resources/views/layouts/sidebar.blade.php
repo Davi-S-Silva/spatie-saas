@@ -316,6 +316,9 @@
                                     hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Abastecimento</a></li>
                                     {{-- <li><a href="{{ route('abastecimento.create') }}">Novo Abastecimento</a></li> --}}
                                 @endcan
+                                <li class="hover_menu position-relative"><a href="{{ route('getRanking') }}"
+                                    class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                    hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Ranking Abastecimento</a></li>
                             {{-- </ul>
                         </li> --}}
                     </ul>
