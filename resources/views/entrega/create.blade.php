@@ -15,7 +15,8 @@
                             {{-- <li><b><a href="{{ route('clientes.show',['cliente'=>$cliente->id]) }}">{{ $cliente->name }}</b></a> --}}
                                 <ul>
                                     @foreach ( $cliente->filials as $filial )
-                                        <li><a href="{{route('carga.getCargasDisponiveis',['filial'=>str_replace(' ','',strtolower($filial->razao_social))])}}" class="link_carga_entrega">{{ $filial->razao_social }}</a></li>
+                                        <li><a href="{{route('carga.getCargasDisponiveis',['filial'=>str_replace(' ','',strtolower($filial->razao_social))])}}"
+                                            class="link_carga_entrega">{{ $filial->razao_social }}</a></li>
                                     @endforeach
                                 </ul>
                             </li>

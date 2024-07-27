@@ -31,6 +31,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VeiculoController;
 use App\Models\DistanceCity;
 use App\Models\Empresa;
+use App\Models\Fornecedor;
 use App\Models\Municipio;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -54,7 +55,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('desenvolvimento');
+
     $users = User::all();
     echo session('tenant_id');
 
@@ -108,6 +110,8 @@ Route::middleware('auth')->group(function () {
         Route::get('carga/{filial}/getCargasDisponiveis',[CargaController::class, 'getCargasDisponiveis'])->name('carga.getCargasDisponiveis');
         Route::get('carga/cidadeFrete/{carga}',[CargaController::class, 'cidadeFrete'])->name('carga.cidadeFrete');
         Route::put('carga/{carga}/update',[CargaController::class, 'update'])->name('carga.update');
+
+        Route::resource('fornecedor',FornecedorController::class);
 
         Route::resource('entrega',EntregaController::class);
         Route::post('entrega/{entrega}/start',[EntregaController::class, 'start'])->name('entrega.start');

@@ -30,4 +30,8 @@ class Municipio extends Model
         $coordenada = Municipio::where('codigo',$codigo)->first();
         return $coordenada->longitude.','.$coordenada->latitude;
     }
+    public static function getMunicipioId($name)
+    {
+        return Municipio::where('nome',$name)->get()->first()->id;
+    }
 }

@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         // dd(Auth::user()->tenant_id);
-        if(is_null(Auth::user()->tenant_id)){
+        if(is_null(Auth::user())){
             session(['noTenatable'=>true]);
         }
 

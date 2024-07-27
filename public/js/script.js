@@ -60,4 +60,15 @@ $(function () {
     })
 
 
+    $('.nota-select').click(function(){
+        if($('#Checkbox_'+$(this).attr('id')).attr('checked')=='checked'){
+            $('#Checkbox_'+$(this).attr('id')).attr('checked',false)
+            $(this).css({'background':'none'})
+        }else{
+            $(this).css({'background-color':'#0df00d41'})
+            $('#Checkbox_'+$(this).attr('id')).attr('checked',true)
+        }
+        // $('#Checkbox_'+$(this).attr('id')).attr('checked','checked');
+    });
+    $('#AcoesEntrega')
 });

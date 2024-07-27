@@ -18,7 +18,12 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-        return view('fornecedor.index');
+        if(!is_null(Auth::user()->tenant_id)){
+            $fornecedor = Auth::user()->tenant->first()->fornecedor;
+        }else{
+            $fornecedor = Fornecedor::all();
+        }
+        return view('fornecedor.index', ['fornecedores' => $fornecedor]);
     }
 
     /**
@@ -41,52 +46,73 @@ class FornecedorController extends Controller
             print_r($request->input());
             echo '</pre>';
 
-            $fornecedor = new Fornecedor();
-            $fornecedor->name = $request->Name;
-            $fornecedor->doc = $request->Doc;
-            if (strlen($fornecedor->doc) == 11) {
-                $doc = TipoDoc::getTipoDocId('CPF');
-            } elseif (strlen($fornecedor->doc) == 14) {
-                $doc = TipoDoc::getTipoDocId('CPF');;
+            $fornec = Fornecedor::where('doc', (string)$request->Doc)->get();
+            echo $fornec->count();
+            echo '<br />' . $request->Doc;
+            echo '<br />';
+            if ($fornec->count() != 0) {
+                // echo Auth::user()->tenant_id;
+                $forn_tenant = DB::table('fornecedor_tenant')->select('*')->where('tenant_id',Auth::user()->tenant_id)->where('fornecedor_id',$fornec->first()->id)->get();
+                if ($forn_tenant->count()!=0) {
+                    throw new Exception('Fornecedor ja cadastrado para essa Empresa!');
+                } else {
+                    if(!is_null(Auth::user()->tenant_id)){
+                        $fornec->first()->tentants()->attach(Auth::user()->tenant_id);
+                    }
+                    $msg = 'Fornecedor Atribuido a empresa com sucesso';
+                }
             } else {
-                throw new Exception('Verifique o número do documento digitado');
+
+                $fornecedor = new Fornecedor();
+                $fornecedor->newId();
+                $fornecedor->name = $request->Name;
+                $fornecedor->doc = $request->Doc;
+                if (strlen($fornecedor->doc) == 11) {
+                    $doc = TipoDoc::getTipoDocId('CPF');
+                } elseif (strlen($fornecedor->doc) == 14) {
+                    $doc = TipoDoc::getTipoDocId('CPF');;
+                } else {
+                    throw new Exception('Verifique o número do documento digitado');
+                }
+                $fornecedor->TipoDoc = $doc;
+                $fornecedor->Descricao = $request->DescricaoFornecedor;
+                $fornecedor->especialidade_id = $request->Especialidade;
+                $endereco = new Endereco();
+                $endereco->newId();
+                $endereco->endereco = $request->rua;
+                $endereco->numero = $request->numero;
+                $endereco->bairro = $request->bairro;
+                $endereco->cep = $request->cep;
+                $endereco->cidade_id = $request->cidade_id;
+                $endereco->estado_id = $request->estado_id;
+                $endereco->save();
+
+                $fornecedor->endereco_id = $endereco->id;
+                $fornecedor->save();
+                $fornecedor->tentants()->attach(Auth::user()->tenant_id);
+                $contato = new Contato();
+                $contato->newId();
+                $contato->telefone = $request->Telefone;
+                $contato->whatsapp = $request->WhatsApp;
+                $contato->email = $request->Email;
+                $contato->descricao = $request->Descricao;
+                $contato->usuario_id = Auth::user()->id;
+                // $contato->usuario_id = Auth::user()->id;
+                $contato->save();
+
+                $fornecedor->contatos()->attach($contato->id);
+
+                echo '<pre>';
+                print_r($fornecedor->getAttributes());
+                echo '</pre>';
+                // return ;
+                $msg = 'Fornecedor Cadastrado com sucesso';
             }
-            $fornecedor->TipoDoc = $doc;
-            $fornecedor->Descricao = $request->Descricao;
-            $fornecedor->especialidade_id = $request->Especialidade;
-            $endereco = new Endereco();
-            $endereco->newId();
-            $endereco->endereco = $request->rua;
-            $endereco->numero = $request->numero;
-            $endereco->bairro = $request->bairro;
-            $endereco->cep = $request->cep;
-            $endereco->cidade_id = $request->cidade_id;
-            $endereco->estado_id = $request->estado_id;
-            $endereco->save();
-
-            $fornecedor->endereco_id = $endereco->id;
-            $fornecedor->save();
-
-            $contato = new Contato();
-            $contato->newId();
-            $contato->telefone = $request->Telefone;
-            $contato->whatsapp = $request->WhatsApp;
-            $contato->email = $request->Email;
-            $contato->descricao = $request->Descricao;
-            $contato->usuario_id = Auth::user()->id;
-            $contato->usuario_id = Auth::user()->id;
-            $contato->save();
-
-            $fornecedor->contatos()->attach($contato->id);
-
-            echo '<pre>';
-            print_r($fornecedor->getAttributes());
-            echo '</pre>';
-            // return ;
             DB::commit();
+            return $msg;
         } catch (Exception $ex) {
             DB::rollback();
-            return 'erro'. $ex->getMessage();
+            return $ex->getMessage();
         }
     }
 

@@ -24,4 +24,13 @@ class Tenant extends Model
     public function user(){
         return $this->belongsToMany(User::class);
     }
+
+    public function fornecedor()
+    {
+        return $this->belongsToMany(Fornecedor::class);
+    }
+    public function localMovimentacao()
+    {
+        return $this->belongsToMany(LocalMovimentacao::class);
+    }
 }

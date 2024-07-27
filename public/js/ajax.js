@@ -1122,7 +1122,50 @@ $('.response-message-ajax').click(function(){
         console.log('atualizar nota')
         return false
     })
+    $('.submit_entrega').click(function(){
+        // console.log($(this).attr('name'))
+        notas = $('input[name="Notas[]"]:checked')
+        // notas.each(function(valor, index){
+            // console.log()
+        if(notas.length==0){
+            alert('Ação Cancelada: Nenhuma nota Selecionada');
+            return false;
+        }
+        // })
+        // return false;
+        if($(this).attr('name')=='Devolver'){
+            motivo = prompt("Qual o motivo?");
+            console.log(motivo);
+            if(motivo==null || motivo == ''){
+                alert('Ação Cancelada');
+                return false;
+            }
+            $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Motivo" value="'+motivo+'"/>')
+            $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Devolver" value="Devolver"/>')
+            // $('form[name="FormEncerraEntrega"]').submit();
+            // return false;
+        }
+        if($(this).attr('name')=='Calcular'){
+            $('form[name="FormEncerraEntrega"] input[name="Motivo"]').remove();
+            $('form[name="FormEncerraEntrega"] input[name="Receber"]').remove();
+            $('form[name="FormEncerraEntrega"] input[name="Devolver"]').remove();
+            $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Calcular" value="Calcular"/>')
+            // $('form[name="FormEncerraEntrega"]').submit();
+            // return false;
+        }
+        if($(this).attr('name')=='Receber'){
+            $('form[name="FormEncerraEntrega"] input[name="Motivo"]').remove();
+            $('form[name="FormEncerraEntrega"] input[name="Devolver"]').remove();
+            $('form[name="FormEncerraEntrega"] input[name="Calcular"]').remove();
+            $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Receber" value="Receber"/>')
+            // $('form[name="FormEncerraEntrega"]').submit();
+            // return false;
+        }
+        $('form[name="FormEncerraEntrega"]').submit();
+        // $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="'+$(this).attr('name')+'" value="'+$(this).attr('name')+'"/>')
 
+
+    })
     $('form[name="FormEncerraEntrega"]').submit(function(){
         // console.log($(this).attr('action'))
         $.ajax({
@@ -1140,7 +1183,27 @@ $('.response-message-ajax').click(function(){
 
                 }
                 if(response.status==200){
+                    if(response.acao == 'Calcular'){
+                        $('.peso').html('');
+                        $('.peso').append('<b>Peso: </b>'+response.info.peso+'Kg');
+                        $('.valor').html('');
+                        $('.valor').append('<b>Valor: </b>R$ '+response.info.valor);
+                        $('.volume').html('');
+                        $('.volume').append('<b>Volume: </b>'+response.info.volume);
+                        $('.qtdnotas').html('');
+                        $('.qtdnotas').append('<b>Quantidade Notas: </b>'+response.info.qtdNotas);
+                        // <li><b>Valor: </b>R$ '
+                        //     +response.info.valor+'</li><li><b>Volume: </b>'+response.info.volume+'</li></ul> < class=" d-flex flex-wrap">'+
 
+                        $('.lista-resposta-calculo').html('')
+                        i =0;
+                        $.each(response.info.notas,function(i, val){
+                            $('.lista-resposta-calculo').append((i<response.info.notas.length-1)?val+', ':val)
+                            i++
+                        });
+                        $('#AreaResultados').show()
+                        $('body').css('overflow','hidden')
+                    }
                 }
             },
             error:function(response){
@@ -1150,7 +1213,10 @@ $('.response-message-ajax').click(function(){
         })
         return false
     })
-
+    $('.close_modal').click(function(){
+        $('#AreaResultados').hide()
+        $('body').css('overflow','auto')
+    });
     $('.cidade_frete').click(function(){
         $.ajax({
             type:'get',

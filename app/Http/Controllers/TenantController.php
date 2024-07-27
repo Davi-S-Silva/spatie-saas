@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Colaborador;
 use App\Models\Contato;
+use App\Models\DocColaborador;
 use App\Models\Empresa;
 use App\Models\Endereco;
 use App\Models\LocalApoio;
@@ -73,18 +75,23 @@ class TenantController extends Controller
             $empresa->enderecos()->attach($endereco->id);
 
             $localApoio = new LocalApoio();
+            $localApoio->newId();
             $localApoio->name = $request->input('RazaoSocial');
             $localApoio->description = 'Sede da empresa '.$request->input('RazaoSocial');
             $localApoio->empresa_id = $empresa->id;
+            $localApoio->tenant_id = $tenant->id;
             $localApoio->usuario_id = Auth::user()->id;
             $localApoio->save();
+            // $empresa->localapoios()->attach($localApoio->id);
 
             $localMov = new LocalMovimentacao();
+            $localMov->newId();
             $localMov->title = $localApoio->name;
             $localMov->descricao = $localApoio->name . ' local de apoio da ' . $request->input('RazaoSocial');
             $localMov->status_id = $localMov->getStatusId('Ativo');
             $localMov->usuario_id = Auth::user()->id;
             $localMov->save();
+            $localMov->tentants()->attach($tenant->id);
 
             $localApoio->locaismovimetacoes()->attach($localMov->id);
 
@@ -107,12 +114,36 @@ class TenantController extends Controller
 
             $user->save();
             $user->empresa()->attach($empresa->id);
-            $user->tenant()->attach(Auth::user()->id);
+            $user->tenant()->attach($tenant->id);
             $user->syncRoles(['tenant-admin-master']);
+
+            $colaborador = new Colaborador();
+            $colaborador->newId();
+            $colaborador->name = $user->name;
+            $colaborador->apelido = $user->name;
+            $colaborador->foto_path = '';
+            $colaborador->data_nascimento = '0001-01-01';
+            $colaborador->tipo_id = 1;
+            $colaborador->funcao_id = 7;
+            $colaborador->tenant_id = $tenant->id;
+            $colaborador->empresa_id = $empresa->id;
+            $colaborador->local_apoio_id = $localApoio->id;
+            $colaborador->usuario_id = $user->id;
+            $colaborador->setStatus('Disponivel');
+            $colaborador->save();
+            $user->colaborador()->attach($colaborador->id);
+
+            $DocColaborador = new DocColaborador();
+            $DocColaborador->newId();
+            $DocColaborador->tipo_id = $DocColaborador->getTipoDocId('CPF');
+            $DocColaborador->colaborador_id = $colaborador->id;
+            $DocColaborador->numero = $tenant->doc;
+            $DocColaborador->save();
 
             DB::commit();
 
-            return redirect()->route('empresa.show',['empresa'=>$empresa->id])->with('message', ['status' => 'success', 'msg' => 'Empresa Cadastrada com sucesso!']);
+            return redirect()->route('tenant.index')->with('message', ['status' => 'success', 'msg' => 'Tenant Cadastrado com sucesso!']);
+            // return redirect()->route('empresa.show',['empresa'=>$empresa->id])->with('message', ['status' => 'success', 'msg' => 'Empresa Cadastrada com sucesso!']);
         }catch(Exception $ex){
             DB::rollBack();
             return redirect()->back()->with('message', ['status' => 'danger', 'msg' => 'Empresa não Cadastrada! erro: '.$ex->getMessage().' - '.$ex->getFile(). ' - '.$ex->getLine()]);

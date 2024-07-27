@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Abastecimento;
 use App\Models\Colaborador;
+use App\Models\Fornecedor;
 use App\Models\Km;
 use App\Models\Veiculo;
 use Exception;
@@ -83,7 +84,13 @@ class AbastecimentoController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        return view('veiculo.abastecimento.create');
+        if(!is_null(Auth::user()->tenant_id)){
+            $fornecedor = Auth::user()->tenant->first()->fornecedor;
+        }else{
+            $fornecedor = Fornecedor::all();
+        }
+        // return view('fornecedor.index', ['fornecedores' => $fornecedor]);
+        return view('veiculo.abastecimento.create',['fornecedores' => $fornecedor]);
     }
 
     /**
@@ -177,8 +184,11 @@ class AbastecimentoController extends Controller implements HasMiddleware
                 $abastecimento->colaborador_id = $request->colaborador;
                 $abastecimento->tenant_id = Colaborador::find($request->colaborador)->tenant_id;
             }
+
+            $Veiculo = Veiculo::find($abastecimento->veiculo_id);
+
             $kmAnterior = Abastecimento::where('veiculo_id',$abastecimento->veiculo_id)->get();
-            $abastecimento->kmAnterior = ($kmAnterior->count()!=0)?$kmAnterior->last()->kmAtual:0;
+            $abastecimento->kmAnterior = ($kmAnterior->count()!=0)?$kmAnterior->last()->kmAtual:$Veiculo->kms->last()->km;
             // return $abastecimento->veiculo->kms()->get()->last()->km;
             if(($abastecimento->kmAnterior>=$abastecimento->kmAtual) || ($abastecimento->veiculo->kms()->get()->last()->km > $abastecimento->kmAtual)){
                 if(!is_null($request->ajax)){
@@ -191,7 +201,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
                 }
             }
 
-            $Veiculo = Veiculo::find($abastecimento->veiculo_id);
+
             $KmModel = new Km();
             $KmModel->setKm($Veiculo,$abastecimento->kmAtual);
             $KmModel->save();

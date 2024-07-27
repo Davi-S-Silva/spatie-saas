@@ -43,7 +43,7 @@ class Status extends Seeder
             'tipo' => 1,
             'descricao' => 'Carga cancelada',
         ]);
-
+        echo 'status das Cargas Salvos com sucesso'.PHP_EOL;
         // Veiculo
         DB::table('status')->insert([
             'name' => 'Disponivel',
@@ -70,6 +70,7 @@ class Status extends Seeder
             'tipo' => 2,
             'descricao' => 'Veiculo vendido',
         ]);
+        echo 'status dos Veículos Salvos com sucesso'.PHP_EOL;
         //Movimentação
         DB::table('status')->insert([
             'name' => 'Pendente',
@@ -96,7 +97,7 @@ class Status extends Seeder
             'tipo' => 3,
             'descricao' => 'Movimentação cancelada',
         ]);
-
+        echo 'status das Movimentações Salvos com sucesso'.PHP_EOL;
         //Entrega
         DB::table('status')->insert([
             'name' => 'Pendente',
@@ -118,6 +119,7 @@ class Status extends Seeder
             'tipo' => 4,
             'descricao' => 'Entrega Cancelada',
         ]);
+        echo 'status das Entregas Salvos com sucesso'.PHP_EOL;
         //colaborador
         DB::table('status')->insert([
             'name' => 'Disponivel',
@@ -139,6 +141,8 @@ class Status extends Seeder
             'tipo' => 5,
             'descricao' => 'Colaborador desligado da empresa',
         ]);
+        echo 'status dos colaboradores Salvos com sucesso'.PHP_EOL;
+        //local de movimentacao
         DB::table('status')->insert([
             'name' => 'Ativo',
             'tipo' => 6,
@@ -149,6 +153,7 @@ class Status extends Seeder
             'tipo' => 6,
             'descricao' => 'Local de movimentação desativado',
         ]);
+        echo 'status dos Locais de Movimentações Salvos com sucesso'.PHP_EOL;
         DB::table('status')->insert([
             'name' => 'Pendente',
             'tipo' => 7,
@@ -174,6 +179,6 @@ class Status extends Seeder
             'tipo' => 7,
             'descricao' => 'Nota Paga e Prestado Conta',
         ]);
-
+        echo 'status das Notas Salvos com sucesso'.PHP_EOL;
     }
 }

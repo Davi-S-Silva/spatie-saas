@@ -105,7 +105,7 @@
                                                     <th class="p-2">Remessa</th>
                                                     <th>OS</th>
                                                     <th>Motorista</th>
-                                                    <th>Área</th>
+                                                    <th>Destino</th>
                                                     <th>Notas</th>
                                                     <th>Entregas</th>
                                                     <th>Status</th>
@@ -120,7 +120,7 @@
                                                         <td class="p-2">{{ $carga->remessa }}</td>
                                                         <td>{{ $carga->os }}</td>
                                                         <td>{{ $carga->motorista->name }}</td>
-                                                        <td>{{ $carga->area }}</td>
+                                                        <td>{{ $carga->destino }}</td>
                                                         <td>{{ $carga->notas()->count() }}</td>
                                                         <td>{{ count($carga->paradas()) }}</td>
                                                         <td title="{{ $carga->getStatus()->descricao }}">{{ $carga->getStatus()->name }}</td>

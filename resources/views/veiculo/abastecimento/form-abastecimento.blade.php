@@ -45,7 +45,7 @@
         @endif
     </div>
     <div>
-        <x-select-fornecedor/>
+        <x-select-fornecedor :fornecedores=$fornecedores/>
         @if ($errors->has('Fornecedor'))
         <div class="alert alert-danger">
             {{ $errors->first('Fornecedor') }}

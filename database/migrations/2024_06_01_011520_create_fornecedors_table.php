@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('tipodoc');//fisico ou juridico
             $table->foreignId('especialidade_id')->references('id')->on('especialidades');
             $table->foreignId('endereco_id')->references('id')->on('enderecos');
-            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
+            // $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

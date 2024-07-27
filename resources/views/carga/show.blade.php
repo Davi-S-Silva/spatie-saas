@@ -50,7 +50,9 @@
                         <header>Notas</header>
                         <section class="d-flex flex-wrap justify-around">
                             @foreach ($carga->notas()->with('destinatario','carga')->orderBy('destinatario_id','asc')->get() as $nota)
+                            <div class="col-sm-4 col-11 d-flex justify-center align-items-center">
                                 <x-nota :nota=$nota/>
+                            </div>
                             @endforeach
                         </section>
                     </div>

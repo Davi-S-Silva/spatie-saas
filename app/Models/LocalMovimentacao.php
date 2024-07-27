@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Tenantable;
+// use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 
 class LocalMovimentacao extends Model
 {
-    use Tenantable,HasRoles;
+    use HasRoles;
 
     public function newId(){
         $count = $this->all();
@@ -40,5 +40,9 @@ class LocalMovimentacao extends Model
     public function getStatusId($status)
     {
         return Status::where('name',$status)->where('tipo',6)->get()->first()->id;
+    }
+    public function tentants()
+    {
+        return $this->belongsToMany(Tenant::class);
     }
 }

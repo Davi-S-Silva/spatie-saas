@@ -122,6 +122,7 @@ class ColaboradorController extends Controller implements HasMiddleware
             $user->save();
             $user->empresa()->attach($empresa->id);
             $user->colaborador()->attach($colaborador->id);
+            $colaborador->tenant()->attach($empresa->tenant_id);
             if($empresa->id == 1){
                 $user->roles()->attach(6);//
             }else{

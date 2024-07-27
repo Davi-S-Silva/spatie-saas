@@ -258,6 +258,66 @@ display: none;
     /* background-color: #ccc; */
     border-bottom: 1px solid #999;
 }
+.nota-select:hover{
+    cursor: pointer;
+}
+.form-check-input{
+    display: none;
+}
+#AcoesEntrega{
+    position: fixed;
+    right: 0;
+    /* position: relative; */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    /* width: 50px;
+    height: 50px; */
+    /* width: 50px;
+    height: 400px; */
+    padding: 0;
+}
+#AcoesEntrega button{
+    display: block;
+    /* width: 100px;
+    height: 110px; */
+    margin: 30px 0;
+    transform: rotate(90deg);
+    /* left: 0;
+    padding: 0; */
+}
+#AreaResultados{
+    width: 100%;
+    background-color: rgba(108, 108, 109, 0.521);
+    position: fixed;
+    top:0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    display: none;
+}
+.close_modal i{
+    font-size: 16pt;
+}
+.lista-resposta-calculo{
+    display: flex;
+    flex-wrap: wrap;
+}
+#Resultados{
+    position: fixed;
+    background-color: #fff;
+    /* background-color: #0df00d41; */
+    /* top: 0; */
+    top: 20%;
+    transform: translateY(-50%);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+}
+#Content{
+    border-top: 1px solid #666;
+    text-align: center;
+}
 @media (max-width: 600px) {
     .aside_menu{
         display: none;

@@ -20,19 +20,19 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
+            Status::class,
             PermissionSeeder::class,
             RoleSeeder::class,
-            UserSeeder::class,
-            Status::class,
-            LocalMovimentacaoSeeder::class,
-            EmpresaSeeder::class,
-            IndicacaoPagamento::class,
-            TipoColaboradorSeeder::class,
-            FuncaoColaboradorSeeder::class,
-            CombustivelSeeder::class,
             RegiaoSeeder::class,
             EstadoSeeder::class,
             MunicipioSeeder::class,
+            IndicacaoPagamento::class,
+            TipoColaboradorSeeder::class,
+            FuncaoColaboradorSeeder::class,
+            TipoDocSeeder::class,
+            UserSeeder::class,
+            LocalMovimentacaoSeeder::class,
+            CombustivelSeeder::class,
             EspecialidadeSeeder::class
         ]);
     }

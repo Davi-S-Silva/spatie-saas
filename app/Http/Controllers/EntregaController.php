@@ -10,6 +10,7 @@ use App\Models\Filial;
 use App\Models\Km;
 use App\Models\LocalMovimentacao;
 use App\Models\MovimentacaoVeiculo;
+use App\Models\Nota;
 use App\Models\Status;
 use App\Models\Veiculo;
 use Exception;
@@ -25,7 +26,14 @@ class EntregaController extends Controller
     public function index()
     {
         $entrega = Entrega::with('cargas','ajudantes','colaborador','veiculo')->orderBy('id','desc')->paginate(10);
-        $localMovimentacao = LocalMovimentacao::all();
+        // $localMovimentacao = LocalMovimentacao::all();
+        if(!is_null(Auth::user()->tenant_id)){
+            $localMovimentacao = Auth::user()->tenant->first()->localMovimentacao;
+        }else{
+            $localMovimentacao = LocalMovimentacao::all();
+        }
+
+        // dd($localMovimentacao);
         return view('entrega.index',['entregas'=>$entrega,'localMovimentacao'=>$localMovimentacao]);
         // return view('')
     }
@@ -297,6 +305,29 @@ class EntregaController extends Controller
 
     public function receberVariasNotas(Request $request)
     {
-        return $request->Notas;
+        if($request->Receber){
+            return response()->json(['status'=>200,'msg'=>['Receber notas',$request->Motivo]]);
+        }
+        if($request->Devolver){
+            return response()->json(['status'=>200,'msg'=>['Devolver notas',$request->Motivo]]);
+        }
+        if($request->Calcular){
+            $peso = 0;
+            $valor = 0;
+            $volume = 0;
+            $notas= [];
+            foreach($request->Notas as $idNota){
+                $nota = Nota::find($idNota);
+                $notas[]=$nota->nota;
+                $peso += $nota->peso;
+                $valor += $nota->valor;
+                $volume += $nota->volume;
+            }
+
+            return response()->json(['status'=>200,'acao'=>'Calcular',
+                                     'info'=>['peso'=>number_format($peso,2,',','.'),'qtdNotas'=>count($request->Notas),'notas'=>$notas,'valor'=>number_format($valor,2,',','.'),'volume'=>$volume]]);
+        }
+
+        return response()->json(['status'=>200,'msg'=>'ok']);
     }
 }

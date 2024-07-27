@@ -278,7 +278,7 @@ class MunicipioSeeder extends Seeder
                     $cidade->latitude = $linha[3];
                     $cidade->save();
 
-                    echo 'Cidade: '.$cidade->nome. ' - coordenada: long='.$linha[2].' lat='.$linha[3].PHP_EOL;
+                    // echo 'Cidade: '.$cidade->nome. ' - coordenada: long='.$linha[2].' lat='.$linha[3].PHP_EOL;
                 }
                 // print_r($linha);
             }

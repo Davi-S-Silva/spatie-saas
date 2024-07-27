@@ -72,6 +72,7 @@ class Colaborador extends Model
 
     public function usuario(){
         return $this->belongsToMany(User::class);
+        // return $this->belongsTo(User::class);
     }
     public function funcao(){
         return $this->belongsTo(FuncaoColaborador::class);

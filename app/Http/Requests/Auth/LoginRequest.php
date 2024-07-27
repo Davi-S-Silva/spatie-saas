@@ -39,14 +39,29 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): void
+    public function authenticate()
     {
-        $this->ensureIsNotRateLimited();
+
         // $this->email = ;
         // dd($email);
-        // dd($this->email);
+        // dd($this->cpf);
         // $this->only('email', 'password')
-        if (! Auth::attempt(['email'=>Colaborador::find(DocColaborador::where('numero',$this->cpf)->get()->first()->colaborador_id)->usuario->first()->email,'password'=>$_REQUEST['password']], $this->boolean('remember'))) {
+        // dd(Colaborador::find(DocColaborador::where('numero',$this->cpf)->get()->first()->colaborador_id)->id);
+        $dados = DocColaborador::where('numero',$this->cpf)->get();
+        // dd($dados);
+        if($dados->count()==0){
+            return redirect('/login')->with('status', 'Dados de login incorretos');
+            // return redirect('/login')->withInput();
+        }
+        $this->ensureIsNotRateLimited();
+        $colaborador = Colaborador::where('id',$dados->first()->colaborador_id)->withoutGlobalScopes()->get()->first();
+        if(!is_null($colaborador->tenant_id)){
+            session(['tenant_id'=>$colaborador->tenant_id]);
+        }else{
+            session(['tenant_id'=>null]);
+        }
+        // dd($colaborador->usuario);
+        if (! Auth::attempt(['email'=>$colaborador->usuario->first()->email,'password'=>$_REQUEST['password']], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

@@ -8,7 +8,12 @@
         <div class="max-w-7xl mx-auto px-1">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
-
+                    <pre>
+                    @foreach ($fornecedores as $item)
+                        {{-- {{ $item->name }} --}}
+                        {{ print_r($item->getAttributes()) }}
+                    @endforeach
+                    </pre>
                 </div>
             </div>
         </div>

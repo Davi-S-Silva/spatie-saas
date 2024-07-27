@@ -14,7 +14,7 @@
         </div>
         <div>
             <label for="">Descrição</label>
-            <input type="text" name="Descricao" id="">
+            <input type="text" name="DescricaoFornecedor" id="">
         </div>
     </section>
     @csrf

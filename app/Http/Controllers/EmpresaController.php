@@ -100,7 +100,7 @@ class EmpresaController extends Controller implements HasMiddleware
             $localMov->status_id = $localMov->getStatusId('Ativo');
             $localMov->usuario_id = Auth::user()->id;
             $localMov->save();
-
+            $localMov->tentants()->attach($empresa->tenant_id);
             $localApoio->locaismovimetacoes()->attach($localMov->id);
 
             $contato = new Contato();

@@ -18,4 +18,7 @@ class IndicacaoPagamento extends Model
             $this->id = $this->all()->last()->id +=1;
         }
     }
+    public static function getIndPagamento($id){
+        return IndicacaoPagamento::find($id)->descricao;
+    }
 }

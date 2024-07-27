@@ -1,7 +1,11 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
+    @if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+    @endif
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
@@ -13,7 +17,7 @@
         </div> --}}
         {{-- CPF --}}
         <div>
-            <x-input-label for="cpf" :value="__('CPF')" />
+            <x-input-label for="cpf" :value="__('CPF/CNPJ')" />
             <x-text-input id="cpf" class="block mt-1 w-full" type="number" name="cpf" :value="old('cpf')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('cpf')" class="mt-2" />
         </div>

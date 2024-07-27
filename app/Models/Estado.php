@@ -20,4 +20,8 @@ class Estado extends Model
           $this->id = $this->withoutGlobalScopes()->get()->last()->id +=1;
         }
     }
+    public static function getEstadoId($name)
+    {
+        return Estado::where('uf',$name)->get()->first()->id;
+    }
 }
