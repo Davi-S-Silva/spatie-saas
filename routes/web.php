@@ -29,6 +29,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VeiculoController;
+use App\Http\Controllers\VeiculoReboqueController;
 use App\Models\DistanceCity;
 use App\Models\Empresa;
 use App\Models\Fornecedor;
@@ -98,6 +99,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('clientes',ClienteController::class);
         Route::resource('filial',FilialController::class);
         Route::get('filial/create/cliente/{cliente}',[FilialController::class, 'create'])->name('filial.create');
+
+        Route::resource('reboque',VeiculoReboqueController::class);
 
         Route::resource('veiculo',VeiculoController::class);
         Route::get('veiculo/mudarVeiculoDeCliente/{veiculo}/{cliente}',[VeiculoController::class, 'mudarVeiculoDeCliente'])->name('mudarVeiculoDeCliente');

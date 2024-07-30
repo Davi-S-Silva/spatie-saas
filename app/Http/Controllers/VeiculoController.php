@@ -66,6 +66,19 @@ class VeiculoController extends Controller implements HasMiddleware
             $veiculo->tenant_id = (is_null($veiculo->tenant_id))? Empresa::find($veiculo->empresa_id)->tenant_id :$veiculo->tenant_id;
             $veiculo->usuario_id =Auth::user()->id;
             $veiculo->setStatus('Disponivel');
+            $veiculo->ano_modelo = $request->AnoModelo;
+            $veiculo->ano_fabricacao = $request->AnoFabricacao;
+            $veiculo->ano_exercicio = $request->AnoExercicio;
+            $veiculo->renavam = $request->Renavam;
+            $veiculo->chassi - $request->Chassi;
+            $veiculo->potencia = $request->potencia;
+            $veiculo->capacidade = $request->capacidade;
+            $veiculo->peso_bruto = $request->PesoBruto;
+            $veiculo->eixo = $request->Eixo;
+            $veiculo->lotacao = $request->Lotacao;
+            $veiculo->carroceria = $request->Carroceria;
+            $veiculo->cor = $request->Cor;
+            $veiculo->data_aquisicao = $request->DataAquisicao;
             if(isset($request->proprietario) && !is_null($request->proprietario)){
                 $veiculo->proprietario_id = $request->proprietario;
             }else{

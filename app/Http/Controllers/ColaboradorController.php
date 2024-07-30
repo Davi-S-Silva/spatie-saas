@@ -106,7 +106,7 @@ class ColaboradorController extends Controller implements HasMiddleware
             $contato->email = $request->Email;
             $contato->descricao = $request->Descricao;
             $contato->usuario_id = Auth::user()->id;
-            $contato->usuario_id = Auth::user()->id;
+            // $contato->usuario_id = Auth::user()->id;
             $contato->save();
             $colaborador->contatos()->attach($contato->id);
 
@@ -122,7 +122,7 @@ class ColaboradorController extends Controller implements HasMiddleware
             $user->save();
             $user->empresa()->attach($empresa->id);
             $user->colaborador()->attach($colaborador->id);
-            $colaborador->tenant()->attach($empresa->tenant_id);
+            // $colaborador->tenant()->attach($empresa->tenant_id);
             if($empresa->id == 1){
                 $user->roles()->attach(6);//
             }else{

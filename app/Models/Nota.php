@@ -126,8 +126,12 @@ class Nota extends Model
                         // throw new Exception ($carga);
                         $nota->filial_id = $carga->filial_id;
                         $nota->carga_id = $carga->id;
-                        $pathStorageFile =Storage::disk('local')->put('public/' . $empresa . '/arquivos/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml', file_get_contents($file));
-                        $nota->path_xml = Storage::url(getenv('FILESYSTEM_DISK')).'/public/' . $empresa . '/arquivos/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml';
+                        $pathStorageFile =Storage::put('app/public/' . $empresa . '/arquivos/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml', file_get_contents($file));
+                        // throw new Exception($pathStorageFile);
+
+
+
+                        $nota->path_xml = Storage::url(getenv('FILESYSTEM_DISK')).'/app/public/' . $empresa . '/arquivos/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml';
                         // $nota->path_xml = Storage::disk('local')->put(strtolower(str_replace(' ', '', 'public/' . Cliente::find($carga->cliente_id)->name)) . '/' . str_replace(' ', '', strtolower(Filial::find($carga->filial_cliente_id)->razao_social)) . '/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml', file_get_contents($file));
                         $nota->usuario_id = Auth::user()->id;
                         $nota->status_id = $nota->getStatusId('Pendente');

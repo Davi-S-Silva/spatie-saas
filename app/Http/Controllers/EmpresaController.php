@@ -333,6 +333,7 @@ class EmpresaController extends Controller implements HasMiddleware
                     // $notas[]=['nome'=>$nota->getClientOriginalExtension()];
                     $nameFileEditado = str_replace(' ','',str_replace('(','',str_replace(')','',$nota->getClientOriginalName())));
                     Storage::disk('local')->putFileAs('public/' . $empresa . '/notas', $nota, $nameFileEditado);
+                    // Storage::disk('s3')->putFileAs('public/' . $empresa . '/notas', $nota, $nameFileEditado);
                     // $caminhoZip = getEnv('RAIZ').Storage::disk('local')->url($nota->getClientOriginalName());
                     $caminhoZip = getenv('RAIZ') . '/storage/app/public/' . $empresa . '/notas/' . $nameFileEditado;
 

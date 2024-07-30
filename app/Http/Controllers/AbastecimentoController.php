@@ -210,12 +210,12 @@ class AbastecimentoController extends Controller implements HasMiddleware
             // return $abastecimento->getAttributes();
 
             // return 'salvo';
-
+            $linux = false;
 
             //SALVAR AS FOTOS NO SERVIDOR
             $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
             $path = 'app/public/'.$empresa.'/abastecimentos';
-            if(!file_exists($path)){
+            if(!file_exists($path) && $linux==true){
                 mkdir($path,0775, true);
             }
             $data = date('d-m-Y_H-i-s');
@@ -236,7 +236,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
         }catch(Exception $ex){
             DB::rollback();
             // return $ex->getMessage(). '-'.$ex->getFile().'-'.$ex->getLine();
-            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage().'-'.$ex->getLine()]);
         }
     }
 

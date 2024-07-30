@@ -257,6 +257,7 @@
                                     <li><a href="{{ route('veiculo.index') }}">Veiculos</a></li>
                                     @can('Criar Veiculo')
                                     <li><a href="{{ route('veiculo.create') }}">Novo Veiculo</a></li>
+                                    <li><a href="{{ route('reboque.create') }}">Novo Reboque</a></li>
                                     @endcan
                             </ul>
                         </li>

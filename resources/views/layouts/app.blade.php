@@ -1,3 +1,6 @@
+@php
+    // dd(session('tenant_id'));
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 

@@ -60,6 +60,11 @@ class LoginRequest extends FormRequest
         }else{
             session(['tenant_id'=>null]);
         }
+        if(is_null(Auth::user()) || $colaborador->tenant_id == null){
+            session(['noTenatable'=>true]);
+            // dd(session('noTenatable'));
+        }
+        // dd(session('tenant_id'));
         // dd($colaborador->usuario);
         if (! Auth::attempt(['email'=>$colaborador->usuario->first()->email,'password'=>$_REQUEST['password']], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());

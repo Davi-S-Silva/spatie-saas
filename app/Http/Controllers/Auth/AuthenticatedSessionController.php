@@ -31,6 +31,8 @@ class AuthenticatedSessionController extends Controller
         // dd(Auth::user()->tenant_id);
         if(is_null(Auth::user())){
             session(['noTenatable'=>true]);
+
+            dd(session('noTenatable'));
         }
 
         return redirect()->intended(route('dashboard', absolute: false));

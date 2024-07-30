@@ -19,6 +19,7 @@ class TenantScope implements Scope
             $builder->where('tenant_id',session('tenant_id'));
         }
         else{
+            // dd($builder);
             if(session()->has('noTenatable')){
                 $builder->where('tenant_id',null);
                 // dd($builder);
