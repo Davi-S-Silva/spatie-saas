@@ -39,6 +39,10 @@ class Abastecimento extends Model
         return $this->belongsTo(Combustivel::class);
     }
 
+    public function fornecedor()
+    {
+        return $this->belongsTo(Fornecedor::class);
+    }
     public function media()
     {
         $abastecimento = $this;

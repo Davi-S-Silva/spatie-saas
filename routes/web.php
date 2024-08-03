@@ -15,6 +15,7 @@ use App\Http\Controllers\EntregaController;
 use App\Http\Controllers\FilialController;
 use App\Http\Controllers\FornecedorController;
 use App\Http\Controllers\LocalApoioController;
+use App\Http\Controllers\LocalizacaoVeiculoController;
 use App\Http\Controllers\MovimentacaoVeiculoController;
 use NFePHP\Common\Certificate;
 use NFePHP\CTe\Common\Standardize;
@@ -100,8 +101,15 @@ Route::middleware('auth')->group(function () {
         Route::resource('filial',FilialController::class);
         Route::get('filial/create/cliente/{cliente}',[FilialController::class, 'create'])->name('filial.create');
 
-        Route::resource('reboque',VeiculoReboqueController::class);
+        Route::get('localizacao/{equipamento}',[LocalizacaoVeiculoController::class,'getLocalizacaoVeiculo'])->name('getLocalizacaoVeiculo');
+        Route::get('localizacao/monitorar/{veiculo}',[LocalizacaoVeiculoController::class,'monitorarVeiculo'])->name('monitorarVeiculo');
+        Route::get('localizacao/monitorar/{veiculo}/realtime',[LocalizacaoVeiculoController::class,'getDadosAjaxLocationVeiculo'])->name('monitorarVeiculoRealtime');
+        Route::get('localizacao/veiculos/monitorar/index',[LocalizacaoVeiculoController::class,'rastrearTodosVeiculos'])->name('rastrearTodosVeiculos');
+        Route::get('localizacao/monitorar/veiculos/realtime/index',[LocalizacaoVeiculoController::class,'getDadosAjaxLocationTodosVeiculos'])->name('monitorarTodosVeiculoRealtime');
+        Route::resource('localizacao',LocalizacaoVeiculoController::class);
 
+        Route::get('veiculo/semireboques',[VeiculoController::class, 'getSemiReboques'])->name('getSemiReboques');
+        Route::get('veiculo/{veiculo}/atrelarsemireboque/{semireboque}',[VeiculoController::class, 'atrelarSemiReboque'])->name('atrelarSemiReboque');
         Route::resource('veiculo',VeiculoController::class);
         Route::get('veiculo/mudarVeiculoDeCliente/{veiculo}/{cliente}',[VeiculoController::class, 'mudarVeiculoDeCliente'])->name('mudarVeiculoDeCliente');
         Route::post('veiculo/{veiculo}/associa-colaborador',[VeiculoController::class, 'associaColaborador'])->name('associaColaborador');

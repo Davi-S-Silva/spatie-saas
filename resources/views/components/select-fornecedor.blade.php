@@ -1,6 +1,6 @@
-@php
+{{-- @php
     use App\Models\Fornecedor;
-@endphp
+@endphp --}}
 <label for="">Fornecedor</label>
 <select name="Fornecedor" id="" class="form-control" required>
     <option value="">Selecione o Fornecedor</option>

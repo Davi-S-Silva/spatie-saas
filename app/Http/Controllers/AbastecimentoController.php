@@ -87,7 +87,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
         if(!is_null(Auth::user()->tenant_id)){
             $fornecedor = Auth::user()->tenant->first()->fornecedor;
         }else{
-            $fornecedor = Fornecedor::all();
+            $fornecedor = Fornecedor::where('especialidade_id',1)->get();
         }
         // return view('fornecedor.index', ['fornecedores' => $fornecedor]);
         return view('veiculo.abastecimento.create',['fornecedores' => $fornecedor]);

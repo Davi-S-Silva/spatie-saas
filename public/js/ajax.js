@@ -30,7 +30,7 @@ $(function () {
                 if (response.status === 'success') {
                     // alert(response.msg);
                     // $('.response-mesage').html(response.msg)
-                    window.location.href=routeStorePermission
+                    window.location.href = routeStorePermission
                 }
                 if (response.status === 'danger') {
                     // alert(response.msg);
@@ -63,7 +63,7 @@ $(function () {
                     // alert(response.msg)
                     $('.response-message').html(response.msg)
                     // console.log(response)
-                    window.location.href=routeStorePermission
+                    window.location.href = routeStorePermission
                 }
             },
             error: function (response) {
@@ -97,7 +97,7 @@ $(function () {
                         // console.log(response)
                         // $('.response-mesage').removeClass('alert-primary')
                         // $('.response-mesage').addClass('alert-success')
-                        window.location.href=routeStorePermission
+                        window.location.href = routeStorePermission
                     }
                     if (response.status === 'danger') {
                         // alert(response.msg)
@@ -108,7 +108,7 @@ $(function () {
                 error: function (response) {
                     // alert('error')
                     // console.log(response.msg)
-                    $('.response-message-ajax').addClass('alert-danger').text('erro: '+response.responseJSON.message)
+                    $('.response-message-ajax').addClass('alert-danger').text('erro: ' + response.responseJSON.message)
                 }
             });
         }
@@ -136,11 +136,11 @@ $(function () {
                 if (response.status === 'success') {
                     // alert(response.msg);
                     // $('.response-mesage').html(response.msg)
-                    window.location.href=routeStoreRole
+                    window.location.href = routeStoreRole
                 }
                 if (response.status === 'danger') {
                     // alert(response.msg);
-                     $('.response-message').addClass(['alert-danger','d-flex'])
+                    $('.response-message').addClass(['alert-danger', 'd-flex'])
                     $('.response-message').html(response.msg)
                 }
             },
@@ -169,7 +169,7 @@ $(function () {
                     // alert(response.msg)
                     $('.response-message').html(response.msg)
                     // console.log(response)
-                    window.location.href=routeStoreRole
+                    window.location.href = routeStoreRole
                 }
             },
             error: function (response) {
@@ -203,7 +203,7 @@ $(function () {
                         // console.log(response)
                         // $('.response-mesage').removeClass('alert-primary')
                         // $('.response-mesage').addClass('alert-success')
-                        window.location.href=routeStoreRole
+                        window.location.href = routeStoreRole
                     }
                     if (response.status === 'danger') {
                         // alert(response.msg)
@@ -213,7 +213,7 @@ $(function () {
                 },
                 error: function (response) {
                     // alert('error')
-                    $('.response-message-ajax').addClass('alert-danger').text('erro: '+response.responseJSON.message)
+                    $('.response-message-ajax').addClass('alert-danger').text('erro: ' + response.responseJSON.message)
                     // console.log(response.responseJSON.message)
                 }
             });
@@ -222,7 +222,7 @@ $(function () {
     });
 
 
-    $('form[name="FormCarregaNotas"]').submit(function(){
+    $('form[name="FormCarregaNotas"]').submit(function () {
 
         var confirma = confirm('Deseja Carregar Notas?');
         // var confirma = true;
@@ -241,7 +241,7 @@ $(function () {
                 contentType: false,
                 beforeSend: function () {
                     // alert(routeStorePermission)
-                    loading.css('display','flex')
+                    loading.css('display', 'flex')
                     loading.removeClass('d-none');
                     // $("body").css("overflow", "hidden");
                 },
@@ -256,7 +256,7 @@ $(function () {
                         $('.response-message-ajax').removeClass('alert-danger')
                         $('.response-message-ajax').addClass('alert-success')
                         $('.response-message-ajax').text(response.msg)
-                        window.location.href=''
+                        window.location.href = ''
                     }
                     if (response.status == 0) {
                         // alert(response.msg)
@@ -279,7 +279,7 @@ $(function () {
 
     // FormNovaCarga
 
-    $('form[name="FormNovaCarga"]').submit(function(){
+    $('form[name="FormNovaCarga"]').submit(function () {
 
         // var confirma = confirm('Deseja Cadastrar Carga?');
         var confirma = true;
@@ -317,7 +317,7 @@ $(function () {
                 },
                 error: function (response) {
                     // alert('error')
-                    $('.response-message-ajax').addClass('alert-danger').text('erro: '+response.responseJSON.message)
+                    $('.response-message-ajax').addClass('alert-danger').text('erro: ' + response.responseJSON.message)
                     // console.log(response.responseJSON.message)
                 }
             });
@@ -325,7 +325,7 @@ $(function () {
         return false;
     });
 
-    $('form[name="EditCarga"]').submit(function(){
+    $('form[name="EditCarga"]').submit(function () {
 
         // console.log($(this).serialize())
 
@@ -361,7 +361,7 @@ $(function () {
             },
             error: function (response) {
                 // alert('error')
-                $('.response-message-ajax').addClass('alert-danger').text('erro: '+response.responseJSON.message)
+                $('.response-message-ajax').addClass('alert-danger').text('erro: ' + response.responseJSON.message)
                 // console.log(response.responseJSON.message)
             }
         });
@@ -369,132 +369,132 @@ $(function () {
         return false;
     });
 
-    $('.exclui_nota').click(function(){
+    $('.exclui_nota').click(function () {
         $.ajax({
-            type:'get',
-            url:'deleta-nota-carregada/'+$(this).attr('href'),
-            success:function(response){
+            type: 'get',
+            url: 'deleta-nota-carregada/' + $(this).attr('href'),
+            success: function (response) {
                 // console.log(response)
                 $('.response-message-ajax').addClass('alert-success')
                 $('.response-message-ajax').text(response.msg)
                 var nota = response.nota;
 
                 console.log(nota)
-                $("#nota"+nota).removeClass('d-flex')
-                $("#nota"+nota).css('display','none')
+                $("#nota" + nota).removeClass('d-flex')
+                $("#nota" + nota).css('display', 'none')
                 // window.location.href=''
             },
-            error:function(response){
+            error: function (response) {
                 console.log(response)
             }
         })
         return false;
     });
 
-    $('input[name="SelectAll"]').click(function(){
+    $('input[name="SelectAll"]').click(function () {
 
-        if($(this).prop("checked")){
+        if ($(this).prop("checked")) {
             $('input[name="Notas[]"]').prop(
-                "checked",true
+                "checked", true
             )
-        }else{
+        } else {
             $('input[name="Notas[]"]').prop(
-                "checked",false
+                "checked", false
             )
         }
         // alert('ola')
     });
 
 
-    $('form[name="FormExcluirNotas"]').submit(function(){
+    $('form[name="FormExcluirNotas"]').submit(function () {
         // console.log($(this).serialize())
 
 
         $.ajax({
-            type:'post',
+            type: 'post',
             url: $(this).attr('action'),
-            data:$(this).serialize(),
+            data: $(this).serialize(),
             dataType: 'json',
-            beforeSend:function(){
+            beforeSend: function () {
 
             },
-            success:function(response){
+            success: function (response) {
                 console.log(response)
                 $('.response-message-ajax').addClass('alert-success')
                 $('.response-message-ajax').text(response.msg)
                 var nota = response.nota;
-                $("#nota"+nota).removeClass('d-flex')
-                $("#nota"+nota).css('display','none')
-                window.location.href=''
+                $("#nota" + nota).removeClass('d-flex')
+                $("#nota" + nota).css('display', 'none')
+                window.location.href = ''
             },
-            error:function(response){
+            error: function (response) {
                 console.log(response)
             }
         });
         return false;
     });
 
-if($('.form_add_notas').attr('action')==""){
-    $('.form_add_notas').hide();
-}
+    if ($('.form_add_notas').attr('action') == "") {
+        $('.form_add_notas').hide();
+    }
 
-$('.response-message-ajax').click(function(){
-    $(this).hide()
-})
-    $('.add-notas-carga').click(function(){
+    $('.response-message-ajax').click(function () {
+        $(this).hide()
+    })
+    $('.add-notas-carga').click(function () {
         // console.log($(this).attr('href'));
         $('.form_add_notas').show();
-        $('.form_add_notas').attr('action',$(this).attr('href'))
+        $('.form_add_notas').attr('action', $(this).attr('href'))
         $('.form_add_notas legend').text($(this).attr('id'))
         return false;
-        });
+    });
 
-    $('.form_add_notas').submit(function(){
+    $('.form_add_notas').submit(function () {
 
         // console.log($('.form_add_notas').attr('action'))
         var txt = '';
         var notas = []
         $.ajax({
-            type:'post',
+            type: 'post',
             url: $('.form_add_notas').attr('action'),
-            data:$(this).serialize(),
+            data: $(this).serialize(),
             dataType: 'json',
-            beforeSend:function(){
+            beforeSend: function () {
                 // console.log($('.form_add_notas').attr('action'))
                 // loading.show()
-                loading.css('display','flex')
+                loading.css('display', 'flex')
                 loading.removeClass('d-none');
             },
-            success:function(response){
+            success: function (response) {
                 // console.log(response)
                 loading.hide()
-                if(response.status==0){
+                if (response.status == 0) {
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').show()
-                    if(response.notas != undefined){
+                    if (response.notas != undefined) {
                         console.log(response.notas)
                         // response.notas.each(function(index){
-                            // })
-                            // i = 0
-                            $.each(response.notas,function(i, val){
-                                notas.push(val);
-                            })
-                            $.each(notas,function(i, val){
-                                txt+=val
-                                if(i < (notas.length -1)){
-                                    txt+='-'
-                                }
-                            })
-                            // console.log(notas.length)
-                        $('.response-message-ajax').text('Notas '+txt+' não encontradas')
+                        // })
+                        // i = 0
+                        $.each(response.notas, function (i, val) {
+                            notas.push(val);
+                        })
+                        $.each(notas, function (i, val) {
+                            txt += val
+                            if (i < (notas.length - 1)) {
+                                txt += '-'
+                            }
+                        })
+                        // console.log(notas.length)
+                        $('.response-message-ajax').text('Notas ' + txt + ' não encontradas')
                         return
                     }
                     $('.response-message-ajax').text(response.msg)
                     // $('.response-message-ajax').fadeOut(10000)
 
                 }
-                if(response.status==200){
+                if (response.status == 200) {
                     console.log(response.msg);
                     $('.response-message-ajax').addClass('alert-success')
                     $('.response-message-ajax').removeClass('alert-danger')
@@ -502,14 +502,14 @@ $('.response-message-ajax').click(function(){
                     $('.response-message-ajax').text(response.msg)
                 }
             },
-            error:function(response){
+            error: function (response) {
                 console.log(response)
             }
         });
 
         return false;
     });
-    $('.form_add_notas a').click(function(){
+    $('.form_add_notas a').click(function () {
         $('.textarea_notas').val('')
         $('.form_add_notas').hide();
         return false;
@@ -518,40 +518,40 @@ $('.response-message-ajax').click(function(){
 
 
 
-    $('.link_carga_entrega').click(function(){
+    $('.link_carga_entrega').click(function () {
         $.ajax({
-            type:'get',
+            type: 'get',
             url: $(this).attr('href'),
             // data:
-            dataType:'json',
-            success(response){
+            dataType: 'json',
+            success(response) {
                 // console.log(response)
-                if(response.status==200){
+                if (response.status == 200) {
                     $('.local_cargas_entrega').html('');
-                    if($(response.cargas).length!=0){
+                    if ($(response.cargas).length != 0) {
                         $('.response-message-ajax').show()
                         $('.response-message-ajax').removeClass('alert-danger')
                         $('.response-message-ajax').addClass('alert-success')
-                        $('.response-message-ajax').text('Cargas encontradas para o cliente '+response.cliente)
-                    }else{
+                        $('.response-message-ajax').text('Cargas encontradas para o cliente ' + response.cliente)
+                    } else {
                         $('.response-message-ajax').show()
                         $('.response-message-ajax').addClass('alert-danger')
                         $('.response-message-ajax').removeClass('alert-success')
-                        $('.response-message-ajax').text('Cargas não encontradas para o cliente '+response.cliente)
+                        $('.response-message-ajax').text('Cargas não encontradas para o cliente ' + response.cliente)
                     }
-                    $(response.cargas).each(function(i,e){
-                        $('.local_cargas_entrega').append('<div class="d-flex flex-column"><input type="checkbox" id="Carga_'+e.id+'" name="Cargas[]" title="'+e.os+' - '+e.area+' - '+e.motorista+'" value="'+e.id+'"/><label for="Carga_'+e.id+'" class=""><div><b>Motorista: </b> '+
-                            e.motorista+'</div><div><b>OS: </b> '+e.os+'</div><div><b>Remessa: </b> '+e.remessa+'</div><div><b>Área: </b>'+e.area+'</div></label></div>');
+                    $(response.cargas).each(function (i, e) {
+                        $('.local_cargas_entrega').append('<div class="d-flex flex-column"><input type="checkbox" id="Carga_' + e.id + '" name="Cargas[]" title="' + e.os + ' - ' + e.area + ' - ' + e.motorista + '" value="' + e.id + '"/><label for="Carga_' + e.id + '" class=""><div><b>Motorista: </b> ' +
+                            e.motorista + '</div><div><b>OS: </b> ' + e.os + '</div><div><b>Remessa: </b> ' + e.remessa + '</div><div><b>Área: </b>' + e.area + '</div></label></div>');
                     });
                 }
-                if(response.status==0){
+                if (response.status == 0) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
                     return false
                 }
             },
-            error(response){
+            error(response) {
 
             }
         });
@@ -563,11 +563,11 @@ $('.response-message-ajax').click(function(){
     //     return false;
     // });
     // $('input[name="SemAjudante"]').hide()
-    $('form[name="FormEntrega"]').submit(function(){
+    $('form[name="FormEntrega"]').submit(function () {
         // console.log($(this).serialize())
         var Carga = $('input[name="Cargas[]"]')
 
-        if(Carga.length==0){
+        if (Carga.length == 0) {
             // console.log('selecione o cliente')
             $('.response-message-ajax').show()
             $('.response-message-ajax').addClass('alert-danger')
@@ -575,17 +575,17 @@ $('.response-message-ajax').click(function(){
             return false
         }
         var countChecked = 0;
-        var textCargas ='Cargas: '
-        $(Carga).each(function(i,e){
-        //    console.log(e)
-           if(e.checked==true){
-            countChecked++
-            textCargas+= `${e.title} `
-           }
-        //    console.log('valor: '+ e.value)
+        var textCargas = 'Cargas: '
+        $(Carga).each(function (i, e) {
+            //    console.log(e)
+            if (e.checked == true) {
+                countChecked++
+                textCargas += `${e.title} `
+            }
+            //    console.log('valor: '+ e.value)
         })
 
-        if(Carga.length!= 0 && countChecked<1){
+        if (Carga.length != 0 && countChecked < 1) {
             // alert('selecione a carga')
 
             $('.response-message-ajax').show().fadeOut(5000)
@@ -610,27 +610,26 @@ $('.response-message-ajax').click(function(){
         //     })
         // }
 
-        var confirma = confirm('Deseja Cadastrar Entrega? '+textCargas +'\n');
+        var confirma = confirm('Deseja Cadastrar Entrega? ' + textCargas + '\n');
 
-        if(confirma){
+        if (confirma) {
             $.ajax({
-                type:'post',
+                type: 'post',
                 url: $(this).attr('action'),
-                data:$(this).serialize(),
+                data: $(this).serialize(),
                 dataType: 'json',
-                beforeSend:function(){
+                beforeSend: function () {
 
                 },
-                success:function(response){
+                success: function (response) {
                     // console.log(response)
-                    if(response.status==200){
+                    if (response.status == 200) {
                         $('.response-message-ajax').removeClass('alert-danger')
                         $('.response-message-ajax').addClass('alert-success')
                         $('.response-message-ajax').text(response.msg)
                         $('.response-message-ajax').show()
                     }
-                    if(response.status==0)
-                        {
+                    if (response.status == 0) {
                         $('.response-message-ajax').removeClass('alert-success')
                         $('.response-message-ajax').addClass('alert-danger')
                         $('.response-message-ajax').text(response.msg)
@@ -638,7 +637,7 @@ $('.response-message-ajax').click(function(){
                         return false
                     }
                 },
-                error:function(response){
+                error: function (response) {
                     console.log(response)
                 }
             });
@@ -646,33 +645,33 @@ $('.response-message-ajax').click(function(){
         return false;
     })
 
-    $('form[name="FormMovimentacao"]').submit(function(){
+    $('form[name="FormMovimentacao"]').submit(function () {
         var partida = $('#LocalPartida')
         var destino = $('select[name="LocalDestino"]')
         // alert(partida.value)
         // console.log(partida.val())
-        if(partida.val() == ''){
+        if (partida.val() == '') {
             partida.focus()
             $('.response-message-ajax').show().fadeOut(5000)
             $('.response-message-ajax').addClass('alert-danger')
             $('.response-message-ajax').text('Selecione o local de partida')
             return false
-        }else{
+        } else {
             // alert('teste')
             $('.response-message-ajax').hide()
         }
-        if(destino.val() == ''){
+        if (destino.val() == '') {
             destino.focus()
             $('.response-message-ajax').show()
             $('.response-message-ajax').addClass('alert-danger')
             $('.response-message-ajax').text('Selecione o local de destino')
             return false
-        }else{
+        } else {
             // alert('teste')
             $('.response-message-ajax').hide()
         }
 
-        if(destino.val()==partida.val()){
+        if (destino.val() == partida.val()) {
             destino.focus()
             $('.response-message-ajax').show().fadeOut(5000)
             $('.response-message-ajax').addClass('alert-danger')
@@ -681,7 +680,7 @@ $('.response-message-ajax').click(function(){
         }
 
         var textDesc = $('textarea[name="DescricaoMov"]')
-        if(textDesc.val()==''){
+        if (textDesc.val() == '') {
             textDesc.focus()
             $('.response-message-ajax').show().fadeOut(5000)
             $('.response-message-ajax').addClass('alert-danger')
@@ -690,29 +689,29 @@ $('.response-message-ajax').click(function(){
         }
 
         $.ajax({
-            type:'post',
+            type: 'post',
             url: $(this).attr('action'),
-            dataType:'json',
-            data:$(this).serialize(),
-            beforeSend:function(){
+            dataType: 'json',
+            data: $(this).serialize(),
+            beforeSend: function () {
 
             },
-            success:function(response){
-                if(response.status==200){
+            success: function (response) {
+                if (response.status == 200) {
                     $('.response-message-ajax').show().fadeOut(5000)
                     $('.response-message-ajax').removeClass('alert-danger')
                     $('.response-message-ajax').addClass('alert-success')
                     $('.response-message-ajax').text(response.msg)
                     console.log(response.msg)
                     return false
-                }else{
+                } else {
                     $('.response-message-ajax').show().fadeOut(5000)
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response)
                     return false;
                 }
             },
-            error:function(response){
+            error: function (response) {
                 $('.response-message-ajax').show().fadeOut(5000)
                 $('.response-message-ajax').addClass('alert-danger')
                 $('.response-message-ajax').text(response)
@@ -725,10 +724,10 @@ $('.response-message-ajax').click(function(){
 
     // $('.stop_mov_ajax').hide()
 
-    $('.start_mov').click(function(){
+    $('.start_mov').click(function () {
         // alert($(this).attr('href'))
         $('form[name="StartMov"]').show()
-        $('form[name="StartMov"]').attr('action',$(this).attr('href'))
+        $('form[name="StartMov"]').attr('action', $(this).attr('href'))
         $('form[name="StartMov"] span').text($(this).attr('mov'))
         $('select[name="colaborador"]').val($(this).attr('mot'))
         $('input[name="Mov"]').val($(this).attr('mov'))
@@ -736,45 +735,45 @@ $('.response-message-ajax').click(function(){
         return false
     })
 
-    $('form[name="StartMov"]').submit(function(){
+    $('form[name="StartMov"]').submit(function () {
         // alert(
         //     $(this).attr('action')
         // )
         // return false
         $.ajax({
-            type:'post',
+            type: 'post',
             url: $(this).attr('action'),
-            dataType:'json',
-            data:$(this).serialize(),
-            beforeSend:function(){
+            dataType: 'json',
+            data: $(this).serialize(),
+            beforeSend: function () {
 
             },
-            success:function(response){
+            success: function (response) {
                 // alert(response)
                 console.log(response)
-                if(response.status==0){
+                if (response.status == 0) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
                     console.log(response)
                 }
-                if(response.status==200){
+                if (response.status == 200) {
                     console.log(response)
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-danger')
                     $('.response-message-ajax').addClass('alert-success')
                     $('.response-message-ajax').text(response.msg)
 
-                    $('#Start_Mov_'+response.mov.id).hide()
+                    $('#Start_Mov_' + response.mov.id).hide()
                     $('form[name="StartMov"]').hide()
 
                     // console.log()
-                    $('#Stop_Mov_'+response.mov.id).removeClass('d-none')
+                    $('#Stop_Mov_' + response.mov.id).removeClass('d-none')
                     $('input[name="KmInicial"]').val('')
                 }
             },
-            error:function(response){
+            error: function (response) {
                 $('.response-message-ajax').show()
                 $('.response-message-ajax').addClass('alert-danger')
                 $('.response-message-ajax').text(response.msg)
@@ -784,9 +783,9 @@ $('.response-message-ajax').click(function(){
         return false
     })
 
-    $('.stop_mov').click(function(){
+    $('.stop_mov').click(function () {
         $('form[name="StopMov"]').show()
-        $('form[name="StopMov"]').attr('action',$(this).attr('href'))
+        $('form[name="StopMov"]').attr('action', $(this).attr('href'))
         $('form[name="StopMov"] span').text($(this).attr('mov'))
         $('input[name="Mov"]').val($(this).attr('mov'))
         // alert($('input[name="Mov"]').val())
@@ -795,38 +794,38 @@ $('.response-message-ajax').click(function(){
     })
 
 
-    $('form[name="StopMov"]').submit(function(){
+    $('form[name="StopMov"]').submit(function () {
         // alert($('input[name="Mov"]').val())
         $.ajax({
-            type:'post',
+            type: 'post',
             url: $(this).attr('action'),
-            dataType:'json',
-            data:$(this).serialize(),
-            beforeSend:function(){
+            dataType: 'json',
+            data: $(this).serialize(),
+            beforeSend: function () {
 
             },
-            success:function(response){
+            success: function (response) {
                 // alert(response)
                 // console.log(response)
-                if(response.status==0){
+                if (response.status == 0) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
                     console.log(response.msg)
                 }
-                if(response.status==200){
+                if (response.status == 200) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-danger')
                     $('.response-message-ajax').addClass('alert-success')
                     $('.response-message-ajax').text(response.msg)
                     console.log(response.msg)
-                    $('#Stop_Mov_'+response.mov.id).hide()
+                    $('#Stop_Mov_' + response.mov.id).hide()
                     $('form[name="StopMov"]').hide()
                     $('input[name="KmFinal"]').val('')
                 }
             },
-            error:function(response){
+            error: function (response) {
                 $('.response-message-ajax').show()
                 $('.response-message-ajax').addClass('alert-danger')
                 $('.response-message-ajax').text(response.msg)
@@ -838,46 +837,46 @@ $('.response-message-ajax').click(function(){
     })
 
 
-    $('.start_entrega').click(function(){
+    $('.start_entrega').click(function () {
         $('form[name="StartEntrega"]').show()
         $('form[name="StopEntrega"]').hide()
-        $('form[name="StartEntrega"]').attr('action',$(this).attr('href'))
+        $('form[name="StartEntrega"]').attr('action', $(this).attr('href'))
         $('form[name="StartEntrega"] span').text($(this).attr('entrega'))
         $('input[name="Entrega"]').val($(this).attr('Entrega'))
         // // alert($('input[name="Mov"]').val())
         // $('form[name="StartMov"]').hide()
         return false
     })
-    $('.stop_entrega').click(function(){
+    $('.stop_entrega').click(function () {
         $('form[name="StartEntrega"]').hide()
         $('form[name="StopEntrega"]').show()
-        $('form[name="StopEntrega"]').attr('action',$(this).attr('href'))
+        $('form[name="StopEntrega"]').attr('action', $(this).attr('href'))
         $('form[name="StopEntrega"] span').text($(this).attr('entrega'))
         $('input[name="Entrega"]').val($(this).attr('Entrega'))
         // // alert($('input[name="Mov"]').val())
         // $('form[name="StartMov"]').hide()
         return false
     })
-    $('form[name="StartEntrega"]').submit(function(){
+    $('form[name="StartEntrega"]').submit(function () {
         // alert($(this).attr('action'))
         $.ajax({
-            type:'post',
+            type: 'post',
             url: $(this).attr('action'),
-            dataType:'json',
-            data:$(this).serialize(),
-            beforeSend:function(){
+            dataType: 'json',
+            data: $(this).serialize(),
+            beforeSend: function () {
 
             },
-            success:function(response){
+            success: function (response) {
                 // alert(response)
                 // console.log(response)
-                if(response.status==0){
+                if (response.status == 0) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
                 }
-                if(response.status==200){
+                if (response.status == 200) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-danger')
                     $('.response-message-ajax').addClass('alert-success')
@@ -888,7 +887,7 @@ $('.response-message-ajax').click(function(){
                     $('input[name="KmFinal"]').val('')
                 }
             },
-            error:function(response){
+            error: function (response) {
                 $('.response-message-ajax').show()
                 $('.response-message-ajax').addClass('alert-danger')
                 $('.response-message-ajax').text(response.msg)
@@ -897,26 +896,26 @@ $('.response-message-ajax').click(function(){
         })
         return false
     })
-    $('form[name="StopEntrega"]').submit(function(){
+    $('form[name="StopEntrega"]').submit(function () {
         // alert($(this).attr('action'))
         $.ajax({
-            type:'post',
+            type: 'post',
             url: $(this).attr('action'),
-            dataType:'json',
-            data:$(this).serialize(),
-            beforeSend:function(){
+            dataType: 'json',
+            data: $(this).serialize(),
+            beforeSend: function () {
 
             },
-            success:function(response){
+            success: function (response) {
                 // alert(response)
                 // console.log(response)
-                if(response.status==0){
+                if (response.status == 0) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
                 }
-                if(response.status==200){
+                if (response.status == 200) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-danger')
                     $('.response-message-ajax').addClass('alert-success')
@@ -927,7 +926,7 @@ $('.response-message-ajax').click(function(){
                     $('input[name="KmFinal"]').val('')
                 }
             },
-            error:function(response){
+            error: function (response) {
                 $('.response-message-ajax').show()
                 $('.response-message-ajax').addClass('alert-danger')
                 $('.response-message-ajax').text(response.msg)
@@ -938,20 +937,20 @@ $('.response-message-ajax').click(function(){
     })
     var NameProp = $('input[name="NameProp"]')
     var DocProp = $('input[name="DocProp"]')
-    NameProp.attr('disabled','disabled')
-    DocProp.attr('disabled','disabled')
-    $("#LinkNovoProp").click(function(){
+    NameProp.attr('disabled', 'disabled')
+    DocProp.attr('disabled', 'disabled')
+    $("#LinkNovoProp").click(function () {
         $('#NovoProp').toggle()
-        var selectProp=$('#PropVeiculo')
+        var selectProp = $('#PropVeiculo')
 
 
-        if(selectProp.attr('disabled')){
+        if (selectProp.attr('disabled')) {
             selectProp.removeClass('d-none')
             selectProp.removeAttr('disabled')
-            NameProp.attr('disabled','disabled')
-            DocProp.attr('disabled','disabled')
-        }else{
-            selectProp.attr('disabled','disabled')
+            NameProp.attr('disabled', 'disabled')
+            DocProp.attr('disabled', 'disabled')
+        } else {
+            selectProp.attr('disabled', 'disabled')
             selectProp.addClass('d-none')
             DocProp.removeAttr('disabled')
             NameProp.removeAttr('disabled')
@@ -961,7 +960,7 @@ $('.response-message-ajax').click(function(){
             selectProp.val('')
 
             // alert(NameProp.val())
-            if(NameProp.val()==''){
+            if (NameProp.val() == '') {
                 NameProp.focus()
                 $('.response-message-ajax').show()
                 $('.response-message-ajax').addClass('alert-danger')
@@ -969,7 +968,7 @@ $('.response-message-ajax').click(function(){
                 return false
             }
             // alert(NameProp.val())
-            if(DocProp.val()==''){
+            if (DocProp.val() == '') {
                 DocProp.focus()
                 $('.response-message-ajax').show()
                 $('.response-message-ajax').addClass('alert-danger')
@@ -981,9 +980,9 @@ $('.response-message-ajax').click(function(){
     })
 
 
-    $('form[name="FormVeiculo"]').submit(function(){
-        var selectProp=$('#PropVeiculo')
-        if(NameProp.val()=='' && selectProp.val()==''){
+    $('form[name="FormVeiculo"]').submit(function () {
+        var selectProp = $('#PropVeiculo')
+        if (NameProp.val() == '' && selectProp.val() == '') {
             NameProp.focus()
             $('.response-message-ajax').show()
             $('.response-message-ajax').addClass('alert-danger')
@@ -991,7 +990,7 @@ $('.response-message-ajax').click(function(){
             return false
         }
         // alert(NameProp.val())
-        if(DocProp.val()=='' && selectProp.val()==''){
+        if (DocProp.val() == '' && selectProp.val() == '') {
             DocProp.focus()
             $('.response-message-ajax').show()
             $('.response-message-ajax').addClass('alert-danger')
@@ -1001,23 +1000,23 @@ $('.response-message-ajax').click(function(){
         // console.log($(this).serialize())
 
         $.ajax({
-            type:'post',
+            type: 'post',
             url: $(this).attr('action'),
-            dataType:'json',
-            data:$(this).serialize(),
-            beforeSend:function(){
+            dataType: 'json',
+            data: $(this).serialize(),
+            beforeSend: function () {
 
             },
-            success:function(response){
+            success: function (response) {
                 // alert(response)
                 // console.log(response)
-                if(response.status==0){
+                if (response.status == 0) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
                 }
-                if(response.status==200){
+                if (response.status == 200) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-danger')
                     $('.response-message-ajax').addClass('alert-success')
@@ -1026,7 +1025,7 @@ $('.response-message-ajax').click(function(){
 
                 }
             },
-            error:function(response){
+            error: function (response) {
                 $('.response-message-ajax').show()
                 $('.response-message-ajax').addClass('alert-danger')
                 $('.response-message-ajax').text(response.msg)
@@ -1037,11 +1036,11 @@ $('.response-message-ajax').click(function(){
     });
 
 
-    $('.a_colaborador_veiculo').click(function(){
+    $('.a_colaborador_veiculo').click(function () {
         // alert($(this).attr('id'))
         $('form[name="ColaboradorVeiculo"]').show()
-        $('form[name="ColaboradorVeiculo"] span').text('Veiculo '+$(this).attr('placa'))
-        $('form[name="ColaboradorVeiculo"]').attr('action',$(this).attr('href'))
+        $('form[name="ColaboradorVeiculo"] span').text('Veiculo ' + $(this).attr('placa'))
+        $('form[name="ColaboradorVeiculo"]').attr('action', $(this).attr('href'))
         // $('input[name="Veiculo"]').val($(this).attr('veiculo'))
         // console.log($('form[name="ColaboradorVeiculo"]').attr('action'))
         return false;
@@ -1049,27 +1048,27 @@ $('.response-message-ajax').click(function(){
     // $('form[name="ColaboradorVeiculo"]').focusout(function(){
     //     $(this).hide()
     // })
-    $('form[name="ColaboradorVeiculo"]').submit(function(){
+    $('form[name="ColaboradorVeiculo"]').submit(function () {
         // alert($(this).serialize())
         // return false
         $.ajax({
-            type:'post',
+            type: 'post',
             url: $(this).attr('action'),
-            dataType:'json',
-            data:$(this).serialize(),
-            beforeSend:function(){
+            dataType: 'json',
+            data: $(this).serialize(),
+            beforeSend: function () {
 
             },
-            success:function(response){
+            success: function (response) {
                 // alert(response)
                 // console.log(response)
-                if(response.status==0){
+                if (response.status == 0) {
                     $('.response-message-ajax').show().fadeOut(5000)
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
                 }
-                if(response.status==200){
+                if (response.status == 200) {
                     $('.response-message-ajax').show().fadeOut(5000)
                     $('.response-message-ajax').removeClass('alert-danger')
                     $('.response-message-ajax').addClass('alert-success')
@@ -1077,10 +1076,10 @@ $('.response-message-ajax').click(function(){
                     // console.log(response.msg)
                     // console.log('#Veiculo_'+response.msg.veiculo)
                     // console.log(response.msg.veiculoLimpo)
-                    $('#Veiculo_'+response.msg.veiculo).text(response.msg.colaborador)
-                    if(typeof response.msg.veiculoLimpo.msg === 'undefined'){
-                        $('#Veiculo_'+response.msg.veiculoLimpo).text('add colaborador')
-                    }else{
+                    $('#Veiculo_' + response.msg.veiculo).text(response.msg.colaborador)
+                    if (typeof response.msg.veiculoLimpo.msg === 'undefined') {
+                        $('#Veiculo_' + response.msg.veiculoLimpo).text('add colaborador')
+                    } else {
                         // $('#Veiculo_'+response.msg.veiculo).text(response.msg.veiculoLimpo.msg)
                         // console.log('tste: '+'#Veiculo_'+response.msg.veiculo)
                         $('.response-message-ajax').text(response.msg.veiculoLimpo.msg)
@@ -1089,7 +1088,7 @@ $('.response-message-ajax').click(function(){
                     $('form[name="ColaboradorVeiculo"]').hide()
                 }
             },
-            error:function(response){
+            error: function (response) {
                 $('.response-message-ajax').show().fadeOut(5000)
                 $('.response-message-ajax').addClass('alert-danger')
                 $('.response-message-ajax').text(response.msg)
@@ -1100,16 +1099,16 @@ $('.response-message-ajax').click(function(){
     });
 
     $('.area-show-detalhe').hide()
-    $('.show-detalhe-cargas').click(function(){
+    $('.show-detalhe-cargas').click(function () {
         // $('.area-show-detalhe').hide()
         // console.log($(this).text())
         // $('.area-show-detalhe').toggle()
-        $('#Carga_'+$(this).attr('Carga')).toggle()
+        $('#Carga_' + $(this).attr('Carga')).toggle()
         // $('.show-detalhe-cargas').text('+')
-        if($(this).html()=='<i class="fa-regular fa-square-minus"></i>'){
+        if ($(this).html() == '<i class="fa-regular fa-square-minus"></i>') {
             // console.log('negativo')
             $(this).html('<i class="fa-regular fa-square-plus"></i>')
-        }else{
+        } else {
             // console.log('positivo')
             $(this).html('<i class="fa-regular fa-square-minus"></i>')
         }
@@ -1118,34 +1117,34 @@ $('.response-message-ajax').click(function(){
         return false;
     })
 
-    $('.atualiza-nota-component').click(function(){
+    $('.atualiza-nota-component').click(function () {
         console.log('atualizar nota')
         return false
     })
-    $('.submit_entrega').click(function(){
+    $('.submit_entrega').click(function () {
         // console.log($(this).attr('name'))
         notas = $('input[name="Notas[]"]:checked')
         // notas.each(function(valor, index){
-            // console.log()
-        if(notas.length==0){
+        // console.log()
+        if (notas.length == 0) {
             alert('Ação Cancelada: Nenhuma nota Selecionada');
             return false;
         }
         // })
         // return false;
-        if($(this).attr('name')=='Devolver'){
+        if ($(this).attr('name') == 'Devolver') {
             motivo = prompt("Qual o motivo?");
             console.log(motivo);
-            if(motivo==null || motivo == ''){
+            if (motivo == null || motivo == '') {
                 alert('Ação Cancelada');
                 return false;
             }
-            $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Motivo" value="'+motivo+'"/>')
+            $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Motivo" value="' + motivo + '"/>')
             $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Devolver" value="Devolver"/>')
             // $('form[name="FormEncerraEntrega"]').submit();
             // return false;
         }
-        if($(this).attr('name')=='Calcular'){
+        if ($(this).attr('name') == 'Calcular') {
             $('form[name="FormEncerraEntrega"] input[name="Motivo"]').remove();
             $('form[name="FormEncerraEntrega"] input[name="Receber"]').remove();
             $('form[name="FormEncerraEntrega"] input[name="Devolver"]').remove();
@@ -1153,7 +1152,7 @@ $('.response-message-ajax').click(function(){
             // $('form[name="FormEncerraEntrega"]').submit();
             // return false;
         }
-        if($(this).attr('name')=='Receber'){
+        if ($(this).attr('name') == 'Receber') {
             $('form[name="FormEncerraEntrega"] input[name="Motivo"]').remove();
             $('form[name="FormEncerraEntrega"] input[name="Devolver"]').remove();
             $('form[name="FormEncerraEntrega"] input[name="Calcular"]').remove();
@@ -1166,91 +1165,91 @@ $('.response-message-ajax').click(function(){
 
 
     })
-    $('form[name="FormEncerraEntrega"]').submit(function(){
+    $('form[name="FormEncerraEntrega"]').submit(function () {
         // console.log($(this).attr('action'))
         $.ajax({
-            type:'post',
+            type: 'post',
             url: $(this).attr('action'),
-            dataType:'json',
-            data:$(this).serialize(),
-            beforeSend:function(){
+            dataType: 'json',
+            data: $(this).serialize(),
+            beforeSend: function () {
 
             },
-            success:function(response){
+            success: function (response) {
                 // alert(response)
                 console.log(response)
-                if(response.status==0){
+                if (response.status == 0) {
 
                 }
-                if(response.status==200){
-                    if(response.acao == 'Calcular'){
+                if (response.status == 200) {
+                    if (response.acao == 'Calcular') {
                         $('.peso').html('');
-                        $('.peso').append('<b>Peso: </b>'+response.info.peso+'Kg');
+                        $('.peso').append('<b>Peso: </b>' + response.info.peso + 'Kg');
                         $('.valor').html('');
-                        $('.valor').append('<b>Valor: </b>R$ '+response.info.valor);
+                        $('.valor').append('<b>Valor: </b>R$ ' + response.info.valor);
                         $('.volume').html('');
-                        $('.volume').append('<b>Volume: </b>'+response.info.volume);
+                        $('.volume').append('<b>Volume: </b>' + response.info.volume);
                         $('.qtdnotas').html('');
-                        $('.qtdnotas').append('<b>Quantidade Notas: </b>'+response.info.qtdNotas);
+                        $('.qtdnotas').append('<b>Quantidade Notas: </b>' + response.info.qtdNotas);
                         // <li><b>Valor: </b>R$ '
                         //     +response.info.valor+'</li><li><b>Volume: </b>'+response.info.volume+'</li></ul> < class=" d-flex flex-wrap">'+
 
                         $('.lista-resposta-calculo').html('')
-                        i =0;
-                        $.each(response.info.notas,function(i, val){
-                            $('.lista-resposta-calculo').append((i<response.info.notas.length-1)?val+', ':val)
+                        i = 0;
+                        $.each(response.info.notas, function (i, val) {
+                            $('.lista-resposta-calculo').append((i < response.info.notas.length - 1) ? val + ', ' : val)
                             i++
                         });
                         $('#AreaResultados').show()
-                        $('body').css('overflow','hidden')
+                        $('body').css('overflow', 'hidden')
                     }
                 }
             },
-            error:function(response){
+            error: function (response) {
 
                 return false;
             }
         })
         return false
     })
-    $('.close_modal').click(function(){
+    $('.close_modal').click(function () {
         $('#AreaResultados').hide()
-        $('body').css('overflow','auto')
+        $('body').css('overflow', 'auto')
     });
-    $('.cidade_frete').click(function(){
+    $('.cidade_frete').click(function () {
         $.ajax({
-            type:'get',
-            url:$(this).attr('href'),
+            type: 'get',
+            url: $(this).attr('href'),
             beforeSend: function () {
                 // alert(routeStorePermission)
-                loading.css('display','flex')
+                loading.css('display', 'flex')
                 loading.removeClass('d-none');
                 // $("body").css("overflow", "hidden");
             },
-            success:function(response){
+            success: function (response) {
                 // console.log(response)
-                if(response.status==200){
+                if (response.status == 200) {
 
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-danger')
                     $('.response-message-ajax').addClass('alert-success')
-                    $('.response-message-ajax').text("Cidade: "+response.msg.cidade+" Frete: "+"R$ "+response.msg.frete)
+                    $('.response-message-ajax').text("Cidade: " + response.msg.cidade + " Frete: " + "R$ " + response.msg.frete)
                     // var nota = response.nota;
 
                     // console.log(response.msg)
                     $("#CidadeFrete").text(response.msg.cidade)
-                    $("#ValorFrete").text("R$ "+response.msg.frete)
+                    $("#ValorFrete").text("R$ " + response.msg.frete)
                     $("#FreteCity").show()
                     $("#FreteCity").addClass('d-flex ')
                     $("#FreteCity").css({
                         // "background-color":"green",
-                        "height":"fit-content",
-                        "padding":"10px"
+                        "height": "fit-content",
+                        "padding": "10px"
                     })
 
                 }
 
-                if(response.status==0){
+                if (response.status == 0) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').addClass('alert-danger')
@@ -1259,35 +1258,35 @@ $('.response-message-ajax').click(function(){
 
                 loading.addClass('d-none');
             },
-            error:function(response){
+            error: function (response) {
                 console.log(response)
             }
         })
         return false;
     });
 
-    $('form[name="FormAbastecimento"]').submit(function(){
+    $('form[name="FormAbastecimento"]').submit(function () {
         $('input[name="ajax"]').remove()
         $(this).append('<input type="hidden" name="ajax" value="ajax"/>')
         console.log($(this).serialize())
         $.ajax({
-            type:'post',
-            url:$(this).attr('action'),
+            type: 'post',
+            url: $(this).attr('action'),
             // data: $(this).serialize(),
             data: new FormData(this),
-                // dataType: 'json',
-                // cache: false,
+            // dataType: 'json',
+            // cache: false,
             processData: false,
             contentType: false,
             beforeSend: function () {
                 // alert(routeStorePermission)
-                loading.css('display','flex')
+                loading.css('display', 'flex')
                 loading.removeClass('d-none');
                 // $("body").css("overflow", "hidden");
             },
-            success:function(response){
+            success: function (response) {
                 // console.log(response)
-                if(response.status==200){
+                if (response.status == 200) {
 
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-danger')
@@ -1299,7 +1298,7 @@ $('.response-message-ajax').click(function(){
 
                 }
 
-                if(response.status==0){
+                if (response.status == 0) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').addClass('alert-danger')
@@ -1308,7 +1307,7 @@ $('.response-message-ajax').click(function(){
                 }
                 loading.addClass('d-none');
             },
-            error:function(response){
+            error: function (response) {
                 // console.log(response)
                 $('.response-message-ajax').show()
                 $('.response-message-ajax').removeClass('alert-success')
@@ -1320,6 +1319,212 @@ $('.response-message-ajax').click(function(){
         return false;
     });
 
+    //get semi reboques
+    $('.get_semireboques').click(function () {
+        // console.log($(this).attr('veiculo'))
+        var veiculo = $(this).attr('veiculo')
+        $.ajax({
+            type: 'get',
+            url: $(this).attr('href'),
+            success: function (response) {
+                // console.log(response)
+                // $('.response-message-ajax').addClass('alert-success')
+                // $('.response-message-ajax').text(response.veiculos)
+                // var nota = response.nota;
+
+                var ResponseVeiculos = $('#ResponseVeiculos');
+                ResponseVeiculos.html('')
+                ResponseVeiculos.show()
+                // console.log(response.veiculos)
+                ResponseVeiculos.append('<div id="LocalVeiculos"><label>Selecione o Semireboque</label></div>');
+                $(response.veiculos).each(function (i, e) {
+                    // console.log(e.placa)
+                    $('#LocalVeiculos').append('<a href="veiculo/' + veiculo + '/atrelarsemireboque/' + e.id + '" class="atrelar_semireboque" id="SemiReboque_' + e.id + '">' + e.placa + '</a>')
+                })
+                // $("#nota"+nota).removeClass('d-flex')
+                // $("#nota"+nota).css('display','none')
+                // window.location.href=''
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        })
+        return false;
+    });
+
+    $(document).on("click", ".atrelar_semireboque", function () {
+        var confirma = confirm('Deseja atrelar esse reboque nesse veiculo?')
+        // var confirma = confirm('Deseja deletar esta permissao?');
+        var ResponseVeiculos = $('#ResponseVeiculos');
+        $('.response-message-ajax').hide()
+        if (confirma) {
+            $.ajax({
+                type: 'get',
+                url: $(this).attr('href'),
+                success: function (response) {
+                    // console.log(response)
+                    $('.response-message-ajax').addClass('alert-success')
+                    // $('.response-message-ajax').text(response.veiculos)
+                    // var nota = response.nota;
+
+                    ResponseVeiculos.html('')
+                    ResponseVeiculos.hide()
+                    $('.response-message-ajax').show()
+                    $('#Semireboque_' + response.msg.veiculo).text(response.msg.semireboque)
+                    if(response.msg.veiculoLimpo.status==0){
+                        $('.response-message-ajax').text(response.msg.veiculoLimpo.msg)
+                        return false
+                    }else{
+                        $('#Semireboque_' + response.msg.veiculoLimpo).text('atrelar reboque')
+                    }
+                    $('.response-message-ajax').text(response.msg.success)
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            })
+
+        } else {
+            ResponseVeiculos.html('')
+            ResponseVeiculos.hide()
+            alert('ação cancelada pelo usuário')
+        }
+
+        return false;
+    })
+
+    if($('div').hasClass('monitorar_veiculo')){
+
+        // var count = 1;
+        var veiculo = $('.monitorar_veiculo').attr('veiculo')
+        var Response = $('#AreaDadosAjaxMonitoramento')
+        $.ajax({
+            type: 'get',
+            url: '/localizacao/monitorar/'+veiculo+'/realtime',
+            success: function (response) {
+                var dados = response.msg.dados
+                // console.log(response)
+                Response.html('')
+                html = '<ul class="col-sm-5 col-12 my-2"><li> placa: '+dados.placa+'</li>'
+                html += '<li> Data/Hora Ultima localização: '+dados.dataHoraLocalizacao+' </li>'
+                html += '<li> Data/Hora Atualização: '+dados.dataUpdate+' </li>'
+                html += '<li> Atualização Local: '+dados.updateLocal+' </li>'
+                html += '<li> Endereco: '+dados.endereco+' </li>'
+                html += '<li>  Ignicao: '+dados.ignicao+' </li>'
+                html += '<li>  Velocidade: '+dados.velocidade+'km/h </li></ul>'
+                Response.append(html)
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        })
+        setInterval(function() {
+
+            // console.log('teste')
+            $.ajax({
+                type: 'get',
+                url: '/localizacao/monitorar/'+veiculo+'/realtime',
+                success: function (response) {
+                    var dados = response.msg.dados
+                    // console.log(response)
+                    Response.html('')
+                    html = '<ul class="col-sm-5 col-12 my-2"><li> placa: '+dados.placa+'</li>'
+                    html += '<li> Data/Hora Ultima localização: '+dados.dataHoraLocalizacao+' </li>'
+                    html += '<li> Data/Hora Atualização: '+dados.dataUpdate+' </li>'
+                    html += '<li> Atualização Local: '+dados.updateLocal+' </li>'
+                    html += '<li> Endereco: '+dados.endereco+' </li>'
+                    html += '<li>  Ignicao: '+dados.ignicao+' </li>'
+                    html += '<li>  Velocidade: '+dados.velocidade+'km/h </li></ul>'
+                    Response.append(html)
+                    // if(dados.velocidade > 77){
+                    //     console.log('acima do permitido')
+                    // }
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            })
+            // console.log(count++)
+        }, 1000*60*3);// 3 minutos
+        // }, 1000*60*5);// 5 minutos
+        // }, 500);//1 segundo
+    }
+
+    // MONITORAR TODOS OS VEICULOS
+
+    if($('div').hasClass('monitorar_todos_veiculo')){
+
+        // console.log('poçaa')
+
+        // return false;
+        // var count = 1;
+        // var veiculo = $('.monitorar_todos_veiculo').attr('veiculo')
+        var Response = $('#AreaDadosAjaxMonitoramento')
+        $.ajax({
+            type: 'get',
+            url: '/localizacao/monitorar/veiculos/realtime/index',
+            success: function (response) {
+                // var dados = response.msg.dados
+                // console.log(response.msg)
+                Response.html('')
+                $(response.msg).each(function(i,e){
+                html = '<ul class="col-sm-5 col-12 my-2"><li> placa: '+e.dados.placa+'</li>'
+                html += '<li> Data/Hora Ultima localização: '+e.dados.dataHoraLocalizacao+' </li>'
+                html += '<li> Data/Hora Atualização: '+e.dados.dataUpdate+' </li>'
+                html += '<li> Atualização Local: '+e.dados.updateLocal+' </li>'
+                html += '<li> Endereco: '+e.dados.endereco+' </li>'
+                html += '<li>  Ignicao: '+e.dados.ignicao+' </li>'
+                html += '<li>  Velocidade: '+e.dados.velocidade+'km/h </li></ul>'
+                Response.append(html)
+                })
+
+                // return false;
+
+
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        })
+
+        setInterval(function() {
+
+            // console.log('teste')
+            $.ajax({
+                type: 'get',
+                url: '/localizacao/monitorar/veiculos/realtime/index',
+                success: function (response) {
+                    // var dados = response.msg.dados
+                    console.log(response)
+                    Response.html('')
+                    $(response.msg).each(function(i,e){
+                        html = '<ul class="col-sm-5 col-12 my-2"><li> placa: '+e.dados.placa+'</li>'
+                        html += '<li> Data/Hora Ultima localização: '+e.dados.dataHoraLocalizacao+' </li>'
+                        html += '<li> Data/Hora Atualização: '+e.dados.dataUpdate+' </li>'
+                        html += '<li> Atualização Local: '+e.dados.updateLocal+' </li>'
+                        html += '<li> Endereco: '+e.dados.endereco+' </li>'
+                        html += '<li>  Ignicao: '+e.dados.ignicao+' </li>'
+                        html += '<li>  Velocidade: '+e.dados.velocidade+'km/h </li></ul>'
+                        Response.append(html)
+                    })
+                    // if(dados.velocidade > 77){
+                    //     console.log('acima do permitido')
+                    // }
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            })
+            // console.log(count++)
+        // }, 1000*60*3);// 3 minutos
+        // }, 1000*60*5);// 5 minutos
+        }, 500);//1 segundo
+    }
+
 
 });
+// function msgEncerramento() {
+//     alert('Seu tempo acabou!! Tente novamente!!');
+//     }
+//     setTimeout(msgEncerramento, 3000)
 

@@ -6,11 +6,14 @@
     </x-slot>
     <div class="py-1">
         <div class="max-w-7xl mx-auto px-1">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
                     {{-- <form action="{{ route('veiculo.store') }}" method="post" enctype="multipart/form-data">
                         @include('colaborador.form-colaborador')
                     </form> --}}
+                    <div id="ResponseVeiculos">
+
+                    </div>
                     <div>
                         <form action="" name="ColaboradorVeiculo" method="post">
                             <span></span>
@@ -29,6 +32,13 @@
                                     @if ($veiculo->clientes->first())
                                     {{ $veiculo->clientes->first()->filials()->first()->razao_social }}
                                     <a href="{{ route('mudarVeiculoDeCliente',['cliente'=>2,'veiculo'=>$veiculo->id]) }}">Alterar de cliente</a>
+                                    @endif
+                                    @if ($veiculo->tipo_veiculo_id==12)
+                                        <a href="{{ route('getSemiReboques') }}" class="get_semireboques" veiculo="{{ $veiculo->id }}" id="Semireboque_{{ $veiculo->id }}">@if ($veiculo->reboque()->count()!=0)
+                                            {{ $veiculo->reboque->first()->placa }}
+                                        @else
+                                            atrelar reboque
+                                        @endif</a>
                                     @endif
                                 @endcan
                             </li>

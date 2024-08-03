@@ -9,7 +9,7 @@
 @endif
 <fieldset>
     <div>
-        <label for="">Cupom</label>
+        <label for="" class="form-label">Cupom</label>
         <input type="number" name="Cupom" id="" class="form-control" value="{{ old('Cupom') }}">
         @if ($errors->has('Cupom'))
         <div class="alert alert-danger">
@@ -18,7 +18,7 @@
         @endif
     </div>
     <div>
-        <label for="">KM</label>
+        <label for="" class="form-label">KM</label>
         <input type="text" name="Km" id="" class="form-control" value="{{ old('Km') }}">
         @if ($errors->has('Km'))
         <div class="alert alert-danger">
@@ -27,7 +27,7 @@
         @endif
     </div>
     <div>
-        <label for="">Litros</label>
+        <label for="" class="form-label">Litros</label>
         <input type="text" name="Litro" id="" class="form-control" value="{{ old('Litro') }}">
         @if ($errors->has('Litro'))
         <div class="alert alert-danger">
@@ -36,7 +36,7 @@
         @endif
     </div>
     <div>
-        <label for="">Valor</label>
+        <label for="" class="form-label">Valor</label>
         <input type="text" name="Valor" id="" class="form-control" value="{{ old('Valor') }}">
         @if ($errors->has('Valor'))
         <div class="alert alert-danger">
@@ -77,7 +77,7 @@
     @endhasanyrole
 
     <div class="my-3">
-        <label for="">Foto Cupom</label>
+        <label for="" class="form-label">Foto Cupom</label>
         <input type="file" name="FotoCupom" id="" class="form-control">
         @if ($errors->has('FotoCupom'))
         <div class="alert alert-danger">
@@ -87,7 +87,7 @@
     </div>
 
     <div class="my-3">
-        <label for="">Foto Bomba de Abastecimento</label>
+        <label for="" class="form-label">Foto Bomba de Abastecimento</label>
         <input type="file" name="FotoBomba" id="" class="form-control">
         @if ($errors->has('FotoBomba'))
         <div class="alert alert-danger">
@@ -96,7 +96,7 @@
         @endif
     </div>
     <div class="my-3">
-        <label for="">Foto Hodometro / Velocimetro</label>
+        <label for="" class="form-label">Foto Hodometro / Velocimetro</label>
         <input type="file" name="FotoHodometro" id="" class="form-control">
         @if ($errors->has('FotoHodometro'))
         <div class="alert alert-danger">

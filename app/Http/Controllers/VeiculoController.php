@@ -35,7 +35,7 @@ class VeiculoController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        return view('veiculo.index', ['veiculos'=>Veiculo::all()]);
+        return view('veiculo.index', ['veiculos'=>Veiculo::where('tipo_veiculo_id','<>',40)->get()]);
     }
 
     /**
@@ -63,22 +63,28 @@ class VeiculoController extends Controller implements HasMiddleware
             // $veiculo->empresa_id = LocalApoio::find((int)$request->empresa_local_apoio_id)->empresa_id;
             $veiculo->empresa_id = (!is_null($request->empresa_local_apoio_id))?LocalApoio::find($request->empresa_local_apoio_id)->empresa->id:1;
             $veiculo->local_apoio_id = (!is_null($request->empresa_local_apoio_id))?$request->empresa_local_apoio_id:null;
-            $veiculo->tenant_id = (is_null($veiculo->tenant_id))? Empresa::find($veiculo->empresa_id)->tenant_id :$veiculo->tenant_id;
-            $veiculo->usuario_id =Auth::user()->id;
+            // $empresa = Empresa::find($veiculo->empresa_id);
+            $veiculo->tenant_id =  Empresa::find($veiculo->empresa_id)->tenant_id;//(!is_null($empresa->tenant_id))? $empresa->tenant_id :null;
+            $veiculo->usuario_id = Auth::user()->id;
             $veiculo->setStatus('Disponivel');
             $veiculo->ano_modelo = $request->AnoModelo;
             $veiculo->ano_fabricacao = $request->AnoFabricacao;
             $veiculo->ano_exercicio = $request->AnoExercicio;
+            $veiculo->chassi = $request->Chassi;
             $veiculo->renavam = $request->Renavam;
-            $veiculo->chassi - $request->Chassi;
-            $veiculo->potencia = $request->potencia;
-            $veiculo->capacidade = $request->capacidade;
+            $veiculo->potencia = $request->Potencia;
+            $veiculo->capacidade = $request->Capacidade;
             $veiculo->peso_bruto = $request->PesoBruto;
             $veiculo->eixo = $request->Eixo;
             $veiculo->lotacao = $request->Lotacao;
             $veiculo->carroceria = $request->Carroceria;
+            $veiculo->tipo_veiculo_id = (int)$request->TipoVeiculo;
             $veiculo->cor = $request->Cor;
+            $veiculo->marca_modelo = $request->MarcaModelo;
+            $veiculo->combustivel_id = (int)$request->Combustivel;
+            $veiculo->categoria_veiculo_id =(int) $request->Categoria;
             $veiculo->data_aquisicao = $request->DataAquisicao;
+            // return response()->json(['status' => 200, 'msg' =>[$veiculo->getAttributes(),$request->input()]]);
             if(isset($request->proprietario) && !is_null($request->proprietario)){
                 $veiculo->proprietario_id = $request->proprietario;
             }else{
@@ -167,5 +173,34 @@ class VeiculoController extends Controller implements HasMiddleware
         }
     }
 
+    public function getSemiReboques()
+    {
+        try{
+            $veiculos = Veiculo::getSemiReboques(6);
+            $semi = [];
+            if($veiculos->count()==0){
+                throw new Exception('não há semi reboque cadastrado');
+            }
+            foreach($veiculos as $veiculo){
+                $semi[]= ['id'=>$veiculo->id,'placa'=>$veiculo->placa];
+            }
+            return response()->json(['status'=>200,'veiculos'=>$semi]);
+        }catch(Exception $ex){
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+        }
+    }
+    public function atrelarSemiReboque($veiculo,$semireboque)
+    {
+        try{
+            $Veiculo = Veiculo::find($veiculo);
+            $response = $Veiculo->associaReboque($semireboque);
+            return response()->json(['status'=>200,'msg'=>['veiculo'=>(int)$veiculo,'semireboque'=>Veiculo::find($semireboque)->placa,
+            'veiculoLimpo'=>$response,'success'=>'Semireboque associado com sucesso!']]);
+        }catch(Exception $ex){
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+        }
+
+        // return response()->json(['status'=>20,'msg'=>$semireboque . ' - '.$Veiculo->placa]);
+    }
 
 }

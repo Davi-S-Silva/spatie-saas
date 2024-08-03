@@ -84,6 +84,7 @@ class PermissionSeeder extends Seeder
             ['name'=>'Listar Fornecedor', 'model'=>'Fornecedor','guard_name'=>'web'],
             ['name'=>'Editar Fornecedor', 'model'=>'Fornecedor','guard_name'=>'web'],
             ['name'=>'Deletar Fornecedor', 'model'=>'Fornecedor','guard_name'=>'web'],
+            ['name'=>'Listar Localizacao', 'model'=>'Localizacao','guard_name'=>'web'],
         ];
         foreach($array as $permission){
             $Permission = Permission::where('name',$permission['name'])->get();

@@ -93,10 +93,58 @@ class Veiculo extends Model
         }
         return $veiculoLimpo;
     }
+    public function associaReboque($semireboque)
+    {
+        $Veiculo = $this;
+        //Colaborador com veiculo atribuido anteriormente
+        $VeicReboqueAnt = DB::table('reboque_veiculo')->where('veiculo_id',$Veiculo->id)->get();
+        $VeicReboqueAtual = DB::table('reboque_veiculo')->where('veiculo_id',$Veiculo->id)->where('reboque_id',$semireboque)->get();
+        if($VeicReboqueAtual->count()!=0){
+            return ['status'=>0,'msg'=>'Veiculo já está com esse reboque associado'];
+        }
+        // $Veiculo->reboque()->attach($semireboque);
+        $response = $this->removeReboqueAssociado($semireboque);
+        if($VeicReboqueAnt->count()==0){
+            // $Veiculo = Veiculo::find($veiculo);
+            $this->reboque()->attach($semireboque);
+            // return response()->json(['status'=>'success','msg'=>$ColabVeicAnt]);
+        }else{
+            // $response = $this->removeColaboradorAssociado($colaborador);
+            DB::table('reboque_veiculo')->where('veiculo_id',$Veiculo->id)->update(['reboque_id'=>$semireboque]);
+        }
+        return $response;
+    }
+    private function removeReboqueAssociado($semireboque){
+        $ReboqueVeicAnt = DB::table('reboque_veiculo')->where('reboque_id',$semireboque)->get();
+        $veiculoLimpo = 0;
+        if($ReboqueVeicAnt->count()!=0){
+            $veiculoLimpo = $ReboqueVeicAnt->first()->veiculo_id;
+            DB::table('reboque_veiculo')->where('reboque_id',$semireboque)->update(['reboque_id'=>null]);
+            // DB::table('colaborador_veiculo')->where('veiculo_id',$veiculo)->update(['colaborador_id'=>$request->colaborador]);
+        }
+        return $veiculoLimpo;
+    }
 
     public function kms()
     {
         return $this->hasMany(Km::class);
     }
 
+    public static function getSemiReboques($status=null)
+    {
+        $veiculo = Veiculo::where('tipo_veiculo_id',40);
+        if(!is_null($status)){
+            $veiculo->where('status_id',$status);
+        }
+        // $veiculo;
+
+        return $veiculo->get();
+    }
+
+    public function reboque()
+    {
+        // return $this->belongsToMany(Veiculo::class,'reboque_veiculo','veiculo_id','reboque_id');
+        return $this->belongsToMany(Veiculo::class,'reboque_veiculo','veiculo_id','reboque_id');
+        // $VeicReboqueAnt = DB::table('colaborador_veiculo')->where('veiculo_id',$veiculo->id)->get();
+    }
 }

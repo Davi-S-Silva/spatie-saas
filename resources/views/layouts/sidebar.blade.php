@@ -241,7 +241,7 @@
                         <i class="fa-solid fa-truck-front font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
                             style="color: #6b7280;" fill="currentColor"></i>
-                        <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Veículo</span>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Frota</span>
                         <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -250,14 +250,14 @@
                         </svg>
                     </button>
                     <ul id="dropdown-veiculo" class="hidden py-2 space-y-2">
-                        <li class="hover_menu position-relative"><a href=""
+                        <li class="hover_menu position-relative"><a href="#"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Veículo</a>
                                 <ul class="position-absolute bg-white w-56">
                                     <li><a href="{{ route('veiculo.index') }}">Veiculos</a></li>
                                     @can('Criar Veiculo')
                                     <li><a href="{{ route('veiculo.create') }}">Novo Veiculo</a></li>
-                                    <li><a href="{{ route('reboque.create') }}">Novo Reboque</a></li>
+                                    {{-- <li><a href="{{ route('reboque.create') }}">Novo Reboque</a></li> --}}
                                     @endcan
                             </ul>
                         </li>
@@ -278,12 +278,20 @@
                             </ul>
                         </li>
                         @endcan --}}
-                        <li class="hover_menu position-relative"><a href="{{ route('veiculo.create') }}"
+                        <li class="hover_menu position-relative"><a href="#"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Movimentação</a>
                                 <ul class="position-absolute bg-white w-56">
                                     <li><a href="{{ route('movimentacao.index') }}">Movimentações</a></li>
                                     <li><a href="{{ route('movimentacao.create') }}">Nova Movimentação</a></li>
+                            </ul>
+                        </li>
+                        <li class="hover_menu position-relative"><a href="#"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Monitoramento</a>
+                                <ul class="position-absolute bg-white w-56">
+                                    <li><a href="{{ route('localizacao.index') }}">Localização</a></li>
+                                    <li><a href="{{ route('rastrearTodosVeiculos') }}">Rastreamento</a></li>
                             </ul>
                         </li>
                     </ul>

@@ -15,6 +15,7 @@ class CombustivelSeeder extends Seeder
     public function run(): void
     {
         $array = [
+            'Não Aplicavel',
             'ÁLCOOL',
             'GASOLINA',
             'GNV',

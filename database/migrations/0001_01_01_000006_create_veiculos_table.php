@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('renavam');
             $table->string('chassi');
             $table->string('potencia');
+            $table->string('marca_modelo');
             $table->double('capacidade');
             $table->double('peso_bruto');
             $table->integer('eixo');
@@ -29,7 +30,6 @@ return new class extends Migration
             $table->date('data_aquisicao');
             $table->foreignId('combustivel_id')->references('id')->on('combustivels');
             $table->foreignId('categoria_veiculo_id')->references('id')->on('categoria_veiculos');
-            $table->foreignId('marca_modelo_id')->references('id')->on('marca_modelo_veiculos');
             $table->foreignId('tipo_veiculo_id')->references('id')->on('tipo_veiculos');
             $table->string('foto_path')->nullable();
             $table->foreignId('empresa_id')->references('id')->on('empresas');

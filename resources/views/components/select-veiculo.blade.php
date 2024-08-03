@@ -3,13 +3,13 @@
 @endphp
 <div>
     <label for="">Veiculo</label>
-    <select name="veiculo" id="" required>
+    <select name="veiculo" id="" required class="form-control">
         <option value="">Selecione o veiculo</option>
-        @foreach (Veiculo::All() as $item)
+        @foreach (Veiculo::where('tipo_veiculo_id','<>',40)->get() as $item)
             @if (isset($veiculo) && $veiculo ==$item->id)
-            <option value="{{ $item->id }}" selected>{{ $item->placa }}</option>
+            <option value="{{ $item->id }}" selected>Veículo: {{ $item->placa }} - Semireboque {{ (count($item->reboque)!=0)?$item->reboque->first()->placa:''  }}</option>
             @else
-                <option value="{{ $item->id }}">{{ $item->placa }}</option>
+                <option value="{{ $item->id }}">Veículo: {{ $item->placa }} - Semireboque {{ (count($item->reboque)!=0)?$item->reboque->first()->placa:'' }}</option>
             @endif
         @endforeach
     </select>
