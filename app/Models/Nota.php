@@ -119,7 +119,7 @@ class Nota extends Model
                         $nota->prestacao = 0;
                         $nota->peso = ($xml->NFe->infNFe->transp->vol->pesoL >= $xml->NFe->infNFe->transp->vol->pesoB) ? (float)$xml->NFe->infNFe->transp->vol->pesoL : (float)$xml->NFe->infNFe->transp->vol->pesoB;
                         $nota->indicacao_pagamento_id = IndicacaoPagamento::where('codigo',(int)$xml->NFe->infNFe->pag->detPag->indPag)->first()->id;
-                        $nota->tipo_pagamento = (int)$xml->NFe->infNFe->pag->detPag->tPag;
+                        $nota->tipo_pagamento_id = TipoPagamento::where('codigo',(int)$xml->NFe->infNFe->pag->detPag->tPag)->get()->first()->id;
                         $nota->valor = (float)$xml->NFe->infNFe->pag->detPag->vPag;
                         $nota->cliente_id = $carga->cliente_id;
 
@@ -165,7 +165,7 @@ class Nota extends Model
         $nota->prestacao = 0;
         $nota->peso = ($xml->NFe->infNFe->transp->vol->pesoL >= $xml->NFe->infNFe->transp->vol->pesoB) ? (float)$xml->NFe->infNFe->transp->vol->pesoL : (float)$xml->NFe->infNFe->transp->vol->pesoB;
         $nota->indicacao_pagamento = (int)$xml->NFe->infNFe->pag->detPag->indPag;
-        $nota->tipo_pagamento = (int)$xml->NFe->infNFe->pag->detPag->tPag;
+        $nota->tipo_pagamento_id = TipoPagamento::where('codigo',(int)$xml->NFe->infNFe->pag->detPag->tPag)->get()->first()->id;
         $nota->valor = (float)$xml->NFe->infNFe->pag->detPag->vPag;
         // $nota->save();
 

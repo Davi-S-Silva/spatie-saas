@@ -1,8 +1,8 @@
 // const { data } = require("autoprefixer");
 $(function () {
 
-    // var base = 'http://localhost:8080/';
-    var base = 'http://3.149.231.222/';
+    var base = 'http://localhost:8080/';
+    // var base = 'http://3.149.231.222/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
@@ -491,7 +491,7 @@ $(function () {
                         $('.response-message-ajax').text('Notas ' + txt + ' não encontradas')
                         return
                     }
-                    $('.response-message-ajax').text(response.msg)
+                    $('.response-message-ajax').text('erro: '+response.msg)
                     // $('.response-message-ajax').fadeOut(10000)
 
                 }
@@ -504,7 +504,7 @@ $(function () {
                 }
             },
             error: function (response) {
-                console.log(response)
+                console.log('erro: '+ response)
             }
         });
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('cupom');
             $table->integer('kmAnterior');
             $table->integer('kmAtual');
-            $table->integer('litros');
+            $table->double('litros');
             $table->double('valor');
             $table->string('pathFotoCupom')->nullable();
             $table->string('pathFotoHodometro')->nullable();

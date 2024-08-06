@@ -46,7 +46,9 @@ a {
 .exclui_nota:hover{
     color: brown;
 }
-
+.response-message-ajax{
+    z-index: 2000;
+}
 .form_add_notas{
     display: none;
     position: absolute;

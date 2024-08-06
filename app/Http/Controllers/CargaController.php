@@ -149,7 +149,7 @@ class CargaController extends Controller
             return response()->json(['status'=>200,'msg'=>'Notas Cadastradas com sucesso!']);
         } catch (Exception $ex) {
             DB::rollback();
-            return ['status'=>0,'msg' => $ex->getMessage(), 'linha' => $ex->getCode().' - file '.$ex->getFile().' - line '.$ex->getLine()];
+            return ['status'=>0,'msg' => $ex->getMessage().' - '. $ex->getCode().' - file '.$ex->getFile().' - line '.$ex->getLine()];
         }
     }
 

@@ -88,13 +88,13 @@
                                     <td>
                                         @if ($abastecimento->colaborador->usuario()->withTrashed()->get()->count() == 0)
                                             @if (Auth::user()->roles()->first()->name == 'colaborador')
-                                                {{ $abastecimento->created_at }}
+                                                {{ date('d/m/Y :h:i:s', strtotime($abastecimento->created_at)) }}
                                             @else
                                             {{ $abastecimento->colaborador->usuario()->withTrashed()->first()->name }}
                                             @endif
                                         @else
                                             @if (Auth::user()->roles()->first()->name == 'colaborador')
-                                                {{ $abastecimento->created_at }}
+                                                {{ date('d/m/Y :h:i:s', strtotime($abastecimento->created_at)) }}
                                             @else
                                                 {{ $abastecimento->colaborador->usuario()->first()->name }}
                                             @endif
