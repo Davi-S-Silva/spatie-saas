@@ -387,7 +387,7 @@ class EmpresaController extends Controller implements HasMiddleware
             while (($arquivo = $diretorio->read()) !== false) {
                 $file = $pasta . '/' . $arquivo;
                 // if ($arquivo != '.' && $arquivo != '..' && $arquivo != 'Autorizada' && $arquivo != 'Nao autorizada' && $arquivo != 'Cancelada' && $arquivo != 'Eventos') {
-                if (str_contains('.xml',$arquivo) && $arquivo != '.' && $arquivo != '..' && $arquivo != 'Autorizada' && $arquivo != 'Nao autorizada' && $arquivo != 'Cancelada' && $arquivo != 'Eventos') {
+                if (str_contains($arquivo,'.xml') && $arquivo != '.' && $arquivo != '..' && $arquivo != 'Autorizada' && $arquivo != 'Nao autorizada' && $arquivo != 'Cancelada' && $arquivo != 'Eventos') {
                     // $data = file_get_contents($file);
                     $xml = simplexml_load_file($file);
 
@@ -395,6 +395,7 @@ class EmpresaController extends Controller implements HasMiddleware
                         if (str_contains($file, 'NFe')) {
                             copy($file, $pasta . '/' . $xml->protNFe->infProt->chNFe . '.xml');
                             unlink($file);
+                            // throw new Exception($file);
                         }
                         $notas[] = $xml->NFe->infNFe->ide->nNF;
                     }
