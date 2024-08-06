@@ -1,8 +1,8 @@
 // const { data } = require("autoprefixer");
 $(function () {
 
-    var base = 'http://localhost:8080/';
-    // var base = 'http://3.142.92.240/';
+    // var base = 'http://localhost:8080/';
+    var base = 'http://3.149.231.222/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
