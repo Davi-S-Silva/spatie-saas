@@ -7,7 +7,7 @@
 <!-- This is an example component -->
 <div class="max-w-2xl mx-auto aside_menu">
     <aside class="w-64" aria-label="Sidebar">
-        <div class="px-3 py-4 bg-white dark:bg-gray-800">
+        <div class="px-3 py-4 bg-white text-secondary dark:bg-gray-800">
             <ul class="space-y-1">
                 <li>
                     <a href="{{ route('dashboard') }}"
