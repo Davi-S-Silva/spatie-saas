@@ -45,9 +45,9 @@
                                     </header>
                                     Notas
                                     <hr />
-                                    <section class="d-flex flex-wrap justify-between col-12 ">
+                                    <section class="d-flex flex-wrap justify-around col-12 ">
                                         @forelse ($carga->notas()->with('destinatario','carga')->orderBy('destinatario_id','asc')->get() as $nota)
-                                            <div class="col-sm-4 col-11 d-flex justify-center align-items-center">
+                                            <div class="col-lg-4 col-11 d-flex justify-around align-items-center">
                                                 <x-nota :nota=$nota />
                                             </div>
                                         @empty

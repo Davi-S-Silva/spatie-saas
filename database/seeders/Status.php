@@ -154,6 +154,8 @@ class Status extends Seeder
             'descricao' => 'Local de movimentação desativado',
         ]);
         echo 'status dos Locais de Movimentações Salvos com sucesso'.PHP_EOL;
+
+        //NOTAS
         DB::table('status')->insert([
             'name' => 'Pendente',
             'tipo' => 7,
@@ -178,6 +180,12 @@ class Status extends Seeder
             'name' => 'Finalizada',
             'tipo' => 7,
             'descricao' => 'Nota Paga e Prestado Conta',
+        ]);
+
+        DB::table('status')->insert([
+            'name' => 'Devolvida',
+            'tipo' => 7,
+            'descricao' => 'Nota Devolvida',
         ]);
         echo 'status das Notas Salvos com sucesso'.PHP_EOL;
     }

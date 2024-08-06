@@ -1,3 +1,4 @@
+// const { data } = require("autoprefixer");
 $(function () {
 
     var base = 'http://localhost:8080/';
@@ -1117,10 +1118,156 @@ $(function () {
         return false;
     })
 
-    $('.atualiza-nota-component').click(function () {
-        console.log('atualizar nota')
+    $('.conteudo_sistema').click(function(){
+        var IncludeResponseAjax = $('#IncludeResponseAjax')
+        IncludeResponseAjax.hide()
+    })
+    // atualiza-nota-component
+    $('.atualiza_nota_component').click(function () {
+        var IncludeResponseAjax = $('#IncludeResponseAjax')
+        $.ajax({
+            type: 'get',
+            url: $(this).attr('href'),
+            beforeSend: function () {
+                // alert(routeStorePermission)
+                // loading.css('display', 'flex')
+                // loading.removeClass('d-none');
+                // $("body").css("overflow", "hidden");
+            },
+            success: function (response) {
+                // alert(response)
+                // console.log(response)
+
+                IncludeResponseAjax.html('')
+                IncludeResponseAjax.show()
+                if(response.status==0){
+                    IncludeResponseAjax.html(response.msg)
+                    return false;
+                }
+                IncludeResponseAjax.html(response)
+                return false;
+            },
+            error: function (response) {
+                console.log(response)
+                return false;
+            }
+        })
         return false
     })
+    $(document).on('submit','form[name="UpdateStatusNota"]',function () {
+        var IncludeResponseAjax = $('#IncludeResponseAjax')
+        var Comprovantes = $('input[name="Comprovantes[]"]')
+        var StatusNota = $('select[name="StatusNota"]')
+        // console.log(StatusNota.val())
+        // var StatusNota = $('select[name="StatusNota"]')
+        //
+        if(StatusNota.val() == 27 && Comprovantes.val()=='' && !$('#PagoDiretoEmpresa').is(':checked')){
+            Comprovantes.attr('required','required')
+            console.log('27 status '+StatusNota.val())
+            Comprovantes.focus()
+            return false;
+        }
+        if(StatusNota.val()==31 )
+        {
+            console.log('status '+StatusNota.val())
+            Comprovantes.removeAttr('required')
+        }
+
+
+        $.ajax({
+            type: 'post',
+            url: $(this).attr('action'),
+            // dataType: 'json',
+            // data:$(this).serialize(),
+            data: new FormData(this),
+            // dataType: 'json',
+            // cache: false,
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                // alert(routeStorePermission)
+                // loading.css('display', 'flex')
+                // loading.removeClass('d-none');
+                // $("body").css("overflow", "hidden");
+            },
+            success: function (response) {
+                // alert(response)
+                if(response.status==200){
+                    var status = (response.msg.status)
+                    var nota = $('#Div_Nota_'+response.msg.nota)
+                    var obsNota = $('#Obs_Nota_'+response.msg.nota)
+                    var UserNota = $('#User_Conclusao_Nota_'+response.msg.nota)
+                    var DataNota = $('#Data_Conclusao_Nota_'+response.msg.nota)
+                    console.log('id nota: '+response.msg.nota)
+                    if(status==27){
+                        nota.removeClass('bg-notas-danger')
+                        nota.addClass('bg-notas-success')
+                    }
+
+                    UserNota.text(response.msg.user_conclusao)
+                    DataNota.text(response.msg.data_conclusao)
+                    if(status==31){
+                        nota.removeClass('bg-notas-success')
+                        nota.addClass('bg-notas-danger')
+                        obsNota.text(response.msg.obs)
+                    }
+                }
+
+                if(response.status==0){
+
+                }
+                console.log(response)
+                IncludeResponseAjax.hide()
+                return false;
+            },
+            error: function (response) {
+                console.log(response)
+                return false;
+            }
+        })
+        return false
+    })
+
+    $(document).on('click','#PagoDiretoEmpresa',function(){
+        // console.log('alert...')
+        var Comprovantes = $('input[name="Comprovantes[]"]')
+        // console.log($('#PagoDiretoEmpresa').attr('checked'))
+        var StatusNota = $('select[name="StatusNota"]')
+        if($('#PagoDiretoEmpresa').is(':checked')){
+            // console.log('not required')
+            Comprovantes.removeAttr('required')
+        }else{
+            // console.log('required')
+            Comprovantes.attr('required','required')
+        }
+
+        if(StatusNota.val()==31){
+            Comprovantes.removeAttr('required')
+        }
+    })
+    $(document).on('click','#ClonaInputComprovante',function(){
+        console.log('clonando comprovante')
+        $('#Comprovantenota').clone(true).appendTo('#CloneComprovante').val('').removeAttr('id');
+        return false
+    })
+    $(document).on('click','#RemoveComprovante',function(){
+        var Comprovantes = $('input[name="Comprovantes[]"]')
+        // console.log('removendo comprovante '+ Comprovantes.length)
+        // Comprovantes.each(function(i,e){
+
+        // })
+        var ultimoItem = Comprovantes[Comprovantes.length-1]
+        if(Comprovantes.length>1){
+            ultimoItem.remove();
+            console.log('removendo comprovante')
+        }
+        // $('#Comprovantenota').clone(true).appendTo('#CloneComprovante').val('').removeAttr('id');
+        return false
+    })
+
+
+
+
     $('.submit_entrega').click(function () {
         // console.log($(this).attr('name'))
         notas = $('input[name="Notas[]"]:checked')
@@ -1139,8 +1286,13 @@ $(function () {
                 alert('Ação Cancelada');
                 return false;
             }
-            $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Motivo" value="' + motivo + '"/>')
-            $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Devolver" value="Devolver"/>')
+            $('form[name="FormEncerraEntrega"] input[name="Receber"]').remove();
+            $('form[name="FormEncerraEntrega"] input[name="Calcular"]').remove();
+            if(motivo){
+                $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Motivo" value="' + motivo + '"/>')
+                $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Devolver" value="Devolver"/>')
+
+            }
             // $('form[name="FormEncerraEntrega"]').submit();
             // return false;
         }
@@ -1179,9 +1331,14 @@ $(function () {
                 // alert(response)
                 console.log(response)
                 if (response.status == 0) {
-
+                    $('.response-message-ajax').show().fadeOut(5000)
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
                 }
                 if (response.status == 200) {
+
+
+
                     if (response.acao == 'Calcular') {
                         $('.peso').html('');
                         $('.peso').append('<b>Peso: </b>' + response.info.peso + 'Kg');
@@ -1202,6 +1359,32 @@ $(function () {
                         });
                         $('#AreaResultados').show()
                         $('body').css('overflow', 'hidden')
+                    }
+
+                    if (response.acao == 'Devolver') {
+
+                        // console.log('id nota: '+response.msg.nota)
+
+                        $.each(response.notas, function(i, e){
+                            var nota = $('#Div_Nota_'+e)
+                            var obsNota = $('#Obs_Nota_'+e)
+                            var UserNota = $('#User_Conclusao_Nota_'+e)
+                            var DataNota = $('#Data_Conclusao_Nota_'+e)
+                            var status = (response.msg.status)
+                            // if(status==27){
+                            //     nota.removeClass('bg-notas-danger')
+                            //     nota.addClass('bg-notas-success')
+                            // }
+
+                            UserNota.text(response.user_conclusao)
+                            DataNota.text(response.data_conclusao)
+                            if(status==31){
+                                nota.removeClass('bg-notas-success')
+                                nota.addClass('bg-notas-danger')
+                                obsNota.text(response.msg.Motivo)
+                            }
+
+                        })
                     }
                 }
             },

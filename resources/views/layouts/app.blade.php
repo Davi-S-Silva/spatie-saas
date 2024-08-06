@@ -42,6 +42,16 @@
         <div class="loading d-none">
             <img src="{{ asset('img/loading.gif') }}" alt="">
         </div>
+
+        {{-- INCLUDES AJAX --}}
+
+        <div id="IncludeResponseAjax">
+            ola
+        </div>
+
+        {{-- FIM INCLUDES AJAX --}}
+
+
         <!-- Page Heading -->
         <header class="bg-white overflow-y-hidden shadow d-flex align-items-center">
             @if (isset($header))
@@ -61,17 +71,15 @@
         <!-- Page Content -->
         <main class="d-flex">
             @include('layouts.sidebar')
-            <div class="w-100">
+            <div class="w-100 conteudo_sistema">
                 {{ $slot }}
             </div>
         </main>
     </div>
-
 </body>
 <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('jquery/jquery-3.7.1.min.js') }}"></script>
 @vite('resources/js/app.js')
 <script src="{{ asset('js/ajax.js') }}"></script>
 <script src="{{ asset('js/script.js') }}"></script>
-
 </html>

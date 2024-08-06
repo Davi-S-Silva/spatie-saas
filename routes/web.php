@@ -17,6 +17,7 @@ use App\Http\Controllers\FornecedorController;
 use App\Http\Controllers\LocalApoioController;
 use App\Http\Controllers\LocalizacaoVeiculoController;
 use App\Http\Controllers\MovimentacaoVeiculoController;
+use App\Http\Controllers\NotaController;
 use NFePHP\Common\Certificate;
 use NFePHP\CTe\Common\Standardize;
 use NFePHP\CTe\MakeCTe;
@@ -123,6 +124,10 @@ Route::middleware('auth')->group(function () {
         Route::put('carga/{carga}/update',[CargaController::class, 'update'])->name('carga.update');
 
         Route::resource('fornecedor',FornecedorController::class);
+
+        Route::get('notas/{nota}/editStatusNota',[NotaController::class, 'editStatusNota'])->name('editStatusNota');
+        Route::put('notas/{nota}/update',[NotaController::class, 'updateStatusNota'])->name('updateStatusNota');
+        Route::resource('notas',NotaController::class);
 
         Route::resource('entrega',EntregaController::class);
         Route::post('entrega/{entrega}/start',[EntregaController::class, 'start'])->name('entrega.start');

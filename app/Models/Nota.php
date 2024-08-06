@@ -40,7 +40,7 @@ class Nota extends Model
     }
     public function getStatusId($status)
     {
-        return Status::where('name',$status)->where('tipo',1)->get()->first()->id;
+        return Status::where('name',$status)->where('tipo',7)->get()->first()->id;
     }
     public function getNotas($notas, $carga)
     {
@@ -192,8 +192,20 @@ class Nota extends Model
         // return Status::find($this->status_id);
         return $this->belongsTo(Status::class);
     }
+    public function setStatus($status){
+        $this->status_id = Status::where('name',$status)->where('tipo',7)->get()->first()->id;
+    }
+    public static function GetAllStatus()
+    {
+        return Status::where('tipo',7)->get();
+    }
     public function usuarioConclusao()
     {
         return $this->belongsTo(User::class,'usuario_conclusao_id');
+    }
+
+    public function observacoes()
+    {
+        return $this->belongsToMany(Observacao::class);
     }
 }

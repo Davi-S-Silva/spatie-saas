@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('chave_acesso')->unique();
             $table->integer('volume');
             $table->integer('prestacao');
-            $table->integer('tipo_pagamento');
+            $table->foreignId('tipo_pagamento_id')->references('id')->on('tipo_pagamentos');
             $table->double('peso');
             $table->double('valor');
             $table->foreignId('cliente_id')->references('id')->on('clientes');
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->foreignId('indicacao_pagamento_id')->references('id')->on('indicacao_pagamentos');
             // $table->foreignId('tipo_pagamento_id')->references('id')->on('tipo_pagamentos');
-            $table->date('data_conclusao')->nullable();
+            $table->dateTime('data_conclusao')->nullable();
             $table->string('path_xml');
             $table->foreignId('destinatario_id')->references('id')->on('destinatarios');
             $table->timestamps();
