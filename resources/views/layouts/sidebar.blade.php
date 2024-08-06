@@ -11,7 +11,7 @@
             <ul class="space-y-1">
                 <li>
                     <a href="{{ route('dashboard') }}"
-                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
@@ -23,7 +23,7 @@
                 @can('Listar Empresa')
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-gray-700"
                         aria-controls="dropdown-empresa" data-collapse-toggle="dropdown-empresa">
                         <i class="fa-solid fa-building font-extrabold h4 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                          dark:text-gray-400 dark:group-hover:text-white"
@@ -43,7 +43,7 @@
                             <li class="hover_menu position-relative">
                                 <a href="{{ route('empresa.index') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                     hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span
+                                     hover:bg-gray-100 dark:hover:bg-gray-700 pl-11"><span
                                         class="flex-1 ml-3 text-left whitespace-nowrap"
                                         sidebar-toggle-item>Empresas</span></a>
 
@@ -60,7 +60,7 @@
                             <li>
                                 <a href="{{ route('empresa.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                     hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span
+                                     hover:bg-gray-100 dark:hover:bg-gray-700 pl-11"><span
                                         class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Nova
                                         Empresa</span></a>
                             </li>
@@ -69,7 +69,7 @@
                             <li>
                                 <a href="{{ route('empresa.certificate') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                     hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span
+                                     hover:bg-gray-100 dark:hover:bg-gray-700 pl-11"><span
                                         class="flex-1 ml-3 text-left whitespace-nowrap"
                                         sidebar-toggle-item>Certificado</span></a>
                             </li>
@@ -78,7 +78,7 @@
                         <li>
                             <a href="{{ route('empresa.notas') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                     hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span
+                                     hover:bg-gray-100 dark:hover:bg-gray-700 pl-11"><span
                                     class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Notas
                                     Transportes</span></a>
                         </li>
@@ -88,7 +88,7 @@
                         {{-- <li>
                             <a href="#"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Invoice</a>
+                                 hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Invoice</a>
                         </li> --}}
                     </ul>
                 </li>
@@ -96,7 +96,7 @@
                 @can('Listar Usuario')
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-gray-700"
                         aria-controls="dropdown-user" data-collapse-toggle="dropdown-user">
                         <i class="fa-solid fa-user font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                          dark:text-gray-400 dark:group-hover:text-white "
@@ -113,12 +113,12 @@
                     <ul id="dropdown-user" class="hidden py-2 space-y-2">
                         <li><a href="{{ route('users.index') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                             hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Usuarios</a>
+                             hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Usuarios</a>
                         </li>
                         @can('Criar Usuario')
                             <li><a href="{{ route('users.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                             hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
+                             hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Novo
                                     Usuario</a></li>
                         @endcan
                     </ul>
@@ -127,7 +127,7 @@
                 @can('Listar Tenant')
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-gray-700"
                         aria-controls="dropdown-tenant" data-collapse-toggle="dropdown-tenant">
                         <i class="fa-solid fa-building font-extrabold h4 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                          dark:text-gray-400 dark:group-hover:text-white"
@@ -147,7 +147,7 @@
                             <li class="hover_menu position-relative">
                                 <a href="{{ route('tenant.index') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                     hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span
+                                     hover:bg-gray-100 dark:hover:bg-gray-700 pl-11"><span
                                         class="flex-1 ml-3 text-left whitespace-nowrap"
                                         sidebar-toggle-item>Tenants</span></a>
 
@@ -164,7 +164,7 @@
                             <li>
                                 <a href="{{ route('tenant.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                     hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11"><span
+                                     hover:bg-gray-100 dark:hover:bg-gray-700 pl-11"><span
                                         class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Novo Tenant</span></a>
                             </li>
                         @endcan
@@ -174,7 +174,7 @@
                 @can('Listar Colaborador')
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-gray-700"
                         aria-controls="dropdown-colaborador" data-collapse-toggle="dropdown-colaborador">
                         <i class="fa-solid fa-people-carry-box font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
@@ -191,13 +191,13 @@
                         @can('Listar Colaborador')
                         <li><a href="{{ route('colaboradores.index') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">colaboradores</a>
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">colaboradores</a>
                         </li>
                         @endcan
                         @can('Criar Colaborador')
                             <li><a href="{{ route('colaboradores.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Colaborador</a></li>
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Novo Colaborador</a></li>
                         @endcan
                     </ul>
                 </li>
@@ -205,7 +205,7 @@
                 @can('Listar Fornecedor')
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-gray-700"
                         aria-controls="dropdown-fornecedor" data-collapse-toggle="dropdown-fornecedor">
                         <i class="fa-solid fa-people-carry-box font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
@@ -222,13 +222,13 @@
                         @can('Listar Fornecedor')
                         <li><a href="{{ route('fornecedor.index') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Fornecedores</a>
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Fornecedores</a>
                         </li>
                         @endcan
                         @can('Criar Fornecedor')
                             <li><a href="{{ route('fornecedor.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Fornecedor</a></li>
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Novo Fornecedor</a></li>
                         @endcan
                     </ul>
                 </li>
@@ -236,7 +236,7 @@
                 @can('Listar Veiculo')
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-gray-700"
                         aria-controls="dropdown-veiculo" data-collapse-toggle="dropdown-veiculo">
                         <i class="fa-solid fa-truck-front font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
@@ -252,7 +252,7 @@
                     <ul id="dropdown-veiculo" class="hidden py-2 space-y-2">
                         <li class="hover_menu position-relative"><a href="#"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Veículo</a>
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Veículo</a>
                                 <ul class="position-absolute bg-white w-56">
                                     <li><a href="{{ route('veiculo.index') }}">Veiculos</a></li>
                                     @can('Criar Veiculo')
@@ -263,13 +263,13 @@
                         </li>
                         {{-- <li><a href=""
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Novo
                                 Veículo</a>
                         </li> --}}
                         {{-- @can('Listar Abastecimento')
                         <li class="hover_menu position-relative"><a href="{{ route('veiculo.create') }}"
                             class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                            hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Abastecimento</a>
+                            hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Abastecimento</a>
                             <ul class="position-absolute bg-white w-56">
                                 <li><a href="{{ route('abastecimento.index') }}">Abastecimentos</a></li>
                                 @can('Criar Abastecimento')
@@ -280,7 +280,7 @@
                         @endcan --}}
                         <li class="hover_menu position-relative"><a href="#"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Movimentação</a>
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Movimentação</a>
                                 <ul class="position-absolute bg-white w-56">
                                     <li><a href="{{ route('movimentacao.index') }}">Movimentações</a></li>
                                     <li><a href="{{ route('movimentacao.create') }}">Nova Movimentação</a></li>
@@ -288,7 +288,7 @@
                         </li>
                         <li class="hover_menu position-relative"><a href="#"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Monitoramento</a>
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Monitoramento</a>
                                 <ul class="position-absolute bg-white w-56">
                                     <li><a href="{{ route('localizacao.index') }}">Localização</a></li>
                                     <li><a href="{{ route('rastrearTodosVeiculos') }}">Rastreamento</a></li>
@@ -300,7 +300,7 @@
                 @can('Listar Abastecimento')
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-gray-700"
                         aria-controls="dropdown-abastecimento" data-collapse-toggle="dropdown-abastecimento">
                         <i class="fa-solid fa-gas-pump font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
@@ -316,18 +316,18 @@
                     <ul id="dropdown-abastecimento" class="hidden py-2 space-y-2">
                         <li class="hover_menu position-relative"><a href="{{ route('abastecimento.index') }}"
                             class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                            hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Abastecimento</a></li>
+                            hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Abastecimento</a></li>
                             {{-- <ul class="position-absolute bg-white w-56"> --}}
                                 {{-- <li><a href="{{ route('abastecimento.index') }}">Abastecimentos</a></li> --}}
                                 @can('Criar Abastecimento')
                                 <li class="hover_menu position-relative"><a href="{{ route('abastecimento.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                    hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo Abastecimento</a></li>
+                                    hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Novo Abastecimento</a></li>
                                     {{-- <li><a href="{{ route('abastecimento.create') }}">Novo Abastecimento</a></li> --}}
                                 @endcan
                                 <li class="hover_menu position-relative"><a href="{{ route('getRanking') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                    hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Ranking Abastecimento</a></li>
+                                    hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Ranking Abastecimento</a></li>
                             {{-- </ul>
                         </li> --}}
                     </ul>
@@ -338,7 +338,7 @@
 
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-gray-700"
                         aria-controls="dropdown-carga" data-collapse-toggle="dropdown-carga">
                         <i class="fa-solid fa-truck-ramp-box font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
@@ -354,12 +354,12 @@
                     <ul id="dropdown-carga" class="hidden py-2 space-y-2">
                         <li><a href="{{ route('carga.index') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Cargas</a>
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Cargas</a>
                         </li>
                         {{-- @can('Criar carga') --}}
                         <li><a href="{{ route('carga.create') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Nova
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Nova
                                 Carga</a></li>
                         {{-- @endcan --}}
                     </ul>
@@ -368,7 +368,7 @@
                 @can('Listar Entrega')
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-gray-700"
                         aria-controls="dropdown-entrega" data-collapse-toggle="dropdown-entrega">
                         <i class="fa-solid fa-truck-fast font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
@@ -384,12 +384,12 @@
                     <ul id="dropdown-entrega" class="hidden py-2 space-y-2">
                         <li><a href="{{ route('entrega.index') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Entregas</a>
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Entregas</a>
                         </li>
                         {{-- @can('Criar entrega') --}}
                         <li><a href="{{ route('entrega.create') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Nova
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Nova
                                 Entrega</a></li>
                         {{-- @endcan --}}
                     </ul>
@@ -398,7 +398,7 @@
                 @can('Listar Cliente')
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-gray-700"
                         aria-controls="dropdown-cliente" data-collapse-toggle="dropdown-cliente">
                         <i class="fa-solid fa-user-tie font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
@@ -414,12 +414,12 @@
                     <ul id="dropdown-cliente" class="hidden py-2 space-y-2">
                         <li><a href="{{ route('clientes.index') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Clientes</a>
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Clientes</a>
                         </li>
                         @can('Criar Cliente')
                             <li><a href="{{ route('clientes.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Novo
                                     Cliente</a></li>
                         @endcan
                     </ul>
@@ -427,7 +427,7 @@
                 @endcan
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-gray-700"
                         aria-controls="dropdown-product" data-collapse-toggle="dropdown-product">
                         <i class="fa-solid fa-boxes font-extrabold h5 p-1 flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900
                           dark:text-gray-400 dark:group-hover:text-white "
@@ -443,12 +443,12 @@
                     <ul id="dropdown-product" class="hidden py-2 space-y-2">
                         <li><a href="{{ route('users.index') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Produtos</a>
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Produtos</a>
                         </li>
                         @can('Criar Usuario')
                             <li><a href="{{ route('users.create') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
-                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
+                                hover:bg-gray-100 dark:hover:bg-gray-700 pl-11">Novo
                                     Produto</a></li>
                         @endcan
                     </ul>
@@ -456,7 +456,7 @@
 
                 <li>
                     <a href="#"
-                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -470,7 +470,7 @@
                 </li>
                 <li>
                     <a href="#"
-                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -487,7 +487,7 @@
                 </li>
                 <li>
                     <a href="#"
-                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
@@ -498,7 +498,7 @@
                 </li>
                 <li>
                     <a href="#"
-                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -510,7 +510,7 @@
                 </li>
                 <li>
                     <a href="#"
-                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -522,7 +522,7 @@
                 </li>
                 <li>
                     <a href="#"
-                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
