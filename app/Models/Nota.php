@@ -66,7 +66,8 @@ class Nota extends Model
                         $encontradas[] = $arrayNotas[$i];
 
                         $notaBd = Nota::where('chave_acesso',str_replace('NFe', '', $xml->NFe->infNFe['Id']))->get();
-                        if($notaBd->count()!=0){
+                        // throw new Exception('contagem: '.$notaBd->count());
+                        if($notaBd->count() != 0){
                             throw new Exception('Nota '.$arrayNotas[$i].' já existe em nosso banco de dados');
                         }
 
@@ -140,7 +141,7 @@ class Nota extends Model
                         $notaBd = Nota::find($nota->id);
 
                        //apagando o xml usado e movido
-                        if(!is_null($notaBd)){
+                        if($notaBd->count() != 0){
                             unlink($file);
                         }else{
                             unlink($nota->path_xml);

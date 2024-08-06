@@ -329,7 +329,7 @@ class EmpresaController extends Controller implements HasMiddleware
                 mkdir($extractZip, 777, true);
             }
             foreach ($request->notas as $nota) {
-                if ($nota->getClientOriginalExtension() == 'zip' || $nota->getClientOriginalExtension() == 'rar') {
+                if ($nota->getClientOriginalExtension() == 'zip' || $nota->getClientOriginalExtension() == 'ZIP' || $nota->getClientOriginalExtension() == 'rar') {
                     // $notas[]=['nome'=>$nota->getClientOriginalExtension()];
                     $nameFileEditado = str_replace(' ','',str_replace('(','',str_replace(')','',$nota->getClientOriginalName())));
                     Storage::disk('local')->putFileAs('public/' . $empresa . '/notas', $nota, $nameFileEditado);
@@ -392,9 +392,9 @@ class EmpresaController extends Controller implements HasMiddleware
                     $xml = simplexml_load_file($file);
 
                     if ($xml->NFe) {
-                        copy($file, $pasta . '/' . $xml->protNFe->infProt->chNFe . '.xml');
                         if (str_contains($file, 'NFe')) {
-                            // unlink($file);
+                            copy($file, $pasta . '/' . $xml->protNFe->infProt->chNFe . '.xml');
+                            unlink($file);
                         }
                         $notas[] = $xml->NFe->infNFe->ide->nNF;
                     }
