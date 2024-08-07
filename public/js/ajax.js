@@ -1561,7 +1561,8 @@ $(function () {
         $('input[name="ajax"]').remove()
         $(this).append('<input type="hidden" name="ajax" value="ajax"/>')
         console.log($(this).attr('action'))
-
+        console.log(new FormData(this))
+        // return false;
         $.ajax({
             type: 'post',
             url: $(this).attr('action'),
@@ -1579,7 +1580,7 @@ $(function () {
             },
             success: function (response) {
                 console.log(response)
-                 return false;
+                //  return false;
                 if (response.status == 200) {
 
                     $('.response-message-ajax').show()

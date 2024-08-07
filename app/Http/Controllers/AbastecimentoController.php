@@ -242,16 +242,19 @@ class AbastecimentoController extends Controller implements HasMiddleware
 
             //SALVAR AS FOTOS NO SERVIDOR
             $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
-            $path = 'app/public/'.$empresa.'/abastecimentos';
-            if(!file_exists($path) && $linux==true){
-                mkdir($path,0775, true);
+            $pathFileTo = 'app/public/'.$empresa.'/abastecimentos';
+            if(!file_exists($pathFileTo) && $linux==true){
+                mkdir($pathFileTo,0775, true);
             }
             $data = date('d-m-Y H-i-s');
+            // throw new Exception($pathFileTo.'/'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            $path = Storage::disk('s3')->putFileAs(
+                $pathFileTo,  $FotoCupom, 'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension()
+            );
             // $abastecimento->pathFotoCupom = $FotoCupom->storeAS($path,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
-            $abastecimento->pathFotoCupom = $FotoCupom->storeAS($path,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            // $abastecimento->pathFotoCupom = $FotoCupom->storeAS($path,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
             // $abastecimento->pathFotoHodometro = $FotoHodometro->storeAS($path,'Hodometro_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
             // $abastecimento->pathFotoBomba = $FotoBomba->storeAS($path,'Bomba_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
-            throw new Exception('erro aqui');
             $abastecimento->save();
             // echo '<pre>';
             // print_r($abastecimento->getAttributes());
