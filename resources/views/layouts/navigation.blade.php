@@ -34,8 +34,10 @@
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                {{ Auth::user()->empresa->first()->nome }}
+            <div class="sm:flex sm:items-center sm:ms-6 align-items-center d-flex">
+                Empresa: {{ Auth::user()->empresa->first()->nome }} -
+                Usuario: {{ Auth::user()->name }}
+                 {{ (count(Auth::user()->colaborador->first()->veiculo)!=0)?' - Veículo: '.Auth::user()->colaborador->first()->veiculo->first()->placa:'' }}
             </div>
 
             <!-- Settings Dropdown -->
@@ -98,6 +100,7 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
+
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}

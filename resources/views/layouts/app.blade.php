@@ -55,11 +55,12 @@
         <!-- Page Heading -->
         <header class="bg-white overflow-y-hidden shadow d-flex align-items-center">
             @if (isset($header))
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-7">
+                <div class="mx-auto py-6 px-4 sm:px-6 lg:px-7">
                     {{ $header }}
                 </div>
             @endif
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-7 text-center">
+            <div class="mx-auto py-6 px-4 sm:px-6 lg:px-7 text-center d-flex align-items-center justify-between">
+
                 <form action="{{ route('search') }}" method="post" name="FormSearch" class="d-flex">
                     <input type="search" name="search" id="" placeholder="Digite para pesquisar">
                     @csrf

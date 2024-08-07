@@ -261,6 +261,23 @@ display: none;
     /* background-color: #ccc; */
     border-bottom: 1px solid #999;
 }
+.area_show_abastecimento figure{
+    margin:10px;
+    width: max-content;
+    height: min-content;
+    display: flex;
+    flex-direction: column;
+    border: px solid #666;
+    border-radius: 5px;
+    background-color: #f0f0f0c4;
+    padding: 10px;
+    text-align: center;
+}
+.area_show_abastecimento figure img{
+    float: left;
+    border-radius: 5px;
+    width: 500px;
+}
 .nota-select:hover{
     cursor: pointer;
 }
