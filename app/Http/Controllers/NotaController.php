@@ -73,6 +73,10 @@ class NotaController extends Controller
             if($nota->status_id != $nota->getStatusId('Pendente')){
                 throw new Exception('Nota já Finalizada, para alterar alguma informação entre em contato conosco');
             }
+            if($nota->carga->entregas()->first()->getStatus->name=='Pendente')
+            {
+                throw new Exception('Não é possivel atualizar Nota. Entrega não Iniciada.');
+            }
             DB::beginTransaction();
             $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
             $StatusNota = (!is_null($request->StatusNota))?(int)$request->StatusNota:null;
@@ -190,6 +194,7 @@ class NotaController extends Controller
                 $nota= Nota::find($item);
                 $stringNota .= ($i <count($Notas)-1)?$nota->nota.'-':$nota->nota;
                 $i++;
+
                 if($nota->status_id != $nota->getStatusId('Pendente')){
                     throw new Exception('Nota já Finalizada, para alterar alguma informação entre em contato conosco');
                 }
@@ -239,7 +244,7 @@ class NotaController extends Controller
 
 
             }
-            DB::commit();
+            // DB::commit();
             if(!is_null($Comprovantes) && is_null($PagoDiretoEmpresa)){
                 // mover para o s3 somente apos salvar alteracoes no banco
                 // $permitido = [

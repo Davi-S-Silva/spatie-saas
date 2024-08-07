@@ -837,6 +837,18 @@ $(function () {
         return false
     })
 
+    $('.conteudo_sistema').click(function(){
+        var IncludeResponseAjax = $('#IncludeResponseAjax')
+        IncludeResponseAjax.hide()
+        // $('form[name="StartEntrega"]').hide()
+        // $('form[name="StopEntrega"]').hide()
+    })
+    $('.exibe_entrega').click(function(){
+        // var IncludeResponseAjax = $('#IncludeResponseAjax')
+        // IncludeResponseAjax.hide()
+        $('form[name="StartEntrega"]').hide()
+        $('form[name="StopEntrega"]').hide()
+    })
 
     $('.start_entrega').click(function () {
         $('form[name="StartEntrega"]').show()
@@ -1124,10 +1136,7 @@ $(function () {
         return false;
     })
 
-    $('.conteudo_sistema').click(function(){
-        var IncludeResponseAjax = $('#IncludeResponseAjax')
-        IncludeResponseAjax.hide()
-    })
+
     // atualiza-nota-component
     $('.atualiza_nota_component').click(function () {
         var IncludeResponseAjax = $('#IncludeResponseAjax')
@@ -1160,6 +1169,7 @@ $(function () {
         })
         return false
     })
+    //Atualizar nota
     $(document).on('submit','form[name="UpdateStatusNota"]',function () {
         var IncludeResponseAjax = $('#IncludeResponseAjax')
         var Comprovantes = $('input[name="Comprovantes[]"]')
@@ -1221,9 +1231,13 @@ $(function () {
                 }
 
                 if(response.status==0){
-
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                    // IncludeResponseAjax.hide()
+                    return false;
                 }
-                console.log(response)
+                // console.log(response)
                 IncludeResponseAjax.hide()
                 return false;
             },
@@ -1357,7 +1371,7 @@ $(function () {
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
                     // console.log('teste '+response.msg)
-                    IncludeResponseAjax.hide();
+                    // IncludeResponseAjax.hide();
                     return false;
                 }
 
@@ -1371,7 +1385,7 @@ $(function () {
                         var obsNota = $('#Obs_Nota_'+e)
                         var UserNota = $('#User_Conclusao_Nota_'+e)
                         var DataNota = $('#Data_Conclusao_Nota_'+e)
-                        // console.log('id nota: '+e)
+                        console.log('id nota: '+e)
                         nota.removeClass('bg-notas-danger')
                         nota.addClass('bg-notas-success')
                         UserNota.text(response.msg.user_conclusao)
@@ -1456,7 +1470,8 @@ $(function () {
 
                     if (response.acao == 'Devolver') {
 
-                        // console.log('id nota: '+response.msg.nota)
+                        // console.log(response)
+                        // console.log(response.msg.Motivo)
 
                         $.each(response.notas, function(i, e){
                             var nota = $('#Div_Nota_'+e)

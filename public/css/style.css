@@ -83,6 +83,7 @@ a {
     display: none;
     position: fixed;
     background-color: #fff;
+    z-index: 2000';
 }
 .form_toggle_mov input[type="submit"]{
     margin: 5px 0;
@@ -321,7 +322,7 @@ display: none;
     text-align: center;
 }
 #ResponseVeiculos, #IncludeResponseAjax{
-    position: absolute;
+    position: fixed;
     display: none;
     left: 50%;
     transform: translateX(-50%);
@@ -346,6 +347,10 @@ display: none;
 
 form[name="StopEntrega"]{
     z-index: 2000;
+}
+
+form[name="UpdateStatusNotas"]{
+    /* position: fixed; */
 }
 @media (max-width: 600px) {
     .aside_menu{

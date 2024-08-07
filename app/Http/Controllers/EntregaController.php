@@ -354,7 +354,7 @@ class EntregaController extends Controller
                     if ($i > 0) {
                         $nota2 = Nota::find($Notas[$i - 1]);
                         if(($nota->destinatario->id != $nota2->destinatario->id) ||
-                         (!in_array($nota->tipo_pagamento_id,$pagamentos) || !in_array($nota2->tipo_pagamento_id,$pagamentos)) ||
+                        //  (!in_array($nota->tipo_pagamento_id,$pagamentos) || !in_array($nota2->tipo_pagamento_id,$pagamentos)) ||
                          ($nota->indicacao_pagamento_id!=$nota2->indicacao_pagamento_id)){
                             $msg = "Para concluir varias notas de uma vez tem que ser do mesmo cliente
                             ou de clientes diferentes caso o pagamento nao seja cartao ou avista. somente boleto e bonificacao";
@@ -382,6 +382,8 @@ class EntregaController extends Controller
                     }
                     // $notas[]=$nota->id;
                     $nota->setStatus('Devolvida');
+                    $nota->usuario_conclusao_id = Auth::user()->id;
+                    $nota->data_conclusao = date('Y-m-d');
                     $nota->save();
                     $observacao = new Observacao();
                     $observacao->descricao = $request->Motivo;
@@ -390,9 +392,10 @@ class EntregaController extends Controller
                     $observacao->save();
                     $nota->observacoes()->attach($observacao->id);
                 }
+                $dados = ['status' => 200, 'acao' => 'Devolver', 'notas' => $request->Notas,
+                'data_conclusao'=>date('d/m/Y H:i:s'),'user_conclusao'=>Auth::user()->name, 'msg' => ['Motivo'=> $request->Motivo,'status'=>31]];
                 DB::commit();
-                return response()->json(['status' => 200, 'acao' => 'Devolver', 'notas' => $request->Notas,
-                'data_conclusao'=>date('d/m/Y H:i:s'),'user_conclusao'=>$nota->usuarioConclusao->name, 'msg' => ['Motivo', $request->Motivo,'status'=>31]]);
+                return response()->json($dados);
             }
             if ($request->Calcular) {
                 $peso = 0;
@@ -414,7 +417,7 @@ class EntregaController extends Controller
 
         } catch (Exception $ex) {
             DB::rollBack();
-            // return response()->json(['status'=>0,'acao' => 'Devolver','msg'=>$ex->getMessage(). ' - file: '.$ex->getFile().' - line: '.$ex->getLine()]);
+            return response()->json(['status'=>0,'acao' => 'Devolver','msg'=>$ex->getMessage(). ' - file: '.$ex->getFile().' - line: '.$ex->getLine()]);
             return response()->json(['status' => 0,'acao' => 'Devolver', 'msg' => $ex->getMessage()]);
         }
     }

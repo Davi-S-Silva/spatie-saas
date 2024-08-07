@@ -17,10 +17,24 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <x-start-entrega />
                 <x-stop-entrega :localMovimentacao=$localMovimentacao />
-                <div class="card col-12 p-2">
+                <div class="card col-12 p-2 exibe_entrega">
                     <form action="{{ route('receberVariasNotas', ['entrega' => $entrega->id]) }}" method="post"
                         name="FormEncerraEntrega">
                         <header>
+                            @if ($entrega->status_id == $entrega->getStatusId('Pendente'))
+                                <a href="{{ route('entrega.start', ['entrega' => $entrega->id]) }}"
+                                    id="Start_Ent_{{ $entrega->id }}"
+                                    class="text-green-600 btn btn-outline-success start_entrega m-2"
+                                    entrega="{{ $entrega->id }}" mot="{{ $entrega->colaborador_id }}"><i
+                                        class="fa-solid fa-play"></i></a>
+                            @endif
+                            @if ($entrega->status_id == $entrega->getStatusId('Rota'))
+                                <a href="{{ route('entrega.stop', ['entrega' => $entrega->id]) }}"
+                                    id="Start_Ent_{{ $entrega->id }}"
+                                    class="text-red-600 btn btn-outline-danger stop_entrega  m-2"
+                                    entrega="{{ $entrega->id }}" mot="{{ $entrega->colaborador_id }}"><i
+                                        class="fa-solid fa-stop"></i></a>
+                            @endif
                             <ul>
                                 <li>Motorista: <b>{{ $entrega->colaborador->name }}</b></li>
                                 <li>Ajudantes: <b>
@@ -48,7 +62,7 @@
                                     <hr />
                                     <section class="d-flex flex-wrap justify-around col-12 ">
                                         @forelse ($carga->notas()->with('destinatario','carga')->orderBy('destinatario_id','asc')->get() as $nota)
-                                            <div class="col-lg-4 col-11 d-flex justify-around align-items-center">
+                                            <div class="col-lg-3 col-11 mx-1 d-flex justify-around align-items-center">
                                                 <x-nota :nota=$nota />
                                             </div>
                                         @empty
@@ -67,12 +81,13 @@
                         <footer>
                             {{-- fim entrega --}}
 
-                        @csrf
-                        {{-- <input type="submit" value="Encerrar Entrega" class="btn btn-primary" name="EncerrarEntrega"> --}}
-                        <a href="{{ route('entrega.stop', ['entrega' => $entrega->id]) }}" id="Start_Ent_{{ $entrega->id }}"
-                            class="text-red-600 btn btn-outline-danger stop_entrega  m-2"
-                            entrega="{{ $entrega->id }}"
-                            mot="{{ $entrega->colaborador_id }}" >Encerrar Entrega</a>
+                            @csrf
+                            {{-- <input type="submit" value="Encerrar Entrega" class="btn btn-primary" name="EncerrarEntrega"> --}}
+                            <a href="{{ route('entrega.stop', ['entrega' => $entrega->id]) }}"
+                                id="Start_Ent_{{ $entrega->id }}"
+                                class="text-red-600 btn btn-outline-danger stop_entrega  m-2"
+                                entrega="{{ $entrega->id }}" mot="{{ $entrega->colaborador_id }}">Encerrar
+                                Entrega</a>
                         </footer>
                     </form>
                 </div>
@@ -81,7 +96,10 @@
     </div>
     <section id="AreaResultados" class="col-10">
         <div id="Resultados" class="col-sm-2 col-10">
-            <header class="d-flex justify-between align-items-center p-3"><div>Resultados</div><div class="m-2 cursor-pointer close_modal"><i class="fa-regular fa-rectangle-xmark"></i></div></header>
+            <header class="d-flex justify-between align-items-center p-3">
+                <div>Resultados</div>
+                <div class="m-2 cursor-pointer close_modal"><i class="fa-regular fa-rectangle-xmark"></i></div>
+            </header>
             <div id="Content" class="py-3 px-5">
                 <ul>
                     <li class="peso"></li>
