@@ -103,6 +103,7 @@
                                   </ul>
                                   <div class="tab-content" id="myTabContent_{{ $carga->id }}">
                                     <div class="tab-pane fade show active" id="home_{{ $carga->id }}" role="tabpanel" aria-labelledby="home-tab_{{ $carga->id }}">
+                                        {{-- {{ $carga->countNotasPendentes() }} --}}
                                         <a class="btn btn-primary add-notas-carga" href="{{ route('carga.setNotas',['carga'=>$carga->id]) }}" id="Carga {{$carga->id}}">Add Notas</a>
                                         <table class="text-center col-12">
                                             <thead>

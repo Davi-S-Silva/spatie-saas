@@ -849,6 +849,8 @@ $(function () {
         return false
     })
     $('.stop_entrega').click(function () {
+        // console.log()
+        // return false
         $('form[name="StartEntrega"]').hide()
         $('form[name="StopEntrega"]').show()
         $('form[name="StopEntrega"]').attr('action', $(this).attr('href'))
@@ -876,6 +878,8 @@ $(function () {
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
+                    $('form[name="StopEntrega"]').hide()
+                    $('form[name="StartEntrega"]').hide()
                 }
                 if (response.status == 200) {
                     $('.response-message-ajax').show()
@@ -915,6 +919,8 @@ $(function () {
                     $('.response-message-ajax').removeClass('alert-success')
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
+                    $('form[name="StopEntrega"]').hide()
+                    $('form[name="StartEntrega"]').hide()
                 }
                 if (response.status == 200) {
                     $('.response-message-ajax').show()
@@ -1179,9 +1185,9 @@ $(function () {
             url: $(this).attr('action'),
             // dataType: 'json',
             // data:$(this).serialize(),
-            data: new FormData(this),
             // dataType: 'json',
             // cache: false,
+            data: new FormData(this),
             processData: false,
             contentType: false,
             beforeSend: function () {
@@ -1206,10 +1212,11 @@ $(function () {
 
                     UserNota.text(response.msg.user_conclusao)
                     DataNota.text(response.msg.data_conclusao)
+                    obsNota.text(response.msg.obs)
                     if(status==31){
                         nota.removeClass('bg-notas-success')
                         nota.addClass('bg-notas-danger')
-                        obsNota.text(response.msg.obs)
+                        // obsNota.text(response.msg.obs)
                     }
                 }
 
@@ -1281,7 +1288,7 @@ $(function () {
         // return false;
         if ($(this).attr('name') == 'Devolver') {
             motivo = prompt("Qual o motivo?");
-            console.log(motivo);
+            // console.log(motivo);
             if (motivo == null || motivo == '') {
                 alert('Ação Cancelada');
                 return false;
@@ -1310,34 +1317,120 @@ $(function () {
             $('form[name="FormEncerraEntrega"] input[name="Calcular"]').remove();
             $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Receber" value="Receber"/>')
             // $('form[name="FormEncerraEntrega"]').submit();
+
+            // var notas = $('input[name="Notas[]"]')
+            // console.log($(notas).length)
+            // var arrayNotas = [];
+            // $(notas).each(function(i, e){
+            //     if($(e).is(':checked')){
+            //         arrayNotas.push(e)
+            //     }
+            // });
+            // console.log(arrayNotas)
             // return false;
+
         }
         $('form[name="FormEncerraEntrega"]').submit();
         // $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="'+$(this).attr('name')+'" value="'+$(this).attr('name')+'"/>')
 
 
     })
-    $('form[name="FormEncerraEntrega"]').submit(function () {
-        // console.log($(this).attr('action'))
+
+    $(document).on('submit','form[name="UpdateStatusNotas"]',function(){
+        var IncludeResponseAjax = $('#IncludeResponseAjax')
+        // console.log($(this).attr('action'));
         $.ajax({
             type: 'post',
             url: $(this).attr('action'),
-            dataType: 'json',
-            data: $(this).serialize(),
+            // dataType: 'json',
+            // data: $(this).serialize(),
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+
+                if (response.status == 0) {
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                    // console.log('teste '+response.msg)
+                    IncludeResponseAjax.hide();
+                    return false;
+                }
+
+                if (response.status == 200) {
+
+                    // console.log(response.msg)
+                    // var status = (response.msg.status)
+
+                    $(response.msg.notas).each(function(i,e){
+                        var nota = $('#Div_Nota_'+e)
+                        var obsNota = $('#Obs_Nota_'+e)
+                        var UserNota = $('#User_Conclusao_Nota_'+e)
+                        var DataNota = $('#Data_Conclusao_Nota_'+e)
+                        // console.log('id nota: '+e)
+                        nota.removeClass('bg-notas-danger')
+                        nota.addClass('bg-notas-success')
+                        UserNota.text(response.msg.user_conclusao)
+                        DataNota.text(response.msg.data_conclusao)
+                        obsNota.text(response.msg.obs)
+                    })
+                    IncludeResponseAjax.hide();
+                    return false;
+                }
+
+            },
+            error: function (response) {
+
+                return false;
+            }
+        })
+        return false
+    })
+
+    $('form[name="FormEncerraEntrega"]').submit(function () {
+        // console.log($(this).serialize())
+        $.ajax({
+            type: 'post',
+            url: $(this).attr('action'),
+            // dataType: 'json',
+            // data: $(this).serialize(),
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
             beforeSend: function () {
 
             },
             success: function (response) {
                 // alert(response)
-                console.log(response)
+                // console.log(response)
+                var IncludeResponseAjax = $('#IncludeResponseAjax')
+                if(response.acao == undefined){
+                    IncludeResponseAjax.html(response)
+                    IncludeResponseAjax.show()
+                    // console.log(response)
+                    return false;
+                }
                 if (response.status == 0) {
-                    $('.response-message-ajax').show().fadeOut(5000)
+                    $('.response-message-ajax').show()
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
+                    // console.log('teste '+response.msg)
+                    return false;
                 }
+
                 if (response.status == 200) {
 
-
+                    // if(response.acao == 'Receber'){
+                    //     var IncludeResponseAjax = $('#IncludeResponseAjax')
+                    //     IncludeResponseAjax.html(response.form)
+                    //     IncludeResponseAjax.show()
+                    //     console.log(response)
+                    //     return false;
+                    // }
 
                     if (response.acao == 'Calcular') {
                         $('.peso').html('');
@@ -1383,7 +1476,8 @@ $(function () {
                                 nota.addClass('bg-notas-danger')
                                 obsNota.text(response.msg.Motivo)
                             }
-
+                            // IncludeResponseAjax.html(response)
+                            // IncludeResponseAjax.show()
                         })
                     }
                 }

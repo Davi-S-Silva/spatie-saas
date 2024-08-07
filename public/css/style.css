@@ -343,6 +343,10 @@ display: none;
 #LocalVeiculos a:hover{
     background-color: #ccc;
 }
+
+form[name="StopEntrega"]{
+    z-index: 2000;
+}
 @media (max-width: 600px) {
     .aside_menu{
         display: none;

@@ -190,6 +190,7 @@ class Nota extends Model
         return $this->belongsTo(Filial::class);
     }
 
+
     public function status()
     {
         // return Status::find($this->status_id);

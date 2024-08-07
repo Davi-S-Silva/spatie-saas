@@ -67,6 +67,11 @@ class Carga extends Model
         $this->status_id = Status::where('name',$status)->where('tipo',1)->get()->first()->id;
     }
 
+    public function countNotasPendentes()
+    {
+        return Nota::where('carga_id',$this->id)->where('status_id',(new Nota())->getStatusId('Pendente'))->count();
+    }
+
     public function localApoio()
     {
         return $this->belongsTo(LocalApoio::class);

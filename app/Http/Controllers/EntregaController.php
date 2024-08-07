@@ -147,7 +147,13 @@ class EntregaController extends Controller
      */
     public function show(Entrega $entrega)
     {
-        return view('entrega.show', ['entrega' => $entrega]);
+        if (!is_null(Auth::user()->tenant_id)) {
+            $localMovimentacao = Auth::user()->tenant->first()->localMovimentacao;
+        } else {
+            $localMovimentacao = LocalMovimentacao::all();
+        }
+
+        return view('entrega.show', ['entrega' => $entrega,'localMovimentacao'=>$localMovimentacao]);
     }
 
     /**
@@ -236,6 +242,9 @@ class EntregaController extends Controller
             DB::beginTransaction();
             $entrega = Entrega::find($request->Entrega);
 
+            if($entrega->getStatus->name != "Rota"){
+                throw new Exception('Entrega Já finalizada');
+            }
             //liberar ajudante e motorista
             // ajudantes
             foreach ($entrega->ajudantes as $ajudante) {
@@ -289,32 +298,81 @@ class EntregaController extends Controller
             // $Mov->km_fim_id =(int) $request->KmFinal;
 
             //ATUALIZA PARA FINALIZADA A CARGA
+            $cargaNãoFinalizada = [];
             foreach ($entrega->cargas as $carga) {
-                $carga->setStatus('Finalizada');
+                //percorrer as notas das cargas para verificar se estao todas concluidas
+                // foreach($carga->notas as $nota){
+                //     // if($nota->status_id == $nota->getStatusId('Pendente')){
+                //     //     $cargaNãoFinalizada[]=$nota->carga->id;
+                //     // }
+                // }
+                if($carga->countNotasPendentes()==0){
+                    $carga->setStatus('Finalizada');
+                }else{
+                    $carga->setStatus('Pendente');
+                }
                 $carga->save();
             }
 
             // return response()->json(['status'=>200,'msg'=>$request->input()]);
-            DB::commit();
+            // DB::commit();
+            return response()->json(['status' => 200, 'msg' => $carga->getStatus()]);
             return response()->json(['status' => 200, 'msg' => 'Entrega Finalizada com sucesso']);
         } catch (Exception $ex) {
             DB::rollback();
+            // return response()->json(['status'=>0,'msg'=>$ex->getMessage(). ' - file: '.$ex->getFile().' - line: '.$ex->getLine()]);
             return response()->json(['status' => 0, 'msg' => $ex->getMessage()]);
         }
     }
 
-    public function receberVariasNotas(Request $request)
+    public function receberVariasNotas(Request $request, $entrega)
     {
         try {
+            $Entrega = Entrega::find($entrega);
             DB::beginTransaction();
             $notas = [];
             // return response()->json(['status' => 200, 'msg' => $request->input()]);
+
+            if($request->Receber || $request->Devolver){
+                // throw new Exception($Entrega->getStatus->name);
+                if($Entrega->getStatus->name == "Pendente"){
+                    throw new Exception('Não é possivel atualizar Nota. Entrega não Iniciada.');
+                }
+            }
             if ($request->Receber) {
+                $pagamentos = [
+                    1,//dinheiro
+                    3,//credito
+                    4,//debito
+                    ];
                 //mesmo cliente e mesma forma de pagamento
 
-                DB::commit();
-                return response()->json(['status' => 200, 'msg' => ['Receber notas', $request->Motivo]]);
+                $Notas = $request->Notas;
+
+                for ($i = 0; $i < count($Notas); $i++) {
+                    $nota = Nota::find($Notas[$i]);
+                    if ($i > 0) {
+                        $nota2 = Nota::find($Notas[$i - 1]);
+                        if(($nota->destinatario->id != $nota2->destinatario->id) ||
+                         (!in_array($nota->tipo_pagamento_id,$pagamentos) || !in_array($nota2->tipo_pagamento_id,$pagamentos)) ||
+                         ($nota->indicacao_pagamento_id!=$nota2->indicacao_pagamento_id)){
+                            $msg = "Para concluir varias notas de uma vez tem que ser do mesmo cliente
+                            ou de clientes diferentes caso o pagamento nao seja cartao ou avista. somente boleto e bonificacao";
+                            return response()->json(['status' => 0,'acao' => 'Receber', 'msg' => $msg]);
+                        }
+                    }
+                    // return view('nota.update',['statusNota'=>$statusNota,'nota'=>$nota]);
+
+                }
+                $statusNota=Nota::GetAllStatus();
+                // $form = file_get_contents(getenv('RAIZ').'/resources/views/nota/update.blade.php');
+                // return response()->json(['status' => 200, 'acao' => 'Receber','form'=> $form]);
+                // return response()->view('nota.update', ['statusNota'=>$statusNota,'nota'=>$nota], 200)->header('Content-Type', 'json');
+                return view('nota.updateNotas',['statusNota'=>$statusNota,'notas'=>$Notas]);
+                // DB::commit();
+                // return response()->json(['status' => 200, 'msg' => ['Receber notas', $request->Notas]]);
             }
+
             if ($request->Devolver) {
                 //diversos clientes com o mesmo motivo
                 foreach ($request->Notas as $idNota) {
@@ -356,7 +414,8 @@ class EntregaController extends Controller
 
         } catch (Exception $ex) {
             DB::rollBack();
-            return response()->json(['status' => 0, 'msg' => $ex->getMessage()]);
+            // return response()->json(['status'=>0,'acao' => 'Devolver','msg'=>$ex->getMessage(). ' - file: '.$ex->getFile().' - line: '.$ex->getLine()]);
+            return response()->json(['status' => 0,'acao' => 'Devolver', 'msg' => $ex->getMessage()]);
         }
     }
 }

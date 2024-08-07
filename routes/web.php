@@ -125,6 +125,7 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('fornecedor',FornecedorController::class);
 
+        Route::put('notas/update',[NotaController::class, 'updateStatusNotas'])->name('updateStatusNotas');
         Route::get('notas/{nota}/editStatusNota',[NotaController::class, 'editStatusNota'])->name('editStatusNota');
         Route::put('notas/{nota}/update',[NotaController::class, 'updateStatusNota'])->name('updateStatusNota');
         Route::resource('notas',NotaController::class);
@@ -132,6 +133,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('entrega',EntregaController::class);
         Route::post('entrega/{entrega}/start',[EntregaController::class, 'start'])->name('entrega.start');
         Route::post('entrega/{entrega}/stop',[EntregaController::class, 'stop'])->name('entrega.stop');
+        // Route::get('entrega/{entrega}/stop',[EntregaController::class, 'stop'])->name('entrega.stop');
         Route::post('entrega/{entrega}/receberVariasNotas',[EntregaController::class,'receberVariasNotas'])->name('receberVariasNotas');
         Route::resource('movimentacao',MovimentacaoVeiculoController::class);
         // Route::post('movimentacao/{movimentacao}',[MovimentacaoVeiculoController::class, 'toggleMov'])->name('movimentacao.toggleMov');

@@ -8,41 +8,8 @@
         <div class="max-w-7xl mx-auto px-1">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
-                    <form action="" name="StartEntrega" class="form_toggle_entrega" method="post">
-                        <legend>Iniciar entrega <span></span></legend>
-                        {{-- <div class="col-12">
-                            <x-select-colaborador :funcao=1/>
-                        </div> --}}
-                        <div>
-                            <label for="">Km Inicial</label>
-                            <input type="text" required name="KmInicial">
-                        </div>
-                        <input type="hidden" name="Entrega">
-                        @csrf
-                        <input type="submit" class="btn btn-primary" value="Salvar">
-                    </form>
-                    <form action="" name="StopEntrega" class="form_toggle_entrega" method="post">
-                        <legend>Finalizar entrega <span></span></legend>
-                        {{-- <div class="col-12">
-                            <x-select-colaborador :funcao=1/>
-                        </div> --}}
-                        <div>
-                            <label for="">Km Final</label>
-                            <input type="text" required name="KmFinal">
-                        </div>
-                        <div>
-                            <label for="">Local de destido</label>
-                            <select name="LocalDestino" id="">
-                                <option value="">Selecione o local de destino do veiculo</option>
-                                @foreach ($localMovimentacao as $local)
-                                    <option value="{{ $local->id }}">{{ $local->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <input type="hidden" name="Entrega">
-                        @csrf
-                        <input type="submit" class="btn btn-primary" value="Salvar">
-                    </form>
+                    <x-start-entrega />
+                    <x-stop-entrega :localMovimentacao=$localMovimentacao />
                     <table class=" text-center">
                         <thead>
                             <tr class="border-secondary border">

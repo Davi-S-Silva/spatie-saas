@@ -15,7 +15,8 @@
                 <input class="btn btn-info" value="Calcular"/> --}}
             </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-
+                <x-start-entrega />
+                <x-stop-entrega :localMovimentacao=$localMovimentacao />
                 <div class="card col-12 p-2">
                     <form action="{{ route('receberVariasNotas', ['entrega' => $entrega->id]) }}" method="post"
                         name="FormEncerraEntrega">
@@ -55,7 +56,7 @@
                                         @endforelse
                                     </section>
                                     <footer>
-                                        fim carga
+                                        {{-- fim carga --}}
                                         <hr />
                                     </footer>
                                 </article>
@@ -64,10 +65,15 @@
                             @endforelse
                         </section>
                         <footer>
-                            fim entrega
-                        </footer>
+                            {{-- fim entrega --}}
+
                         @csrf
-                        <input type="submit" value="Salvar" class="btn btn-primary">
+                        {{-- <input type="submit" value="Encerrar Entrega" class="btn btn-primary" name="EncerrarEntrega"> --}}
+                        <a href="{{ route('entrega.stop', ['entrega' => $entrega->id]) }}" id="Start_Ent_{{ $entrega->id }}"
+                            class="text-red-600 btn btn-outline-danger stop_entrega  m-2"
+                            entrega="{{ $entrega->id }}"
+                            mot="{{ $entrega->colaborador_id }}" >Encerrar Entrega</a>
+                        </footer>
                     </form>
                 </div>
             </div>

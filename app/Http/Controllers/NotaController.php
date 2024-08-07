@@ -120,6 +120,8 @@ class NotaController extends Controller
                 // $observacao->tenant_id = Auth::user()->tenant_id;
                 $observacao->save();
                 $nota->observacoes()->attach($observacao->id);
+            }else{
+                $observacao=null;
             }
             if($StatusNota == $nota->getStatusId('Entregue') && !is_null($PagoDiretoEmpresa)){
                 if(is_null($Obs)){
@@ -166,6 +168,101 @@ class NotaController extends Controller
         }
     }
 
+    public function updateStatusNotas(Request $request)
+    {
+        try{
+            DB::beginTransaction();
+            $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
+            // $StatusNota = (!is_null($request->StatusNota))?(int)$request->StatusNota:null;
+            $PagoDiretoEmpresa = $request->PagoDiretoEmpresa;
+            $Comprovantes = $request->Comprovantes;
+            $Obs = $request->ObservacaoNota;
+            $pagamentos = [
+                1,//dinheiro
+                3,//credito
+                4,//debito
+                ];
+            $Comprovantes = $request->file('Comprovantes');
+            $Notas = explode('-',$request->Notas);
+            $stringNota = '';
+            $i=0;
+            foreach($Notas as $item){
+                $nota= Nota::find($item);
+                $stringNota .= ($i <count($Notas)-1)?$nota->nota.'-':$nota->nota;
+                $i++;
+                if($nota->status_id != $nota->getStatusId('Pendente')){
+                    throw new Exception('Nota já Finalizada, para alterar alguma informação entre em contato conosco');
+                }
+                if(((in_array($nota->tipo_pagamento_id,$pagamentos) && $nota->indicacao_pagamento_id==1) || ($nota->tipo_pagamento_id==15 && $nota->indicacao_pagamento_id==1)) && !isset($PagoDiretoEmpresa)){
+                    if(is_null($Comprovantes)){
+                        throw new Exception('Registar Foto do comprovante...');
+                    }
+                    $permitido = [
+                        'jpg',
+                        'jpeg',
+                        'png'
+                    ];
+                    foreach($Comprovantes as $comprovante){
+                        if(!in_array($comprovante->getClientOriginalExtension(), $permitido)){
+                            throw new Exception('formato de arquivo nao permitido');
+                        }
+                    }
+                }
+                if(!is_null($Obs)){
+                    $observacao = new Observacao();
+                    $observacao->descricao = $Obs;
+                    $observacao->usuario_id = Auth::user()->id;
+                    // $observacao->tenant_id = Auth::user()->tenant_id;
+                    $observacao->save();
+                    $nota->observacoes()->attach($observacao->id);
+                }else{
+                    $observacao=null;
+                }
+
+                if(!is_null($PagoDiretoEmpresa)){
+                    if(is_null($Obs)){
+                        throw new Exception('Registar uma observacao sobre o pagamento direto a empresa');
+                    }
+                    $pagEmpresa = new PagamentoDiretoEmpresa();
+                    $pagEmpresa->nota_id = $nota->id;
+                    $pagEmpresa->usuario_id = Auth::user()->id;
+                    $pagEmpresa->empresa_id = Auth::user()->empresa->first()->id;
+                    $pagEmpresa->filial_id = $nota->filial_id;
+                    $pagEmpresa->observacao_id = $observacao->id;
+                    $pagEmpresa->save();
+                }
+
+                $nota->usuario_conclusao_id = Auth::user()->id;
+                $nota->data_conclusao = date('Y-m-d');
+                $nota->setStatus('Entregue');
+                $nota->save();
+
+
+            }
+            DB::commit();
+            if(!is_null($Comprovantes) && is_null($PagoDiretoEmpresa)){
+                // mover para o s3 somente apos salvar alteracoes no banco
+                // $permitido = [
+                //     'jpg',
+                //     'jpeg',
+                //     'png'
+                // ];
+                $i=1;
+                foreach($Comprovantes as $comprovante){
+                    $comprovante->storeAS('app/public/'.$empresa.'/arquivos/notas/comprovantes/'.$stringNota.'_'.$i.'.'.$comprovante->getClientOriginalExtension());
+                    $i++;
+                }
+            }
+            return response()->json(['status'=>200,'msg'=>['notas'=>$Notas,'status'=>$nota->status_id,
+            'data_conclusao'=>date('d/m/Y H:i:s'),'user_conclusao'=>$nota->usuarioConclusao->name,
+            'obs'=>(!is_null($observacao))?$observacao->descricao:''],'input'=>$request->input()]);
+            // return response()->json(['status'=>200,'msg'=>$request->input() ]);
+        }catch(Exception $ex){
+            DB::rollback();
+            // return response()->json(['status'=>0,'msg'=>$ex->getMessage(). ' - file: '.$ex->getFile().' - line: '.$ex->getLine()]);
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage() ]);
+        }
+    }
     /**
      * Update the specified resource in storage.
      */
