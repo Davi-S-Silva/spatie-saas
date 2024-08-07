@@ -283,7 +283,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
 
         if(Auth::user()->roles()->first()->name== 'tenant-colaborador' || Auth::user()->roles()->first()->name== 'colaborador'){
             // $abast = Abastecimento::orderBy('id','desc')->where('colaborador_id',Auth::user()->colaborador->first()->id)->with('veiculo','colaborador');
-            $abast = Abastecimento::orderBy('id','desc')->where('colaborador_id',Auth::user()->colaborador->first()->id)->where('id',$id)->with('veiculo','colaborador');
+            $abast = Abastecimento::orderBy('id','desc')->where('colaborador_id',Auth::user()->colaborador->first()->id)->where('id',$id)->with('veiculo','colaborador')->get()->first();
         }else{
             $abast = Abastecimento::find($id);
         }
@@ -291,7 +291,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
         if($abast->count()==0){
             return redirect()->route('dashboard')->with(['message'=>['status'=>'danger','msg'=>'Acesso não permitido']]);
         }
-        return view('veiculo.abastecimento.show',['abastecimento'=>$abast->first()]);
+        return view('veiculo.abastecimento.show',['abastecimento'=>$abast]);
     }
 
     /**

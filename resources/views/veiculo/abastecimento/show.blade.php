@@ -27,8 +27,8 @@
 
                     <div class="d-flex justify-around align-items-center text-center">
                         <figure>
-                             {{ $abastecimento->pathFotoCupom }}
-                            {{-- {{ Storage::temporaryUrl($abastecimento->pathFotoCupom, now()->addHour(1)) }}
+                             {{-- {{ $abastecimento->pathFotoCupom }} --}}
+                            {{ Storage::temporaryUrl($abastecimento->pathFotoCupom, now()->addHour(1)) }}
                             <img src="{{ Storage::temporaryUrl($abastecimento->pathFotoCupom, now()->addHour(1)) }}"
                                 alt="Foto do Cupom">
                             <figcaption>
@@ -47,7 +47,7 @@
                                 alt="Foto do Bomba Abastecimento">
                             <figcaption>
                                 Foto da bomba de combustivel
-                            </figcaption> --}}
+                            </figcaption>
                         </figure>
                     </div>
                 </div>
