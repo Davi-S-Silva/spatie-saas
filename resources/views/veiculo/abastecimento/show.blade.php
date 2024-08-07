@@ -27,6 +27,7 @@
 
                     <div class="d-flex justify-around align-items-center text-center">
                         <figure>
+                            {{ Storage::temporaryUrl($abastecimento->pathFotoCupom, now()->addHour()) }}
                             <img src="{{ Storage::temporaryUrl($abastecimento->pathFotoCupom, now()->addHour()) }}"
                                 alt="Foto do Cupom">
                             <figcaption>
@@ -34,6 +35,7 @@
                             </figcaption>
                         </figure>
                         <figure>
+                            {{ Storage::temporaryUrl($abastecimento->pathFotoHodometro, now()->addHour())  }}
                             <img src="{{ Storage::temporaryUrl($abastecimento->pathFotoHodometro, now()->addHour()) }}"
                                 alt="Foto do Hodometro">
                             <figcaption>
@@ -41,6 +43,7 @@
                             </figcaption>
                         </figure>
                         <figure>
+                            {{ Storage::temporaryUrl($abastecimento->pathFotoBomba, now()->addHour()) }}
                             <img src="{{ Storage::temporaryUrl($abastecimento->pathFotoBomba, now()->addHour()) }}"
                                 alt="Foto do Bomba Abastecimento">
                             <figcaption>

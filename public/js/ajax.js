@@ -1560,24 +1560,26 @@ $(function () {
     $('form[name="FormAbastecimento"]').submit(function () {
         $('input[name="ajax"]').remove()
         $(this).append('<input type="hidden" name="ajax" value="ajax"/>')
-        console.log($(this).serialize())
+        console.log($(this).attr('action'))
+
         $.ajax({
             type: 'post',
             url: $(this).attr('action'),
             // data: $(this).serialize(),
             data: new FormData(this),
             // dataType: 'json',
-            // cache: false,
+            cache: false,
             processData: false,
             contentType: false,
             beforeSend: function () {
                 // alert(routeStorePermission)
-                loading.css('display', 'flex')
-                loading.removeClass('d-none');
+                // loading.css('display', 'flex')
+                // loading.removeClass('d-none');
                 // $("body").css("overflow", "hidden");
             },
             success: function (response) {
-                // console.log(response)
+                console.log(response)
+                 return false;
                 if (response.status == 200) {
 
                     $('.response-message-ajax').show()

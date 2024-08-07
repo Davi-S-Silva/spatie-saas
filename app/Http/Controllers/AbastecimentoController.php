@@ -100,6 +100,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
     public function store(Request $request)
     {
         try{
+
             // return response()->json(['status'=>200,'msg'=>$request->input()]);
             $validator = Validator::make($request->all(),[
                 'Cupom'=>'required|numeric',
@@ -120,11 +121,11 @@ class AbastecimentoController extends Controller implements HasMiddleware
             //     'FotoHodometro'=>'required',
             //     'FotoBomba'=>'required',
             // ]);
-
             $FotoCupom = $request->FotoCupom;
             $FotoHodometro = $request->FotoHodometro;
             $FotoBomba = $request->FotoBomba;
             $arrayFilesPermited = ["png","jpg","jpeg"];
+
 
 
             if($validator->fails())
@@ -154,6 +155,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
             if(!in_array($FotoBomba->getClientOriginalExtension(),$arrayFilesPermited)){
                 throw new Exception('adicione a foto da bomba de abastecimento');
             }
+
             // echo 'ola'.$cupom->getClientOriginalExtension();
             // exit;
             // return response()->json(['status'=>200,'msg'=>$request->input()]);
@@ -199,13 +201,11 @@ class AbastecimentoController extends Controller implements HasMiddleware
             $Veiculo = Veiculo::find($abastecimento->veiculo_id);
             // throw new Exception($Veiculo);
             $kmAnterior = Abastecimento::where('veiculo_id',$abastecimento->veiculo_id)->get();
-
+            $kmAnt = 1;
             if($kmAnterior->count()!=0){
                 $kmAnt=$kmAnterior->last()->kmAtual;
             }else if($Veiculo->kms()->get()->count()!= 0){
-                $Veiculo->kms->last()->km;
-            }else{
-                $kmAnt = 1;
+                $kmAnt = $Veiculo->kms->last()->km;
             }
             $abastecimento->kmAnterior = $kmAnt;
 
@@ -215,6 +215,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
             }else{
                 $ultimoAbastecimento = 1;
             }
+
             // $abastecimento->kmAnterior = ($kmAnterior->count()!=0)? $kmAnterior->last()->kmAtual : $Veiculo->kms->last()->km;
             // return $abastecimento->veiculo->kms()->get()->last()->km;
             if(($abastecimento->kmAnterior>=$abastecimento->kmAtual) || ($ultimoAbastecimento > $abastecimento->kmAtual)){
@@ -228,7 +229,6 @@ class AbastecimentoController extends Controller implements HasMiddleware
                 }
             }
 
-
             $KmModel = new Km();
             $KmModel->setKm($Veiculo,$abastecimento->kmAtual);
             $KmModel->save();
@@ -239,21 +239,25 @@ class AbastecimentoController extends Controller implements HasMiddleware
             // return 'salvo';
             $linux = false;
 
+
             //SALVAR AS FOTOS NO SERVIDOR
             $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
             $path = 'app/public/'.$empresa.'/abastecimentos';
             if(!file_exists($path) && $linux==true){
                 mkdir($path,0775, true);
             }
-            $data = date('d-m-Y_H-i-s');
+            $data = date('d-m-Y H-i-s');
+            // $abastecimento->pathFotoCupom = $FotoCupom->storeAS($path,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
             $abastecimento->pathFotoCupom = $FotoCupom->storeAS($path,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
-            $abastecimento->pathFotoHodometro = $FotoHodometro->storeAS($path,'Hodometro_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
-            $abastecimento->pathFotoBomba = $FotoBomba->storeAS($path,'Bomba_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            // $abastecimento->pathFotoHodometro = $FotoHodometro->storeAS($path,'Hodometro_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            // $abastecimento->pathFotoBomba = $FotoBomba->storeAS($path,'Bomba_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            throw new Exception('erro aqui');
             $abastecimento->save();
             // echo '<pre>';
             // print_r($abastecimento->getAttributes());
             // echo '</pre>';
             //
+
             DB::commit();
             if(!is_null($request->ajax)){
                 return response()->json(['status'=>200,'msg'=>'Abastecimento cadastrado com sucesso']);
