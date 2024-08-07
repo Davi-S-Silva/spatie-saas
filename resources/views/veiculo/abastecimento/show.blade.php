@@ -27,28 +27,27 @@
 
                     <div class="d-flex justify-around align-items-center text-center">
                         <figure>
-                            {{ Storage::temporaryUrl($abastecimento->pathFotoCupom, now()->addHour()) }}
-                            <img src="{{ Storage::temporaryUrl($abastecimento->pathFotoCupom, now()->addHour()) }}"
+                             {{ $abastecimento->pathFotoCupom }}
+                            {{-- {{ Storage::temporaryUrl($abastecimento->pathFotoCupom, now()->addHour(1)) }}
+                            <img src="{{ Storage::temporaryUrl($abastecimento->pathFotoCupom, now()->addHour(1)) }}"
                                 alt="Foto do Cupom">
                             <figcaption>
                                 Foto do Cupom
                             </figcaption>
                         </figure>
                         <figure>
-                            {{ Storage::temporaryUrl($abastecimento->pathFotoHodometro, now()->addHour())  }}
-                            <img src="{{ Storage::temporaryUrl($abastecimento->pathFotoHodometro, now()->addHour()) }}"
+                            <img src="{{ Storage::temporaryUrl($abastecimento->pathFotoHodometro, now()->addHour(1)) }}"
                                 alt="Foto do Hodometro">
                             <figcaption>
                                 Foto do Hodometro
                             </figcaption>
                         </figure>
                         <figure>
-                            {{ Storage::temporaryUrl($abastecimento->pathFotoBomba, now()->addHour()) }}
-                            <img src="{{ Storage::temporaryUrl($abastecimento->pathFotoBomba, now()->addHour()) }}"
+                            <img src="{{ Storage::temporaryUrl($abastecimento->pathFotoBomba, now()->addHour(1)) }}"
                                 alt="Foto do Bomba Abastecimento">
                             <figcaption>
                                 Foto da bomba de combustivel
-                            </figcaption>
+                            </figcaption> --}}
                         </figure>
                     </div>
                 </div>

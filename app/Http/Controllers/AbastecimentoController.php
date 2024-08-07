@@ -248,13 +248,13 @@ class AbastecimentoController extends Controller implements HasMiddleware
             }
             $data = date('d-m-Y H-i-s');
             // throw new Exception($pathFileTo.'/'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
-            $path = Storage::disk('s3')->putFileAs(
-                $pathFileTo,  $FotoCupom, 'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension()
-            );
-            // $abastecimento->pathFotoCupom = $FotoCupom->storeAS($path,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
-            // $abastecimento->pathFotoCupom = $FotoCupom->storeAS($path,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
-            // $abastecimento->pathFotoHodometro = $FotoHodometro->storeAS($path,'Hodometro_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
-            // $abastecimento->pathFotoBomba = $FotoBomba->storeAS($path,'Bomba_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            // $path = Storage::disk('s3')->putFileAs(
+            //     $pathFileTo,  $FotoCupom, 'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension()
+            // );
+            // $abastecimento->pathFotoCupom = $FotoCupom->storeAS($pathFileTo,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            $abastecimento->pathFotoCupom = $FotoCupom->storeAS($pathFileTo,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            $abastecimento->pathFotoHodometro = $FotoHodometro->storeAS($pathFileTo,'Hodometro_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            $abastecimento->pathFotoBomba = $FotoBomba->storeAS($pathFileTo,'Bomba_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
             $abastecimento->save();
             // echo '<pre>';
             // print_r($abastecimento->getAttributes());
