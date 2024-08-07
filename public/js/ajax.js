@@ -318,8 +318,8 @@ $(function () {
                 },
                 error: function (response) {
                     // alert('error')
-                    $('.response-message-ajax').addClass('alert-danger').text('erro: ' + response.responseJSON.message)
-                    // console.log(response.responseJSON.message)
+                    // $('.response-message-ajax').addClass('alert-danger').text('erro: ' + response.responseJSON.message)
+                    console.log(response)
                 }
             });
         }
