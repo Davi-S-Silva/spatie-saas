@@ -6,6 +6,7 @@ use App\Models\Abastecimento;
 use App\Models\Colaborador;
 use App\Models\Fornecedor;
 use App\Models\Km;
+use App\Models\Uteis;
 use App\Models\Veiculo;
 use Exception;
 use Illuminate\Http\Request;
@@ -102,9 +103,9 @@ class AbastecimentoController extends Controller implements HasMiddleware
             // return response()->json(['status'=>200,'msg'=>$request->input()]);
             $validator = Validator::make($request->all(),[
                 'Cupom'=>'required|numeric',
-                'Km'=>'required|numeric',
-                'Litro'=>'required|numeric',
-                'Valor'=>'required|numeric',
+                'Km'=>'required',
+                'Litro'=>'required',
+                'Valor'=>'required',
                 'Combustivel'=>'required|numeric',
                 'FotoCupom'=>'required',
                 'FotoHodometro'=>'required',
@@ -160,21 +161,31 @@ class AbastecimentoController extends Controller implements HasMiddleware
             $abastecimento = new Abastecimento();
             $abastecimento->newId();
             $abastecimento->cupom = $request->Cupom;
-            $abastecimento->kmAtual = $request->Km;
-            $abastecimento->litros = number_format((double)$request->Litro,2,'.','');
-            $abastecimento->valor = number_format((double)$request->Valor,2,'.','');
+            $abastecimento->kmAtual = number_format((double)Uteis::validaNumero($request->Km),2,'.','');
+            $abastecimento->litros = number_format((double)Uteis::validaNumero($request->Litro),2,'.','');
+            $abastecimento->valor = number_format((double)Uteis::validaNumero($request->Valor),2,'.','');
             $abastecimento->combustivel_id = $request->Combustivel;
 
+            // throw new Exception($abastecimento);
             if(count(Auth::user()->colaborador)!=0){
                 // echo Auth::user()->colaborador->first()->id;
                 $abastecimento->colaborador_id = Auth::user()->colaborador->first()->id;
                 // echo '<br />';
-                if(count(Auth::user()->colaborador->first()->veiculo)!=0){
-                    // echo Auth::user()->colaborador->first()->veiculo->first()->placa;
-                    $abastecimento->veiculo_id = Auth::user()->colaborador->first()->veiculo->first()->id;
+                // if(count(Auth::user()->colaborador->first()->veiculo)!=0){
+                //     // echo Auth::user()->colaborador->first()->veiculo->first()->placa;
+                //     $abastecimento->veiculo_id = Auth::user()->colaborador->first()->veiculo->first()->id;
+                // }else{
+                //     if(!is_null($request->veiculo)){
+                //         $abastecimento->veiculo_id = $request->veiculo;
+                //     }else{
+                //         throw new Exception('Entre em contato com o responsavel identificando qual o veiculo que está abastecendo!');
+                //     }
+                // }
+                if(!is_null($request->veiculo)){
+                    $abastecimento->veiculo_id = $request->veiculo;
                 }else{
-                    if(!is_null($request->veiculo)){
-                        $abastecimento->veiculo_id = $request->veiculo;
+                    if(count(Auth::user()->colaborador->first()->veiculo)!=0){
+                        $abastecimento->veiculo_id = Auth::user()->colaborador->first()->veiculo->first()->id;
                     }else{
                         throw new Exception('Entre em contato com o responsavel identificando qual o veiculo que está abastecendo!');
                     }
@@ -186,11 +197,27 @@ class AbastecimentoController extends Controller implements HasMiddleware
             }
 
             $Veiculo = Veiculo::find($abastecimento->veiculo_id);
-
+            // throw new Exception($Veiculo);
             $kmAnterior = Abastecimento::where('veiculo_id',$abastecimento->veiculo_id)->get();
-            $abastecimento->kmAnterior = ($kmAnterior->count()!=0)?$kmAnterior->last()->kmAtual:$Veiculo->kms->last()->km;
+
+            if($kmAnterior->count()!=0){
+                $kmAnt=$kmAnterior->last()->kmAtual;
+            }else if($Veiculo->kms()->get()->count()!= 0){
+                $Veiculo->kms->last()->km;
+            }else{
+                $kmAnt = 1;
+            }
+            $abastecimento->kmAnterior = $kmAnt;
+
+            $lastAbastecimento = $abastecimento->veiculo->kms()->get();
+            if($lastAbastecimento->count()!=0){
+                $ultimoAbastecimento = $lastAbastecimento->last()->km;
+            }else{
+                $ultimoAbastecimento = 1;
+            }
+            // $abastecimento->kmAnterior = ($kmAnterior->count()!=0)? $kmAnterior->last()->kmAtual : $Veiculo->kms->last()->km;
             // return $abastecimento->veiculo->kms()->get()->last()->km;
-            if(($abastecimento->kmAnterior>=$abastecimento->kmAtual) || ($abastecimento->veiculo->kms()->get()->last()->km > $abastecimento->kmAtual)){
+            if(($abastecimento->kmAnterior>=$abastecimento->kmAtual) || ($ultimoAbastecimento > $abastecimento->kmAtual)){
                 if(!is_null($request->ajax)){
                     throw new Exception("erro: O km anterior não pode ser menor ou igual ao km atual. km digitado:".$abastecimento->kmAtual." ultimo km regitrado: ".$abastecimento->veiculo->kms()->get()->last()->km."
                      abastecimento anterior: ".$abastecimento->kmAnterior);

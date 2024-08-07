@@ -41,6 +41,7 @@ class Uteis extends Model
         $virgulaPosicao = strpos($numero,',');
         $pontoPosicao = strpos($numero,'.');
         // echo '<br /> '.$numero . '<br />';
+        // $numeroLimpo=preg_replace("/[^0-9-a-z-A-Z]/", "_", $numero);
         $numeroLimpo=$numero;
         if(str_contains($numero,',')){
             // echo 'contem virgula';

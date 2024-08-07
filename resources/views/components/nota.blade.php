@@ -52,7 +52,7 @@ id="Checkbox_Nota_{{ $nota->id }}" value="{{ $nota->id }}">
             <li ><b>Cliente</b><span>{{ $nota->destinatario->nome_razao_social }}</span></li>
             <li ><b>CPF/CNPJ</b><span>{{ $nota->destinatario->cpf_cnpj }}</span></li>
             <li><b>Valor</b><span>R$ {{ number_format($nota->valor,2,',','.') }}</span></li>
-            <li><b>Forma Pagamento</b> <span>{{ TipoPagamento::getTipoPagamentoByCodigo($nota->tipo_pagamento_id) }}</span></li>
+            <li><b>Forma Pagamento</b> <span>{{ TipoPagamento::find($nota->tipo_pagamento_id)->descricao }}</span></li>
             <li><b>Tipo Pagamento</b> <span>{{ IndicacaoPagamento::getIndPagamento($nota->indicacao_pagamento_id) }}</span></li>
         </ul>
 

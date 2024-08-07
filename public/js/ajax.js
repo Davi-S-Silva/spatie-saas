@@ -2,7 +2,7 @@
 $(function () {
 
     // var base = 'http://localhost:8080/';
-    var base = 'http://18.188.115.127/';
+    var base = 'http://3.137.171.158/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
@@ -1478,6 +1478,7 @@ $(function () {
                     // var nota = response.nota;
 
                     // console.log(response.msg)
+                    location.href=base+"abastecimento";
 
                 }
 
