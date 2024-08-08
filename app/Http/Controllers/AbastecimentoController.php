@@ -169,7 +169,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
             $abastecimento->combustivel_id = $request->Combustivel;
 
             // throw new Exception($abastecimento);
-            if(count(Auth::user()->colaborador)!=0){
+            if(count(Auth::user()->colaborador)!=0 && is_null($request->colaborador)){
                 // echo Auth::user()->colaborador->first()->id;
                 $abastecimento->colaborador_id = Auth::user()->colaborador->first()->id;
                 // echo '<br />';
@@ -260,6 +260,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
             // print_r($abastecimento->getAttributes());
             // echo '</pre>';
             //
+            // throw new Exception($abastecimento->colaborador->id);
 
             DB::commit();
             if(!is_null($request->ajax)){
@@ -320,7 +321,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
 
     public function getRanking()
     {
-        $abastecimentos = Abastecimento::selectRaw('((kmAtual-kmAnterior)/litros) as media, colaborador_id')->orderBy('media','desc')->with('veiculo','colaborador')->get()->unique('colaborador_id');
+        $abastecimentos = Abastecimento::selectRaw('((kmAtual-kmAnterior)/litros) as media, colaborador_id, veiculo_id')->orderBy('media','desc')->with('veiculo','colaborador')->get()->unique('colaborador_id');
         // $url = Storage::temporaryUrl(
         //     $abast->pathFotoCupom, now()->addMinutes(5)
         // );

@@ -369,6 +369,31 @@ form[name="StopEntrega"]{
 form[name="UpdateStatusNotas"]{
     /* position: fixed; */
 }
+
+.card_abastecimento{
+    background-color: #13313a;
+    width: max-content;
+    height: max-content;
+    display: block;
+    /* font-size: 20pt; */
+    color: #fff;
+}
+.header_ranking{
+    /* background-color: #0DCAF0; */
+    display: block;
+    height: 50px;
+    float: left;
+    background-image: '{{url("/public/img/pista.png")}}';
+    background-repeat:repeat-x;
+    background-position-y: bottom;
+}
+.bg_badg_ranking{
+    background-color: #156783;
+    padding: 5px 10px;
+    display: block;
+    width: max-content;
+    margin: 0 auto;
+}
 @media (max-width: 600px) {
     .aside_menu{
         display: none;
