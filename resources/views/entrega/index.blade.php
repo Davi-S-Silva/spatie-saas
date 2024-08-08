@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     <div class="py-1">
-        <div class="max-w-7xl mx-auto px-1">
+        <div class="mx-auto px-1">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
                     <x-start-entrega />
@@ -25,7 +25,7 @@
                                 $indice = 0;
                             @endphp
                             @foreach ($entregas as $entrega)
-                                <tr class="{{ (($indice%2)==0)?'bg-claro':'bg-mais-claro' }} border-secondary border">
+                                <tr class="{{ (($indice%2)==0)?'bg-claro':'bg-mais-claro' }} border-secondary border bg-blue-200">
                                     <td class="p-2">{{ $entrega->colaborador->name }}</td>
                                     <td>{{ $entrega->veiculo->placa }}</td>
                                     <td>

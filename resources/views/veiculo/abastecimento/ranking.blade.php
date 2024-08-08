@@ -44,7 +44,7 @@
                                     <td class="col-2"><span class="bg_badg_ranking rounded-pill overflow-hidden ">{{ strtoupper($abastecimento->colaborador->name) }}</span></td>
                                     <td class="col-1"><span class="bg_badg_ranking rounded-pill">{{ strtoupper($abastecimento->veiculo->placa) }}</span></td>
                                     {{-- <td class="col-1"><span class="bg_badg_ranking rounded-pill">{{ $abastecimento->media }}</span></td> --}}
-                                    <td class="w-20 px-1"><span class="bg_badg_ranking rounded-pill w-20 bg-yellow-400 text-black font-bold px-1">{{ $abastecimento->media }}</span></td>
+                                    <td class="w-20 px-1"><span class="bg_badg_ranking rounded-pill w-20 bg-yellow-400 text-black font-bold px-1">{{ number_format($abastecimento->media,2,',','.') }}</span></td>
                                 </tr>
                                 @php
                                     $i++;

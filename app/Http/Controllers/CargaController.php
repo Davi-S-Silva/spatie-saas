@@ -126,6 +126,9 @@ class CargaController extends Controller
         try {
             DB::beginTransaction();
             $Carga = Carga::find($carga);
+            if($Carga->getStatusId('Pendente')!=$Carga->status_id){
+                throw new Exception('Não é possivel adicionar nota a uma carga ja finalizada');
+            }
             if(is_null($request->Notas)){
                 throw new Exception('Digite as notas a serem inseridas');
             }
@@ -149,7 +152,8 @@ class CargaController extends Controller
             return response()->json(['status'=>200,'msg'=>'Notas Cadastradas com sucesso!']);
         } catch (Exception $ex) {
             DB::rollback();
-            return ['status'=>0,'msg' => $ex->getMessage().' - '. $ex->getCode().' - file '.$ex->getFile().' - line '.$ex->getLine()];
+            // return ['status'=>0,'msg' => $ex->getMessage().' - '. $ex->getCode().' - file '.$ex->getFile().' - line '.$ex->getLine()];
+            return ['status'=>0,'msg' => $ex->getMessage()];
         }
     }
 

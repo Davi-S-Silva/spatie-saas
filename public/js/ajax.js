@@ -1,8 +1,8 @@
 // const { data } = require("autoprefixer");
 $(function () {
 
-    // var base = 'http://localhost:8080/';
-    var base = 'http://3.145.53.239/';
+    var base = 'http://localhost:8080/';
+    // var base = 'http://3.145.53.239/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
@@ -1375,12 +1375,13 @@ $(function () {
                     return false;
                 }
 
+                console.log(response)
                 if (response.status == 200) {
 
-                    // console.log(response.msg)
                     // var status = (response.msg.status)
 
                     $(response.msg.notas).each(function(i,e){
+                        // console.log('#Checkbox_Nota_'+e)
                         var nota = $('#Div_Nota_'+e)
                         var obsNota = $('#Obs_Nota_'+e)
                         var UserNota = $('#User_Conclusao_Nota_'+e)
@@ -1391,8 +1392,11 @@ $(function () {
                         UserNota.text(response.msg.user_conclusao)
                         DataNota.text(response.msg.data_conclusao)
                         obsNota.text(response.msg.obs)
+                        $('#Checkbox_Nota_'+e).attr('checked',false)
+                        $('.nota-select').css({'background':'none'})
                     })
                     IncludeResponseAjax.hide();
+
                     return false;
                 }
 

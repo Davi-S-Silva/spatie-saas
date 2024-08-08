@@ -244,7 +244,7 @@ class NotaController extends Controller
 
 
             }
-            // DB::commit();
+            DB::commit();
             if(!is_null($Comprovantes) && is_null($PagoDiretoEmpresa)){
                 // mover para o s3 somente apos salvar alteracoes no banco
                 // $permitido = [

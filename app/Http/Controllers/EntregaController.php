@@ -260,7 +260,6 @@ class EntregaController extends Controller
             $entrega->status_id = $entrega->getStatusId('Finalizada');
             $entrega->save();
 
-
             $veiculo = Veiculo::find($Mov->veiculo_id);
             // $veiculo->status_id=$veiculo->getStatusId('Disponivel');
             // $veiculo->save();
@@ -268,7 +267,7 @@ class EntregaController extends Controller
             //verifica km anterior
             //   return response()->json(['status'=>200,'msg'=>$Mov->kmInicio]);
             if ($Mov->kmInicio->km >= $request->KmFinal) {
-                throw new Exception('Km final não pode ser menor ou igual a km inicial');
+                throw new Exception('Km final não pode ser menor ou igual a km inicial '.$Mov->kmInicio->km);
             }
             $KmModel = new Km();
             $KmModel->setKm($veiculo, $request->KmFinal);
@@ -298,14 +297,7 @@ class EntregaController extends Controller
             // $Mov->km_fim_id =(int) $request->KmFinal;
 
             //ATUALIZA PARA FINALIZADA A CARGA
-            $cargaNãoFinalizada = [];
             foreach ($entrega->cargas as $carga) {
-                //percorrer as notas das cargas para verificar se estao todas concluidas
-                // foreach($carga->notas as $nota){
-                //     // if($nota->status_id == $nota->getStatusId('Pendente')){
-                //     //     $cargaNãoFinalizada[]=$nota->carga->id;
-                //     // }
-                // }
                 if($carga->countNotasPendentes()==0){
                     $carga->setStatus('Finalizada');
                 }else{
@@ -315,8 +307,8 @@ class EntregaController extends Controller
             }
 
             // return response()->json(['status'=>200,'msg'=>$request->input()]);
-            // DB::commit();
-            return response()->json(['status' => 200, 'msg' => $carga->getStatus()]);
+            DB::commit();
+            // return response()->json(['status' => 200, 'msg' => $carga->getStatus()]);
             return response()->json(['status' => 200, 'msg' => 'Entrega Finalizada com sucesso']);
         } catch (Exception $ex) {
             DB::rollback();
@@ -368,8 +360,8 @@ class EntregaController extends Controller
                 // $form = file_get_contents(getenv('RAIZ').'/resources/views/nota/update.blade.php');
                 // return response()->json(['status' => 200, 'acao' => 'Receber','form'=> $form]);
                 // return response()->view('nota.update', ['statusNota'=>$statusNota,'nota'=>$nota], 200)->header('Content-Type', 'json');
-                return view('nota.updateNotas',['statusNota'=>$statusNota,'notas'=>$Notas]);
                 // DB::commit();
+                return view('nota.updateNotas',['statusNota'=>$statusNota,'notas'=>$Notas]);
                 // return response()->json(['status' => 200, 'msg' => ['Receber notas', $request->Notas]]);
             }
 
