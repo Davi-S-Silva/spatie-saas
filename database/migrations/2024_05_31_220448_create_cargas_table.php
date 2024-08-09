@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('os')->nullable();
             $table->double('frete')->nullable();
             $table->datetime('data');
+            $table->date('agenda');
             $table->foreignId('cliente_id')->references('id')->on('clientes');
             $table->foreignId('filial_id')->references('id')->on('filials');
             $table->foreignId('empresa_id')->references('id')->on('empresas');

@@ -16,6 +16,7 @@ use App\Http\Controllers\FilialController;
 use App\Http\Controllers\FornecedorController;
 use App\Http\Controllers\LocalApoioController;
 use App\Http\Controllers\LocalizacaoVeiculoController;
+use App\Http\Controllers\ManutencaoController;
 use App\Http\Controllers\MovimentacaoVeiculoController;
 use App\Http\Controllers\NotaController;
 use NFePHP\Common\Certificate;
@@ -28,6 +29,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ServicoManutencao;
+use App\Http\Controllers\ServicoManutencaoController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VeiculoController;
@@ -146,6 +149,10 @@ Route::middleware('auth')->group(function () {
         Route::get('abastecimento/ranking',[AbastecimentoController::class,'getRanking'])->name('getRanking');
         Route::resource('abastecimento',AbastecimentoController::class);
 
+        Route::resource('manutencao',ManutencaoController::class);
+
+        Route::get('add-servico-manutencao/{manutencao}',[ServicoManutencaoController::class,'create'])->name('add-servico-manutencao');
+        Route::resource('servico-manutencao',ServicoManutencaoController::class);
 
         //SEARCH
         Route::post('search',[SearchController::class,'search'])->name('search');

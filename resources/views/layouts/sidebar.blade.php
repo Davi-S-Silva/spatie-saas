@@ -294,6 +294,15 @@
                                     <li><a href="{{ route('rastrearTodosVeiculos') }}">Rastreamento</a></li>
                             </ul>
                         </li>
+                        <li class="hover_menu position-relative"><a href="#"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Manutenção</a>
+                                <ul class="position-absolute bg-white w-56">
+                                    <li><a href="{{ route('manutencao.index') }}">Manutenções</a></li>
+                                    <li><a href="{{ route('manutencao.create') }}">Nova Manutenção</a></li>
+                                    <li><a href="{{ route('manutencao.create') }}">Serviços</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 @endcan

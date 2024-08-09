@@ -78,7 +78,7 @@ class Nota extends Model
                                 $destinatario = new Destinatario();
                                 $destinatario->newId();
                                 $destinatario->nome_razao_social = $xml->NFe->infNFe->dest->xNome;
-                                $destinatario->cpf_cnpj  = $xml->NFe->infNFe->dest->CNPJ;
+                                $destinatario->cpf_cnpj  = (!is_null($xml->NFe->infNFe->dest->CNPJ))?$xml->NFe->infNFe->dest->CNPJ:$xml->NFe->infNFe->dest->CPF;
                                 $destinatario->ie  = $xml->NFe->infNFe->dest->IE;
                                 $destinatario->usuario_id = Auth::user()->id;
                                 $destinatario->tipo = (strlen($xml->NFe->infNFe->dest->CNPJ) == 14) ? 1 : 2; //cpf ou cnpj

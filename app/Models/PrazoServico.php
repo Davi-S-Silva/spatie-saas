@@ -6,7 +6,7 @@ use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 
-class ManutencaoServico extends Model
+class PrazoServico extends Model
 {
     use HasRoles, Tenantable;
     protected $guarded = ['id'];

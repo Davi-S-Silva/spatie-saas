@@ -24,7 +24,7 @@ class CargaController extends Controller
      */
     public function index()
     {
-        $carga = Carga::with('veiculo','notas','notas.filial','notas.status','notas.destinatario','notas.destinatario.endereco')->get();
+        $carga = Carga::with('veiculo','notas','notas.filial','notas.status','notas.destinatario','notas.destinatario.endereco')->orderBy('id','desc')->get();
         return view('carga.index', ['cargas' => $carga]);
     }
 
@@ -58,6 +58,7 @@ class CargaController extends Controller
             $carga->frete = $request->frete;
             $carga->os = $request->os;
             $carga->data = $request->data;
+            $carga->agenda = $request->agenda;
             $carga->cliente_id = Filial::find($request->Filial)->clientes()->first()->id;
             $carga->filial_id = $request->Filial;
             $carga->empresa_id = LocalApoio::find($request->empresa_local_apoio_id)->empresa->id;

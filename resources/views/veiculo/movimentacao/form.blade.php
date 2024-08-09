@@ -19,7 +19,7 @@
     </div>
     <div class="col-6">
         <label for="">Selecione o motorista</label>
-        <x-select-colaborador :funcao=1/>
+        <x-select-colaborador :funcao=1 :required=true/>
     </div>
     <div>
         <label for="">Selecione o veiculo</label>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('servicos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tenant_id')->references('id')->on('tenants');
+            $table->text('name');
             $table->timestamps();
         });
     }

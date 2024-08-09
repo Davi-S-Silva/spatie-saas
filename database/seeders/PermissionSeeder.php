@@ -85,6 +85,16 @@ class PermissionSeeder extends Seeder
             ['name'=>'Editar Fornecedor', 'model'=>'Fornecedor','guard_name'=>'web'],
             ['name'=>'Deletar Fornecedor', 'model'=>'Fornecedor','guard_name'=>'web'],
             ['name'=>'Listar Localizacao', 'model'=>'Localizacao','guard_name'=>'web'],
+            ['name'=>'Criar Manutencao', 'model'=>'Manutencao','guard_name'=>'web'],
+            ['name'=>'Show Manutencao', 'model'=>'Manutencao','guard_name'=>'web'],
+            ['name'=>'Listar Manutencao', 'model'=>'Manutencao','guard_name'=>'web'],
+            ['name'=>'Editar Manutencao', 'model'=>'Manutencao','guard_name'=>'web'],
+            ['name'=>'Deletar Manutencao', 'model'=>'Manutencao','guard_name'=>'web'],
+            ['name'=>'Criar Servico Manutencao', 'model'=>'Servico Manutencao','guard_name'=>'web'],
+            ['name'=>'Show Servico Manutencao', 'model'=>'Servico Manutencao','guard_name'=>'web'],
+            ['name'=>'Listar Servico Manutencao', 'model'=>'Servico Manutencao','guard_name'=>'web'],
+            ['name'=>'Editar Servico Manutencao', 'model'=>'Servico Manutencao','guard_name'=>'web'],
+            ['name'=>'Deletar Servico Manutencao', 'model'=>'Servico Manutencao','guard_name'=>'web'],
         ];
         foreach($array as $permission){
             $Permission = Permission::where('name',$permission['name'])->get();

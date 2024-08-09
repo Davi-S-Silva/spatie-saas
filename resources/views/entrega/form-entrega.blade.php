@@ -4,7 +4,7 @@
     </legend>
     <div class="col-4">
         <label for="">Motorista da Entrega</label>
-        <x-select-colaborador :funcao=1 />
+        <x-select-colaborador :funcao=1 :required=true/>
     </div>
     <div>
         <label for="">Caminhão</label>

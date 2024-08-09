@@ -11,7 +11,7 @@
                     <form action="" name="StartMov" class="form_toggle_mov" method="post">
                         <legend>Movimentacao <span></span></legend>
                         <div class="col-12">
-                            <x-select-colaborador :funcao=1/>
+                            <x-select-colaborador :funcao=1 :required=true/>
                         </div>
                         <div>
                             <label for="">Km Inicial</label>

@@ -20,4 +20,17 @@ class Manutencao extends Model
           $this->id = $this->withoutGlobalScopes()->get()->last()->id +=1;
         }
     }
+    public function getStatusId($status)
+    {
+        return Status::where('name',$status)->where('tipo',8)->get()->first()->id;
+    }
+
+    public function servicos()
+    {
+        return $this->hasMany(ServicoManutencao::class);
+    }
+    public function observacoes()
+    {
+        return $this->belongsToMany(Observacao::class);
+    }
 }

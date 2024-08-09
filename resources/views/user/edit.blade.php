@@ -25,9 +25,12 @@
                             não há usuario atribuido
                         @endif
                     </div>
-
+                    @if ($user->roles->first()->name !=="super-admin" )
                     <div class="card-body">
                         @can('Modificar Role Usuario')
+
+
+
                             <form action="{{ route('users.store-give-role-user', ['user' => $user->id]) }}" method="post" class="col-3">
                                 <fieldset>
                                     <legend>User Role Permissons</legend>
@@ -58,6 +61,7 @@
                             </form>
                         @endcan
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

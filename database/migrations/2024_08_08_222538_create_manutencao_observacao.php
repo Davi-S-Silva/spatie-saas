@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('manutencao_servicos', function (Blueprint $table) {
-            $table->id();
-            $table->text('desricao');
-            $table->timestamps();
+        Schema::create('manutencao_observacao', function (Blueprint $table) {
+            $table->foreignId('manutencao_id')->references('id')->on('manutencaos');
+            $table->foreignId('observacao_id')->references('id')->on('observacaos');
         });
     }
 
@@ -23,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('manutencao_servicos');
+        Schema::dropIfExists('manutencao_observacao');
     }
 };

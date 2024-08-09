@@ -8,7 +8,7 @@
         </h2>
     </x-slot>
     <div class="py-1">
-        <div class="max-w-7xl mx-auto px-1">
+        <div class="mx-auto px-1">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
                     {{-- <form action="{{ route('carga.update',['carga'=>$carga->id]) }}" method="post" name="EditCarga" enctype="multipart/form-data">
@@ -50,7 +50,7 @@
                         <header>Notas</header>
                         <section class="d-flex flex-wrap justify-around">
                             @foreach ($carga->notas()->with('destinatario','carga')->orderBy('destinatario_id','asc')->get() as $nota)
-                            <div class="col-sm-4 col-11 d-flex justify-center align-items-center">
+                            <div class="col-sm-3 m-2 col-11 d-flex justify-around align-items-center">
                                 <x-nota :nota=$nota/>
                             </div>
                             @endforeach

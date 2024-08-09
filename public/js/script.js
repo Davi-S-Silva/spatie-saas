@@ -71,4 +71,11 @@ $(function () {
         // $('#Checkbox_'+$(this).attr('id')).attr('checked','checked');
     });
     $('#AcoesEntrega')
+
+    $('.add_servico_manutencao').click(function(){
+
+        console.log('teste')
+        $('#BaseServicoManutencao').clone(true).appendTo('#AreaIncludeNovoServicoManutencao').removeAttr('id');
+        return false
+    })
 });

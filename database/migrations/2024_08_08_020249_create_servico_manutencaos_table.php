@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('servico_manutencaos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('manutencao_servico_id')->references('id')->on('manutencao_servicos');
+            $table->foreignId('servico_id')->references('id')->on('servicos');
             $table->text('descricao');
-            $table->integer('prazo');
-            $table->enum('tipo_prazo',['Dias','KM']);
             $table->double('valor')->default(0.00);
             $table->foreignId('manutencao_id')->references('id')->on('manutencaos');
-            $table->foreignId('tenant_id')->references('id')->on('tenants');
+            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
     }

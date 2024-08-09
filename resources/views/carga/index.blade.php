@@ -26,9 +26,11 @@
                                 <th><input type="checkbox" name="" id=""></th>
                                 <th>Remessa</th>
                                 <th>OS</th>
+                                <th>Data e Hora</th>
                                 <th>Motorista</th>
                                 <th>Origem</th>
-                                <th>Destino</th>
+                                <th>Agenda</th>
+                                <th class="col-3">Destino</th>
                                 <th>Veículo</th>
                                 <th>Notas</th>
                                 <th>Entregas</th>
@@ -42,36 +44,16 @@
                         $indice = 0;
                     @endphp
                     @foreach ($cargas as $carga)
-                        {{-- <ul>
-                            <li><b><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->id }} - {{ $carga->area }} - {{ $carga->motorista->name }} - {{ $carga->peso }} - {{ isset($carga->veiculo->placa)?$carga->veiculo->placa:'' }}</b></a><a href="{{ route('carga.edit',['carga'=>$carga->id]) }}"><i class="fa-regular fa-pen-to-square"></i></a>
-                                <ul>
-                                    <header>Notas: {{ $carga->notas()->count() }} - entregas:  {{ count($carga->paradas()) }}</header>
-
-
-                                    @forelse ($carga->notas as $nota)
-                                       <li>{{ $nota->nota }}
-                                            <ul>
-                                                <li>{{ $nota->destinatario->nome_razao_social }}
-                                                    <ul>{{ $nota->destinatario->endereco->endereco }}</ul>
-                                                </li>
-                                            </ul>
-                                            <hr>
-                                       </li>
-                                    @empty
-                                        <li>nenhuma nota cadastrada</li>
-                                    @endforelse
-                                </ul>
-                                <a class="btn btn-primary add-notas-carga" href="{{ route('carga.setNotas',['carga'=>$carga->id]) }}" id="Carga {{$carga->id}}">Add Notas</a>
-                            </li>
-                        </ul> --}}
                         <tr class="{{ (($indice%2)==0)?'bg-claro':'bg-mais-claro' }} tr-cargas border-secondary border">
                             <td class="show-detalhe-cargas p-2 m-1" Carga={{ $carga->id }}><i class="fa-regular fa-square-plus"></i></td>
                             <td><input type="checkbox" name="" id=""></td>
                             <td><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->remessa }}</a></td>
                             <td><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->os }}</a></td>
+                            <td>{{ date('d/m/Y H:i',strtotime($carga->data)) }}</td>
                             <td>{{ $carga->motorista->name }}</td>
                             <td>{{ $carga->filial->nome_fantasia }}</td>
-                            <td>{{ $carga->destino }}</td>
+                            <td>{{ date('d/m/Y',strtotime($carga->agenda)) }}</td>
+                            <td class="col-3">{{ $carga->destino }}</td>
                             <td class="cursor-pointer" title="Clique para trocar de veículo">{{ $carga->veiculo->placa }}</td>
                             <td>{{ $carga->notas()->count() }}</td>
                             <td>{{ count($carga->paradas()) }}</td>
@@ -86,7 +68,7 @@
                             $indice++;
                         @endphp
                         <tr id="Carga_{{ $carga->id }}" class="area-show-detalhe">
-                            <td colspan="13" class="bg-slate-200">
+                            <td colspan="15" class="bg-slate-200">
                                 <ul class="nav nav-tabs  bg-white" id="myTab_{{ $carga->id }}" role="tablist">
                                     <li class="nav-item" role="presentation">
                                       <button class="nav-link active" id="home-tab_{{ $carga->id }}" data-bs-toggle="tab" data-bs-target="#home_{{ $carga->id }}"
@@ -100,6 +82,10 @@
                                       <button class="nav-link" id="contact-tab_{{ $carga->id }}" data-bs-toggle="tab" data-bs-target="#contact_{{ $carga->id }}"
                                       type="button" role="tab" aria-controls="contact_{{ $carga->id }}" aria-selected="false">Histórico</button>
                                     </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="entrega-tab_{{ $carga->id }}" data-bs-toggle="tab" data-bs-target="#entrega_{{ $carga->id }}"
+                                      type="button" role="tab" aria-controls="entrega_{{ $carga->id }}" aria-selected="false">Entrega</button>
+                                    </li>
                                   </ul>
                                   <div class="tab-content" id="myTabContent_{{ $carga->id }}">
                                     <div class="tab-pane fade show active" id="home_{{ $carga->id }}" role="tabpanel" aria-labelledby="home-tab_{{ $carga->id }}">
@@ -112,7 +98,7 @@
                                                     <th>Chave de Acesso</th>
                                                     <th>Emitente</th>
                                                     <th>Destinatario</th>
-                                                    <th>Endereco</th>
+                                                    <th class="col-3">Endereco</th>
                                                     <th>Status</th>
                                                 </tr>
                                             </thead>
@@ -120,13 +106,13 @@
                                                 @php
                                                     $i=0;
                                                 @endphp
-                                            @forelse ($carga->notas as $nota)
+                                            @forelse ($carga->notas()->orderBy('destinatario_id','asc')->get() as $nota)
                                                 <tr class="{{ (($i%2)==0)?'bg-white':'' }} border-secondary border">
                                                     <td class="py-2">{{ $nota->nota }}</td>
                                                     <td>{{ $nota->chave_acesso }}</td>
                                                     <td>{{ $nota->filial->nome_fantasia }}</td>
                                                     <td>{{ $nota->destinatario->nome_razao_social }}</td>
-                                                    <td>{{ strtolower($nota->destinatario->endereco->endereco) }}, {{ $nota->destinatario->endereco->numero }},
+                                                    <td class="col-3">{{ strtolower($nota->destinatario->endereco->endereco) }}, {{ $nota->destinatario->endereco->numero }},
                                                         {{ strtolower($nota->destinatario->endereco->bairro) }}, {{ $nota->destinatario->endereco->cep }} -
                                                         {{ $nota->destinatario->endereco->cidade->nome }}</td>
                                                     <td>{{ $nota->status->descricao }}</td>
@@ -142,6 +128,7 @@
                                     </div>
                                     <div class="tab-pane fade" id="profile_{{ $carga->id }}" role="tabpanel" aria-labelledby="profile-tab_{{ $carga->id }}">Conhecimento de transporte, Manifesto, assinante, descarrego, canhoto, entrada de ceasa....</div>
                                     <div class="tab-pane fade" id="contact_{{ $carga->id }}" role="tabpanel" aria-labelledby="contact-tab_{{ $carga->id }}">Observacoes da carga e etc</div>
+                                    <div class="tab-pane fade" id="entrega_{{ $carga->id }}" role="tabpanel" aria-labelledby="entrega-tab_{{ $carga->id }}">Informacoes sobre as entregas dessa carga</div>
                                   </div>
 
                             </td>

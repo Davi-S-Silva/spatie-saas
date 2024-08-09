@@ -188,5 +188,37 @@ class Status extends Seeder
             'descricao' => 'Nota Devolvida',
         ]);
         echo 'status das Notas Salvos com sucesso'.PHP_EOL;
+        //MANUTENCAO
+        DB::table('status')->insert([
+            'name' => 'Aguardando',
+            'tipo' => 8,
+            'descricao' => 'Aguardando Autorizacao',
+        ]);
+        DB::table('status')->insert([
+            'name' => 'Autorizada',
+            'tipo' => 8,
+            'descricao' => 'Manutenção Autorizada',
+        ]);
+        DB::table('status')->insert([
+            'name' => 'Pendente',
+            'tipo' => 8,
+            'descricao' => 'Manutenção Pendente',
+        ]);
+        DB::table('status')->insert([
+            'name' => 'Iniciada',
+            'tipo' => 8,
+            'descricao' => 'Manutenção Iniciada',
+        ]);
+        DB::table('status')->insert([
+            'name' => 'Finalizada',
+            'tipo' => 8,
+            'descricao' => 'Manutenção Finalizada',
+        ]);
+        DB::table('status')->insert([
+            'name' => 'Cancelada',
+            'tipo' => 8,
+            'descricao' => 'Manutenção Cancelada',
+        ]);
+        echo 'status das Manutenções Salvas com sucesso'.PHP_EOL;
     }
 }

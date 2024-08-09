@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             RegiaoSeeder::class,
             EstadoSeeder::class,
             MunicipioSeeder::class,
+            ServicoSeeder::class,
             IndicacaoPagamento::class,
             TipoPagamentoSeeder::class,
             TipoColaboradorSeeder::class,

@@ -62,7 +62,7 @@
     </div>
 
     @hasanyrole('super-admin|admin|tenant-admin|tenant-admin-master')
-        <x-select-colaborador :funcao=null/>
+        <x-select-colaborador :funcao=null :required=true/>
         @if ($errors->has('colaborador'))
         <div class="alert alert-danger">
             {{ $errors->first('colaborador') }}

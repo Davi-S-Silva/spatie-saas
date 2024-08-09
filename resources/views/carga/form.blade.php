@@ -28,9 +28,9 @@
     <div>
         <label for="">Motorista</label>
         @if (isset($carga->motorista_id))
-            <x-select-colaborador :colaborador="$carga->motorista->id" :funcao=1 />
+            <x-select-colaborador :colaborador="$carga->motorista->id" :funcao=1 :required=true/>
         @else
-            <x-select-colaborador  :funcao=1/>
+            <x-select-colaborador  :funcao=1 :required=true/>
         @endif
 
     </div>
@@ -66,6 +66,10 @@
     <div>
         <label for="">Data e Hora</label>
         <input type="datetime-local" name="data" id="" value="{{ isset($carga->data) ? $carga->data : '' }}">
+    </div>
+    <div>
+        <label for="">Agenda</label>
+        <input type="date" name="agenda" id="" value="{{ isset($carga->agenda) ? $carga->agenda : '' }}">
     </div>
 
     @if (isset($carga->local_apoio_id))

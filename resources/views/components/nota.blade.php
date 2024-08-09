@@ -43,7 +43,7 @@ id="Checkbox_Nota_{{ $nota->id }}" value="{{ $nota->id }}">
     <header class="bg-white p-2 d-flex justify-between">
         <div class="nota-select px-2" id="Nota_{{ $nota->id }}" title="Clique aqui para selecionar essa nota">{{ $nota->nota }}</div>
         <div>{{ date('d/m/Y',strtotime($nota->created_at)) }}</div>
-        <div>{{ $nota->carga->os }}</div>
+        <div><a href="{{ route('carga.show',['carga'=>$nota->carga->id]) }}">{{ $nota->carga->os }}</a></div>
         <div><i class="fa-solid fa-circle-exclamation cursor-pointer info-nota-component" nota={{ $nota->id }}></i></div>
     </header>
 

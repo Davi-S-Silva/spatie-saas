@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fatura_abastecimentos', function (Blueprint $table) {
+        Schema::create('prazo_servicos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('fornecedor_id')->references('id')->on('fornecedors');
-            $table->text('descricao');
-            $table->date('data_inicio');
-            $table->date('data_fim');
-            $table->foreignId('tenant_id')->references('id')->on('tenants');
+            $table->integer('prazo');
+            $table->enum('tipo_prazo',['Dias','KM']);
+            $table->foreignId('servico_manutencao_id')->references('id')->on('servico_manutencaos');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fatura_abastecimentos');
+        Schema::dropIfExists('prazo_servicos');
     }
 };

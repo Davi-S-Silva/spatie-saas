@@ -491,7 +491,7 @@ $(function () {
                         $('.response-message-ajax').text('Notas ' + txt + ' não encontradas')
                         return
                     }
-                    $('.response-message-ajax').text('erro: '+response.msg)
+                    $('.response-message-ajax').text('erro: ' + response.msg)
                     // $('.response-message-ajax').fadeOut(10000)
 
                 }
@@ -504,7 +504,7 @@ $(function () {
                 }
             },
             error: function (response) {
-                console.log('erro: '+ response)
+                console.log('erro: ' + response)
             }
         });
 
@@ -837,13 +837,13 @@ $(function () {
         return false
     })
 
-    $('.conteudo_sistema').click(function(){
+    $('.conteudo_sistema').click(function () {
         var IncludeResponseAjax = $('#IncludeResponseAjax')
         IncludeResponseAjax.hide()
         // $('form[name="StartEntrega"]').hide()
         // $('form[name="StopEntrega"]').hide()
     })
-    $('.exibe_entrega').click(function(){
+    $('.exibe_entrega').click(function () {
         // var IncludeResponseAjax = $('#IncludeResponseAjax')
         // IncludeResponseAjax.hide()
         $('form[name="StartEntrega"]').hide()
@@ -1155,7 +1155,7 @@ $(function () {
 
                 IncludeResponseAjax.html('')
                 IncludeResponseAjax.show()
-                if(response.status==0){
+                if (response.status == 0) {
                     IncludeResponseAjax.html(response.msg)
                     return false;
                 }
@@ -1170,22 +1170,21 @@ $(function () {
         return false
     })
     //Atualizar nota
-    $(document).on('submit','form[name="UpdateStatusNota"]',function () {
+    $(document).on('submit', 'form[name="UpdateStatusNota"]', function () {
         var IncludeResponseAjax = $('#IncludeResponseAjax')
         var Comprovantes = $('input[name="Comprovantes[]"]')
         var StatusNota = $('select[name="StatusNota"]')
         // console.log(StatusNota.val())
         // var StatusNota = $('select[name="StatusNota"]')
         //
-        if(StatusNota.val() == 27 && Comprovantes.val()=='' && !$('#PagoDiretoEmpresa').is(':checked')){
-            Comprovantes.attr('required','required')
-            console.log('27 status '+StatusNota.val())
+        if (StatusNota.val() == 27 && Comprovantes.val() == '' && !$('#PagoDiretoEmpresa').is(':checked')) {
+            Comprovantes.attr('required', 'required')
+            console.log('27 status ' + StatusNota.val())
             Comprovantes.focus()
             return false;
         }
-        if(StatusNota.val()==31 )
-        {
-            console.log('status '+StatusNota.val())
+        if (StatusNota.val() == 31) {
+            console.log('status ' + StatusNota.val())
             Comprovantes.removeAttr('required')
         }
 
@@ -1208,14 +1207,14 @@ $(function () {
             },
             success: function (response) {
                 // alert(response)
-                if(response.status==200){
+                if (response.status == 200) {
                     var status = (response.msg.status)
-                    var nota = $('#Div_Nota_'+response.msg.nota)
-                    var obsNota = $('#Obs_Nota_'+response.msg.nota)
-                    var UserNota = $('#User_Conclusao_Nota_'+response.msg.nota)
-                    var DataNota = $('#Data_Conclusao_Nota_'+response.msg.nota)
-                    console.log('id nota: '+response.msg.nota)
-                    if(status==27){
+                    var nota = $('#Div_Nota_' + response.msg.nota)
+                    var obsNota = $('#Obs_Nota_' + response.msg.nota)
+                    var UserNota = $('#User_Conclusao_Nota_' + response.msg.nota)
+                    var DataNota = $('#Data_Conclusao_Nota_' + response.msg.nota)
+                    console.log('id nota: ' + response.msg.nota)
+                    if (status == 27) {
                         nota.removeClass('bg-notas-danger')
                         nota.addClass('bg-notas-success')
                     }
@@ -1223,14 +1222,14 @@ $(function () {
                     UserNota.text(response.msg.user_conclusao)
                     DataNota.text(response.msg.data_conclusao)
                     obsNota.text(response.msg.obs)
-                    if(status==31){
+                    if (status == 31) {
                         nota.removeClass('bg-notas-success')
                         nota.addClass('bg-notas-danger')
                         // obsNota.text(response.msg.obs)
                     }
                 }
 
-                if(response.status==0){
+                if (response.status == 0) {
                     $('.response-message-ajax').show()
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
@@ -1249,36 +1248,36 @@ $(function () {
         return false
     })
 
-    $(document).on('click','#PagoDiretoEmpresa',function(){
+    $(document).on('click', '#PagoDiretoEmpresa', function () {
         // console.log('alert...')
         var Comprovantes = $('input[name="Comprovantes[]"]')
         // console.log($('#PagoDiretoEmpresa').attr('checked'))
         var StatusNota = $('select[name="StatusNota"]')
-        if($('#PagoDiretoEmpresa').is(':checked')){
+        if ($('#PagoDiretoEmpresa').is(':checked')) {
             // console.log('not required')
             Comprovantes.removeAttr('required')
-        }else{
+        } else {
             // console.log('required')
-            Comprovantes.attr('required','required')
+            Comprovantes.attr('required', 'required')
         }
 
-        if(StatusNota.val()==31){
+        if (StatusNota.val() == 31) {
             Comprovantes.removeAttr('required')
         }
     })
-    $(document).on('click','#ClonaInputComprovante',function(){
+    $(document).on('click', '#ClonaInputComprovante', function () {
         console.log('clonando comprovante')
         $('#Comprovantenota').clone(true).appendTo('#CloneComprovante').val('').removeAttr('id');
         return false
     })
-    $(document).on('click','#RemoveComprovante',function(){
+    $(document).on('click', '#RemoveComprovante', function () {
         var Comprovantes = $('input[name="Comprovantes[]"]')
         // console.log('removendo comprovante '+ Comprovantes.length)
         // Comprovantes.each(function(i,e){
 
         // })
-        var ultimoItem = Comprovantes[Comprovantes.length-1]
-        if(Comprovantes.length>1){
+        var ultimoItem = Comprovantes[Comprovantes.length - 1]
+        if (Comprovantes.length > 1) {
             ultimoItem.remove();
             console.log('removendo comprovante')
         }
@@ -1309,7 +1308,7 @@ $(function () {
             }
             $('form[name="FormEncerraEntrega"] input[name="Receber"]').remove();
             $('form[name="FormEncerraEntrega"] input[name="Calcular"]').remove();
-            if(motivo){
+            if (motivo) {
                 $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Motivo" value="' + motivo + '"/>')
                 $('form[name="FormEncerraEntrega"]').append('<input type="hidden" name="Devolver" value="Devolver"/>')
 
@@ -1350,7 +1349,7 @@ $(function () {
 
     })
 
-    $(document).on('submit','form[name="UpdateStatusNotas"]',function(){
+    $(document).on('submit', 'form[name="UpdateStatusNotas"]', function () {
         var IncludeResponseAjax = $('#IncludeResponseAjax')
         // console.log($(this).attr('action'));
         $.ajax({
@@ -1380,20 +1379,20 @@ $(function () {
 
                     // var status = (response.msg.status)
 
-                    $(response.msg.notas).each(function(i,e){
+                    $(response.msg.notas).each(function (i, e) {
                         // console.log('#Checkbox_Nota_'+e)
-                        var nota = $('#Div_Nota_'+e)
-                        var obsNota = $('#Obs_Nota_'+e)
-                        var UserNota = $('#User_Conclusao_Nota_'+e)
-                        var DataNota = $('#Data_Conclusao_Nota_'+e)
-                        console.log('id nota: '+e)
+                        var nota = $('#Div_Nota_' + e)
+                        var obsNota = $('#Obs_Nota_' + e)
+                        var UserNota = $('#User_Conclusao_Nota_' + e)
+                        var DataNota = $('#Data_Conclusao_Nota_' + e)
+                        console.log('id nota: ' + e)
                         nota.removeClass('bg-notas-danger')
                         nota.addClass('bg-notas-success')
                         UserNota.text(response.msg.user_conclusao)
                         DataNota.text(response.msg.data_conclusao)
                         obsNota.text(response.msg.obs)
-                        $('#Checkbox_Nota_'+e).attr('checked',false)
-                        $('.nota-select').css({'background':'none'})
+                        $('#Checkbox_Nota_' + e).attr('checked', false)
+                        $('.nota-select').css({ 'background': 'none' })
                     })
                     IncludeResponseAjax.hide();
 
@@ -1426,7 +1425,7 @@ $(function () {
                 // alert(response)
                 // console.log(response)
                 var IncludeResponseAjax = $('#IncludeResponseAjax')
-                if(response.acao == undefined){
+                if (response.acao == undefined) {
                     IncludeResponseAjax.html(response)
                     IncludeResponseAjax.show()
                     // console.log(response)
@@ -1477,11 +1476,11 @@ $(function () {
                         // console.log(response)
                         // console.log(response.msg.Motivo)
 
-                        $.each(response.notas, function(i, e){
-                            var nota = $('#Div_Nota_'+e)
-                            var obsNota = $('#Obs_Nota_'+e)
-                            var UserNota = $('#User_Conclusao_Nota_'+e)
-                            var DataNota = $('#Data_Conclusao_Nota_'+e)
+                        $.each(response.notas, function (i, e) {
+                            var nota = $('#Div_Nota_' + e)
+                            var obsNota = $('#Obs_Nota_' + e)
+                            var UserNota = $('#User_Conclusao_Nota_' + e)
+                            var DataNota = $('#Data_Conclusao_Nota_' + e)
                             var status = (response.msg.status)
                             // if(status==27){
                             //     nota.removeClass('bg-notas-danger')
@@ -1490,7 +1489,7 @@ $(function () {
 
                             UserNota.text(response.user_conclusao)
                             DataNota.text(response.data_conclusao)
-                            if(status==31){
+                            if (status == 31) {
                                 nota.removeClass('bg-notas-success')
                                 nota.addClass('bg-notas-danger')
                                 obsNota.text(response.msg.Motivo)
@@ -1594,7 +1593,7 @@ $(function () {
                     // var nota = response.nota;
 
                     // console.log(response.msg)
-                    location.href=base+"abastecimento";
+                    location.href = base + "abastecimento";
 
                 }
 
@@ -1671,10 +1670,10 @@ $(function () {
                     ResponseVeiculos.hide()
                     $('.response-message-ajax').show()
                     $('#Semireboque_' + response.msg.veiculo).text(response.msg.semireboque)
-                    if(response.msg.veiculoLimpo.status==0){
+                    if (response.msg.veiculoLimpo.status == 0) {
                         $('.response-message-ajax').text(response.msg.veiculoLimpo.msg)
                         return false
-                    }else{
+                    } else {
                         $('#Semireboque_' + response.msg.veiculoLimpo).text('atrelar reboque')
                     }
                     $('.response-message-ajax').text(response.msg.success)
@@ -1693,48 +1692,48 @@ $(function () {
         return false;
     })
 
-    if($('div').hasClass('monitorar_veiculo')){
+    if ($('div').hasClass('monitorar_veiculo')) {
 
         // var count = 1;
         var veiculo = $('.monitorar_veiculo').attr('veiculo')
         var Response = $('#AreaDadosAjaxMonitoramento')
         $.ajax({
             type: 'get',
-            url: '/localizacao/monitorar/'+veiculo+'/realtime',
+            url: '/localizacao/monitorar/' + veiculo + '/realtime',
             success: function (response) {
                 var dados = response.msg.dados
                 // console.log(response)
                 Response.html('')
-                html = '<ul class="col-sm-5 col-12 my-2"><li> placa: '+dados.placa+'</li>'
-                html += '<li> Data/Hora Ultima localização: '+dados.dataHoraLocalizacao+' </li>'
-                html += '<li> Data/Hora Atualização: '+dados.dataUpdate+' </li>'
-                html += '<li> Atualização Local: '+dados.updateLocal+' </li>'
-                html += '<li> Endereco: '+dados.endereco+' </li>'
-                html += '<li>  Ignicao: '+dados.ignicao+' </li>'
-                html += '<li>  Velocidade: '+dados.velocidade+'km/h </li></ul>'
+                html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + dados.placa + '</li>'
+                html += '<li> Data/Hora Ultima localização: ' + dados.dataHoraLocalizacao + ' </li>'
+                html += '<li> Data/Hora Atualização: ' + dados.dataUpdate + ' </li>'
+                html += '<li> Atualização Local: ' + dados.updateLocal + ' </li>'
+                html += '<li> Endereco: ' + dados.endereco + ' </li>'
+                html += '<li>  Ignicao: ' + dados.ignicao + ' </li>'
+                html += '<li>  Velocidade: ' + dados.velocidade + 'km/h </li></ul>'
                 Response.append(html)
             },
             error: function (response) {
                 console.log(response)
             }
         })
-        setInterval(function() {
+        setInterval(function () {
 
             // console.log('teste')
             $.ajax({
                 type: 'get',
-                url: '/localizacao/monitorar/'+veiculo+'/realtime',
+                url: '/localizacao/monitorar/' + veiculo + '/realtime',
                 success: function (response) {
                     var dados = response.msg.dados
                     // console.log(response)
                     Response.html('')
-                    html = '<ul class="col-sm-5 col-12 my-2"><li> placa: '+dados.placa+'</li>'
-                    html += '<li> Data/Hora Ultima localização: '+dados.dataHoraLocalizacao+' </li>'
-                    html += '<li> Data/Hora Atualização: '+dados.dataUpdate+' </li>'
-                    html += '<li> Atualização Local: '+dados.updateLocal+' </li>'
-                    html += '<li> Endereco: '+dados.endereco+' </li>'
-                    html += '<li>  Ignicao: '+dados.ignicao+' </li>'
-                    html += '<li>  Velocidade: '+dados.velocidade+'km/h </li></ul>'
+                    html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + dados.placa + '</li>'
+                    html += '<li> Data/Hora Ultima localização: ' + dados.dataHoraLocalizacao + ' </li>'
+                    html += '<li> Data/Hora Atualização: ' + dados.dataUpdate + ' </li>'
+                    html += '<li> Atualização Local: ' + dados.updateLocal + ' </li>'
+                    html += '<li> Endereco: ' + dados.endereco + ' </li>'
+                    html += '<li>  Ignicao: ' + dados.ignicao + ' </li>'
+                    html += '<li>  Velocidade: ' + dados.velocidade + 'km/h </li></ul>'
                     Response.append(html)
                     // if(dados.velocidade > 77){
                     //     console.log('acima do permitido')
@@ -1745,14 +1744,14 @@ $(function () {
                 }
             })
             // console.log(count++)
-        }, 1000*60*3);// 3 minutos
+        }, 1000 * 60 * 3);// 3 minutos
         // }, 1000*60*5);// 5 minutos
         // }, 500);//1 segundo
     }
 
     // MONITORAR TODOS OS VEICULOS
 
-    if($('div').hasClass('monitorar_todos_veiculo')){
+    if ($('div').hasClass('monitorar_todos_veiculo')) {
 
         // console.log('poçaa')
 
@@ -1767,15 +1766,15 @@ $(function () {
                 // var dados = response.msg.dados
                 // console.log(response.msg)
                 Response.html('')
-                $(response.msg).each(function(i,e){
-                html = '<ul class="col-sm-5 col-12 my-2"><li> placa: '+e.dados.placa+'</li>'
-                html += '<li> Data/Hora Ultima localização: '+e.dados.dataHoraLocalizacao+' </li>'
-                html += '<li> Data/Hora Atualização: '+e.dados.dataUpdate+' </li>'
-                html += '<li> Atualização Local: '+e.dados.updateLocal+' </li>'
-                html += '<li> Endereco: '+e.dados.endereco+' </li>'
-                html += '<li>  Ignicao: '+e.dados.ignicao+' </li>'
-                html += '<li>  Velocidade: '+e.dados.velocidade+'km/h </li></ul>'
-                Response.append(html)
+                $(response.msg).each(function (i, e) {
+                    html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + e.dados.placa + '</li>'
+                    html += '<li> Data/Hora Ultima localização: ' + e.dados.dataHoraLocalizacao + ' </li>'
+                    html += '<li> Data/Hora Atualização: ' + e.dados.dataUpdate + ' </li>'
+                    html += '<li> Atualização Local: ' + e.dados.updateLocal + ' </li>'
+                    html += '<li> Endereco: ' + e.dados.endereco + ' </li>'
+                    html += '<li>  Ignicao: ' + e.dados.ignicao + ' </li>'
+                    html += '<li>  Velocidade: ' + e.dados.velocidade + 'km/h </li></ul>'
+                    Response.append(html)
                 })
 
                 // return false;
@@ -1787,7 +1786,7 @@ $(function () {
             }
         })
 
-        setInterval(function() {
+        setInterval(function () {
 
             // console.log('teste')
             $.ajax({
@@ -1797,14 +1796,14 @@ $(function () {
                     // var dados = response.msg.dados
                     console.log(response)
                     Response.html('')
-                    $(response.msg).each(function(i,e){
-                        html = '<ul class="col-sm-5 col-12 my-2"><li> placa: '+e.dados.placa+'</li>'
-                        html += '<li> Data/Hora Ultima localização: '+e.dados.dataHoraLocalizacao+' </li>'
-                        html += '<li> Data/Hora Atualização: '+e.dados.dataUpdate+' </li>'
-                        html += '<li> Atualização Local: '+e.dados.updateLocal+' </li>'
-                        html += '<li> Endereco: '+e.dados.endereco+' </li>'
-                        html += '<li>  Ignicao: '+e.dados.ignicao+' </li>'
-                        html += '<li>  Velocidade: '+e.dados.velocidade+'km/h </li></ul>'
+                    $(response.msg).each(function (i, e) {
+                        html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + e.dados.placa + '</li>'
+                        html += '<li> Data/Hora Ultima localização: ' + e.dados.dataHoraLocalizacao + ' </li>'
+                        html += '<li> Data/Hora Atualização: ' + e.dados.dataUpdate + ' </li>'
+                        html += '<li> Atualização Local: ' + e.dados.updateLocal + ' </li>'
+                        html += '<li> Endereco: ' + e.dados.endereco + ' </li>'
+                        html += '<li>  Ignicao: ' + e.dados.ignicao + ' </li>'
+                        html += '<li>  Velocidade: ' + e.dados.velocidade + 'km/h </li></ul>'
                         Response.append(html)
                     })
                     // if(dados.velocidade > 77){
@@ -1816,13 +1815,102 @@ $(function () {
                 }
             })
             // console.log(count++)
-        // }, 1000*60*3);// 3 minutos
-        // }, 1000*60*5);// 5 minutos
+            // }, 1000*60*3);// 3 minutos
+            // }, 1000*60*5);// 5 minutos
         }, 500);//1 segundo
     }
 
+    //MANUTENCAO
+    $('form[name="FormNovaManutencao"]').submit(function () {
+
+        // console.log($(this).serialize())
+
+        $.ajax({
+            'url': $(this).attr('action'),
+            'data': $(this).serialize(),
+            'type': 'post',
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                console.log(response)
+                // return false
+                if(response.status==200){
+
+                    $('input[name="SalvarNovaManutencao"]').attr('disabled', true)
+                    $('#AcoesFomrManutencao').append('<a href="" class="btn btn-primary add_servico_manutencao mx-2" manutencao='+response.msg.manutencao+'><i class="fa-regular fa-square-plus"></i> Add Serviço</a>');
+                    $('#AcoesFomrManutencao').append('<a href="" class="btn btn-success finalizar_form_manutencao mx-2">Finalizar</a>');
+
+                    return false
+                }
+
+                if(response.status==0){
+                    console.log('erro: '+response.msg)
+
+                    return false;
+                }
+            },
+            error: function () {
+
+            }
+
+        })
+
+        return false;
+    })
+
+    $(document).on('click', '.add_servico_manutencao', function () {
+        console.log('adicionando novo servico nessa manutencao')
+
+        var IncludeResponseAjax = $('#IncludeResponseAjax')
+        $.ajax({
+            type: 'get',
+            url: '/add-servico-manutencao/'+$('.add_servico_manutencao').attr('manutencao'),
+            success: function (response) {
+                // console.log($('.add_servico_manutencao').attr('manutencao'));
+                // return false;
+                IncludeResponseAjax.html(response)
+                IncludeResponseAjax.show()
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        })
+        // console.log(response)
+
+        return false;
+    })
+
+    $(document).on('click','.finalizar_form_manutencao',function(){
+        console.log('finalizando formulario')
+        window.location.href = '/manutencao'
+        return false;
+    })
+$(document).on('submit','form[name="FormAddServicoManutencao"]', function(){
+    var IncludeResponseAjax = $('#IncludeResponseAjax')
+    $.ajax({
+        'url': $(this).attr('action'),
+        'data': $(this).serialize(),
+        'type': 'post',
+        beforeSend: function () {
+
+        },
+        success: function (response) {
+
+          console.log(response)
+          IncludeResponseAjax.html('')
+          IncludeResponseAjax.hide()
+        },
+        error: function () {
+
+        }
+
+    })
+    return false
+})
 
 });
+
 // function msgEncerramento() {
 //     alert('Seu tempo acabou!! Tente novamente!!');
 //     }

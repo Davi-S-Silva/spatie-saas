@@ -104,11 +104,7 @@ class UserController extends Controller implements HasMiddleware
         // $msg = 'Dados alterados com sucesso';
         // $status = 'success';
         $user = User::findOrFail($id);
-        if (isset($user->roles->first()->id) && ($user->roles->first()->name == 'super-admin' || $user->roles->first()->name == 'tenant-admin-master')) {
-            $msg = 'não é possivel alterar roles e permissions de usuario master';
-            $status = 'danger';
-            return redirect()->back()->with('message', ['status' => $status, 'msg' => $msg]);
-        }
+
         $roles = Role::select('name')->orderBy('name', 'ASC')->get();
         // $roles = Role::orderBy('name', 'DESC')->pluck('name', 'name')->all();
 
@@ -159,6 +155,11 @@ class UserController extends Controller implements HasMiddleware
     public function storeRoleToUser(Request $request, User $user)
     {
         //atualiza permissoes do usuario
+        if (isset($user->roles->first()->id) && ($user->roles->first()->name == 'super-admin' || $user->roles->first()->name == 'tenant-admin-master')) {
+            $msg = 'não é possivel alterar roles e permissions de usuario master';
+            $status = 'danger';
+            return redirect()->back()->with('message', ['status' => $status, 'msg' => $msg]);
+        }
         $user->syncRoles($request->input('RolesUser'));
         return redirect()->route('users.index')->with('message', ['status' => 'success', 'msg' => 'Role updated to user ' . $user->name]);
     }
