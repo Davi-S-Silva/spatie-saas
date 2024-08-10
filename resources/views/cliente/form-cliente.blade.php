@@ -1,4 +1,4 @@
-<form action="{{ route('clientes.store') }}" method="post">
+
     <fieldset>
         <div>
             <label for="">Nome/Razao Social</label>
@@ -26,4 +26,4 @@
         @csrf
         <input type="submit" value="Salvar" class="btn btn-primary">
     </fieldset>
-</form>
+

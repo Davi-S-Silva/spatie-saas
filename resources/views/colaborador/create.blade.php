@@ -8,7 +8,7 @@
         <div class="max-w-7xl mx-auto px-1">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
-                    <form action="{{ route('colaboradores.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('colaboradores.store') }}" name="FormColaborador" method="post" enctype="multipart/form-data">
                         @include('colaborador.form-colaborador')
                     </form>
                 </div>

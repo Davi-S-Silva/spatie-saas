@@ -13,6 +13,7 @@ use App\Http\Controllers\ColaboradorController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EntregaController;
 use App\Http\Controllers\FilialController;
+use App\Http\Controllers\FiscalController;
 use App\Http\Controllers\FornecedorController;
 use App\Http\Controllers\LocalApoioController;
 use App\Http\Controllers\LocalizacaoVeiculoController;
@@ -35,11 +36,14 @@ use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VeiculoController;
 use App\Http\Controllers\VeiculoReboqueController;
+use App\Models\Cliente;
+use App\Models\Colaborador;
 use App\Models\DistanceCity;
 use App\Models\Empresa;
 use App\Models\Fornecedor;
 use App\Models\Municipio;
 use App\Models\User;
+use App\Models\Veiculo;
 use Illuminate\Support\Facades\Route;
 
 // use Spatie\DbDumper\Databases\MySql;
@@ -77,7 +81,14 @@ Route::get('/info', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $clientes = Cliente::Count();
+    $veiculos = Veiculo::Count();
+    $colaboradores = Colaborador::where('funcao_id',1)->Count();
+
+    // echo 'Clientes: '.$clientes. ' - Veiculos: '.$veiculos. ' - Colaboradores: '.$colaboradores;
+    // return false;
+    $CadastroGeral = ($clientes==0 || $veiculos==0 || $colaboradores==0)?true:false;
+    return view('dashboard',['CadastroGeral'=>$CadastroGeral,'title'=>'Cadastros Iniciais do Sistema','veiculos'=>$veiculos, 'clientes'=>$clientes, 'colaboradores'=>$colaboradores]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -148,6 +159,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('abastecimento/ranking',[AbastecimentoController::class,'getRanking'])->name('getRanking');
         Route::resource('abastecimento',AbastecimentoController::class);
+
+        Route::resource('fiscal',FiscalController::class);
 
         Route::resource('manutencao',ManutencaoController::class);
 

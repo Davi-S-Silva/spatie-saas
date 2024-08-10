@@ -2,7 +2,7 @@
     use App\Models\Cliente;
 @endphp
 
-<fieldset {{ $disabled }}>
+<fieldset>
     <div>
         <label for="">Cliente</label>
 
@@ -16,11 +16,11 @@
             @endforeach
         @endforeach
     </div>
-    @if (!empty($disabled))
+    {{-- @if (!empty($disabled))
         <div class="modal-info scroll-stop">
             <x-modal-info :link=$link :text=$text/>
         </div>
-    @endif
+    @endif --}}
     <div>
         <label for="">Area Atendimento</label>
         <input type="text" name="area" id="" value="{{ isset($carga->area) ? $carga->area : '' }}">

@@ -1,3 +1,7 @@
+@php
+    use App\Models\TipoColaborador;
+    use App\Models\FuncaoColaborador;
+@endphp
 <fieldset>
     <section class="col-12">
         <div class="d-flex col-12 justify-between">
@@ -30,7 +34,7 @@
             <label for="">Tipo Colaborador</label>
             <select name="tipo_id" id="">
                 <option value="">Selecione uma opção</option>
-                @foreach ($TipoColaborador as $item)
+                @foreach (TipoColaborador::all() as $item)
                     <option value="{{ $item->id }}" {{ (isset($Colaborador) && $Colaborador->tipo_id == $item->id)? 'selected' :'' }}>{{ $item->tipo }}</option>
                 @endforeach
             </select>
@@ -39,13 +43,12 @@
             <label for="">Função Colaborador</label>
             <select name="funcao_id" id="">
                 <option value="">Selecione uma opção</option>
-                @foreach ($FuncaoColaborador as $item)
+                @foreach (FuncaoColaborador::all() as $item)
                     <option value="{{ $item->id }}" {{ (isset($Colaborador) && $Colaborador->funcao_id == $item->id)? 'selected' :'' }}>{{ $item->funcao }}</option>
                 @endforeach
             </select>
         </div>
     </section>
-    @csrf
     <section>
         @include('endereco.form-endereco')
     </section>
@@ -58,5 +61,6 @@
 
 
 
+    @csrf
     <input type="submit" value="Salvar" class="btn btn-primary">
 </fieldset>

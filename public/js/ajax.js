@@ -1041,7 +1041,96 @@ $(function () {
                     $('.response-message-ajax').addClass('alert-success')
                     $('.response-message-ajax').text(response.msg)
                     console.log(response.msg)
+                    //Esconde o formulario de cadastro do primeiro veiculo
+                    //dos cadastros inciais do sistema
+                    $("#PrimeiroVeiculo").hide()
+                }
+            },
+            error: function (response) {
+                $('.response-message-ajax').show()
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text(response.msg)
+                return false;
+            }
+        })
+        return false
+    });
 
+    $('form[name="FormColaborador"]').submit(function () {
+
+        console.log($(this).serialize())
+
+        // return false
+
+        $.ajax({
+            type: 'post',
+            url: $(this).attr('action'),
+            dataType: 'json',
+            data: $(this).serialize(),
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                // alert(response)
+                // console.log(response)
+                if (response.status == 0) {
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                }
+                if (response.status == 200) {
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').text(response.msg)
+                    console.log(response.msg)
+                    //Esconde o formulario de cadastro do primeiro colaborador
+                    //dos cadastros inciais do sistema
+                    $("#PrimeiroColaborador").hide()
+                }
+            },
+            error: function (response) {
+                $('.response-message-ajax').show()
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text(response.msg)
+                return false;
+            }
+        })
+        return false
+    });
+    $('form[name="FormCliente"]').submit(function () {
+
+        console.log($(this).serialize())
+
+        // return false
+
+        $.ajax({
+            type: 'post',
+            url: $(this).attr('action'),
+            dataType: 'json',
+            data: $(this).serialize(),
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                // alert(response)
+                // console.log(response)
+                if (response.status == 0) {
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                }
+                if (response.status == 200) {
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').text(response.msg)
+                    console.log(response.msg)
+                    //Esconde o formulario de cadastro do primeiro colaborador
+                    //dos cadastros inciais do sistema
+                    $("#PrimeiroCliente").hide()
                 }
             },
             error: function (response) {

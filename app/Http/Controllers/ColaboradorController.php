@@ -129,17 +129,19 @@ class ColaboradorController extends Controller implements HasMiddleware
                 $user->roles()->attach(7);//
             }
 
-            echo '<pre>';
-            print_r($colaborador->getAttributes());
-            print_r($user->getAttributes());
-            print_r($contato->getAttributes());
-            print_r($endereco->getAttributes());
-            echo '</pre>';
+            // echo '<pre>';
+            // print_r($colaborador->getAttributes());
+            // print_r($user->getAttributes());
+            // print_r($contato->getAttributes());
+            // print_r($endereco->getAttributes());
+            // echo '</pre>';
             // exit;
             DB::commit();
+            return response()->json(['status'=>200,'msg'=>'Colaborador cadastrado com sucesso!']);
         }catch(Exception $ex){
             DB::rollback();
-            print_r($ex->getMessage().' - File: '.$ex->getFile().' - '.$ex->getLine());
+            // print_r($ex->getMessage().' - File: '.$ex->getFile().' - '.$ex->getLine());
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
         }
     }
 

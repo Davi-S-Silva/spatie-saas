@@ -48,6 +48,8 @@ a {
 }
 .response-message-ajax{
     z-index: 2000;
+    position: absolute;
+    top: 10;
 }
 .form_add_notas{
     display: none;
@@ -83,7 +85,7 @@ a {
     display: none;
     position: fixed;
     background-color: #fff;
-    z-index: 2000';
+    z-index: 2000;
 }
 .form_toggle_mov input[type="submit"]{
     margin: 5px 0;
@@ -116,13 +118,14 @@ input[name=NameProp],input[name=DocProp]{
 
 .area-modal-info{
     background-color: #fff;
-    width: 50vw;
-    height: 50vh;
+    width: 80vw;
+    height: 80vh;
     z-index: 1500;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     text-align: center;
+    overflow: scroll;
 }
 .area-modal-info a{
     z-index: 2000;
@@ -394,6 +397,40 @@ form[name="UpdateStatusNotas"]{
     width: max-content;
     margin: 0 auto;
 }
+/* ::-webkit-scrollbar {
+    width: 0px;
+} */
+::-webkit-scrollbar {
+    display: none;
+}
+.bg-transparent-ranking-media{
+    background-color: #ffffff33;
+    padding:10px 5px;
+    border-radius: 20px;
+}
+/*
+#fixo {
+    width: auto;
+    overflow: hidden;
+    background-color: yellow;
+}
+#rolavel {
+height: auto;
+width: auto;
+overflow-x: scroll;
+background-color: green;
+} */
+/* #fixo {
+    width: 100px;
+    overflow: hidden;
+    background-color: yellow;
+  }
+  #rolavel {
+    height: 100px;
+    width: 117px;
+    overflow: scroll;
+    background-color: green;
+  } */
 @media (max-width: 600px) {
     .aside_menu{
         display: none;

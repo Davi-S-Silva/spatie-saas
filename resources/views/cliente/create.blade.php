@@ -8,7 +8,9 @@
         <div class="max-w-7xl mx-auto px-1">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
+                    <form action="{{ route('clientes.store') }}" name="FormCliente" method="post">
                     @include('cliente.form-cliente')
+                    </form>
                 </div>
             </div>
         </div>

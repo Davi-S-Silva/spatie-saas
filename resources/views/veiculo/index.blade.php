@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     <div class="py-1">
-        <div class="max-w-7xl mx-auto px-1">
+        <div class="mx-auto px-1">
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
                     {{-- <form action="{{ route('veiculo.store') }}" method="post" enctype="multipart/form-data">
@@ -18,7 +18,7 @@
                         <form action="" name="ColaboradorVeiculo" method="post">
                             <span></span>
                             {{-- <input type="hidden" name="Veiculo"> --}}
-                            <x-select-colaborador :funcao=null/>
+                            <x-select-colaborador :funcao=null :required=true/>
                             @csrf
                             <input type="submit" value="Salvar" class="btn btn-primary my-2">
                         </form>

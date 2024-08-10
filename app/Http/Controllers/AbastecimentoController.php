@@ -321,12 +321,13 @@ class AbastecimentoController extends Controller implements HasMiddleware
 
     public function getRanking()
     {
-        $abastecimentos = Abastecimento::selectRaw('((kmAtual-kmAnterior)/litros) as media, colaborador_id, veiculo_id')->orderBy('media','desc')->with('veiculo','colaborador')->get()->unique('colaborador_id');
+        $Abastecimentos = Abastecimento::selectRaw('((kmAtual-kmAnterior)/litros) as media, colaborador_id, veiculo_id')->orderBy('media','desc')->with('veiculo','colaborador')->get()->unique('colaborador_id');
+        // $Tucks = Abastecimento::selectRaw('((kmAtual-kmAnterior)/litros) as media, colaborador_id, veiculo_id')->orderBy('media','desc')->with('veiculo','colaborador')->get()->unique('colaborador_id');
         // $url = Storage::temporaryUrl(
         //     $abast->pathFotoCupom, now()->addMinutes(5)
         // );
         // $url = Storage::url( $abast->pathFotoCupom);
         // return response()->json(['status'=>200,'msg'=>$url]);
-        return view('veiculo.abastecimento.ranking',['abastecimentos'=>$abastecimentos]);
+        return view('veiculo.abastecimento.ranking',['Abastecimentos'=>$Abastecimentos]);
     }
 }

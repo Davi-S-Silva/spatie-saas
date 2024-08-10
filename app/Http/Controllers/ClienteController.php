@@ -51,9 +51,9 @@ class ClienteController extends Controller implements HasMiddleware
         try{
             DB::beginTransaction();
 
-        echo '<pre>';
-        print_r($request->input());
-        echo '</pre>';
+        // echo '<pre>';
+        // print_r($request->input());
+        // echo '</pre>';
 
         $cliente = new Cliente();
         $cliente->newId();
@@ -103,18 +103,20 @@ class ClienteController extends Controller implements HasMiddleware
         $localMov->save();
         $filial->locaismovimetacoes()->attach($localMov->id);
 
-        echo '<pre>';
-        print_r($cliente->getAttributes());
-        print_r($filial->getAttributes());
-        print_r($end->getAttributes());
-        print_r($cont ->getAttributes());
-        echo '</pre>';
+        // echo '<pre>';
+        // print_r($cliente->getAttributes());
+        // print_r($filial->getAttributes());
+        // print_r($end->getAttributes());
+        // print_r($cont ->getAttributes());
+        // echo '</pre>';
 
         // dd($cliente);
         DB::commit();
+        return response()->json(['status'=>200,'msg'=>'Clliente cadastrado com sucesso!']);
     }catch(Exception $ex){
         DB::rollback();
-        print_r($ex->getMessage());
+        return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+        // print_r($ex->getMessage());
     }
     }
 

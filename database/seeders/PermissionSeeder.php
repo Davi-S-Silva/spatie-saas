@@ -95,6 +95,11 @@ class PermissionSeeder extends Seeder
             ['name'=>'Listar Servico Manutencao', 'model'=>'Servico Manutencao','guard_name'=>'web'],
             ['name'=>'Editar Servico Manutencao', 'model'=>'Servico Manutencao','guard_name'=>'web'],
             ['name'=>'Deletar Servico Manutencao', 'model'=>'Servico Manutencao','guard_name'=>'web'],
+            ['name'=>'Criar Fiscal', 'model'=>'Fiscal','guard_name'=>'web'],
+            ['name'=>'Show Fiscal', 'model'=>'Fiscal','guard_name'=>'web'],
+            ['name'=>'Listar Fiscal', 'model'=>'Fiscal','guard_name'=>'web'],
+            ['name'=>'Editar Fiscal', 'model'=>'Fiscal','guard_name'=>'web'],
+            ['name'=>'Deletar Fiscal', 'model'=>'Fiscal','guard_name'=>'web'],
         ];
         foreach($array as $permission){
             $Permission = Permission::where('name',$permission['name'])->get();

@@ -78,4 +78,13 @@ $(function () {
         $('#BaseServicoManutencao').clone(true).appendTo('#AreaIncludeNovoServicoManutencao').removeAttr('id');
         return false
     })
+
+    // $("#rolavel").bind("mousewheel",function(ev, delta) {
+    //     var delta = 3
+    //     var scrollLeft = $(this).scrollLeft(delta);
+    //     $(this).scrollLeft(scrollLeft-Math.round(delta));
+    //     // $(this).scrollLeft(2)
+    //     console.log(scrollLeft)
+    // });
+
 });
