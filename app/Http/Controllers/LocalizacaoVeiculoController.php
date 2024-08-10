@@ -231,11 +231,86 @@ class LocalizacaoVeiculoController extends Controller implements HasMiddleware
         //     return response()->json(['status'=>0,'msg'=>'sem informacoes']);
         // }
     }
+    public function getDadosAjaxMapsLocationVeiculo($veiculo){
+        $cr = curl_init();
+        $headr = array();
+        $headr[] = 'Content-length: 0';
+        $headr[] = 'Content-type: application/json';
+        $headr[] = 'Authorization: Bearer ' . $this->autenticaLocalizacaoApi();
+        curl_setopt($cr, CURLOPT_HTTPHEADER, $headr);
+        curl_setopt($cr, CURLOPT_URL, "http://api.exitvs.com.br/v1/Localizacao");
+        curl_setopt($cr, CURLOPT_POST, TRUE);
+        curl_setopt($cr, CURLOPT_RETURNTRANSFER, true);
+        $retorno = curl_exec($cr);
+        curl_close($cr);
+        $obj = json_decode($retorno);
+        $encontrado = [];
+        foreach($obj as $item){
+            if($item->placa == $veiculo){
+                $encontrado=[
+                    'placa'=>$item->placa,
+                    'endereco'=>$item->endereco,
+                    'id_equipamento'=>$item->id_equipamento,
+                    'bateria'=>$item->bateria,
+                    'latitude'=>$item->latitude,
+                    'longitude'=>$item->longitude,
+                    'descricao'=>$item->descricao,
+                    'dataHoraLocalizacao'=>date('d/m/Y H:i:s', strtotime($item->dataHoraLocalizacao)),
+                    'dataUpdate'=>date('d/m/Y H:i:s', strtotime($item->dataUpdate)),
+                    'ignicao'=>$item->ignicao,
+                    'velocidade'=>$item->velocidade,
+                    'updateLocal'=>date('d/m/Y H:i:s'),
+                ];
+            }
+        }
+        return response()->json(['dados'=>$encontrado]);
+    }
+    public function getDadosAjaxMapsLocationTodosVeiculos(){
+        $cr = curl_init();
+        $headr = array();
+        $headr[] = 'Content-length: 0';
+        $headr[] = 'Content-type: application/json';
+        $headr[] = 'Authorization: Bearer ' . $this->autenticaLocalizacaoApi();
+        curl_setopt($cr, CURLOPT_HTTPHEADER, $headr);
+        curl_setopt($cr, CURLOPT_URL, "http://api.exitvs.com.br/v1/Localizacao");
+        curl_setopt($cr, CURLOPT_POST, TRUE);
+        curl_setopt($cr, CURLOPT_RETURNTRANSFER, true);
+        $retorno = curl_exec($cr);
+        curl_close($cr);
+        $obj = json_decode($retorno);
+        $encontrado = [];
+        foreach($obj as $item){
+            // if($item->placa == $veiculo){
+                $encontrado[]=[
+                    'placa'=>$item->placa,
+                    'endereco'=>$item->endereco,
+                    'id_equipamento'=>$item->id_equipamento,
+                    'bateria'=>$item->bateria,
+                    'latitude'=>$item->latitude,
+                    'longitude'=>$item->longitude,
+                    'descricao'=>$item->descricao,
+                    'dataHoraLocalizacao'=>date('d/m/Y H:i:s', strtotime($item->dataHoraLocalizacao)),
+                    'dataUpdate'=>date('d/m/Y H:i:s', strtotime($item->dataUpdate)),
+                    'ignicao'=>$item->ignicao,
+                    'velocidade'=>$item->velocidade,
+                    'updateLocal'=>date('d/m/Y H:i:s'),
+                ];
+            // }
+        }
+        return response()->json(['dados'=>$encontrado]);
+    }
 
     public function rastrearTodosVeiculos()
     {
         return view('veiculo.monitoramento.index');
     }
+
+
+    public function getLocationMaps()
+    {
+        // return
+    }
+
     public function getDadosAjaxLocationTodosVeiculos()
     {
         // return response()->json(['status'=>200,'msg'=>'teste']);

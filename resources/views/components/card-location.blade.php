@@ -1,4 +1,4 @@
-<ul class="col-sm-3 col-12 card-location">
+<ul class="col-12 card-location">
     <li class="border-b-2">
         <div class="d-flex align-items-center justify-between">
             <div class="d-flex align-items-center">

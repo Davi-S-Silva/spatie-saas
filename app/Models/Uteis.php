@@ -36,6 +36,14 @@ class Uteis extends Model
         }
         return $limpaNumero;
     }
+    public static function limpar_numero($str){
+        $text = preg_replace("/[^0-9-.]/", "_", $str);
+        $arrayLimpo = str_replace('_', '', str_replace('__', '',$text));
+        // $explode = explode('-', $arrayLimpo);
+        // $limpaNumero = [];
+
+        return $arrayLimpo;
+    }
 
     public static function validaNumero($numero){
         $virgulaPosicao = strpos($numero,',');

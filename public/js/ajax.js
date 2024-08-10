@@ -1790,19 +1790,30 @@ $(function () {
             type: 'get',
             url: '/localizacao/monitorar/' + veiculo + '/realtime',
             success: function (response) {
-                // var dados = response.msg.dados
-                // console.log(response)
                 Response.html('')
-                // html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + dados.placa + '</li>'
-                // html += '<li> Data/Hora Ultima localização: ' + dados.dataHoraLocalizacao + ' </li>'
-                // html += '<li> Data/Hora Atualização: ' + dados.dataUpdate + ' </li>'
-                // html += '<li> Atualização Local: ' + dados.updateLocal + ' </li>'
-                // html += '<li> Endereco: ' + dados.endereco + ' </li>'
-                // html += '<li>  Ignicao: ' + dados.ignicao + ' </li>'
-                // html += '<li>  Velocidade: ' + dados.velocidade + 'km/h </li></ul>'
-
-
                 Response.html(response)
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        })
+        //fazer outra requisicao para alimentar o mapa
+
+        $.ajax({
+            type: 'get',
+            url: '/localizacao/monitorar/' + veiculo + '/realtime/maps',
+            // url: '/localizacao/monitorar/' + veiculo + '/realtime',
+            success: function (response) {
+                var  map = L.map('map').setView([ response.dados.latitude,response.dados.longitude], 17);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                  minZoom: 1,
+                  maxZoom: 19
+                }).addTo(map);
+                var markerGroup = L.featureGroup([]).addTo(map);
+                var latLng = L.latLng([ response.dados.latitude,response.dados.longitude]);
+                L.marker(latLng).bindPopup('Placa: ' + response.dados.placa +
+                '<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+dados.atualizacaoLocal).addTo(markerGroup).addTo(map);
             },
             error: function (response) {
                 console.log(response)
@@ -1815,29 +1826,38 @@ $(function () {
                 type: 'get',
                 url: '/localizacao/monitorar/' + veiculo + '/realtime',
                 success: function (response) {
-                    // var dados = response.msg.dados
-                    // console.log(response)
                     Response.html('')
-                    // html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + dados.placa + '</li>'
-                    // html += '<li> Data/Hora Ultima localização: ' + dados.dataHoraLocalizacao + ' </li>'
-                    // html += '<li> Data/Hora Atualização: ' + dados.dataUpdate + ' </li>'
-                    // html += '<li> Atualização Local: ' + dados.updateLocal + ' </li>'
-                    // html += '<li> Endereco: ' + dados.endereco + ' </li>'
-                    // html += '<li>  Ignicao: ' + dados.ignicao + ' </li>'
-                    // html += '<li>  Velocidade: ' + dados.velocidade + 'km/h </li></ul>'
                     Response.html(response)
-                    // if(dados.velocidade > 77){
-                    //     console.log('acima do permitido')
-                    // }
                 },
                 error: function (response) {
                     console.log(response)
                 }
             })
+            // $.ajax({
+            //     type: 'get',
+            //     url: '/localizacao/monitorar/' + veiculo + '/realtime/maps',
+            //     // url: '/localizacao/monitorar/' + veiculo + '/realtime',
+            //     success: function (response) {
+            //         var  map = L.map('map').setView([ response.dados.latitude,response.dados.longitude], 17);
+            //     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            //       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            //       minZoom: 1,
+            //       maxZoom: 19
+            //     }).addTo(map);
+            //     var markerGroup = L.featureGroup([]).addTo(map);
+            //     var latLng = L.latLng([ response.dados.latitude,response.dados.longitude]);
+            //     L.marker(latLng).bindPopup('Placa: ' + response.dados.placa +
+            //     '<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+dados.atualizacaoLocal).addTo(markerGroup).addTo(map);
+            //     },
+            //     error: function (response) {
+            //         console.log(response)
+            //     }
+            // })
             // console.log(count++)
-        // }, 1000 * 60 * 3);// 3 minutos
+        }, 1000 * 60 * 3);// 3 minutos
         // }, 1000*60*5);// 5 minutos
-        }, 500);//1 segundo
+        // }, 500);//1 segundo
+        // }, 1000);//1 segundo
     }
 
     // MONITORAR TODOS OS VEICULOS
@@ -1854,24 +1874,29 @@ $(function () {
             type: 'get',
             url: '/localizacao/monitorar/veiculos/realtime/index',
             success: function (response) {
-                // var dados = response.msg.dados
-                // console.log(response.msg)
                 Response.html('')
                 Response.html(response)
-                // $(response.msg).each(function (i, e) {
-                //     html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + e.dados.placa + '</li>'
-                //     html += '<li> Data/Hora Ultima localização: ' + e.dados.dataHoraLocalizacao + ' </li>'
-                //     html += '<li> Data/Hora Atualização: ' + e.dados.dataUpdate + ' </li>'
-                //     html += '<li> Atualização Local: ' + e.dados.updateLocal + ' </li>'
-                //     html += '<li> Endereco: ' + e.dados.endereco + ' </li>'
-                //     html += '<li>  Ignicao: ' + e.dados.ignicao + ' </li>'
-                //     html += '<li>  Velocidade: ' + e.dados.velocidade + 'km/h </li></ul>'
-                //     Response.append(html)
-                // })
-
-                // return false;
-
-
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        })
+        $.ajax({
+            type: 'get',
+            url: '/localizacao/monitorar/veiculos/realtime/maps/index',
+            success: function (response) {
+                    var  map = L.map('mapAll').setView([ response.dados[0].latitude,response.dados[0].longitude], 17);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                      minZoom: 1,
+                      maxZoom: 30
+                    }).addTo(map);
+                    $(response.dados).each(function(i,e){
+                        var markerGroup = L.featureGroup([]).addTo(map);
+                        var latLng = L.latLng([ e.latitude,e.longitude]);
+                        L.marker(latLng).bindPopup('Placa: ' + e.placa +
+                        '<br>Endreço: ' + e.endereco +' <br>Atualização local: '+e.updateLocal).addTo(markerGroup).addTo(map);
+                    })
             },
             error: function (response) {
                 console.log(response)
@@ -1879,8 +1904,6 @@ $(function () {
         })
 
         setInterval(function () {
-
-            // console.log('teste')
             $.ajax({
                 type: 'get',
                 url: '/localizacao/monitorar/veiculos/realtime/index',
@@ -1889,28 +1912,38 @@ $(function () {
                     // console.log(response)
                     Response.html('')
                     Response.html(response)
-                    // $(response.msg).each(function (i, e) {
-                    //     html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + e.dados.placa + '</li>'
-                    //     html += '<li> Data/Hora Ultima localização: ' + e.dados.dataHoraLocalizacao + ' </li>'
-                    //     html += '<li> Data/Hora Atualização: ' + e.dados.dataUpdate + ' </li>'
-                    //     html += '<li> Atualização Local: ' + e.dados.updateLocal + ' </li>'
-                    //     html += '<li> Endereco: ' + e.dados.endereco + ' </li>'
-                    //     html += '<li>  Ignicao: ' + e.dados.ignicao + ' </li>'
-                    //     html += '<li>  Velocidade: ' + e.dados.velocidade + 'km/h </li></ul>'
-                    //     Response.append(html)
-                    // })
-                    // if(dados.velocidade > 77){
-                    //     console.log('acima do permitido')
-                    // }
                 },
                 error: function (response) {
                     console.log(response)
                 }
             })
+
+            // $.ajax({
+            //     type: 'get',
+            //     url: '/localizacao/monitorar/veiculos/realtime/maps/index',
+            //     success: function (response) {
+            //         console.log(response)
+            //             // var  map = L.map('map').setView([ response.dados[0].latitude,response.dados[0].longitude], 17);
+            //             // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            //             //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            //             //   minZoom: 1,
+            //             //   maxZoom: 30
+            //             // }).addTo(map);
+            //             // $(response.dados).each(function(i,e){
+            //             //     var markerGroup = L.featureGroup([]).addTo(map);
+            //             //     var latLng = L.latLng([ e.latitude,e.longitude]);
+            //             //     L.marker(latLng).bindPopup('Placa: ' + e.placa +
+            //             //     '<br>Endreço: ' + e.endereco +' <br>Atualização local: '+e.updateLocal).addTo(markerGroup).addTo(map);
+            //             // })
+            //     },
+            //     error: function (response) {
+            //         console.log(response)
+            //     }
+            // })
             // console.log(count++)
-            // }, 1000*60*3);// 3 minutos
+            }, 1000*60*3);// 3 minutos
             // }, 1000*60*5);// 5 minutos
-        }, 500);//1 segundo
+        // }, 500);//1 segundo
     }
 
     //MANUTENCAO

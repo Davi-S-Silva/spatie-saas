@@ -46,6 +46,7 @@ use App\Models\User;
 use App\Models\Veiculo;
 use Illuminate\Support\Facades\Route;
 
+
 // use Spatie\DbDumper\Databases\MySql;
 
 // Route::get('/phpinfo', function(){
@@ -77,7 +78,9 @@ Route::get('/', function () {
     echo '</pre>';
 });
 Route::get('/info', function () {
-    return phpinfo();
+    // return phpinfo();
+
+
 });
 
 Route::get('/dashboard', function () {
@@ -119,6 +122,8 @@ Route::middleware('auth')->group(function () {
         Route::get('localizacao/{equipamento}',[LocalizacaoVeiculoController::class,'getLocalizacaoVeiculo'])->name('getLocalizacaoVeiculo');
         Route::get('localizacao/monitorar/{veiculo}',[LocalizacaoVeiculoController::class,'monitorarVeiculo'])->name('monitorarVeiculo');
         Route::get('localizacao/monitorar/{veiculo}/realtime',[LocalizacaoVeiculoController::class,'getDadosAjaxLocationVeiculo'])->name('monitorarVeiculoRealtime');
+        Route::get('localizacao/monitorar/{veiculo}/realtime/maps',[LocalizacaoVeiculoController::class,'getDadosAjaxMapsLocationVeiculo'])->name('monitorarVeiculoRealtimeMaps');
+        Route::get('localizacao/monitorar/veiculos/realtime/maps/index',[LocalizacaoVeiculoController::class,'getDadosAjaxMapsLocationTodosVeiculos'])->name('monitorarTodosVeiculosRealtimeMaps');
         Route::get('localizacao/veiculos/monitorar/index',[LocalizacaoVeiculoController::class,'rastrearTodosVeiculos'])->name('rastrearTodosVeiculos');
         Route::get('localizacao/monitorar/veiculos/realtime/index',[LocalizacaoVeiculoController::class,'getDadosAjaxLocationTodosVeiculos'])->name('monitorarTodosVeiculoRealtime');
         Route::resource('localizacao',LocalizacaoVeiculoController::class);

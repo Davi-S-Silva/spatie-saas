@@ -446,6 +446,17 @@ background-color: green;
     overflow: scroll;
     background-color: green;
   } */
+
+  #map {
+    height: 60vh;
+    width: 60vw;
+    /* background-color: #666; */
+  }
+  #mapAll {
+    height: 95vh;
+    width: 85vw;
+    /* background-color: #666; */
+  }
 @media (max-width: 600px) {
     .aside_menu{
         display: none;
