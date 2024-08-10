@@ -20,4 +20,9 @@ class Servico extends Model
           $this->id = $this->withoutGlobalScopes()->get()->last()->id +=1;
         }
     }
+
+    public function servicomanutencao()
+    {
+        return $this->belongsTo(ServicoManutencao::class);
+    }
 }

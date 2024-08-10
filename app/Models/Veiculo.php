@@ -147,4 +147,9 @@ class Veiculo extends Model
         return $this->belongsToMany(Veiculo::class,'reboque_veiculo','veiculo_id','reboque_id');
         // $VeicReboqueAnt = DB::table('colaborador_veiculo')->where('veiculo_id',$veiculo->id)->get();
     }
+
+    public function tipo()
+    {
+        return $this->belongsTo(TipoVeiculo::class,'tipo_veiculo_id');
+    }
 }

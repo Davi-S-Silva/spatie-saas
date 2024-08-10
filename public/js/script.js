@@ -72,12 +72,12 @@ $(function () {
     });
     $('#AcoesEntrega')
 
-    $('.add_servico_manutencao').click(function(){
+    // $('.add_servico_manutencao').click(function(){
 
-        console.log('teste')
-        $('#BaseServicoManutencao').clone(true).appendTo('#AreaIncludeNovoServicoManutencao').removeAttr('id');
-        return false
-    })
+    //     console.log('teste')
+    //     $('#BaseServicoManutencao').clone(true).appendTo('#AreaIncludeNovoServicoManutencao').removeAttr('id');
+    //     return false
+    // })
 
     // $("#rolavel").bind("mousewheel",function(ev, delta) {
     //     var delta = 3

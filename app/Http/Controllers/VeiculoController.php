@@ -60,6 +60,7 @@ class VeiculoController extends Controller implements HasMiddleware
             $veiculo = new Veiculo();
             $veiculo->newId();
             $veiculo->placa = $request->Placa;
+            $veiculo->final_placa = (int)substr($request->Placa,-1);
             // $veiculo->empresa_id = LocalApoio::find((int)$request->empresa_local_apoio_id)->empresa_id;
             $veiculo->empresa_id = (!is_null($request->empresa_local_apoio_id))?LocalApoio::find($request->empresa_local_apoio_id)->empresa->id:1;
             $veiculo->local_apoio_id = (!is_null($request->empresa_local_apoio_id))?$request->empresa_local_apoio_id:null;

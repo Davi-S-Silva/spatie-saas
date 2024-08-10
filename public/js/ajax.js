@@ -1207,11 +1207,11 @@ $(function () {
     });
 
     $('.area-show-detalhe').hide()
-    $('.show-detalhe-cargas').click(function () {
+    $('.show-detalhe-items').click(function () {
         // $('.area-show-detalhe').hide()
         // console.log($(this).text())
         // $('.area-show-detalhe').toggle()
-        $('#Carga_' + $(this).attr('Carga')).toggle()
+        $('#Item_' + $(this).attr('Item')).toggle()
         // $('.show-detalhe-cargas').text('+')
         if ($(this).html() == '<i class="fa-regular fa-square-minus"></i>') {
             // console.log('negativo')
@@ -1790,17 +1790,19 @@ $(function () {
             type: 'get',
             url: '/localizacao/monitorar/' + veiculo + '/realtime',
             success: function (response) {
-                var dados = response.msg.dados
+                // var dados = response.msg.dados
                 // console.log(response)
                 Response.html('')
-                html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + dados.placa + '</li>'
-                html += '<li> Data/Hora Ultima localização: ' + dados.dataHoraLocalizacao + ' </li>'
-                html += '<li> Data/Hora Atualização: ' + dados.dataUpdate + ' </li>'
-                html += '<li> Atualização Local: ' + dados.updateLocal + ' </li>'
-                html += '<li> Endereco: ' + dados.endereco + ' </li>'
-                html += '<li>  Ignicao: ' + dados.ignicao + ' </li>'
-                html += '<li>  Velocidade: ' + dados.velocidade + 'km/h </li></ul>'
-                Response.append(html)
+                // html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + dados.placa + '</li>'
+                // html += '<li> Data/Hora Ultima localização: ' + dados.dataHoraLocalizacao + ' </li>'
+                // html += '<li> Data/Hora Atualização: ' + dados.dataUpdate + ' </li>'
+                // html += '<li> Atualização Local: ' + dados.updateLocal + ' </li>'
+                // html += '<li> Endereco: ' + dados.endereco + ' </li>'
+                // html += '<li>  Ignicao: ' + dados.ignicao + ' </li>'
+                // html += '<li>  Velocidade: ' + dados.velocidade + 'km/h </li></ul>'
+
+
+                Response.html(response)
             },
             error: function (response) {
                 console.log(response)
@@ -1813,17 +1815,17 @@ $(function () {
                 type: 'get',
                 url: '/localizacao/monitorar/' + veiculo + '/realtime',
                 success: function (response) {
-                    var dados = response.msg.dados
+                    // var dados = response.msg.dados
                     // console.log(response)
                     Response.html('')
-                    html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + dados.placa + '</li>'
-                    html += '<li> Data/Hora Ultima localização: ' + dados.dataHoraLocalizacao + ' </li>'
-                    html += '<li> Data/Hora Atualização: ' + dados.dataUpdate + ' </li>'
-                    html += '<li> Atualização Local: ' + dados.updateLocal + ' </li>'
-                    html += '<li> Endereco: ' + dados.endereco + ' </li>'
-                    html += '<li>  Ignicao: ' + dados.ignicao + ' </li>'
-                    html += '<li>  Velocidade: ' + dados.velocidade + 'km/h </li></ul>'
-                    Response.append(html)
+                    // html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + dados.placa + '</li>'
+                    // html += '<li> Data/Hora Ultima localização: ' + dados.dataHoraLocalizacao + ' </li>'
+                    // html += '<li> Data/Hora Atualização: ' + dados.dataUpdate + ' </li>'
+                    // html += '<li> Atualização Local: ' + dados.updateLocal + ' </li>'
+                    // html += '<li> Endereco: ' + dados.endereco + ' </li>'
+                    // html += '<li>  Ignicao: ' + dados.ignicao + ' </li>'
+                    // html += '<li>  Velocidade: ' + dados.velocidade + 'km/h </li></ul>'
+                    Response.html(response)
                     // if(dados.velocidade > 77){
                     //     console.log('acima do permitido')
                     // }
@@ -1833,9 +1835,9 @@ $(function () {
                 }
             })
             // console.log(count++)
-        }, 1000 * 60 * 3);// 3 minutos
+        // }, 1000 * 60 * 3);// 3 minutos
         // }, 1000*60*5);// 5 minutos
-        // }, 500);//1 segundo
+        }, 500);//1 segundo
     }
 
     // MONITORAR TODOS OS VEICULOS
@@ -1855,16 +1857,17 @@ $(function () {
                 // var dados = response.msg.dados
                 // console.log(response.msg)
                 Response.html('')
-                $(response.msg).each(function (i, e) {
-                    html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + e.dados.placa + '</li>'
-                    html += '<li> Data/Hora Ultima localização: ' + e.dados.dataHoraLocalizacao + ' </li>'
-                    html += '<li> Data/Hora Atualização: ' + e.dados.dataUpdate + ' </li>'
-                    html += '<li> Atualização Local: ' + e.dados.updateLocal + ' </li>'
-                    html += '<li> Endereco: ' + e.dados.endereco + ' </li>'
-                    html += '<li>  Ignicao: ' + e.dados.ignicao + ' </li>'
-                    html += '<li>  Velocidade: ' + e.dados.velocidade + 'km/h </li></ul>'
-                    Response.append(html)
-                })
+                Response.html(response)
+                // $(response.msg).each(function (i, e) {
+                //     html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + e.dados.placa + '</li>'
+                //     html += '<li> Data/Hora Ultima localização: ' + e.dados.dataHoraLocalizacao + ' </li>'
+                //     html += '<li> Data/Hora Atualização: ' + e.dados.dataUpdate + ' </li>'
+                //     html += '<li> Atualização Local: ' + e.dados.updateLocal + ' </li>'
+                //     html += '<li> Endereco: ' + e.dados.endereco + ' </li>'
+                //     html += '<li>  Ignicao: ' + e.dados.ignicao + ' </li>'
+                //     html += '<li>  Velocidade: ' + e.dados.velocidade + 'km/h </li></ul>'
+                //     Response.append(html)
+                // })
 
                 // return false;
 
@@ -1883,18 +1886,19 @@ $(function () {
                 url: '/localizacao/monitorar/veiculos/realtime/index',
                 success: function (response) {
                     // var dados = response.msg.dados
-                    console.log(response)
+                    // console.log(response)
                     Response.html('')
-                    $(response.msg).each(function (i, e) {
-                        html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + e.dados.placa + '</li>'
-                        html += '<li> Data/Hora Ultima localização: ' + e.dados.dataHoraLocalizacao + ' </li>'
-                        html += '<li> Data/Hora Atualização: ' + e.dados.dataUpdate + ' </li>'
-                        html += '<li> Atualização Local: ' + e.dados.updateLocal + ' </li>'
-                        html += '<li> Endereco: ' + e.dados.endereco + ' </li>'
-                        html += '<li>  Ignicao: ' + e.dados.ignicao + ' </li>'
-                        html += '<li>  Velocidade: ' + e.dados.velocidade + 'km/h </li></ul>'
-                        Response.append(html)
-                    })
+                    Response.html(response)
+                    // $(response.msg).each(function (i, e) {
+                    //     html = '<ul class="col-sm-5 col-12 my-2"><li> placa: ' + e.dados.placa + '</li>'
+                    //     html += '<li> Data/Hora Ultima localização: ' + e.dados.dataHoraLocalizacao + ' </li>'
+                    //     html += '<li> Data/Hora Atualização: ' + e.dados.dataUpdate + ' </li>'
+                    //     html += '<li> Atualização Local: ' + e.dados.updateLocal + ' </li>'
+                    //     html += '<li> Endereco: ' + e.dados.endereco + ' </li>'
+                    //     html += '<li>  Ignicao: ' + e.dados.ignicao + ' </li>'
+                    //     html += '<li>  Velocidade: ' + e.dados.velocidade + 'km/h </li></ul>'
+                    //     Response.append(html)
+                    // })
                     // if(dados.velocidade > 77){
                     //     console.log('acima do permitido')
                     // }
@@ -1954,9 +1958,9 @@ $(function () {
         var IncludeResponseAjax = $('#IncludeResponseAjax')
         $.ajax({
             type: 'get',
-            url: '/add-servico-manutencao/'+$('.add_servico_manutencao').attr('manutencao'),
+            url: '/add-servico-manutencao/'+$(this).attr('manutencao'),
             success: function (response) {
-                // console.log($('.add_servico_manutencao').attr('manutencao'));
+                console.log($('.add_servico_manutencao').attr('manutencao'));
                 // return false;
                 IncludeResponseAjax.html(response)
                 IncludeResponseAjax.show()

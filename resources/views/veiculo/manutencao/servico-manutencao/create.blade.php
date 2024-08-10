@@ -1,3 +1,4 @@
+<header>Manutencao {{ $manutencao }}</header>
 <form action="{{ route('servico-manutencao.store') }}" name="FormAddServicoManutencao" method="post">
     <x-select-servico />
     <input type="hidden" name="Manutencao" value="{{ $manutencao }}">

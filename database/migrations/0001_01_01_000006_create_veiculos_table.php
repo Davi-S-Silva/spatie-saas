@@ -18,6 +18,7 @@ return new class extends Migration
             $table->year('ano_fabricacao');
             $table->year('ano_exercicio');
             $table->string('renavam');
+            $table->integer('final_placa');
             $table->string('chassi');
             $table->string('potencia');
             $table->string('marca_modelo');

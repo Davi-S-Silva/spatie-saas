@@ -20,4 +20,9 @@ class TipoVeiculo extends Model
           $this->id = $this->withoutGlobalScopes()->get()->last()->id +=1;
         }
     }
+
+    public function veiculo()
+    {
+        return $this->hasOne(Veiculo::class);
+    }
 }

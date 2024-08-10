@@ -146,7 +146,7 @@ class LocalizacaoVeiculoController extends Controller implements HasMiddleware
         $minutoAtual = date('i');
         $segundoAtual = date('s');
 
-        $dataAtuaMenosMinutos =  date("Y-m-d H:i:s", strtotime("-10 hours"));
+        $dataAtuaMenosMinutos =  date("Y-m-d H:i:s", strtotime("-1 hours"));
         $diaAtualMenosMinutos = date('d', strtotime($dataAtuaMenosMinutos));
         $mesAtualMenosMinutos = date('m', strtotime($dataAtuaMenosMinutos));
         $anoAtualMenosMinutos = date('Y', strtotime($dataAtuaMenosMinutos));
@@ -211,6 +211,11 @@ class LocalizacaoVeiculoController extends Controller implements HasMiddleware
                 $encontrado['dados']=[
                     'placa'=>$item->placa,
                     'endereco'=>$item->endereco,
+                    'id_equipamento'=>$item->id_equipamento,
+                    'bateria'=>$item->bateria,
+                    'latitude'=>$item->latitude,
+                    'longitude'=>$item->longitude,
+                    'descricao'=>$item->descricao,
                     'dataHoraLocalizacao'=>date('d/m/Y H:i:s', strtotime($item->dataHoraLocalizacao)),
                     'dataUpdate'=>date('d/m/Y H:i:s', strtotime($item->dataUpdate)),
                     'ignicao'=>$item->ignicao,
@@ -219,11 +224,12 @@ class LocalizacaoVeiculoController extends Controller implements HasMiddleware
                 ];
             }
         }
-        if(count($encontrado)!=0){
-            return response()->json(['status'=>200,'msg'=>$encontrado]);
-        }else{
-            return response()->json(['status'=>0,'msg'=>'sem informacoes']);
-        }
+        return view('veiculo.monitoramento.cards-monitoring',['dados'=>$encontrado]);
+        // if(count($encontrado)!=0){
+        //     return response()->json(['status'=>200,'msg'=>$encontrado]);
+        // }else{
+        //     return response()->json(['status'=>0,'msg'=>'sem informacoes']);
+        // }
     }
 
     public function rastrearTodosVeiculos()
@@ -248,18 +254,24 @@ class LocalizacaoVeiculoController extends Controller implements HasMiddleware
         $encontrado = [];
         foreach($obj as $item){
             // if($item->placa == $veiculo){
-                $encontrado[]=['dados'=>[
+                $encontrado[]=[
                     'placa'=>$item->placa,
                     'endereco'=>$item->endereco,
+                    'id_equipamento'=>$item->id_equipamento,
+                    'bateria'=>$item->bateria,
+                    'latitude'=>$item->latitude,
+                    'longitude'=>$item->longitude,
+                    'descricao'=>$item->descricao,
                     'dataHoraLocalizacao'=>date('d/m/Y H:i:s', strtotime($item->dataHoraLocalizacao)),
                     'dataUpdate'=>date('d/m/Y H:i:s', strtotime($item->dataUpdate)),
                     'ignicao'=>$item->ignicao,
                     'velocidade'=>$item->velocidade,
                     'updateLocal'=>date('d/m/Y H:i:s'),
-                ]];
+                ];
             // }
         }
-        return response()->json(['status'=>200,'msg'=>$encontrado]);
+        // return response()->json(['status'=>200,'msg'=>$encontrado]);
+        return view('veiculo.monitoramento.cards-monitoring',['dados'=>$encontrado]);
         // if(count($encontrado)!=0){
         // }else{
         //     return response()->json(['status'=>0,'msg'=>'sem informacoes']);

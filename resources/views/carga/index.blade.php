@@ -44,8 +44,8 @@
                         $indice = 0;
                     @endphp
                     @foreach ($cargas as $carga)
-                        <tr class="{{ (($indice%2)==0)?'bg-claro':'bg-mais-claro' }} tr-cargas border-secondary border">
-                            <td class="show-detalhe-cargas p-2 m-1" Carga={{ $carga->id }}><i class="fa-regular fa-square-plus"></i></td>
+                        <tr class="{{ (($indice%2)==0)?'bg-claro':'bg-mais-claro' }} tr-items border-secondary border">
+                            <td class="show-detalhe-items p-2 m-1" Item={{ $carga->id }}><i class="fa-regular fa-square-plus"></i></td>
                             <td><input type="checkbox" name="" id=""></td>
                             <td><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->remessa }}</a></td>
                             <td><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->os }}</a></td>
@@ -54,7 +54,7 @@
                             <td>{{ $carga->filial->nome_fantasia }}</td>
                             <td>{{ date('d/m/Y',strtotime($carga->agenda)) }}</td>
                             <td class="col-3">{{ $carga->destino }}</td>
-                            <td class="cursor-pointer" title="Clique para trocar de veículo">{{ $carga->veiculo->placa }}</td>
+                            <td class="cursor-pointer" title="">{{ $carga->veiculo->placa }}</td>
                             <td>{{ $carga->notas()->count() }}</td>
                             <td>{{ count($carga->paradas()) }}</td>
                             <td>R$ {{ number_format($carga->frete,2,',','.') }}</td>
@@ -67,7 +67,7 @@
                         @php
                             $indice++;
                         @endphp
-                        <tr id="Carga_{{ $carga->id }}" class="area-show-detalhe">
+                        <tr id="Item_{{ $carga->id }}" class="area-show-detalhe">
                             <td colspan="15" class="bg-slate-200">
                                 <ul class="nav nav-tabs  bg-white" id="myTab_{{ $carga->id }}" role="tablist">
                                     <li class="nav-item" role="presentation">

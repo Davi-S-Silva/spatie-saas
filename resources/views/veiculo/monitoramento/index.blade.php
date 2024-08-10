@@ -5,12 +5,12 @@
         </h2>
     </x-slot>
     <div class="py-1">
-        <div class="max-w-7xl mx-auto px-1">
+        <div class="mx-auto px-1">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
                     <section>
                         <div class="monitorar_todos_veiculo">
-                            <section id="AreaDadosAjaxMonitoramento" class="d-flex flex-wrap justify-around col-12">teste</section>
+                            <section id="AreaDadosAjaxMonitoramento" class="d-flex flex-wrap justify-around col-12"></section>
                         </div>
                     </section>
                 </div>

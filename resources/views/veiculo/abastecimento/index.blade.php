@@ -76,7 +76,7 @@
                                     @php
                                         $kmRodado = $abastecimento->kmAtual - $abastecimento->kmAnterior;
                                     @endphp
-                                    <td> <a href="{{ route('abastecimento.show',['abastecimento'=>$abastecimento->id]) }}">{{ $abastecimento->cupom }}</a></td>
+                                    <td class="py-2"> <a href="{{ route('abastecimento.show',['abastecimento'=>$abastecimento->id]) }}">{{ $abastecimento->cupom }}</a></td>
                                     <td>{{ $abastecimento->kmAnterior }}</td>
                                     <td>{{ $abastecimento->kmAtual }}</td>
                                     <td>{{ $kmRodado }}</td>

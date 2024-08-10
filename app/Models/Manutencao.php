@@ -24,6 +24,9 @@ class Manutencao extends Model
     {
         return Status::where('name',$status)->where('tipo',8)->get()->first()->id;
     }
+    public function getStatus(){
+        return Status::find($this->status_id);
+    }
 
     public function servicos()
     {
@@ -32,5 +35,24 @@ class Manutencao extends Model
     public function observacoes()
     {
         return $this->belongsToMany(Observacao::class);
+    }
+
+    public function veiculo()
+    {
+        return $this->belongsTo(Veiculo::class);
+    }
+
+    public function colaborador()
+    {
+        return $this->belongsTo(Colaborador::class);
+    }
+
+    public function fornecedor()
+    {
+        return $this->belongsTo(Fornecedor::class);
+    }
+    public function autorizacao()
+    {
+        return $this->belongsTo(User::class,'usuario_autorizacao_id');
     }
 }

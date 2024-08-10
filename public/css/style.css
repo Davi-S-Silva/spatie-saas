@@ -189,20 +189,20 @@ input[name="search"]:focus{
 .paginate-by-page-color{
     background-color: #0DCAF0;
 }
-.tr-cargas:hover{
+.tr-items:hover{
     background-color: #999999ab;
 }
-.tr-cargas a:hover{
+.tr-items a:hover{
     text-decoration: underline;
     /* color: #0DCAF0; */
 }
-.show-detalhe-cargas{
+.show-detalhe-items{
     cursor: pointer;
     /* padding: 2px; */
     /* background-color: #686868; */
     text-align: center;
 }
-.show-detalhe-cargas:hover i{
+.show-detalhe-items:hover i{
     color: #fff;
 }
 .area-show-detalhe{
@@ -364,7 +364,22 @@ display: none;
 #LocalVeiculos a:hover{
     background-color: #ccc;
 }
-
+.card-location{
+    background-color: #fff;
+    border: 2px solid #ccc;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 10px;
+}
+.bg-icon-card-location{
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+}
+.text_items_icons_card_location{
+    line-height: 17px;
+    text-align: left;
+}
 form[name="StopEntrega"]{
     z-index: 2000;
 }

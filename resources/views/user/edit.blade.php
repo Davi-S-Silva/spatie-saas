@@ -4,10 +4,10 @@
             {{ __('User Edit') }}
         </h2>
     </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-1">
+        <div class="mx-auto sm:px-1 lg:px-1">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="card col-12">
+                <div class="card col-12 p-2">
                     <div class="card-header col-12 m-0 p-0">
                         <h4 class="p-3 m-0 d-flex justify-between align-items-center">
                            <span> User <b>{{ $user->name }}</b></span><a href="{{ route('users.index') }}" class="btn btn-primary m-0">Users</a></h4>
