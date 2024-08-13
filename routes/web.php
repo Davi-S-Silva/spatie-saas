@@ -8,6 +8,7 @@ ini_set('display_errors', 'On');
 use App\Http\Controllers\AbastecimentoController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CargaController;
+use App\Http\Controllers\CEPController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ColaboradorController;
 use App\Http\Controllers\EmpresaController;
@@ -82,6 +83,7 @@ Route::get('/info', function () {
 
 
 });
+Route::get('cep/{cep}',[CEPController::class, 'getCoordenadaCep'])->name('cep.coordenada');
 
 Route::get('/dashboard', function () {
     $clientes = Cliente::Count();
@@ -123,6 +125,7 @@ Route::middleware('auth')->group(function () {
         Route::get('localizacao/monitorar/{veiculo}',[LocalizacaoVeiculoController::class,'monitorarVeiculo'])->name('monitorarVeiculo');
         Route::get('localizacao/monitorar/{veiculo}/realtime',[LocalizacaoVeiculoController::class,'getDadosAjaxLocationVeiculo'])->name('monitorarVeiculoRealtime');
         Route::get('localizacao/monitorar/{veiculo}/realtime/maps',[LocalizacaoVeiculoController::class,'getDadosAjaxMapsLocationVeiculo'])->name('monitorarVeiculoRealtimeMaps');
+        Route::get('localizacao/monitorar/{veiculo}/entrega/maps',[LocalizacaoVeiculoController::class,'getDadosAjaxMapsLocationVeiculoEntrega'])->name('monitorarVeiculoRealtimeEntregaMaps');
         Route::get('localizacao/monitorar/veiculos/realtime/maps/index',[LocalizacaoVeiculoController::class,'getDadosAjaxMapsLocationTodosVeiculos'])->name('monitorarTodosVeiculosRealtimeMaps');
         Route::get('localizacao/veiculos/monitorar/index',[LocalizacaoVeiculoController::class,'rastrearTodosVeiculos'])->name('rastrearTodosVeiculos');
         Route::get('localizacao/monitorar/veiculos/realtime/index',[LocalizacaoVeiculoController::class,'getDadosAjaxLocationTodosVeiculos'])->name('monitorarTodosVeiculoRealtime');

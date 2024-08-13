@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     <div class="py-1">
-        <div class="max-w-7xl mx-auto px-1">
+        <div class="mx-auto px-1">
             <div id="AcoesEntrega" class="d-flex flex-column p-0 m-0">
                 <button class="btn btn-danger submit_entrega" name="Devolver">Devolver</button>
                 <button class="btn btn-success submit_entrega" name="Receber">Receber</button>
@@ -18,6 +18,7 @@
                 <x-start-entrega />
                 <x-stop-entrega :localMovimentacao=$localMovimentacao />
                 <div class="card col-12 p-2 exibe_entrega">
+                    <div id="mapEntrega" class="monitorar_entrega" veiculo="{{ $entrega->veiculo->placa }}">Mapa Rota Entrega</div>
                     <form action="{{ route('receberVariasNotas', ['entrega' => $entrega->id]) }}" method="post"
                         name="FormEncerraEntrega">
                         <header>
