@@ -1782,7 +1782,17 @@ $(function () {
     })
 
     if ($('div').hasClass('monitorar_veiculo')) {
-
+        var LeafIcon = L.Icon.extend({
+            options: {
+                // shadowUrl: base+'img/OGD9J14.png',
+                // shadowUrl: 'C:/xampp_bkp/htdocs/spatie-saas/public/img/OGD9J14.png',
+                iconSize:     [100, 70],
+                shadowSize:   [50, 64],
+                iconAnchor:   [0,0],
+                shadowAnchor: [4, 62],
+                popupAnchor:  [0, 0]
+            }
+        });
         // var count = 1;
         var veiculo = $('.monitorar_veiculo').attr('veiculo')
         var Response = $('#AreaDadosAjaxMonitoramento')
@@ -1807,18 +1817,28 @@ $(function () {
                 var  map = L.map('map').setView([ response.dados.latitude,response.dados.longitude], 17);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                  minZoom: 1,
+                  minZoom: 8,
                   maxZoom: 19
                 }).addTo(map);
+                console.log(response.dados)
                 var markerGroup = L.featureGroup([]).addTo(map);
                 var latLng = L.latLng([ response.dados.latitude,response.dados.longitude]);
-                L.marker(latLng).bindPopup('Placa: ' + response.dados.placa +
-                '<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+dados.atualizacaoLocal).addTo(markerGroup).addTo(map);
+                // L.marker(latLng)
+                var greenIcon = new LeafIcon({iconUrl: base+'img/OGD9J14.png'});
+                L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' +  response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
+                .addTo(markerGroup)
+                .addTo(map);
             },
             error: function (response) {
                 console.log(response)
             }
         })
+        // var  map = L.map('map').setView([ -8.122895,-34.918538], 17);
+        //         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        //           minZoom: 1,
+        //           maxZoom: 19
+        //         }).addTo(map);
         setInterval(function () {
 
             // console.log('teste')
@@ -1833,26 +1853,29 @@ $(function () {
                     console.log(response)
                 }
             })
-            // $.ajax({
-            //     type: 'get',
-            //     url: '/localizacao/monitorar/' + veiculo + '/realtime/maps',
-            //     // url: '/localizacao/monitorar/' + veiculo + '/realtime',
-            //     success: function (response) {
-            //         var  map = L.map('map').setView([ response.dados.latitude,response.dados.longitude], 17);
-            //     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            //       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            //       minZoom: 1,
-            //       maxZoom: 19
-            //     }).addTo(map);
-            //     var markerGroup = L.featureGroup([]).addTo(map);
-            //     var latLng = L.latLng([ response.dados.latitude,response.dados.longitude]);
-            //     L.marker(latLng).bindPopup('Placa: ' + response.dados.placa +
-            //     '<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+dados.atualizacaoLocal).addTo(markerGroup).addTo(map);
-            //     },
-            //     error: function (response) {
-            //         console.log(response)
-            //     }
-            // })
+            $.ajax({
+                type: 'get',
+                url: '/localizacao/monitorar/' + veiculo + '/realtime/maps',
+                // url: '/localizacao/monitorar/' + veiculo + '/realtime',
+                success: function (response) {
+                    // var  map = L.map('map').setView([response.dados.latitude,response.dados.longitude], 17);
+                    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    //   minZoom: 1,
+                    //   maxZoom: 19
+                    // }).addTo(map);
+                var markerGroup = L.featureGroup([]).addTo(map);
+                var latLng = L.latLng([ response.dados.latitude,response.dados.longitude]);
+                var greenIcon = new LeafIcon({iconUrl: base+'img/OGD9J14.png'});
+                // L.marker(latLng)
+                L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' + response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
+                .addTo(markerGroup)
+                .addTo(map);
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            })
             // console.log(count++)
         }, 1000 * 60 * 3);// 3 minutos
         // }, 1000*60*5);// 5 minutos
@@ -1863,12 +1886,28 @@ $(function () {
     // MONITORAR TODOS OS VEICULOS
 
     if ($('div').hasClass('monitorar_todos_veiculo')) {
-
+        var LeafIcon = L.Icon.extend({
+            options: {
+                // shadowUrl: base+'img/OGD9J14.png',
+                // shadowUrl: 'C:/xampp_bkp/htdocs/spatie-saas/public/img/OGD9J14.png',
+                iconSize:     [100, 70],
+                shadowSize:   [50, 64],
+                iconAnchor:   [0,0],
+                shadowAnchor: [4, 62],
+                popupAnchor:  [0, 0]
+            }
+        });
         // console.log('poçaa')
 
         // return false;
         // var count = 1;
         // var veiculo = $('.monitorar_todos_veiculo').attr('veiculo')
+        var  map = L.map('mapAll').setView([-8.122895,-34.918538], 17);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          minZoom: 8,
+          maxZoom: 19
+        }).addTo(map);
         var Response = $('#AreaDadosAjaxMonitoramento')
         $.ajax({
             type: 'get',
@@ -1881,21 +1920,20 @@ $(function () {
                 console.log(response)
             }
         })
+
         $.ajax({
             type: 'get',
             url: '/localizacao/monitorar/veiculos/realtime/maps/index',
             success: function (response) {
-                    var  map = L.map('mapAll').setView([ response.dados[0].latitude,response.dados[0].longitude], 17);
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                      minZoom: 1,
-                      maxZoom: 30
-                    }).addTo(map);
                     $(response.dados).each(function(i,e){
                         var markerGroup = L.featureGroup([]).addTo(map);
                         var latLng = L.latLng([ e.latitude,e.longitude]);
-                        L.marker(latLng).bindPopup('Placa: ' + e.placa +
-                        '<br>Endreço: ' + e.endereco +' <br>Atualização local: '+e.updateLocal).addTo(markerGroup).addTo(map);
+                        var greenIcon = new LeafIcon({iconUrl: base+'img/OGD9J14.png'});
+                        L.marker(latLng,{icon:greenIcon})
+                        // L.marker(latLng)
+                        // .bindPopup('Placa: ' + e.placa +
+                        .bindPopup('Placa: ' + e.placa +'<br>Endreço: ' + e.endereco +' <br>Atualização local: '+e.updateLocal)
+                        .addTo(markerGroup).addTo(map);
                     })
             },
             error: function (response) {
@@ -1918,28 +1956,31 @@ $(function () {
                 }
             })
 
-            // $.ajax({
-            //     type: 'get',
-            //     url: '/localizacao/monitorar/veiculos/realtime/maps/index',
-            //     success: function (response) {
-            //         console.log(response)
-            //             // var  map = L.map('map').setView([ response.dados[0].latitude,response.dados[0].longitude], 17);
-            //             // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            //             //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            //             //   minZoom: 1,
-            //             //   maxZoom: 30
-            //             // }).addTo(map);
-            //             // $(response.dados).each(function(i,e){
-            //             //     var markerGroup = L.featureGroup([]).addTo(map);
-            //             //     var latLng = L.latLng([ e.latitude,e.longitude]);
-            //             //     L.marker(latLng).bindPopup('Placa: ' + e.placa +
-            //             //     '<br>Endreço: ' + e.endereco +' <br>Atualização local: '+e.updateLocal).addTo(markerGroup).addTo(map);
-            //             // })
-            //     },
-            //     error: function (response) {
-            //         console.log(response)
-            //     }
-            // })
+            $.ajax({
+                type: 'get',
+                url: '/localizacao/monitorar/veiculos/realtime/maps/index',
+                success: function (response) {
+                    // console.log(response)
+                        // var  map = L.map('map').setView([ response.dados[0].latitude,response.dados[0].longitude], 17);
+                        // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                        //   minZoom: 1,
+                        //   maxZoom: 30
+                        // }).addTo(map);
+                        $(response.dados).each(function(i,e){
+                            var markerGroup = L.featureGroup([]).addTo(map);
+                            var latLng = L.latLng([ e.latitude,e.longitude]);
+                            var greenIcon = new LeafIcon({iconUrl: base+'img/OGD9J14.png'});
+                            // L.marker(latLng)
+                            // .bindPopup('Placa: ' + e.placa +
+                            L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' + e.placa +'<br>Endreço: ' + e.endereco +' <br>Atualização local: '+e.updateLocal)
+                            .addTo(markerGroup).addTo(map);
+                        })
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            })
             // console.log(count++)
             }, 1000*60*3);// 3 minutos
             // }, 1000*60*5);// 5 minutos

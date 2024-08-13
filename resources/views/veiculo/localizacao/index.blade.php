@@ -27,23 +27,41 @@
 </x-app-layout>
 <script>
     $(document).ready(function() {
+        var base = 'http://localhost:8080/' ;
         $.ajax({
             type: 'get',
             url: '/localizacao/monitorar/veiculos/realtime/maps/index',
             success: function(response) {
-                var map = L.map('mapAll').setView([response.dados[0].latitude, response.dados[0]
-                    .longitude
-                ], 17);
+                var map = L.map('mapAll').setView([response.dados[0].latitude, response.dados[0].longitude], 17);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                    minZoom: 1,
-                    maxZoom: 30
+                    minZoom:8,
+                    maxZoom: 19
                 }).addTo(map);
+
                 $(response.dados).each(function(i, e) {
                     var markerGroup = L.featureGroup([]).addTo(map);
                     var latLng = L.latLng([e.latitude, e.longitude]);
-                    L.marker(latLng).bindPopup('Placa: ' + e.placa +
-                        '<br>Endreço: ' + e.endereco+'Atualização local: '+e.atualizacaoLocal).addTo(markerGroup).addTo(map);
+                    var LeafIcon = L.Icon.extend({
+                        options: {
+                            // shadowUrl: base+'img/OGD9J14.png',
+                            // shadowUrl: 'C:/xampp_bkp/htdocs/spatie-saas/public/img/OGD9J14.png',
+                            iconSize:     [100, 70],
+                            shadowSize:   [50, 64],
+                            iconAnchor:   [0,0],
+                            shadowAnchor: [4, 62],
+                            popupAnchor:  [0, 0]
+                        }
+                    });
+                    // var greenIcon = new LeafIcon({iconUrl: base+'img/'+e.placa+'.png'});
+                    var greenIcon = new LeafIcon({iconUrl: base+'img/OGD9J14.png'});
+                    L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' + e.placa +
+                    // L.marker(latLng).addTo(map).bindPopup('Placa: ' + e.placa +
+                        '<br>Endreço: ' + e.endereco+'Atualização local: '+e.updateLocal)
+
+                        // .openPopup().addTo(map)
+
+                        // .addTo(markerGroup).addTo(map);
                 })
             },
             error: function(response) {

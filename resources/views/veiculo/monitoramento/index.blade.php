@@ -13,7 +13,6 @@
                         <div class="monitorar_todos_veiculo">
                             <section id="AreaDadosAjaxMonitoramento" class="d-flex flex-wrap justify-around col-12"></section>
                         </div>
-
                     </section>
                 </div>
             </div>

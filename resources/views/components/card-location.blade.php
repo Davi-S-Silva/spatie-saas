@@ -4,7 +4,7 @@
             <div class="d-flex align-items-center">
                 <figure class="bg-icon-card-location mr-2"
                     style="background-image: url({{ asset('img/icon-caminhao.png') }})"></figure>
-                <figcaption class="font-bold">{{ $item->placa }}
+                <figcaption class="font-bold"><a href="#{{ $item->placa }}">{{ $item->placa }}</a>
                     <div>
                     {{ $item->descricao }}
                  </div></figcaption>

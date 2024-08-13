@@ -5,9 +5,9 @@
         </h2>
     </x-slot>
     @if ($CadastroGeral)
-    <div class="modal-info scroll-stop">
-        <x-modal-info :title=$title :veiculos=$veiculos :clientes=$clientes :colaboradores=$colaboradores/>
-    </div>
+        <div class="modal-info scroll-stop">
+            <x-modal-info :title=$title :veiculos=$veiculos :clientes=$clientes :colaboradores=$colaboradores />
+        </div>
     @endif
 
     <div class="py-1">
@@ -16,25 +16,29 @@
                 <div class="p-6 text-gray-900">
                     <header class="flex flex-wrap justify-around">
                         @for ($i = 0; $i < 5; $i++)
-                        <div class="col-xl-2 col-md-5 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            <div class="col-xl-2 col-md-5 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Earnings (Monthly)</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
                         @endfor
                     </header>
+<ul>
+    <li>Meta de faturamento = 3.000.000,00</li>
+    <li>Meta de faturamento = </li>
+</ul>
+
                     {{-- <button class="btn btn-primary" type="button" disabled>
                         <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                         <span role="status">Loading...</span>

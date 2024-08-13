@@ -35,7 +35,7 @@
             </select>
         </div> --}}
         <input type="hidden" name="Notas" value="{{ $notashidden }}">
-        @if ((in_array($nota->tipo_pagamento_id,$pagamentos) && $nota->indicacao_pagamento_id==1) || ($nota->tipo_pagamento_id==15 && $nota->indicacao_pagamento_id==1))
+        @if (in_array($nota->tipo_pagamento_id,$pagamentos) || ($nota->tipo_pagamento_id==15 && $nota->indicacao_pagamento_id==1))
             <div>
                 <label for="PagoDiretoEmpresa">Pagamento direto a empresa</label>
                 <input type="checkbox" name="PagoDiretoEmpresa" id="PagoDiretoEmpresa">
@@ -49,6 +49,9 @@
                 <a href="" id="RemoveComprovante"><i class="fa-regular fa-trash-can"></i></a>
             </div>
         @endif
+        <div>
+            <input type="file" name="FotoCanhotos" id="" class="" multiple>
+        </div>
         <div>
             <label for="">Observações</label>
             <textarea name="ObservacaoNota" id="" cols="30" rows="10"></textarea>

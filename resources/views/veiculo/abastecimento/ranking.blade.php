@@ -26,7 +26,7 @@
                     </header>
                     {{-- <div class="d-flex flex-column col-12 p-2 align-items-center text-center" id="rolavel"> --}}
                     {{-- <div id="fixo"> --}}
-                        <div class="d-flex col-12 p-2 justify-around overflow-scroll text-center"  id="rolavel">
+                        <div class="d-flex col-12 p-2 justify-around overflow-scroll flex-wrap text-center"  id="rolavel">
                             {{-- CARRETA --}}
                             <div class="col-5 m-3 bg-transparent-ranking-media">
                                 <header>Carreta</header>
