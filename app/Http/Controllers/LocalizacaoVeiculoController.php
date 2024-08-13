@@ -336,7 +336,7 @@ class LocalizacaoVeiculoController extends Controller implements HasMiddleware
                 ];
                 //selecionar o carro pela placa
                 $Veiculo =  Veiculo::where('placa',$veiculo)->get()->first()->id;
-                $Cargas = Entrega::where('veiculo_id',$Veiculo)->get()->first()->cargas;
+                $Cargas = Entrega::where('veiculo_id',$Veiculo)->where('status_id',Entrega::getStatusId('Rota'))->get()->last()->cargas;
                 foreach($Cargas as $carga)
                 {
                     foreach($carga->notas as $nota)

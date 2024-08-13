@@ -462,9 +462,13 @@ background-color: green;
     width: 85vw;
     background-color: #ccc;
   }
-
+  .leaflet-control-container .leaflet-right{
+    overflow: scroll;
+    /* background-color: #fff; */
+    max-height: 550px;
+  }
   .leaflet-control table{
-    display:none;
+    /* display:none; */
   }
 @media (max-width: 600px) {
     .aside_menu{
