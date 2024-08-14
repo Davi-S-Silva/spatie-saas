@@ -1786,11 +1786,11 @@ $(function () {
             options: {
                 // shadowUrl: base+'img/OGD9J14.png',
                 // shadowUrl: 'C:/xampp_bkp/htdocs/spatie-saas/public/img/OGD9J14.png',
-                iconSize:     [100, 70],
-                shadowSize:   [50, 64],
-                iconAnchor:   [0,0],
+                iconSize: [100, 70],
+                shadowSize: [50, 64],
+                iconAnchor: [0, 0],
                 shadowAnchor: [4, 62],
-                popupAnchor:  [0, 0]
+                popupAnchor: [0, 0]
             }
         });
         // var count = 1;
@@ -1814,20 +1814,20 @@ $(function () {
             url: '/localizacao/monitorar/' + veiculo + '/realtime/maps',
             // url: '/localizacao/monitorar/' + veiculo + '/realtime',
             success: function (response) {
-                var  map = L.map('map').setView([ response.dados.latitude,response.dados.longitude], 17);
+                var map = L.map('map').setView([response.dados.latitude, response.dados.longitude], 17);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                  minZoom: 8,
-                  maxZoom: 19
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    minZoom: 8,
+                    maxZoom: 19
                 }).addTo(map);
                 console.log(response.dados)
                 var markerGroup = L.featureGroup([]).addTo(map);
-                var latLng = L.latLng([ response.dados.latitude,response.dados.longitude]);
+                var latLng = L.latLng([response.dados.latitude, response.dados.longitude]);
                 // L.marker(latLng)
-                var greenIcon = new LeafIcon({iconUrl: base+'img/OGD9J14.png'});
-                L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' +  response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
-                .addTo(markerGroup)
-                .addTo(map);
+                var greenIcon = new LeafIcon({ iconUrl: base + 'img/OGD9J14.png' });
+                L.marker(latLng, { icon: greenIcon }).addTo(map).bindPopup('Placa: ' + response.dados.placa + '<br>Endreço: ' + response.dados.endereco + ' <br>Atualização local: ' + response.dados.updateLocal)
+                    .addTo(markerGroup)
+                    .addTo(map);
             },
             error: function (response) {
                 console.log(response)
@@ -1864,13 +1864,13 @@ $(function () {
                     //   minZoom: 1,
                     //   maxZoom: 19
                     // }).addTo(map);
-                var markerGroup = L.featureGroup([]).addTo(map);
-                var latLng = L.latLng([ response.dados.latitude,response.dados.longitude]);
-                var greenIcon = new LeafIcon({iconUrl: base+'img/OGD9J14.png'});
-                // L.marker(latLng)
-                L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' + response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
-                .addTo(markerGroup)
-                .addTo(map);
+                    var markerGroup = L.featureGroup([]).addTo(map);
+                    var latLng = L.latLng([response.dados.latitude, response.dados.longitude]);
+                    var greenIcon = new LeafIcon({ iconUrl: base + 'img/OGD9J14.png' });
+                    // L.marker(latLng)
+                    L.marker(latLng, { icon: greenIcon }).addTo(map).bindPopup('Placa: ' + response.dados.placa + '<br>Endreço: ' + response.dados.endereco + ' <br>Atualização local: ' + response.dados.updateLocal)
+                        .addTo(markerGroup)
+                        .addTo(map);
                 },
                 error: function (response) {
                     console.log(response)
@@ -1890,11 +1890,11 @@ $(function () {
             options: {
                 // shadowUrl: base+'img/OGD9J14.png',
                 // shadowUrl: 'C:/xampp_bkp/htdocs/spatie-saas/public/img/OGD9J14.png',
-                iconSize:     [100, 70],
-                shadowSize:   [50, 64],
-                iconAnchor:   [0,0],
+                iconSize: [100, 70],
+                shadowSize: [50, 64],
+                iconAnchor: [0, 0],
                 shadowAnchor: [4, 62],
-                popupAnchor:  [0, 0]
+                popupAnchor: [0, 0]
             }
         });
         // console.log('poçaa')
@@ -1902,11 +1902,11 @@ $(function () {
         // return false;
         // var count = 1;
         // var veiculo = $('.monitorar_todos_veiculo').attr('veiculo')
-        var  map = L.map('mapAll').setView([-8.122895,-34.918538], 17);
+        var map = L.map('mapAll').setView([-8.122895, -34.918538], 17);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          minZoom: 8,
-          maxZoom: 19
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            minZoom: 8,
+            maxZoom: 19
         }).addTo(map);
         var Response = $('#AreaDadosAjaxMonitoramento')
         $.ajax({
@@ -1925,16 +1925,16 @@ $(function () {
             type: 'get',
             url: '/localizacao/monitorar/veiculos/realtime/maps/index',
             success: function (response) {
-                    $(response.dados).each(function(i,e){
-                        var markerGroup = L.featureGroup([]).addTo(map);
-                        var latLng = L.latLng([ e.latitude,e.longitude]);
-                        var greenIcon = new LeafIcon({iconUrl: base+'img/OGD9J14.png'});
-                        L.marker(latLng,{icon:greenIcon})
+                $(response.dados).each(function (i, e) {
+                    var markerGroup = L.featureGroup([]).addTo(map);
+                    var latLng = L.latLng([e.latitude, e.longitude]);
+                    var greenIcon = new LeafIcon({ iconUrl: base + 'img/OGD9J14.png' });
+                    L.marker(latLng, { icon: greenIcon })
                         // L.marker(latLng)
                         // .bindPopup('Placa: ' + e.placa +
-                        .bindPopup('Placa: ' + e.placa +'<br>Endreço: ' + e.endereco +' <br>Atualização local: '+e.updateLocal)
+                        .bindPopup('Placa: ' + e.placa + '<br>Endreço: ' + e.endereco + ' <br>Atualização local: ' + e.updateLocal)
                         .addTo(markerGroup).addTo(map);
-                    })
+                })
             },
             error: function (response) {
                 console.log(response)
@@ -1961,62 +1961,125 @@ $(function () {
                 url: '/localizacao/monitorar/veiculos/realtime/maps/index',
                 success: function (response) {
                     // console.log(response)
-                        // var  map = L.map('map').setView([ response.dados[0].latitude,response.dados[0].longitude], 17);
-                        // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                        //   minZoom: 1,
-                        //   maxZoom: 30
-                        // }).addTo(map);
-                        $(response.dados).each(function(i,e){
-                            var markerGroup = L.featureGroup([]).addTo(map);
-                            var latLng = L.latLng([ e.latitude,e.longitude]);
-                            var greenIcon = new LeafIcon({iconUrl: base+'img/OGD9J14.png'});
-                            // L.marker(latLng)
-                            // .bindPopup('Placa: ' + e.placa +
-                            L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' + e.placa +'<br>Endreço: ' + e.endereco +' <br>Atualização local: '+e.updateLocal)
+                    // var  map = L.map('map').setView([ response.dados[0].latitude,response.dados[0].longitude], 17);
+                    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    //   minZoom: 1,
+                    //   maxZoom: 30
+                    // }).addTo(map);
+                    $(response.dados).each(function (i, e) {
+                        var markerGroup = L.featureGroup([]).addTo(map);
+                        var latLng = L.latLng([e.latitude, e.longitude]);
+                        var greenIcon = new LeafIcon({ iconUrl: base + 'img/OGD9J14.png' });
+                        // L.marker(latLng)
+                        // .bindPopup('Placa: ' + e.placa +
+                        L.marker(latLng, { icon: greenIcon }).addTo(map).bindPopup('Placa: ' + e.placa + '<br>Endreço: ' + e.endereco + ' <br>Atualização local: ' + e.updateLocal)
                             .addTo(markerGroup).addTo(map);
-                        })
+                    })
                 },
                 error: function (response) {
                     console.log(response)
                 }
             })
             // console.log(count++)
-            }, 1000*60*3);// 3 minutos
-            // }, 1000*60*5);// 5 minutos
+        }, 1000 * 60 * 3);// 3 minutos
+        // }, 1000*60*5);// 5 minutos
         // }, 500);//1 segundo
     }
 
 
     // MONITORAR ENTREGA
+var marker, circle, lat, long;
+var entrega = $('.monitorar_entrega').attr('entrega')
+    function getPosition(position) {
+        // console.log(position)
+        lat = position.coords.latitude
+        long = position.coords.longitude
+        var accuracy = position.coords.accuracy
+        // console.log(lat, long, accuracy)
 
+        if(marker){
+            map.removeLayer(marker)
+        }
+        if(circle){
+            map.removeLayer(circle)
+        }
+        marker = L.marker([lat, long])
+        circle = L.circle([lat,long],{radius:accuracy})
+
+         L.featureGroup([marker, circle]).addTo(map)
+        // map.fitBounds(featureGroup.getBounds())
+    }
 
     if ($('div').hasClass('monitorar_entrega')) {
-        var lat = 0;
-        var lng = 0;
-        if(!navigator.geolocation){
+        var map = L.map('mapEntrega').setView([-8.122895, -34.918538], 15);
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            minZoom: 8,
+            maxZoom: 19
+        })
+        osm.addTo(map);
+
+        if (!navigator.geolocation) {
             console.log('erro. não ativo a localizacao')
-        }else{
+        } else {
             console.log('localizacao ativa')
-            navigator.geolocation.getCurrentPosition(
-                function(position){
-                lat = position.coords.latitude
-                lng = position.coords.longitude
-                console.log('lat: '+lat+' lng: '+lng)
-            },function(){
-                console.log('falha')
-            })
+            setInterval(()=>{
+                navigator.geolocation.getCurrentPosition(getPosition)
+                if(lat != undefined || long != undefined){
+                    // console.log(lat,long)
+                    $.ajax({
+                        type: 'get',
+                        url: '/localizacao/monitorar/entrega/' + entrega + '/maps',
+                        // url: '/localizacao/monitorar/' + veiculo + '/realtime',
+                        success: function (response) {
+
+                            console.log(response)
+                            // var markerGroup = L.featureGroup([]).addTo(map);
+                            // var latLng = L.latLng([lat, long]);
+                            // // // L.marker(latLng)
+                            // var greenIcon = new LeafIcon({ iconUrl: base + 'img/OGD9J14.png' });
+                            // L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' +  response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
+                            // var userMarker = L.marker(latLng).addTo(map)
+                            $(response.destinos).each(function (i, e) {
+                                // console.log(e)
+                                if (e.destinatario.coordenadas.lat != undefined) {
+                                    var latLngDest = L.latLng([e.destinatario.coordenadas.lat, e.destinatario.coordenadas.lng]);
+                                    L.marker(latLngDest)
+                                        .addTo(map);
+                                    L.Routing.control({
+                                        waypoints: [
+                                            L.latLng([lat, long]),
+                                            L.latLng(latLngDest)
+                                        ],
+                                        // waypointMode:'connect',
+                                        // fitSelectedRoutes:'smart',
+                                        // showAlternatives:true,
+                                        // routeWhileDragging: true,
+                                    }).addTo(map);
+                                }else{
+                                    console.log('Cep Incorreto')
+                                }
+                            });
+                        },
+                        error: function (response) {
+                            console.log(response)
+                        }
+                    })
+                }
+            },5000);
         }
 
+        return
         var LeafIcon = L.Icon.extend({
             options: {
                 // shadowUrl: base+'img/OGD9J14.png',
                 // shadowUrl: 'C:/xampp_bkp/htdocs/spatie-saas/public/img/OGD9J14.png',
-                iconSize:     [100, 70],
-                shadowSize:   [50, 64],
-                iconAnchor:   [0,0],
+                iconSize: [100, 70],
+                shadowSize: [50, 64],
+                iconAnchor: [0, 0],
                 shadowAnchor: [4, 62],
-                popupAnchor:  [0, 0]
+                popupAnchor: [0, 0]
             }
         });
         // var count = 1;
@@ -2030,19 +2093,12 @@ $(function () {
             url: '/localizacao/monitorar/' + veiculo + '/entrega/maps',
             // url: '/localizacao/monitorar/' + veiculo + '/realtime',
             success: function (response) {
-                var coordUser = [lat, lng];
-                console.log(coordUser)
-                var map = L.map('mapEntrega').setView(coordUser, 17);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                  minZoom: 8,
-                  maxZoom: 19
-                }).addTo(map);
+
                 // console.log(response)
                 // var markerGroup = L.featureGroup([]).addTo(map);
                 var latLng = L.latLng(coordUser);
                 // // L.marker(latLng)
-                var greenIcon = new LeafIcon({iconUrl: base+'img/OGD9J14.png'});
+                var greenIcon = new LeafIcon({ iconUrl: base + 'img/OGD9J14.png' });
                 // L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' +  response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
                 var userMarker = L.marker(latLng).addTo(map)
                 // .bindPopup('Placa: ' +  response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
@@ -2053,12 +2109,12 @@ $(function () {
                 //       L.latLng(coordUser),
                 //     ]
                 // }).addTo(map);
-                $(response.destinos).each(function(i,e){
-                    if(e.destinatario.coordenadas.lat != undefined){
-                        var latLngDest = L.latLng([e.destinatario.coordenadas.lat,e.destinatario.coordenadas.lng]);
+                $(response.destinos).each(function (i, e) {
+                    if (e.destinatario.coordenadas.lat != undefined) {
+                        var latLngDest = L.latLng([e.destinatario.coordenadas.lat, e.destinatario.coordenadas.lng]);
                         // console.log(latLngDest)
                         L.marker(latLngDest)
-                        .addTo(map);
+                            .addTo(map);
                         L.Routing.control({
                             waypoints: [
                                 L.latLng(coordUser),
@@ -2120,17 +2176,17 @@ $(function () {
             success: function (response) {
                 console.log(response)
                 // return false
-                if(response.status==200){
+                if (response.status == 200) {
 
                     $('input[name="SalvarNovaManutencao"]').attr('disabled', true)
-                    $('#AcoesFomrManutencao').append('<a href="" class="btn btn-primary add_servico_manutencao mx-2" manutencao='+response.msg.manutencao+'><i class="fa-regular fa-square-plus"></i> Add Serviço</a>');
+                    $('#AcoesFomrManutencao').append('<a href="" class="btn btn-primary add_servico_manutencao mx-2" manutencao=' + response.msg.manutencao + '><i class="fa-regular fa-square-plus"></i> Add Serviço</a>');
                     $('#AcoesFomrManutencao').append('<a href="" class="btn btn-success finalizar_form_manutencao mx-2">Finalizar</a>');
 
                     return false
                 }
 
-                if(response.status==0){
-                    console.log('erro: '+response.msg)
+                if (response.status == 0) {
+                    console.log('erro: ' + response.msg)
 
                     return false;
                 }
@@ -2150,7 +2206,7 @@ $(function () {
         var IncludeResponseAjax = $('#IncludeResponseAjax')
         $.ajax({
             type: 'get',
-            url: '/add-servico-manutencao/'+$(this).attr('manutencao'),
+            url: '/add-servico-manutencao/' + $(this).attr('manutencao'),
             success: function (response) {
                 console.log($('.add_servico_manutencao').attr('manutencao'));
                 // return false;
@@ -2166,33 +2222,33 @@ $(function () {
         return false;
     })
 
-    $(document).on('click','.finalizar_form_manutencao',function(){
+    $(document).on('click', '.finalizar_form_manutencao', function () {
         console.log('finalizando formulario')
         window.location.href = '/manutencao'
         return false;
     })
-$(document).on('submit','form[name="FormAddServicoManutencao"]', function(){
-    var IncludeResponseAjax = $('#IncludeResponseAjax')
-    $.ajax({
-        'url': $(this).attr('action'),
-        'data': $(this).serialize(),
-        'type': 'post',
-        beforeSend: function () {
+    $(document).on('submit', 'form[name="FormAddServicoManutencao"]', function () {
+        var IncludeResponseAjax = $('#IncludeResponseAjax')
+        $.ajax({
+            'url': $(this).attr('action'),
+            'data': $(this).serialize(),
+            'type': 'post',
+            beforeSend: function () {
 
-        },
-        success: function (response) {
+            },
+            success: function (response) {
 
-          console.log(response)
-          IncludeResponseAjax.html('')
-          IncludeResponseAjax.hide()
-        },
-        error: function () {
+                console.log(response)
+                IncludeResponseAjax.html('')
+                IncludeResponseAjax.hide()
+            },
+            error: function () {
 
-        }
+            }
 
+        })
+        return false
     })
-    return false
-})
 
 });
 

@@ -68,4 +68,9 @@ class CEPController extends Controller
         $Coordenadas = new CEP();
         return $Coordenadas->getCoordenadaCep($cep);
     }
+    public function getCepEndereco($uf,$cidade,$logradouro){
+        $Coordenadas = new CEP();
+        $dados = $Coordenadas->getCepEndereco($uf,$cidade,$logradouro);
+        return response()->json($dados);
+    }
 }
