@@ -18,7 +18,6 @@
                 <x-start-entrega />
                 <x-stop-entrega :localMovimentacao=$localMovimentacao />
                 <div class="card col-12 p-2 exibe_entrega">
-                    <div id="mapEntrega" class="monitorar_entrega" entrega="{{ $entrega->id }}"></div>
                     <form action="{{ route('receberVariasNotas', ['entrega' => $entrega->id]) }}" method="post"
                         name="FormEncerraEntrega">
                         <header>
@@ -91,6 +90,7 @@
                                 Entrega</a>
                         </footer>
                     </form>
+                    <div id="mapEntrega" class="monitorar_entrega" entrega="{{ $entrega->id }}"></div>
                 </div>
             </div>
         </div>

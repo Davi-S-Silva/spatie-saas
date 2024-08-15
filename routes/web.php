@@ -89,12 +89,13 @@ Route::get('cep/{uf}/{cidade}/{logradouro}',[CEPController::class, 'getCepEndere
 Route::get('/dashboard', function () {
     $clientes = Cliente::Count();
     $veiculos = Veiculo::Count();
+    $fornecedores = Fornecedor::Count();
     $colaboradores = Colaborador::where('funcao_id',1)->Count();
 
     // echo 'Clientes: '.$clientes. ' - Veiculos: '.$veiculos. ' - Colaboradores: '.$colaboradores;
     // return false;
-    $CadastroGeral = ($clientes==0 || $veiculos==0 || $colaboradores==0)?true:false;
-    return view('dashboard',['CadastroGeral'=>$CadastroGeral,'title'=>'Cadastros Iniciais do Sistema','veiculos'=>$veiculos, 'clientes'=>$clientes, 'colaboradores'=>$colaboradores]);
+    $CadastroGeral = ($clientes==0 || $veiculos==0 || $colaboradores==0 || $fornecedores==0)?true:false;
+    return view('dashboard',['CadastroGeral'=>$CadastroGeral, 'veiculos'=>$veiculos, 'clientes'=>$clientes, 'colaboradores'=>$colaboradores, 'fornecedores'=>$fornecedores]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

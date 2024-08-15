@@ -2010,156 +2010,156 @@ var entrega = $('.monitorar_entrega').attr('entrega')
          L.featureGroup([marker, circle]).addTo(map)
         // map.fitBounds(featureGroup.getBounds())
     }
+// MONITORAR ENTREGA
+    // if ($('div').hasClass('monitorar_entrega')) {
+    //     var map = L.map('mapEntrega').setView([-8.122895, -34.918538], 15);
+    //     var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    //         minZoom: 8,
+    //         maxZoom: 19
+    //     })
+    //     osm.addTo(map);
 
-    if ($('div').hasClass('monitorar_entrega')) {
-        var map = L.map('mapEntrega').setView([-8.122895, -34.918538], 15);
-        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            minZoom: 8,
-            maxZoom: 19
-        })
-        osm.addTo(map);
+    //     if (!navigator.geolocation) {
+    //         console.log('erro. não ativo a localizacao')
+    //     } else {
+    //         console.log('localizacao ativa')
+    //         setInterval(()=>{
+    //             navigator.geolocation.getCurrentPosition(getPosition)
+    //             if(lat != undefined || long != undefined){
+    //                 // console.log(lat,long)
+    //                 $.ajax({
+    //                     type: 'get',
+    //                     url: '/localizacao/monitorar/entrega/' + entrega + '/maps',
+    //                     // url: '/localizacao/monitorar/' + veiculo + '/realtime',
+    //                     success: function (response) {
 
-        if (!navigator.geolocation) {
-            console.log('erro. não ativo a localizacao')
-        } else {
-            console.log('localizacao ativa')
-            setInterval(()=>{
-                navigator.geolocation.getCurrentPosition(getPosition)
-                if(lat != undefined || long != undefined){
-                    // console.log(lat,long)
-                    $.ajax({
-                        type: 'get',
-                        url: '/localizacao/monitorar/entrega/' + entrega + '/maps',
-                        // url: '/localizacao/monitorar/' + veiculo + '/realtime',
-                        success: function (response) {
+    //                         console.log(response)
+    //                         // var markerGroup = L.featureGroup([]).addTo(map);
+    //                         // var latLng = L.latLng([lat, long]);
+    //                         // // // L.marker(latLng)
+    //                         // var greenIcon = new LeafIcon({ iconUrl: base + 'img/OGD9J14.png' });
+    //                         // L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' +  response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
+    //                         // var userMarker = L.marker(latLng).addTo(map)
+    //                         $(response.destinos).each(function (i, e) {
+    //                             // console.log(e)
+    //                             if (e.destinatario.coordenadas.lat != undefined) {
+    //                                 var latLngDest = L.latLng([e.destinatario.coordenadas.lat, e.destinatario.coordenadas.lng]);
+    //                                 L.marker(latLngDest)
+    //                                     .addTo(map);
+    //                                 L.Routing.control({
+    //                                     waypoints: [
+    //                                         L.latLng([lat, long]),
+    //                                         L.latLng(latLngDest)
+    //                                     ],
+    //                                     // waypointMode:'connect',
+    //                                     // fitSelectedRoutes:'smart',
+    //                                     // showAlternatives:true,
+    //                                     // routeWhileDragging: true,
+    //                                 }).addTo(map);
+    //                             }else{
+    //                                 console.log('Cep Incorreto')
+    //                             }
+    //                         });
+    //                     },
+    //                     error: function (response) {
+    //                         console.log(response)
+    //                     }
+    //                 })
+    //             }
+    //         },5000);
+    //     }
 
-                            console.log(response)
-                            // var markerGroup = L.featureGroup([]).addTo(map);
-                            // var latLng = L.latLng([lat, long]);
-                            // // // L.marker(latLng)
-                            // var greenIcon = new LeafIcon({ iconUrl: base + 'img/OGD9J14.png' });
-                            // L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' +  response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
-                            // var userMarker = L.marker(latLng).addTo(map)
-                            $(response.destinos).each(function (i, e) {
-                                // console.log(e)
-                                if (e.destinatario.coordenadas.lat != undefined) {
-                                    var latLngDest = L.latLng([e.destinatario.coordenadas.lat, e.destinatario.coordenadas.lng]);
-                                    L.marker(latLngDest)
-                                        .addTo(map);
-                                    L.Routing.control({
-                                        waypoints: [
-                                            L.latLng([lat, long]),
-                                            L.latLng(latLngDest)
-                                        ],
-                                        // waypointMode:'connect',
-                                        // fitSelectedRoutes:'smart',
-                                        // showAlternatives:true,
-                                        // routeWhileDragging: true,
-                                    }).addTo(map);
-                                }else{
-                                    console.log('Cep Incorreto')
-                                }
-                            });
-                        },
-                        error: function (response) {
-                            console.log(response)
-                        }
-                    })
-                }
-            },5000);
-        }
-
-        return
-        var LeafIcon = L.Icon.extend({
-            options: {
-                // shadowUrl: base+'img/OGD9J14.png',
-                // shadowUrl: 'C:/xampp_bkp/htdocs/spatie-saas/public/img/OGD9J14.png',
-                iconSize: [100, 70],
-                shadowSize: [50, 64],
-                iconAnchor: [0, 0],
-                shadowAnchor: [4, 62],
-                popupAnchor: [0, 0]
-            }
-        });
+        // return
+        // var LeafIcon = L.Icon.extend({
+        //     options: {
+        //         // shadowUrl: base+'img/OGD9J14.png',
+        //         // shadowUrl: 'C:/xampp_bkp/htdocs/spatie-saas/public/img/OGD9J14.png',
+        //         iconSize: [100, 70],
+        //         shadowSize: [50, 64],
+        //         iconAnchor: [0, 0],
+        //         shadowAnchor: [4, 62],
+        //         popupAnchor: [0, 0]
+        //     }
+        // });
         // var count = 1;
-        var veiculo = $('.monitorar_entrega').attr('veiculo')
-        // Iniciar o mapa com coordenadas do ponto A
+    //     var veiculo = $('.monitorar_entrega').attr('veiculo')
+    //     // Iniciar o mapa com coordenadas do ponto A
 
 
 
-        $.ajax({
-            type: 'get',
-            url: '/localizacao/monitorar/' + veiculo + '/entrega/maps',
-            // url: '/localizacao/monitorar/' + veiculo + '/realtime',
-            success: function (response) {
+    //     $.ajax({
+    //         type: 'get',
+    //         url: '/localizacao/monitorar/' + veiculo + '/entrega/maps',
+    //         // url: '/localizacao/monitorar/' + veiculo + '/realtime',
+    //         success: function (response) {
 
-                // console.log(response)
-                // var markerGroup = L.featureGroup([]).addTo(map);
-                var latLng = L.latLng(coordUser);
-                // // L.marker(latLng)
-                var greenIcon = new LeafIcon({ iconUrl: base + 'img/OGD9J14.png' });
-                // L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' +  response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
-                var userMarker = L.marker(latLng).addTo(map)
-                // .bindPopup('Placa: ' +  response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
-                // .addTo(markerGroup)
-                // .addTo(map);
-                // L.Routing.control({
-                //     waypoints: [
-                //       L.latLng(coordUser),
-                //     ]
-                // }).addTo(map);
-                $(response.destinos).each(function (i, e) {
-                    if (e.destinatario.coordenadas.lat != undefined) {
-                        var latLngDest = L.latLng([e.destinatario.coordenadas.lat, e.destinatario.coordenadas.lng]);
-                        // console.log(latLngDest)
-                        L.marker(latLngDest)
-                            .addTo(map);
-                        L.Routing.control({
-                            waypoints: [
-                                L.latLng(coordUser),
-                                L.latLng(latLngDest)
-                            ],
-                            // waypointMode:'connect',
-                            // fitSelectedRoutes:'smart',
-                            // showAlternatives:true,
-                            // routeWhileDragging: true,
-                        }).addTo(map);
-                    }
-                });
+    //             // console.log(response)
+    //             // var markerGroup = L.featureGroup([]).addTo(map);
+    //             var latLng = L.latLng(coordUser);
+    //             // // L.marker(latLng)
+    //             var greenIcon = new LeafIcon({ iconUrl: base + 'img/OGD9J14.png' });
+    //             // L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' +  response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
+    //             var userMarker = L.marker(latLng).addTo(map)
+    //             // .bindPopup('Placa: ' +  response.dados.placa +'<br>Endreço: ' + response.dados.endereco +' <br>Atualização local: '+response.dados.updateLocal)
+    //             // .addTo(markerGroup)
+    //             // .addTo(map);
+    //             // L.Routing.control({
+    //             //     waypoints: [
+    //             //       L.latLng(coordUser),
+    //             //     ]
+    //             // }).addTo(map);
+    //             $(response.destinos).each(function (i, e) {
+    //                 if (e.destinatario.coordenadas.lat != undefined) {
+    //                     var latLngDest = L.latLng([e.destinatario.coordenadas.lat, e.destinatario.coordenadas.lng]);
+    //                     // console.log(latLngDest)
+    //                     L.marker(latLngDest)
+    //                         .addTo(map);
+    //                     L.Routing.control({
+    //                         waypoints: [
+    //                             L.latLng(coordUser),
+    //                             L.latLng(latLngDest)
+    //                         ],
+    //                         // waypointMode:'connect',
+    //                         // fitSelectedRoutes:'smart',
+    //                         // showAlternatives:true,
+    //                         // routeWhileDragging: true,
+    //                     }).addTo(map);
+    //                 }
+    //             });
 
-                // setTimeout(function () {
-                //     userMarker.setLatLng([lat, lng]);
-                //     // Identifica o final da viagem.
-                //     // if (coord.lat === coordUser[0] && coord.lng === coordUser[1]) {
-                //     //     alert('Seu táxi acabou de chegar!')
-                //     // }
-                //     console.log('move user position: ')
-                //     console.log([lat, lng])
-                // }, 1000)
+    //             // setTimeout(function () {
+    //             //     userMarker.setLatLng([lat, lng]);
+    //             //     // Identifica o final da viagem.
+    //             //     // if (coord.lat === coordUser[0] && coord.lng === coordUser[1]) {
+    //             //     //     alert('Seu táxi acabou de chegar!')
+    //             //     // }
+    //             //     console.log('move user position: ')
+    //             //     console.log([lat, lng])
+    //             // }, 1000)
 
 
-            },
-            error: function (response) {
-                console.log(response)
-            }
-        })
-        // var  map = L.map('map').setView([ -8.122895,-34.918538], 17);
-        //         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        //           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        //           minZoom: 1,
-        //           maxZoom: 19
-        //         }).addTo(map);
-        setInterval(function () {
+    //         },
+    //         error: function (response) {
+    //             console.log(response)
+    //         }
+    //     })
+    //     // var  map = L.map('map').setView([ -8.122895,-34.918538], 17);
+    //     //         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //     //           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    //     //           minZoom: 1,
+    //     //           maxZoom: 19
+    //     //         }).addTo(map);
+    //     setInterval(function () {
 
-            // console.log('teste')
+    //         // console.log('teste')
 
-            // console.log(count++)
-        }, 1000 * 60 * 3);// 3 minutos
-        // }, 1000*60*5);// 5 minutos
-        // }, 500);//1 segundo
-        // }, 1000);//1 segundo
-    }
+    //         // console.log(count++)
+    //     }, 1000 * 60 * 3);// 3 minutos
+    //     // }, 1000*60*5);// 5 minutos
+    //     // }, 500);//1 segundo
+    //     // }, 1000);//1 segundo
+    // }
 
     //MANUTENCAO
     $('form[name="FormNovaManutencao"]').submit(function () {
