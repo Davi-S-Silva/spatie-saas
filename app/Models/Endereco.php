@@ -47,4 +47,8 @@ class Endereco extends Model
     {
         return $this->belongsTo(Municipio::class);
     }
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class);
+    }
 }

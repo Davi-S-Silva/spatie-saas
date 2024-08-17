@@ -85,16 +85,18 @@ Route::get('/info', function () {
 
 });
 Route::get('cep/{cep}',[CEPController::class, 'getCoordenadaCep'])->name('cep.coordenada');
+Route::get('cep/{uf}/{cidade}/{logradouro}',[CEPController::class, 'getCepEndereco'])->name('endereco.cep');
 
 Route::get('/dashboard', function () {
     $clientes = Cliente::Count();
     $veiculos = Veiculo::Count();
+    $fornecedores = Fornecedor::Count();
     $colaboradores = Colaborador::where('funcao_id',1)->Count();
 
     // echo 'Clientes: '.$clientes. ' - Veiculos: '.$veiculos. ' - Colaboradores: '.$colaboradores;
     // return false;
-    $CadastroGeral = ($clientes==0 || $veiculos==0 || $colaboradores==0)?true:false;
-    return view('dashboard',['CadastroGeral'=>$CadastroGeral,'title'=>'Cadastros Iniciais do Sistema','veiculos'=>$veiculos, 'clientes'=>$clientes, 'colaboradores'=>$colaboradores]);
+    $CadastroGeral = ($clientes==0 || $veiculos==0 || $colaboradores==0 || $fornecedores==0)?true:false;
+    return view('dashboard',['CadastroGeral'=>$CadastroGeral, 'veiculos'=>$veiculos, 'clientes'=>$clientes, 'colaboradores'=>$colaboradores, 'fornecedores'=>$fornecedores]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -126,7 +128,6 @@ Route::middleware('auth')->group(function () {
         Route::get('localizacao/monitorar/{veiculo}',[LocalizacaoVeiculoController::class,'monitorarVeiculo'])->name('monitorarVeiculo');
         Route::get('localizacao/monitorar/{veiculo}/realtime',[LocalizacaoVeiculoController::class,'getDadosAjaxLocationVeiculo'])->name('monitorarVeiculoRealtime');
         Route::get('localizacao/monitorar/{veiculo}/realtime/maps',[LocalizacaoVeiculoController::class,'getDadosAjaxMapsLocationVeiculo'])->name('monitorarVeiculoRealtimeMaps');
-        Route::get('localizacao/monitorar/{veiculo}/entrega/maps',[LocalizacaoVeiculoController::class,'getDadosAjaxMapsLocationVeiculoEntrega'])->name('monitorarVeiculoRealtimeEntregaMaps');
         Route::get('localizacao/monitorar/veiculos/realtime/maps/index',[LocalizacaoVeiculoController::class,'getDadosAjaxMapsLocationTodosVeiculos'])->name('monitorarTodosVeiculosRealtimeMaps');
         Route::get('localizacao/veiculos/monitorar/index',[LocalizacaoVeiculoController::class,'rastrearTodosVeiculos'])->name('rastrearTodosVeiculos');
         Route::get('localizacao/monitorar/veiculos/realtime/index',[LocalizacaoVeiculoController::class,'getDadosAjaxLocationTodosVeiculos'])->name('monitorarTodosVeiculoRealtime');
@@ -156,6 +157,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('notas',NotaController::class);
 
         Route::resource('entrega',EntregaController::class);
+        Route::get('localizacao/monitorar/entrega/{entrega}/maps',[EntregaController::class,'getDadosAjaxMapsUserLocationEntrega'])->name('monitorarUserRealtimeEntregaMaps');
         Route::post('entrega/{entrega}/start',[EntregaController::class, 'start'])->name('entrega.start');
         Route::post('entrega/{entrega}/stop',[EntregaController::class, 'stop'])->name('entrega.stop');
         // Route::get('entrega/{entrega}/stop',[EntregaController::class, 'stop'])->name('entrega.stop');

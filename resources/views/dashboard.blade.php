@@ -6,7 +6,7 @@
     </x-slot>
     @if ($CadastroGeral)
         <div class="modal-info scroll-stop">
-            <x-modal-info :title=$title :veiculos=$veiculos :clientes=$clientes :colaboradores=$colaboradores />
+            <x-modal-info :veiculos=$veiculos :clientes=$clientes :colaboradores=$colaboradores :fornecedores=$fornecedores/>
         </div>
     @endif
 

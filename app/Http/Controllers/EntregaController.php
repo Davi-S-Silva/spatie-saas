@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carga;
+use App\Models\CEP;
 use App\Models\Cliente;
 use App\Models\Colaborador;
 use App\Models\Entrega;
@@ -153,7 +154,7 @@ class EntregaController extends Controller
             $localMovimentacao = LocalMovimentacao::all();
         }
 
-        return view('entrega.show', ['entrega' => $entrega,'localMovimentacao'=>$localMovimentacao]);
+        return view('entrega.show', ['entrega' => $entrega, 'localMovimentacao' => $localMovimentacao]);
     }
 
     /**
@@ -242,7 +243,7 @@ class EntregaController extends Controller
             DB::beginTransaction();
             $entrega = Entrega::find($request->Entrega);
 
-            if($entrega->getStatus->name != "Rota"){
+            if ($entrega->getStatus->name != "Rota") {
                 throw new Exception('Entrega Já finalizada');
             }
             //liberar ajudante e motorista
@@ -267,7 +268,7 @@ class EntregaController extends Controller
             //verifica km anterior
             //   return response()->json(['status'=>200,'msg'=>$Mov->kmInicio]);
             if ($Mov->kmInicio->km >= $request->KmFinal) {
-                throw new Exception('Km final não pode ser menor ou igual a km inicial '.$Mov->kmInicio->km);
+                throw new Exception('Km final não pode ser menor ou igual a km inicial ' . $Mov->kmInicio->km);
             }
             $KmModel = new Km();
             $KmModel->setKm($veiculo, $request->KmFinal);
@@ -298,9 +299,9 @@ class EntregaController extends Controller
 
             //ATUALIZA PARA FINALIZADA A CARGA
             foreach ($entrega->cargas as $carga) {
-                if($carga->countNotasPendentes()==0){
+                if ($carga->countNotasPendentes() == 0) {
                     $carga->setStatus('Finalizada');
-                }else{
+                } else {
                     $carga->setStatus('Pendente');
                 }
                 $carga->save();
@@ -325,18 +326,18 @@ class EntregaController extends Controller
             $notas = [];
             // return response()->json(['status' => 200, 'msg' => $request->input()]);
 
-            if($request->Receber || $request->Devolver){
+            if ($request->Receber || $request->Devolver) {
                 // throw new Exception($Entrega->getStatus->name);
-                if($Entrega->getStatus->name == "Pendente"){
+                if ($Entrega->getStatus->name == "Pendente") {
                     throw new Exception('Não é possivel atualizar Nota. Entrega não Iniciada.');
                 }
             }
             if ($request->Receber) {
                 $pagamentos = [
-                    1,//dinheiro
-                    3,//credito
-                    4,//debito
-                    ];
+                    1, //dinheiro
+                    3, //credito
+                    4, //debito
+                ];
                 //mesmo cliente e mesma forma de pagamento
 
                 $Notas = $request->Notas;
@@ -345,23 +346,24 @@ class EntregaController extends Controller
                     $nota = Nota::find($Notas[$i]);
                     if ($i > 0) {
                         $nota2 = Nota::find($Notas[$i - 1]);
-                        if(($nota->destinatario->id != $nota2->destinatario->id) ||
-                        //  (!in_array($nota->tipo_pagamento_id,$pagamentos) || !in_array($nota2->tipo_pagamento_id,$pagamentos)) ||
-                         ($nota->indicacao_pagamento_id!=$nota2->indicacao_pagamento_id)){
+                        if (($nota->destinatario->id != $nota2->destinatario->id) ||
+                            //  (!in_array($nota->tipo_pagamento_id,$pagamentos) || !in_array($nota2->tipo_pagamento_id,$pagamentos)) ||
+                            ($nota->indicacao_pagamento_id != $nota2->indicacao_pagamento_id)
+                        ) {
                             $msg = "Para concluir varias notas de uma vez tem que ser do mesmo cliente
                             ou de clientes diferentes caso o pagamento nao seja cartao ou avista. somente boleto e bonificacao";
-                            return response()->json(['status' => 0,'acao' => 'Receber', 'msg' => $msg]);
+                            return response()->json(['status' => 0, 'acao' => 'Receber', 'msg' => $msg]);
                         }
                     }
                     // return view('nota.update',['statusNota'=>$statusNota,'nota'=>$nota]);
 
                 }
-                $statusNota=Nota::GetAllStatus();
+                $statusNota = Nota::GetAllStatus();
                 // $form = file_get_contents(getenv('RAIZ').'/resources/views/nota/update.blade.php');
                 // return response()->json(['status' => 200, 'acao' => 'Receber','form'=> $form]);
                 // return response()->view('nota.update', ['statusNota'=>$statusNota,'nota'=>$nota], 200)->header('Content-Type', 'json');
                 // DB::commit();
-                return view('nota.updateNotas',['statusNota'=>$statusNota,'notas'=>$Notas]);
+                return view('nota.updateNotas', ['statusNota' => $statusNota, 'notas' => $Notas]);
                 // return response()->json(['status' => 200, 'msg' => ['Receber notas', $request->Notas]]);
             }
 
@@ -369,8 +371,8 @@ class EntregaController extends Controller
                 //diversos clientes com o mesmo motivo
                 foreach ($request->Notas as $idNota) {
                     $nota = Nota::find($idNota);
-                    if($nota->status_id != $nota->getStatusId('Pendente')){
-                        throw new Exception('Nota '.$nota->nota.' já Finalizada, para alterar alguma informação entre em contato conosco');
+                    if ($nota->status_id != $nota->getStatusId('Pendente')) {
+                        throw new Exception('Nota ' . $nota->nota . ' já Finalizada, para alterar alguma informação entre em contato conosco');
                     }
                     // $notas[]=$nota->id;
                     $nota->setStatus('Devolvida');
@@ -384,8 +386,14 @@ class EntregaController extends Controller
                     $observacao->save();
                     $nota->observacoes()->attach($observacao->id);
                 }
-                $dados = ['status' => 200, 'acao' => 'Devolver', 'notas' => $request->Notas,
-                'data_conclusao'=>date('d/m/Y H:i:s'),'user_conclusao'=>Auth::user()->name, 'msg' => ['Motivo'=> $request->Motivo,'status'=>31]];
+                $dados = [
+                    'status' => 200,
+                    'acao' => 'Devolver',
+                    'notas' => $request->Notas,
+                    'data_conclusao' => date('d/m/Y H:i:s'),
+                    'user_conclusao' => Auth::user()->name,
+                    'msg' => ['Motivo' => $request->Motivo, 'status' => 31]
+                ];
                 DB::commit();
                 return response()->json($dados);
             }
@@ -402,15 +410,73 @@ class EntregaController extends Controller
                 }
 
                 return response()->json([
-                    'status' => 200, 'acao' => 'Calcular',
+                    'status' => 200,
+                    'acao' => 'Calcular',
                     'info' => ['peso' => number_format($peso, 2, ',', '.'), 'qtdNotas' => count($request->Notas), 'notas' => $notas, 'valor' => number_format($valor, 2, ',', '.'), 'volume' => $volume]
                 ]);
             }
-
         } catch (Exception $ex) {
             DB::rollBack();
-            return response()->json(['status'=>0,'acao' => 'Devolver','msg'=>$ex->getMessage(). ' - file: '.$ex->getFile().' - line: '.$ex->getLine()]);
-            return response()->json(['status' => 0,'acao' => 'Devolver', 'msg' => $ex->getMessage()]);
+            return response()->json(['status' => 0, 'acao' => 'Devolver', 'msg' => $ex->getMessage() . ' - file: ' . $ex->getFile() . ' - line: ' . $ex->getLine()]);
+            return response()->json(['status' => 0, 'acao' => 'Devolver', 'msg' => $ex->getMessage()]);
         }
+    }
+
+    public function getDadosAjaxMapsUserLocationEntrega($entrega)
+    {
+        // $cr = curl_init();
+        // $headr = array();
+        // $headr[] = 'Content-length: 0';
+        // $headr[] = 'Content-type: application/json';
+        // $headr[] = 'Authorization: Bearer ' . $this->autenticaLocalizacaoApi();
+        // curl_setopt($cr, CURLOPT_HTTPHEADER, $headr);
+        // curl_setopt($cr, CURLOPT_URL, "http://api.exitvs.com.br/v1/Localizacao");
+        // curl_setopt($cr, CURLOPT_POST, TRUE);
+        // curl_setopt($cr, CURLOPT_RETURNTRANSFER, true);
+        // $retorno = curl_exec($cr);
+        // curl_close($cr);
+        // $obj = json_decode($retorno);
+        // $encontrado = [];
+        // $destinos = [];
+        // foreach($obj as $item){
+        //     if($item->placa == $veiculo){
+        //         $encontrado=[
+        //             'placa'=>$item->placa,
+        //             'endereco'=>$item->endereco,
+        //             'id_equipamento'=>$item->id_equipamento,
+        //             'bateria'=>$item->bateria,
+        //             'latitude'=>$item->latitude,
+        //             'longitude'=>$item->longitude,
+        //             'descricao'=>$item->descricao,
+        //             'dataHoraLocalizacao'=>date('d/m/Y H:i:s', strtotime($item->dataHoraLocalizacao)),
+        //             'dataUpdate'=>date('d/m/Y H:i:s', strtotime($item->dataUpdate)),
+        //             'ignicao'=>$item->ignicao,
+        //             'velocidade'=>$item->velocidade,
+        //             'updateLocal'=>date('d/m/Y H:i:s'),
+        //         ];
+        //         //selecionar o carro pela placa
+
+        //     }
+        // }
+
+        // $Veiculo =  Veiculo::where('placa', $veiculo)->get()->first()->id;
+        // $Cargas = Entrega::where('veicul_id', $Veiculo)->where('status_id', Entrega::getStatusId('Rota'))->get()->last()->cargas;
+        $Cargas = Entrega::find($entrega)->cargas;
+        foreach ($Cargas as $carga) {
+            foreach ($carga->notas as $nota) {
+                $destinatario = $nota->destinatario;
+                // $Cep = CEP::getCoordenadaCep($destinatario->endereco->cep);
+                $enderecoCep =  CEP::getCepEndereco($destinatario->endereco->estado->uf,$destinatario->endereco->cidade->nome,$destinatario->endereco->endereco);
+                $destinos[] = [
+                    'destinatario' => [
+                        'nome' => $destinatario->nome_razao_social,
+                        // 'coordenadas' => ($Cep->code != 'invalid' && $Cep->code != 'not_found') ? CEP::getCoordenadaCep($destinatario->endereco->cep) :null,
+                        // 'dados'=> CEP::getCoordenadaCep(str_replace('-','',CEP::getCepEndereco($destinatario->endereco->estado->uf,$destinatario->endereco->cidade->nome,$destinatario->endereco->rua)->cep))
+                        'dados'=>$enderecoCep
+                    ]
+                ];
+            }
+        }
+        return response()->json(['destinos' => $destinos]);
     }
 }
