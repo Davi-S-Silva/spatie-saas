@@ -3,9 +3,9 @@
 @endphp
 
 {{-- @unlessrole ('super-admin') --}}
-<div class="col-5">
+<div class="col-sm-5 col-12">
     <label for="">Empresa e local de apoio</label>
-    <select name="empresa_local_apoio_id" id="" required>
+    <select name="empresa_local_apoio_id" id="" class="form-control" required>
         <option value="">Selecione uma opção</option>
         @foreach (Empresa::All() as $empresa)
             {{-- <option value="{{ $empresa->id }}">{{ $empresa->nome }}</option> --}}

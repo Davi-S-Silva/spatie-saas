@@ -154,6 +154,8 @@ class ColaboradorController extends Controller implements HasMiddleware
         if(count($Colab->usuario)!=0){
             echo '<pre>';
             print_r($Colab->usuario->first()->getAttributes());
+            print_r($Colab->entregas);
+            print_r($Colab->cargas);
             echo '</pre>';
         }else{
             echo 'não há usuario associado ao colaborador';

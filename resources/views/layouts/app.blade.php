@@ -18,11 +18,12 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <!-- Scripts -->
 
-{{-- MAPA --}}
+    {{-- MAPA --}}
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css"
 integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="anonymous" /> --}}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     @vite('resources/css/app.css')
 </head>
@@ -52,9 +53,14 @@ integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/k
         {{-- INCLUDES AJAX --}}
 
         <div id="IncludeResponseAjax">
-            ola
         </div>
-
+        <div id="ResponseSearchAjax" class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-2">
+            <header class="d-flex justify-between">
+               <div> Resultado de busca para o termo: <b><span id="TextSearch"></span></b></div>
+               <div><a href=""><i class="fa-regular fa-rectangle-xmark cursor-pointer close-result-searach"></i></a></div>
+            </header>
+            <div class="response_search_ajax"></div>
+        </div>
         {{-- FIM INCLUDES AJAX --}}
 
 
@@ -91,9 +97,11 @@ integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/k
 <script src="{{ asset('js/script.js') }}"></script>
 {{-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1754079157113278"
      crossorigin="anonymous"></script> --}}
-     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"
      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="anonymous"></script> --}}
-     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    {{-- <script src="{{ asset('js/leaflet-measure.js') }}"></script> --}}
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+{{-- <script src="{{ asset('js/leaflet-measure.js') }}"></script> --}}
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
 </html>

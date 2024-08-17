@@ -2252,6 +2252,45 @@ var entrega = $('.monitorar_entrega').attr('entrega')
         return false
     })
 
+    $('form[name="FormSearch"]').submit(function(){
+        var InputSearch = $('input[name="search"]');
+        if(InputSearch.val()=="" || InputSearch.val()== undefined){
+            alert('Digite no campo de busca para pesquisar')
+            InputSearch.focus()
+            return false
+        }
+
+        $.ajax({
+            'url': $(this).attr('action'),
+            'data': $(this).serialize(),
+            'type': 'post',
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                $('#ResponseSearchAjax').show()
+                $("#TextSearch").text(InputSearch.val())
+                $('.response_search_ajax').html('')
+                $('.response_search_ajax').html(response)
+                // console.log(response)
+                // window.location.href= '/search';
+                // IncludeResponseAjax.html('')
+                // IncludeResponseAjax.hide()
+            },
+            error: function () {
+
+            }
+
+        })
+        return false;
+    })
+    // if($('div').hasClass('response_search_ajax')){
+    //     alert('ola')
+    // }
+    $('.close-result-searach').click(function(){
+        $('#ResponseSearchAjax').hide()
+        return false;
+    })
 });
 
 // function msgEncerramento() {

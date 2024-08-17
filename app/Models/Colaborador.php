@@ -34,10 +34,10 @@ class Colaborador extends Model
         return $this->belongsTo(LocalApoio::class);
     }
 
-    public function carga()
-    {
-        return $this->hasMany(Carga::class);
-    }
+    // public function carga()
+    // {
+    //     return $this->hasMany(Carga::class);
+    // }
 
     // public function entregas(){
     //     return $this->belongsToMany(Entrega::class);
@@ -45,6 +45,9 @@ class Colaborador extends Model
 
     public function entregas(){
         return $this->hasMany(Entrega::class);
+    }
+    public function cargas(){
+        return $this->hasMany(Carga::class,'motorista_id');
     }
 
 

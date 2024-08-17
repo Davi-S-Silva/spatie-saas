@@ -166,6 +166,21 @@ background-color: #cccccc7a;
     background-color: #74747427;
     /* color:#fff; */
 }
+#ResponseSearchAjax{
+    position: fixed;
+    display: none;
+    width: 90vw;
+    height: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    border: #0a0a0a 1px solid;
+    padding: 10px;
+    z-index: 2000;
+}
+.area_result_search{
+    /* background-color: #13313a; */
+}
 input[name="search"]{
     border-radius: 50px 0 0 50px;
     border: none;

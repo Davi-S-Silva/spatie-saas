@@ -181,7 +181,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('servico-manutencao',ServicoManutencaoController::class);
 
         //SEARCH
-        Route::post('search',[SearchController::class,'search'])->name('search');
+        Route::get('search',[SearchController::class,'search'])->name('search');
+        Route::post('search',[SearchController::class,'getSearchResult'])->name('getSearchResult');
+
 
     // Route::get('/permission', [PermissionController::class, 'index'])->name('permission.index');
     Route::middleware(['role:super-admin'])->group(function(){

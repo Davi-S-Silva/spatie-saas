@@ -1,7 +1,7 @@
 @php
     use App\Models\Combustivel;
 @endphp
-<label for="">Combustivel</label>
+<label for="" class="form-label">Combustivel</label>
 <select name="Combustivel" id="" class="form-control">
     <option value="">Selecione o combustivel</option>
     @foreach (Combustivel::all() as $item)
