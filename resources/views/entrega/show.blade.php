@@ -103,7 +103,8 @@
             </header>
             <div id="Content" class="py-3 px-5">
                 <ul>
-                    <li class="peso"></li>
+                    <li class="pesoLiquido"></li>
+                    <li class="pesoBruto"></li>
                     <li class="valor"></li>
                     <li class="volume"></li>
                     <li class="qtdnotas"></li>

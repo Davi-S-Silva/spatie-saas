@@ -55,7 +55,8 @@
                     });
                     // var greenIcon = new LeafIcon({iconUrl: base+'img/'+e.placa+'.png'});
                     var greenIcon = new LeafIcon({iconUrl: base+'img/OGD9J14.png'});
-                    L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' + e.placa +
+                    // L.marker(latLng,{icon:greenIcon}).addTo(map).bindPopup('Placa: ' + e.placa +
+                    L.marker(latLng).addTo(map).bindPopup('Placa: ' + e.placa +
                     // L.marker(latLng).addTo(map).bindPopup('Placa: ' + e.placa +
                         '<br>Endreço: ' + e.endereco+'Atualização local: '+e.updateLocal)
 

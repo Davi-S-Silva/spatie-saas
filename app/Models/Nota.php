@@ -119,7 +119,8 @@ class Nota extends Model
                             $nota->chave_acesso = str_replace('NFe', '', $xml->NFe->infNFe['Id']);
                             $nota->volume = (int)$xml->NFe->infNFe->transp->vol->qVol;
                             $nota->prestacao = 0;
-                            $nota->peso = ($xml->NFe->infNFe->transp->vol->pesoL >= $xml->NFe->infNFe->transp->vol->pesoB) ? (float)$xml->NFe->infNFe->transp->vol->pesoL : (float)$xml->NFe->infNFe->transp->vol->pesoB;
+                            $nota->pesoBruto = $xml->NFe->infNFe->transp->vol->pesoB;
+                            $nota->pesoLiquido = $xml->NFe->infNFe->transp->vol->pesoL; // ($xml->NFe->infNFe->transp->vol->pesoL >= $xml->NFe->infNFe->transp->vol->pesoB) ? (float)$xml->NFe->infNFe->transp->vol->pesoL : (float)$xml->NFe->infNFe->transp->vol->pesoB;
                             $nota->indicacao_pagamento_id = IndicacaoPagamento::where('codigo', (int)$xml->NFe->infNFe->pag->detPag->indPag)->first()->id;
                             $nota->tipo_pagamento_id = TipoPagamento::where('codigo', (int)$xml->NFe->infNFe->pag->detPag->tPag)->get()->first()->id;
                             $nota->valor = (float)$xml->NFe->infNFe->pag->detPag->vPag;
@@ -166,7 +167,8 @@ class Nota extends Model
         $nota->chave_acesso = str_replace('NFe', '', $xml->NFe->infNFe['Id']);
         $nota->volume = (int)$xml->NFe->infNFe->transp->vol->qVol;
         $nota->prestacao = 0;
-        $nota->peso = ($xml->NFe->infNFe->transp->vol->pesoL >= $xml->NFe->infNFe->transp->vol->pesoB) ? (float)$xml->NFe->infNFe->transp->vol->pesoL : (float)$xml->NFe->infNFe->transp->vol->pesoB;
+        $nota->pesoBruto = $xml->NFe->infNFe->transp->vol->pesoB;
+        $nota->pesoLiquido =$xml->NFe->infNFe->transp->vol->pesoL; // ($xml->NFe->infNFe->transp->vol->pesoL >= $xml->NFe->infNFe->transp->vol->pesoB) ? (float)$xml->NFe->infNFe->transp->vol->pesoL : (float)$xml->NFe->infNFe->transp->vol->pesoB;
         $nota->indicacao_pagamento = (int)$xml->NFe->infNFe->pag->detPag->indPag;
         $nota->tipo_pagamento_id = TipoPagamento::where('codigo', (int)$xml->NFe->infNFe->pag->detPag->tPag)->get()->first()->id;
         $nota->valor = (float)$xml->NFe->infNFe->pag->detPag->vPag;

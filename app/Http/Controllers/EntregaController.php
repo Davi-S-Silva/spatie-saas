@@ -398,13 +398,15 @@ class EntregaController extends Controller
                 return response()->json($dados);
             }
             if ($request->Calcular) {
-                $peso = 0;
+                $pesoBruto = 0;
+                $pesoLiquido = 0;
                 $valor = 0;
                 $volume = 0;
                 foreach ($request->Notas as $idNota) {
                     $nota = Nota::find($idNota);
                     $notas[] = $nota->nota;
-                    $peso += $nota->peso;
+                    $pesoBruto += $nota->pesoBruto;
+                    $pesoLiquido += $nota->pesoLiquido;
                     $valor += $nota->valor;
                     $volume += $nota->volume;
                 }
@@ -412,7 +414,7 @@ class EntregaController extends Controller
                 return response()->json([
                     'status' => 200,
                     'acao' => 'Calcular',
-                    'info' => ['peso' => number_format($peso, 2, ',', '.'), 'qtdNotas' => count($request->Notas), 'notas' => $notas, 'valor' => number_format($valor, 2, ',', '.'), 'volume' => $volume]
+                    'info' => ['pesoBruto' => number_format($pesoBruto, 2, ',', '.'),'pesoLiquido' => number_format($pesoLiquido, 2, ',', '.'), 'qtdNotas' => count($request->Notas), 'notas' => $notas, 'valor' => number_format($valor, 2, ',', '.'), 'volume' => $volume]
                 ]);
             }
         } catch (Exception $ex) {

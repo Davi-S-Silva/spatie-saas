@@ -26,7 +26,8 @@
                         <li>{{ $carga->frete }}</li>
                         <li>{{ $carga->destino }}</li>
                         <li>{{ count($carga->paradas()) }}</li>
-                        <li>Peso: <b>{{ number_format($carga->peso(),2,',','.') }}</b></li>
+                        <li>Peso Bruto: <b>{{ number_format($carga->pesoBruto(),2,',','.') }}</b></li>
+                        <li>Peso Liquido: <b>{{ number_format($carga->pesoLiquido(),2,',','.') }}</b></li>
                         <li>Valor: <b>{{ number_format($carga->valor(),2,',','.') }}</b></li>
                     </ul>
                     Cidades:

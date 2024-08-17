@@ -23,10 +23,10 @@
                 <label for="">CPF</label>
                 <input type="number" name="CPF" required id="">
             </div>
-            <div class="col-3 d-flex flex-column">
+            {{-- <div class="col-3 d-flex flex-column">
                 <label for="">Foto</label>
                 <input type="file" name="foto">
-            </div>
+            </div> --}}
         </div>
         </section>
     <section>

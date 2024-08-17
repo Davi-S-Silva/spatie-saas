@@ -18,7 +18,8 @@ return new class extends Migration
             $table->integer('volume');
             $table->integer('prestacao');
             $table->foreignId('tipo_pagamento_id')->references('id')->on('tipo_pagamentos');
-            $table->double('peso');
+            $table->double('pesoBruto');
+            $table->double('pesoLiquido');
             $table->double('valor');
             $table->foreignId('cliente_id')->references('id')->on('clientes');
             $table->foreignId('filial_id')->references('id')->on('filials');

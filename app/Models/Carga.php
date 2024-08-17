@@ -99,9 +99,13 @@ class Carga extends Model
         // dd($array);
         return array_unique($array);
     }
-    public function peso(){
+    public function pesoBruto(){
         // return DB::raw();
-        return $this->notas()->sum('peso');
+        return $this->notas()->sum('pesoBruto');
+    }
+    public function pesoLiquido(){
+        // return DB::raw();
+        return $this->notas()->sum('pesoLiquido');
     }
     public function valor(){
         // return DB::raw();

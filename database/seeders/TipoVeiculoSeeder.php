@@ -55,11 +55,11 @@ class TipoVeiculoSeeder extends Seeder
             'Rolo Autopropulsor Vibratório',
             'Rolo Compactador',
             'Semi-Reboque',
-            'Toco',
+            'Carga Caminhão - Toco',
             'Trator de Esteira',
             'Tração Caminhão Trator',
             'Trator de Pneu',
-            'Truck',
+            'Carga Caminhão - Truck',
             'Utilitário',
             'Varredeira'
         ];

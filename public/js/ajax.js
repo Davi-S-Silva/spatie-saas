@@ -1539,8 +1539,10 @@ $(function () {
                     // }
 
                     if (response.acao == 'Calcular') {
-                        $('.peso').html('');
-                        $('.peso').append('<b>Peso: </b>' + response.info.peso + 'Kg');
+                        $('.pesoLiquido').html('');
+                        $('.pesoLiquido').append('<b>pesoLiquido: </b>' + response.info.pesoLiquido + 'Kg');
+                        $('.pesoBruto').html('');
+                        $('.pesoBruto').append('<b>pesoBruto: </b>' + response.info.pesoBruto + 'Kg');
                         $('.valor').html('');
                         $('.valor').append('<b>Valor: </b>R$ ' + response.info.valor);
                         $('.volume').html('');
