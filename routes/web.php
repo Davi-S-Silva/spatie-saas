@@ -18,6 +18,7 @@ use App\Http\Controllers\FiscalController;
 use App\Http\Controllers\FornecedorController;
 use App\Http\Controllers\LocalApoioController;
 use App\Http\Controllers\LocalizacaoVeiculoController;
+use App\Http\Controllers\LocationUserMapsController;
 use App\Http\Controllers\ManutencaoController;
 use App\Http\Controllers\MovimentacaoVeiculoController;
 use App\Http\Controllers\NotaController;
@@ -138,6 +139,8 @@ Route::middleware('auth')->group(function () {
         Route::post('veiculo/{veiculo}/associa-colaborador',[VeiculoController::class, 'associaColaborador'])->name('associaColaborador');
         // Route::post('veiculo/associa-colaborador/{veiculo}/{colaborador}',[VeiculoController::class, 'associaColaborador'])->name('associaColaboradorStore');
 
+
+        Route::resource('locations',LocationUserMapsController::class);
 
         Route::resource('carga',CargaController::class);
         Route::post('carga/{carga}/setnotas',[CargaController::class, 'setNotas'])->name('carga.setNotas');
