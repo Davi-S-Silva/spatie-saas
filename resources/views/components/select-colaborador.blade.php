@@ -4,9 +4,9 @@
 <section class="d-flex flex-column">
     <div class="d-flex justify-between px-2">
         @if ($funcao==2)
-        <label for="">Ajudante</label>
+        <label for="" class="form-label">Ajudante</label>
         @elseif($funcao==1)
-        <label for="">Motorista</label>
+        <label for="" class="form-label">Motorista</label>
         @else
         Colaborador
         @endif

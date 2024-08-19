@@ -54,7 +54,7 @@ integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/k
 
         <div id="IncludeResponseAjax">
         </div>
-        <div id="ResponseSearchAjax" class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-2">
+        <div id="ResponseSearchAjax" class="bg-white overflow-hidden sm:rounded-lg p-2">
             <header class="d-flex justify-between">
                <div> Resultado de busca para o termo: <b><span id="TextSearch"></span></b></div>
                <div><a href=""><i class="fa-regular fa-rectangle-xmark cursor-pointer close-result-searach"></i></a></div>
