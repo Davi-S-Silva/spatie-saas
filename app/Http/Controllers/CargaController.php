@@ -48,7 +48,12 @@ class CargaController extends Controller
     public function store(Request $request)
     {
 
+        // return response()->json('teste');
         try {
+            $CargaBD = Carga::where('remessa',$request->remessa)->where('os',$request->os)->get();
+            if($CargaBD->count()!=0){
+                throw new Exception('Carga já Cadastrada no Sistema');
+            }
             DB::beginTransaction();
             $carga = new Carga();
             $carga->newId();
@@ -77,13 +82,13 @@ class CargaController extends Controller
 
             // $carga->save();
 
-            return response()->json([$carga, $request->input()]);
             DB::commit();
+            return response()->json(['status'=>'success','carga'=>$carga,'msg'=>'Carga Cadastrada com Sucesso']);
             // return response()->json([$request->input(),(new Nota())->getNotas($request->Notas, $request->Filial, )]);
         } catch (Exception $ex) {
             DB::rollback();
             // return response()->json([$ex->getMessage(),$ex->getLine()]);
-            return response()->json($ex->getMessage());
+            return response()->json(['status'=>'danger','msg'=>$ex->getMessage()]);
         }
 
 

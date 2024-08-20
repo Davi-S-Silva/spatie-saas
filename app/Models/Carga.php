@@ -117,7 +117,11 @@ class Carga extends Model
     public function produtos()
     {
         $dados = [];
-        foreach($this->notas as $nota)
+        $notas=$this->notas;
+        if($notas->count()==0){
+            return null;
+        }
+        foreach($notas as $nota)
         {
             $produtos = $nota->produtos;
             if($produtos->count()==0){

@@ -6,7 +6,7 @@
     </x-slot>
     <div class="py-1">
         <div class="mx-auto px-1">
-            <section class="d-flex justify-center">
+            {{-- <section class="d-flex justify-center">
                 <form action="" class="form_add_notas" method="post">
                     <header><a href="">X</a></header>
                     <div>
@@ -16,7 +16,8 @@
                     @csrf
                     <input type="submit" value="Inserir" class="btn btn-primary">
                 </form>
-            </section>
+            </section> --}}
+            <x-set-notas-carga />
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
                     <table class=" text-center align-items-center">
@@ -60,12 +61,7 @@
                                     <td>{{ $carga->filial->nome_fantasia }}</td>
                                     <td>{{ date('d/m/Y', strtotime($carga->agenda)) }}</td>
                                     <td class="col-3">{{ $carga->destino }}</td>
-<<<<<<< HEAD
                                     <td class="cursor-pointer" title="">{{ (isset($carga->veiculo->placa))?$carga->veiculo->placa:'' }}</td>
-=======
-                                    <td class="cursor-pointer" title="">
-                                        {{ isset($carga->veiculo) ? $carga->veiculo->placa : '' }}</td>
->>>>>>> origin/main
                                     <td>{{ $carga->notas()->count() }}</td>
                                     <td>{{ count($carga->paradas()) }}</td>
                                     <td>R$ {{ number_format($carga->frete, 2, ',', '.') }}</td>

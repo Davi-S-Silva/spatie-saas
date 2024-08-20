@@ -6,6 +6,7 @@
     </x-slot>
     <div class="py-1">
         <div class="mx-auto px-1">
+            <x-set-notas-carga />
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
                     <form action="" method="post" name="FormNovaCarga" enctype="multipart/form-data">

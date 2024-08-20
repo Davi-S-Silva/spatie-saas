@@ -102,4 +102,6 @@
     @csrf
 
     <input type="submit" value="Salvar" class="btn btn-primary my-2">
+    <div class="local_include_ajax_response_carga">
+    </div>
 </fieldset>

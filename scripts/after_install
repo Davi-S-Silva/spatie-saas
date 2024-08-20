@@ -101,9 +101,8 @@ sudo chmod 775 .env
 # sudo chmod -R u+x .
 sudo chmod -R 775 storage
 sudo chmod -R 775 bootstrap
-sudo chmod -R 775 storage
-sudo chmod -R 775 storage/*
-sudo chown -R www-data:www-data storage
+sudo chmod -R 777 storage/logs
+sudo chown www-data:www-data storage
 # sudo chown -R ubuntu:ubuntu storage/*
 # sudo chown -R $WEB_USER_DATA:$WEB_USER_DATA storage/*
 

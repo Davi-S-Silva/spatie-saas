@@ -30,8 +30,8 @@
         <label for="" class="form-label">Cidade</label>
         <select name="cidade_id" id="" class="form-control">
             <option value="" selected>Selecione Uma Cidade</option>
-            @foreach (Municipio::orderBy('nome', 'asc')->get() as $cidade)
-                <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
+            @foreach (Municipio::orderBy('nome', 'asc')->with('estado')->get() as $cidade)
+                <option value="{{ $cidade->id }}">{{ $cidade->nome }} - {{ $cidade->estado->nome }}</option>
             @endforeach
         </select>
     </div>

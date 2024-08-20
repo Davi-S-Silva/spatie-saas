@@ -1,9 +1,9 @@
 // const { data } = require("autoprefixer");
 $(function () {
 
-    var base = 'http://localhost:8080/';
+    // var base = 'http://localhost:8080/';
     // var base = 'http://3.145.53.239/';
-    // var base = 'http://saasportal.com.br/';
+    var base = 'http://saasportal.com.br/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
@@ -31,7 +31,7 @@ $(function () {
 
                 if (response.status === 'success') {
                     // alert(response.msg);
-                    // $('.response-mesage').html(response.msg)
+                    // $('.response-message').html(response.msg)
                     window.location.href = routeStorePermission
                 }
                 if (response.status === 'danger') {
@@ -97,8 +97,8 @@ $(function () {
                     if (response.status === 'success') {
                         // alert(response.msg)
                         // console.log(response)
-                        // $('.response-mesage').removeClass('alert-primary')
-                        // $('.response-mesage').addClass('alert-success')
+                        // $('.response-message').removeClass('alert-primary')
+                        // $('.response-message').addClass('alert-success')
                         window.location.href = routeStorePermission
                     }
                     if (response.status === 'danger') {
@@ -137,7 +137,7 @@ $(function () {
 
                 if (response.status === 'success') {
                     // alert(response.msg);
-                    // $('.response-mesage').html(response.msg)
+                    // $('.response-message').html(response.msg)
                     window.location.href = routeStoreRole
                 }
                 if (response.status === 'danger') {
@@ -203,8 +203,8 @@ $(function () {
                     if (response.status === 'success') {
                         // alert(response.msg)
                         // console.log(response)
-                        // $('.response-mesage').removeClass('alert-primary')
-                        // $('.response-mesage').addClass('alert-success')
+                        // $('.response-message').removeClass('alert-primary')
+                        // $('.response-message').addClass('alert-success')
                         window.location.href = routeStoreRole
                     }
                     if (response.status === 'danger') {
@@ -281,10 +281,18 @@ $(function () {
 
     // FormNovaCarga
 
+    var LocalResponseAjaxCarga = $('.local_include_ajax_response_carga');
+
+    $(document).on('click', '.add-notas-carga', function () {
+        $('.form_add_notas').show();
+        $('.form_add_notas').attr('action', $(this).attr('href'))
+        $('.form_add_notas legend').text($(this).attr('id'))
+        return false;
+    })
     $('form[name="FormNovaCarga"]').submit(function () {
 
-        // var confirma = confirm('Deseja Cadastrar Carga?');
-        var confirma = true;
+         var confirma = confirm('Deseja Cadastrar Carga?');
+        // var confirma = true;
 
         if (confirma) {
             $.ajax({
@@ -302,19 +310,27 @@ $(function () {
                     // alert('success')
 
 
-                    console.log(response)
+                    // console.log(response)
 
                     if (response.status === 'success') {
                         // alert(response.msg)
-                        console.log(response)
-                        // $('.response-mesage').removeClass('alert-primary')
-                        // $('.response-mesage').addClass('alert-success')
+                        // console.log(response)
+                        $('.response-message-ajax').removeClass('alert-danger')
+                        $('.response-message-ajax').addClass('alert-success')
+                        $('.response-message-ajax').show();
                         // window.location.href=routeStoreRole
+                        // console.log(response.carga.id)
+                        $('.response-message-ajax').text(response.msg)
+                        LocalResponseAjaxCarga.append('<a class="btn btn-primary add-notas-carga"  href="/carga/'+response.carga.id+'/setnotas" id="Carga '+response.carga.id+'">Add Notas</a>');
+
                     }
                     if (response.status === 'danger') {
                         // alert(response.msg)
                         // console.log(response)
-                        $('.response-message').html(response.msg)
+                        $('.response-message-ajax').removeClass('alert-success')
+                        $('.response-message-ajax').addClass('alert-danger')
+                        $('.response-message-ajax').show();
+                        $('.response-message-ajax').html(response.msg)
                     }
                 },
                 error: function (response) {
@@ -351,8 +367,8 @@ $(function () {
                 if (response.status === 'success') {
                     // alert(response.msg)
                     console.log(response)
-                    // $('.response-mesage').removeClass('alert-primary')
-                    // $('.response-mesage').addClass('alert-success')
+                    // $('.response-message').removeClass('alert-primary')
+                    // $('.response-message').addClass('alert-success')
                     // window.location.href=routeStoreRole
                 }
                 if (response.status === 'danger') {
