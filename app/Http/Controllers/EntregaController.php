@@ -31,7 +31,7 @@ class EntregaController extends Controller
         // $localMovimentacao = LocalMovimentacao::all();
         if (!is_null(Auth::user()->tenant_id)) {
             $localMovimentacao = Auth::user()->tenant->first()->localMovimentacao;
-            dd(Auth::user()->tenant->first()->localMovimentacao);
+            // dd(Auth::user()->tenant->first()->localMovimentacao);
         } else {
             $localMovimentacao = LocalMovimentacao::all();
         }

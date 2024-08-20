@@ -156,7 +156,7 @@ class CargaController extends Controller
             if(count($response)!=0){
                 return response()->json(['status'=>0,'msg'=>'notas nao encontradas','notas'=>$response]);
             }
-            // return response()->json(['status'=>200,'msg'=>$request->Notas]);
+            return response()->json(['status'=>200,'msg'=>$response]);
             DB::commit();
             return response()->json(['status'=>200,'msg'=>'Notas Cadastradas com sucesso!']);
         } catch (Exception $ex) {

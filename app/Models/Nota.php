@@ -73,16 +73,21 @@ class Nota extends Model
                             // $jaCadastradas .= ($i<count($arrayNotas)-1)?$arrayNotas[$i].'-':$arrayNotas[$i];
                         // } else {
                         if ($notaBd->count() == 0) {
-                            $destinatario = Destinatario::where('cpf_cnpj', $xml->NFe->infNFe->dest->CNPJ)->get();
-                            if ($destinatario->count() == 0) {
+                            //verificar se ta cadastrado o destinatario
+                            $destinatarioCpf = Destinatario::where('cpf_cnpj',$xml->NFe->infNFe->dest->CPF)->get();
+                            $destinatarioCnpj = Destinatario::where('cpf_cnpj', $xml->NFe->infNFe->dest->CNPJ)->get();
+                            // throw new Exception($destinatarioCpf. '-'.$xml->NFe->infNFe->dest->CPF);
+                            // throw new Exception($destinatarioCnpj. '-'.$xml->NFe->infNFe->dest->CNPJ);
+                            // throw new Exception($destinatario->count(). '-'.$xml->NFe->infNFe->dest->CNPJ. '-'.$xml->NFe->infNFe->dest->CPF);
+                            if ($destinatarioCpf->count() == 0 && $destinatarioCnpj->count() == 0) {
                                 $destinatario = new Destinatario();
                                 $destinatario->newId();
                                 $destinatario->nome_razao_social = $xml->NFe->infNFe->dest->xNome;
-                                $destinatario->cpf_cnpj  = (!is_null($xml->NFe->infNFe->dest->CNPJ))?$xml->NFe->infNFe->dest->CNPJ:$xml->NFe->infNFe->dest->CPF;
+                                $destinatario->cpf_cnpj  = (isset($xml->NFe->infNFe->dest->CNPJ))? $xml->NFe->infNFe->dest->CNPJ : $xml->NFe->infNFe->dest->CPF;
                                 $destinatario->ie  = $xml->NFe->infNFe->dest->IE;
                                 $destinatario->usuario_id = Auth::user()->id;
                                 $destinatario->tipo = (strlen($xml->NFe->infNFe->dest->CNPJ) == 14) ? 1 : 2; //cpf ou cnpj
-
+                                // throw new Exception($destinatario->cpf_cnpj.'--'.$xml->NFe->infNFe->dest->CNPJ);
                                 $end = new Endereco();
                                 $end->newId();
 
@@ -110,7 +115,12 @@ class Nota extends Model
 
                                 $dest = $destinatario->id;
                             } else {
-                                $dest = $destinatario->first()->id;
+                                if($destinatarioCpf->count()!=0){
+                                    $dest = $destinatarioCpf->first()->id;
+
+                                }else if($destinatarioCnpj->count()!=0){
+                                    $dest = $destinatarioCnpj->first()->id;
+                                }
                             }
 
                             $nota = new Nota();
@@ -157,13 +167,14 @@ class Nota extends Model
                                 $nota->produtos()->attach($newProd);
                             }
 
+                            // return $nota;
                             // throw new Exception($Produtos[0]);
                             //apagando o xml usado e movido
-                            if ($notaBd->count() != 0) {
-                                unlink($file);
-                            } else {
-                                unlink($nota->path_xml);
-                            }
+                            // if ($notaBd->count() != 0) {
+                            //     unlink($file);
+                            // } else {
+                            //     unlink($nota->path_xml);
+                            // }
                             // return $arrayNotas[$i];
                         }
                     }
@@ -175,6 +186,7 @@ class Nota extends Model
             return $diferenca;
         }
         return true;
+
     }
     public function produtos()
     {
