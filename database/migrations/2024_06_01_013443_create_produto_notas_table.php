@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('produto_notas', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
+            $table->string('ncm');
             $table->integer('quantidade');
             $table->string('unidade');
             $table->double('valor');
