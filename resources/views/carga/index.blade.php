@@ -60,7 +60,7 @@
                                     <td>{{ $carga->filial->nome_fantasia }}</td>
                                     <td>{{ date('d/m/Y', strtotime($carga->agenda)) }}</td>
                                     <td class="col-3">{{ $carga->destino }}</td>
-                                    <td class="cursor-pointer" title="">{{ $carga->veiculo->placa }}</td>
+                                    <td class="cursor-pointer" title="">{{ (isset($carga->veiculo->placa))?$carga->veiculo->placa:'' }}</td>
                                     <td>{{ $carga->notas()->count() }}</td>
                                     <td>{{ count($carga->paradas()) }}</td>
                                     <td>R$ {{ number_format($carga->frete, 2, ',', '.') }}</td>

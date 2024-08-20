@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection('mysql_secundario')->create('location_user_maps', function (Blueprint $table) {
-            $table->id();
-            $table->integer('user_id');
-            $table->double('latitude');
-            $table->double('longitude');
-            $table->boolean('logado');
-            // $table->foreignId('tenant_id')->references('id')->on('tenants');
-            $table->timestamps();
-        });
+        // Schema::connection('mysql_secundario')->create('location_user_maps', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->integer('user_id');
+        //     $table->double('latitude');
+        //     $table->double('longitude');
+        //     $table->boolean('logado');
+        //     // $table->foreignId('tenant_id')->references('id')->on('tenants');
+        //     $table->timestamps();
+        // });
     }
 
     /**
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('location_user_maps');
+        // Schema::dropIfExists('location_user_maps');
     }
 };

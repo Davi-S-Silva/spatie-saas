@@ -95,8 +95,9 @@ Route::get('/dashboard', function () {
 
     // echo 'Clientes: '.$clientes. ' - Veiculos: '.$veiculos. ' - Colaboradores: '.$colaboradores;
     // return false;
-    $CadastroGeral = ($clientes==0 || $veiculos==0 || $colaboradores==0 || $fornecedores==0)?true:false;
-    return view('dashboard',['CadastroGeral'=>$CadastroGeral, 'veiculos'=>$veiculos, 'clientes'=>$clientes, 'colaboradores'=>$colaboradores, 'fornecedores'=>$fornecedores]);
+    // $CadastroGeral = ($clientes==0 || $veiculos==0 || $colaboradores==0 || $fornecedores==0)?true:false;
+    // return view('dashboard',['CadastroGeral'=>$CadastroGeral, 'veiculos'=>$veiculos, 'clientes'=>$clientes, 'colaboradores'=>$colaboradores, 'fornecedores'=>$fornecedores]);
+    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

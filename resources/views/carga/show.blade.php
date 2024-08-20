@@ -22,7 +22,7 @@
                         <li>{{ $carga->filial->razao_social }}</li>
                         <li>{{ $carga->localApoio->name }}</li>
                         <li>{{ $carga->getStatus()->descricao }}</li>
-                        <li>{{ $carga->veiculo->placa }}</li>
+                        <li>{{ (isset($carga->veiculo->placa))?$carga->veiculo->placa:'' }}</li>
                         <li>{{ $carga->frete }}</li>
                         <li>{{ $carga->destino }}</li>
                         <li>{{ count($carga->paradas()) }}</li>

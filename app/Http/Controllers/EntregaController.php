@@ -31,6 +31,7 @@ class EntregaController extends Controller
         // $localMovimentacao = LocalMovimentacao::all();
         if (!is_null(Auth::user()->tenant_id)) {
             $localMovimentacao = Auth::user()->tenant->first()->localMovimentacao;
+            dd(Auth::user()->tenant->first()->localMovimentacao);
         } else {
             $localMovimentacao = LocalMovimentacao::all();
         }
@@ -188,6 +189,12 @@ class EntregaController extends Controller
             $entrega = Entrega::find($request->Entrega);
             $localMov = $entrega->filial->locaismovimetacoes->first();
             // return response()->json(['status'=>200,'msg'=>$localMov]);
+            foreach ($entrega->cargas as $carga) {
+                if($carga->notas()->get()->count()==0){
+                    throw new Exception('Inserir Notas na Carga ' . $carga->remessa .' - ' . $carga->os);
+                }
+            }
+
             $movPendente = MovimentacaoVeiculo::getMovimentacaoVeiculo($entrega->veiculo_id);
             if ($movPendente->count() != 0) {
                 // return response()->json(['status'=>200,'msg'=>$movPendente->last()->status('Rota')]);
@@ -346,9 +353,9 @@ class EntregaController extends Controller
                     $nota = Nota::find($Notas[$i]);
                     if ($i > 0) {
                         $nota2 = Nota::find($Notas[$i - 1]);
-                        if (($nota->destinatario->id != $nota2->destinatario->id) ||
+                        if (($nota->destinatario->id != $nota2->destinatario->id) &&
                             //  (!in_array($nota->tipo_pagamento_id,$pagamentos) || !in_array($nota2->tipo_pagamento_id,$pagamentos)) ||
-                            ($nota->indicacao_pagamento_id != $nota2->indicacao_pagamento_id)
+                            ($nota->indicacao_pagamento_id != $nota2->indicacao_pagamento_id) && (in_array($nota2->tipo_pagamento_id,$pagamentos) || in_array($nota->tipo_pagamento_id,$pagamentos))
                         ) {
                             $msg = "Para concluir varias notas de uma vez tem que ser do mesmo cliente
                             ou de clientes diferentes caso o pagamento nao seja cartao ou avista. somente boleto e bonificacao";

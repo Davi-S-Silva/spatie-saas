@@ -4,11 +4,11 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    @if ($CadastroGeral)
+    {{-- @if ($CadastroGeral)
         <div class="modal-info scroll-stop">
             <x-modal-info :veiculos=$veiculos :clientes=$clientes :colaboradores=$colaboradores :fornecedores=$fornecedores/>
         </div>
-    @endif
+    @endif --}}
 
     <div class="py-1">
         <div class="max-w-8xl px-1 mx-auto">
