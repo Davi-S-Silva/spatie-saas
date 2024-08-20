@@ -142,6 +142,22 @@ class Nota extends Model
                             $nota->save();
                             $notaBd = Nota::find($nota->id);
 
+                            //SALVAR OS PRODUTOS DAS NOTAS
+                            $Produtos = [];
+                            foreach ($xml->NFe->infNFe->det as $produto) {
+                                // $Produtos[]=(string)$produto->prod->xProd;
+                                $newProd = new ProdutoNota();
+                                $newProd->id = $newProd->newId();
+                                $newProd->nome = (string)$produto->prod->xProd;
+                                $newProd->ncm = (int)$produto->prod->NCM;
+                                $newProd->quantidade = (int)$produto->prod->qCom;
+                                $newProd->unidade = (string)$produto->prod->uCom;
+                                $newProd->valor = (float)$produto->prod->vUnCom;
+                                $newProd->save();
+                                $nota->produtos()->attach($newProd);
+                            }
+
+                            // throw new Exception($Produtos[0]);
                             //apagando o xml usado e movido
                             if ($notaBd->count() != 0) {
                                 unlink($file);
@@ -159,6 +175,10 @@ class Nota extends Model
             return $diferenca;
         }
         return true;
+    }
+    public function produtos()
+    {
+        return $this->belongsToMany(ProdutoNota::class);
     }
     private function getDadosXmlNota($xml)
     {
@@ -206,6 +226,7 @@ class Nota extends Model
     {
         return Status::where('tipo', 7)->get();
     }
+
     public function usuarioConclusao()
     {
         return $this->belongsTo(User::class, 'usuario_conclusao_id');
@@ -214,5 +235,8 @@ class Nota extends Model
     public function observacoes()
     {
         return $this->belongsToMany(Observacao::class);
+    }
+    public function getProdutos(){
+
     }
 }

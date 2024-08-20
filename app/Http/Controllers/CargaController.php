@@ -10,6 +10,8 @@ use App\Models\Filial;
 use App\Models\LocalApoio;
 use App\Models\ModeloUmFrete;
 use App\Models\Nota;
+use App\Models\PdfsSistema;
+use App\Models\ProdutoNota;
 use App\Models\Uteis;
 use Exception;
 use GuzzleHttp\Psr7\Response;
@@ -51,12 +53,12 @@ class CargaController extends Controller
             $carga = new Carga();
             $carga->newId();
             $carga->destino = $request->area;
-            $carga->peso = $request->peso;
+            $carga->peso =  Uteis::validaNumero($request->peso);
             $carga->entregas = $request->entregas;
             $carga->motorista_id = $request->colaborador;
             $carga->remessa = $request->remessa;
             $carga->veiculo_id = $request->veiculo;
-            $carga->frete = $request->frete;
+            $carga->frete = Uteis::validaNumero($request->frete);
             $carga->os = $request->os;
             $carga->data = $request->data;
             $carga->agenda = $request->agenda;
@@ -75,9 +77,9 @@ class CargaController extends Controller
 
             // $carga->save();
 
+            return response()->json([$carga, $request->input()]);
             DB::commit();
             // return response()->json([$request->input(),(new Nota())->getNotas($request->Notas, $request->Filial, )]);
-            return response()->json([$carga, $request->input()]);
         } catch (Exception $ex) {
             DB::rollback();
             // return response()->json([$ex->getMessage(),$ex->getLine()]);
@@ -129,7 +131,7 @@ class CargaController extends Controller
             DB::beginTransaction();
             $Carga = Carga::find($carga);
             if($Carga->getStatusId('Pendente')!=$Carga->status_id){
-                throw new Exception('Não é possivel adicionar nota a uma carga ja finalizada');
+                throw new Exception('Não é possivel adicionar nota a uma carga ja esteja em rota ou finalizada');
             }
             if(is_null($request->Notas)){
                 throw new Exception('Digite as notas a serem inseridas');
@@ -260,6 +262,42 @@ class CargaController extends Controller
             }catch(Exception $ex){
                 DB::rollback();
                 return response()->json(['status' => 0, 'msg' => $ex->getMessage()]);
+            }
+        }
+
+        public function gerarListaDevolucao(Carga $carga){
+            try{
+
+                $dados = [];
+                $totalItens = 0;
+                $devolvidas = $carga->notasPorStatus('Devolvida');
+
+                // echo '<pre>';
+                // echo 'Notas Devolvidas: '.$devolvidas->count();
+                // echo '<br />';
+
+                foreach($devolvidas as $nota){
+                    $dados['dados']['totalItens'] = $totalItens += $nota->volume;
+                    $dados['dados']['remessa'] = $carga->remessa;
+                    $dados['dados']['os'] = $carga->os;
+                    $dados['dados']['carga']= $carga->id;
+                    // $dados['dados']['precarga'] = $carga->precarga;
+                    $dados['notas'][$nota->nota]['nota'] = (object)$nota;
+                    // $dados['notas'][$nota->nota]['destinatario'] = (object)DestinatarioNota::find($nota->destinatario)->getAttributes();
+                    // print_r($nota->produtos()->count());
+                    // echo 'Nota: '.$nota->nota;
+                    // echo '<br />';
+                    foreach($nota->produtos as $produto){
+                        // print_r($produto->getAttributes());
+                        $dados['notas'][$nota->nota]['produtos'][] = (object)ProdutoNota::find($produto->id)->getAttributes();
+                    }
+                    // echo '<hr />';
+                }
+                // echo '</pre>';
+                PdfsSistema::listaDevolucao($dados);
+            }
+            catch(Exception $ex){
+                return $ex->getMessage();
             }
         }
 }

@@ -148,6 +148,7 @@ Route::middleware('auth')->group(function () {
         Route::get('carga/{filial}/getCargasDisponiveis',[CargaController::class, 'getCargasDisponiveis'])->name('carga.getCargasDisponiveis');
         Route::get('carga/cidadeFrete/{carga}',[CargaController::class, 'cidadeFrete'])->name('carga.cidadeFrete');
         Route::put('carga/{carga}/update',[CargaController::class, 'update'])->name('carga.update');
+        Route::get('carga/{carga}/devolucao',[CargaController::class, 'gerarListaDevolucao'])->name('gerarListaDevolucao');
 
         Route::resource('fornecedor',FornecedorController::class);
 

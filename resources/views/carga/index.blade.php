@@ -60,7 +60,8 @@
                                     <td>{{ $carga->filial->nome_fantasia }}</td>
                                     <td>{{ date('d/m/Y', strtotime($carga->agenda)) }}</td>
                                     <td class="col-3">{{ $carga->destino }}</td>
-                                    <td class="cursor-pointer" title="">{{ $carga->veiculo->placa }}</td>
+                                    <td class="cursor-pointer" title="">
+                                        {{ isset($carga->veiculo) ? $carga->veiculo->placa : '' }}</td>
                                     <td>{{ $carga->notas()->count() }}</td>
                                     <td>{{ count($carga->paradas()) }}</td>
                                     <td>R$ {{ number_format($carga->frete, 2, ',', '.') }}</td>
@@ -104,6 +105,13 @@
                                                     type="button" role="tab"
                                                     aria-controls="entrega_{{ $carga->id }}"
                                                     aria-selected="false">Entrega</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="produtos-tab_{{ $carga->id }}"
+                                                    data-bs-toggle="tab" data-bs-target="#produtos_{{ $carga->id }}"
+                                                    type="button" role="tab"
+                                                    aria-controls="produtos_{{ $carga->id }}"
+                                                    aria-selected="false">Produtos</button>
                                             </li>
                                         </ul>
                                         <div class="tab-content" id="myTabContent_{{ $carga->id }}">
@@ -156,15 +164,45 @@
                                             <div class="tab-pane fade" id="profile_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="profile-tab_{{ $carga->id }}">
                                                 Conhecimento de transporte, Manifesto, assinante, descarrego, canhoto,
-                                                entrada de ceasa....</div>
+                                                entrada de ceasa....
+                                                <ul>
+                                                    <li><a href="{{ route('gerarListaDevolucao', ['carga' => $carga->id]) }}"
+                                                            target="_blank">Gerar Relatório de devolução</a></li>
+                                                </ul>
+                                            </div>
                                             <div class="tab-pane fade" id="contact_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="contact-tab_{{ $carga->id }}">
                                                 Observacoes da carga e etc</div>
                                             <div class="tab-pane fade" id="entrega_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="entrega-tab_{{ $carga->id }}">
                                                 Informacoes sobre as entregas dessa carga</div>
+                                            <div class="tab-pane fade " id="produtos_{{ $carga->id }}"
+                                                role="tabpanel" aria-labelledby="produtos-tab_{{ $carga->id }}">
+                                                @php
+                                                $dados = $carga->produtos();
+                                                @endphp
+                                                @if (!is_null($dados))
+                                                    <table class="table-striped table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <td>Produto</td>
+                                                                <td>Quantidade</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($dados as $produto)
+                                                                <tr>
+                                                                    <td>{{ $produto['nome'] }}</td>
+                                                                    <td>{{ $produto['total_produto'] }}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                @else
+                                                    não tem produtos cadastrados
+                                                @endif
+                                            </div>
                                         </div>
-
                                     </td>
                                 </tr>
                             @endforeach

@@ -35,6 +35,9 @@ class Carga extends Model
         return $this->hasMany(Nota::class);
     }
 
+    public function notasPorStatus($status){
+        return Nota::where('carga_id',$this->id)->where('status_id',(new Nota())->getStatusId($status))->get();
+    }
     public function motorista()
     {
         return $this->belongsTo(Colaborador::class);
@@ -110,5 +113,30 @@ class Carga extends Model
     public function valor(){
         // return DB::raw();
         return $this->notas()->sum('valor');
+    }
+    public function produtos()
+    {
+        $dados = [];
+        foreach($this->notas as $nota)
+        {
+            $produtos = $nota->produtos;
+            if($produtos->count()==0){
+                return null;
+            }
+            $somaProd = 0;
+            foreach($produtos as $produto){
+                $dados['item'][$produto->nome]['nome']= $produto->nome;
+                $somaProd += $produto->quantidade;
+                $dados['item'][$produto->nome]['quantidade'][] = $produto->quantidade;
+                $qtd = $dados['item'][$produto->nome]['quantidade'];
+                for($i=0 ;$i<count($qtd);$i++){
+                    $somaProd+=$qtd[$i];
+                }
+                $dados['item'][$produto->nome]['total_produto'] = $somaProd;
+            }
+        }
+        // $dados['total_volume_carga'] = $totalVolumeCarga;
+        // dd($dados['item']);
+        return $dados['item'];
     }
 }

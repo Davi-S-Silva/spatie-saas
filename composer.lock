@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0d7324b05df78e269cefd322da1a441",
+    "content-hash": "01ef38055442cf91ce3552903a221852",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -367,124 +367,6 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
-        },
-        {
-            "name": "dantsu/php-image-editor",
-            "version": "1.4.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/DantSu/php-image-editor.git",
-                "reference": "59a3e922000767051d380a2c530c61344f1e79ec"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/DantSu/php-image-editor/zipball/59a3e922000767051d380a2c530c61344f1e79ec",
-                "reference": "59a3e922000767051d380a2c530c61344f1e79ec",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gd": "*",
-                "php": ">=7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DantSu\\PHPImageEditor\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Franck ALARY",
-                    "homepage": "https://github.com/DantSu",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP library to easily edit image with GD extension.",
-            "homepage": "https://github.com/DantSu/php-image-editor",
-            "keywords": [
-                "GD2",
-                "edit",
-                "edition",
-                "editor",
-                "image",
-                "photo",
-                "php",
-                "picture"
-            ],
-            "support": {
-                "issues": "https://github.com/DantSu/php-image-editor/issues",
-                "source": "https://github.com/DantSu/php-image-editor/tree/1.4.5"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/DantSu",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-08-23T07:36:11+00:00"
-        },
-        {
-            "name": "dantsu/php-osm-static-api",
-            "version": "0.6.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/DantSu/php-osm-static-api.git",
-                "reference": "cf89dccfa4f27f6e76de0ab065b313d2f19de728"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/DantSu/php-osm-static-api/zipball/cf89dccfa4f27f6e76de0ab065b313d2f19de728",
-                "reference": "cf89dccfa4f27f6e76de0ab065b313d2f19de728",
-                "shasum": ""
-            },
-            "require": {
-                "dantsu/php-image-editor": "^1.3",
-                "php": ">=7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DantSu\\OpenStreetMapStaticAPI\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Franck ALARY",
-                    "homepage": "https://github.com/DantSu",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP library to easily get static image from OpenStreetMap (OSM), add markers and draw lines.",
-            "homepage": "https://github.com/DantSu/php-osm-static-api",
-            "keywords": [
-                "OpenStreetMap",
-                "api",
-                "image",
-                "map",
-                "maps",
-                "osm",
-                "php",
-                "static"
-            ],
-            "support": {
-                "issues": "https://github.com/DantSu/php-osm-static-api/issues",
-                "source": "https://github.com/DantSu/php-osm-static-api/tree/0.6.4"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/DantSu",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-08-06T07:17:27+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -1400,76 +1282,6 @@
                 }
             ],
             "time": "2023-12-03T19:50:20+00:00"
-        },
-        {
-            "name": "justinrainbow/json-schema",
-            "version": "v5.2.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jsonrainbow/json-schema.git",
-                "reference": "fbbe7e5d79f618997bc3332a6f49246036c45793"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/fbbe7e5d79f618997bc3332a6f49246036c45793",
-                "reference": "fbbe7e5d79f618997bc3332a6f49246036c45793",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "~2.2.20||~2.15.1",
-                "json-schema/json-schema-test-suite": "1.2.0",
-                "phpunit/phpunit": "^4.8.35"
-            },
-            "bin": [
-                "bin/validate-json"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "JsonSchema\\": "src/JsonSchema/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bruno Prieto Reis",
-                    "email": "bruno.p.reis@gmail.com"
-                },
-                {
-                    "name": "Justin Rainbow",
-                    "email": "justin.rainbow@gmail.com"
-                },
-                {
-                    "name": "Igor Wiedler",
-                    "email": "igor@wiedler.ch"
-                },
-                {
-                    "name": "Robert Schönthal",
-                    "email": "seroscho@googlemail.com"
-                }
-            ],
-            "description": "A library to validate a json schema.",
-            "homepage": "https://github.com/justinrainbow/json-schema",
-            "keywords": [
-                "json",
-                "schema"
-            ],
-            "support": {
-                "issues": "https://github.com/jsonrainbow/json-schema/issues",
-                "source": "https://github.com/jsonrainbow/json-schema/tree/v5.2.13"
-            },
-            "time": "2023-09-26T02:20:38+00:00"
         },
         {
             "name": "laravel/framework",
@@ -2844,238 +2656,6 @@
                 "source": "https://github.com/nette/utils/tree/v4.0.4"
             },
             "time": "2024-01-17T16:50:36+00:00"
-        },
-        {
-            "name": "nfephp-org/sped-common",
-            "version": "v5.1.14",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nfephp-org/sped-common.git",
-                "reference": "32e23b0b1b60fcb41beae421f2d93e5fd3280041"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nfephp-org/sped-common/zipball/32e23b0b1b60fcb41beae421f2d93e5fd3280041",
-                "reference": "32e23b0b1b60fcb41beae421f2d93e5fd3280041",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-dom": "*",
-                "ext-mbstring": "*",
-                "ext-openssl": "*",
-                "ext-soap": "*",
-                "php": ">= 7.4",
-                "psr/log": "^1.0||^2.0||^3.0"
-            },
-            "require-dev": {
-                "phpcompatibility/php-compatibility": "^9.3",
-                "phpstan/phpstan": "^1.4",
-                "phpunit/phpunit": "^9.3",
-                "scrutinizer/ocular": "^1.8",
-                "squizlabs/php_codesniffer": "^3.6"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-v5.0": "5.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "NFePHP\\Common\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0-or-later",
-                "GPL-3.0-or-later",
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Roberto L. Machado",
-                    "email": "linux.rlm@gmail.com.br",
-                    "homepage": "http://www.nfephp.org",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Gustavo Lidani",
-                    "email": "lidanig0@gmail.com",
-                    "homepage": "https://github.com/lidani",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Comunidade NFePHP",
-                    "homepage": "https://github.com/nfephp-org/sped-common/graphs/contributors"
-                }
-            ],
-            "description": "sped-common é parte do projeto NFePHP.",
-            "homepage": "https://github.com/nfephp-org/sped-common",
-            "keywords": [
-                "nfe",
-                "nfephp",
-                "sped"
-            ],
-            "support": {
-                "issues": "https://github.com/nfephp-org/sped-common/issues",
-                "source": "https://github.com/nfephp-org/sped-common/tree/v5.1.14"
-            },
-            "time": "2023-11-17T19:28:38+00:00"
-        },
-        {
-            "name": "nfephp-org/sped-cte",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nfephp-org/sped-cte.git",
-                "reference": "2b9e51edbc0baead9d3845b96c4f8c1c955f6072"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nfephp-org/sped-cte/zipball/2b9e51edbc0baead9d3845b96c4f8c1c955f6072",
-                "reference": "2b9e51edbc0baead9d3845b96c4f8c1c955f6072",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-json": "*",
-                "ext-libxml": "*",
-                "ext-openssl": "*",
-                "ext-simplexml": "*",
-                "ext-soap": "*",
-                "ext-zlib": "*",
-                "justinrainbow/json-schema": "^5.2",
-                "nfephp-org/sped-common": "^5.0",
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^0.12",
-                "phpunit/phpunit": "^5.7",
-                "scrutinizer/ocular": "^1.3",
-                "sebastian/phpcpd": "^3.0",
-                "squizlabs/php_codesniffer": "^3.4"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "v4.0": "4.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "NFePHP\\CTe\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0-or-later",
-                "GPL-3.0-or-later",
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Roberto L. Machado",
-                    "email": "linux.rlm@gmail.com.br",
-                    "homepage": "http://www.nfephp.org",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Comunidade NFePHP",
-                    "homepage": "https://github.com/nfephp-org/sped-cte/graphs/contributors"
-                }
-            ],
-            "description": "API para geração e comunicação da CTe com as SEFAZ autorizadoras.",
-            "homepage": "https://github.com/nfephp-org/sped-cte",
-            "keywords": [
-                "cte",
-                "nfephp",
-                "sped"
-            ],
-            "support": {
-                "issues": "https://github.com/nfephp-org/sped-cte/issues",
-                "source": "https://github.com/nfephp-org/sped-cte/tree/master"
-            },
-            "time": "2024-03-25T20:28:51+00:00"
-        },
-        {
-            "name": "nfephp-org/sped-da",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nfephp-org/sped-da.git",
-                "reference": "e54e5dee49e7ad50bbb605ea0ab9db2d8b2caef2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nfephp-org/sped-da/zipball/e54e5dee49e7ad50bbb605ea0ab9db2d8b2caef2",
-                "reference": "e54e5dee49e7ad50bbb605ea0ab9db2d8b2caef2",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-gd": "*",
-                "ext-mbstring": "*",
-                "nfephp-org/sped-common": "^5.1.0",
-                "php": ">= 7.4",
-                "tecnickcom/tc-lib-barcode": "^1"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^1.4",
-                "phpunit/phpunit": "^9.3",
-                "scrutinizer/ocular": "^1.8",
-                "sebastian/phpcpd": "^6.0",
-                "squizlabs/php_codesniffer": "^3.6"
-            },
-            "suggest": {
-                "nfephp-org/posprint": "^0.1"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "NFePHP\\DA\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0-or-later+",
-                "GPL-3.0-or-later",
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Roberto L. Machado",
-                    "email": "linux.rlm@gmail.com.br",
-                    "homepage": "http://www.nfephp.org",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Comunidade NFePHP",
-                    "homepage": "https://github.com/nfephp-org/sped-da/graphs/contributors"
-                }
-            ],
-            "description": "sped-da contêm as classes para criação dos documentos auxiliares referidos no projeto Sped.",
-            "homepage": "https://github.com/nfephp-org/sped-da",
-            "keywords": [
-                "CCe",
-                "Dacte",
-                "Danfe",
-                "nfe",
-                "nfephp",
-                "sped"
-            ],
-            "support": {
-                "issues": "https://github.com/nfephp-org/sped-da/issues",
-                "source": "https://github.com/nfephp-org/sped-da/tree/master"
-            },
-            "time": "2024-06-14T14:31:08+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -6924,6 +6504,78 @@
             "time": "2023-10-23T09:28:20+00:00"
         },
         {
+            "name": "tecnickcom/tcpdf",
+            "version": "6.7.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tecnickcom/TCPDF.git",
+                "reference": "951eabf0338ec2522bd0d5d9c79b08a3a3d36b36"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/951eabf0338ec2522bd0d5d9c79b08a3a3d36b36",
+                "reference": "951eabf0338ec2522bd0d5d9c79b08a3a3d36b36",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_parser.php",
+                    "tcpdf_import.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "role": "lead"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "PDFD32000-2008",
+                "TCPDF",
+                "barcodes",
+                "datamatrix",
+                "pdf",
+                "pdf417",
+                "qrcode"
+            ],
+            "support": {
+                "issues": "https://github.com/tecnickcom/TCPDF/issues",
+                "source": "https://github.com/tecnickcom/TCPDF/tree/6.7.5"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&currency_code=GBP&business=paypal@tecnick.com&item_name=donation%20for%20tcpdf%20project",
+                    "type": "custom"
+                }
+            ],
+            "time": "2024-04-20T17:25:10+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "v2.2.7",
             "source": {
@@ -10633,10 +10285,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "nfephp-org/sped-cte": 20,
-        "nfephp-org/sped-da": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
