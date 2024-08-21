@@ -217,7 +217,7 @@
                         </tbody>
                     </table>
                     <div>
-                        {{ $carga->links() }}
+                        {{ $cargas->links() }}
                     </div>
                 </div>
             </div>

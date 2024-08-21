@@ -38,8 +38,13 @@ class CargaController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        $carga = Carga::with('veiculo','entregas','notas','notas.filial','notas.status','notas.destinatario','notas.destinatario.endereco')->orderBy('id','desc')->paginate(15);
-        return view('carga.index', ['cargas' => $carga]);
+        $carga =  Carga::with('veiculo','entregas','notas','notas.filial','notas.status','notas.destinatario','notas.destinatario.endereco');
+        if(Auth::user()->roles()->first()->name== 'tenant-colaborador' || Auth::user()->roles()->first()->name== 'colaborador'){
+            $carga->where('motorista_id',Auth::user()->id);
+        }
+        // dd(Auth::user()->roles()->first()->name);
+        $Carga = $carga->orderBy('id','desc')->paginate(15);
+        return view('carga.index', ['cargas' => $Carga]);
     }
 
     /**
