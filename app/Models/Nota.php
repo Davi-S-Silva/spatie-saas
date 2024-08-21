@@ -91,7 +91,10 @@ class Nota extends Model
                                 $destinatario->cpf_cnpj  = (isset($xml->NFe->infNFe->dest->CNPJ))? $xml->NFe->infNFe->dest->CNPJ : $xml->NFe->infNFe->dest->CPF;
                                 $destinatario->ie  = $xml->NFe->infNFe->dest->IE;
                                 $destinatario->usuario_id = Auth::user()->id;
-                                $destinatario->tipo = (strlen($xml->NFe->infNFe->dest->CNPJ) == 14) ? 1 : 2; //cpf ou cnpj
+                                // $tipoCpf =
+                                // if(isset($xml->NFe->infNFe->dest->CNPJ)){
+                                    $destinatario->tipo = (strlen($xml->NFe->infNFe->dest->CNPJ) == 14) ? 1 : 2; //cpf ou cnpj
+                                // }
                                 // throw new Exception($destinatario->cpf_cnpj.'--'.$xml->NFe->infNFe->dest->CNPJ);
                                 $end = new Endereco();
                                 $end->newId();

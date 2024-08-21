@@ -26,7 +26,8 @@ class CargaController extends Controller
      */
     public function index()
     {
-        $carga = Carga::with('veiculo','entregas','notas','notas.filial','notas.status','notas.destinatario','notas.destinatario.endereco')->orderBy('id','desc')->paginate(15);
+        $carga = Carga::with('veiculo','entregas','motorista','notas','notas.filial','notas.status','notas.destinatario','notas.destinatario.endereco'
+        ,'notas.destinatario.endereco.cidade','notas.destinatario.endereco.estado')->orderBy('id','desc')->paginate(15);
         return view('carga.index', ['cargas' => $carga]);
     }
 

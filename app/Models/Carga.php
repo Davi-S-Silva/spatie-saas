@@ -82,7 +82,7 @@ class Carga extends Model
 
     public function cidades()
     {
-        $notas = $this->notas()->with('destinatario','destinatario.endereco','destinatario.endereco.cidade');
+        $notas = $this->notas()->with('destinatario','destinatario.endereco','destinatario.endereco.cidade','destinatario.endereco.estado');
 
         $array = [];
         foreach($notas->get() as $nota){
@@ -117,11 +117,11 @@ class Carga extends Model
     public function produtos()
     {
         $dados = [];
-        $notas=$this->notas;
+        $notas=$this->notas()->with('produtos');
         if($notas->count()==0){
             return null;
         }
-        foreach($notas as $nota)
+        foreach($notas->get() as $nota)
         {
             $produtos = $nota->produtos;
             if($produtos->count()==0){

@@ -61,7 +61,8 @@
                                     <td>{{ $carga->filial->nome_fantasia }}</td>
                                     <td>{{ date('d/m/Y', strtotime($carga->agenda)) }}</td>
                                     <td class="col-3">{{ $carga->destino }}</td>
-                                    <td class="cursor-pointer" title="">{{ (isset($carga->veiculo->placa))?$carga->veiculo->placa:'' }}</td>
+                                    <td class="cursor-pointer" title="">
+                                        {{ isset($carga->veiculo->placa) ? $carga->veiculo->placa : '' }}</td>
                                     <td>{{ $carga->notas()->count() }}</td>
                                     <td>{{ count($carga->paradas()) }}</td>
                                     <td>R$ {{ number_format($carga->frete, 2, ',', '.') }}</td>
@@ -136,7 +137,8 @@
                                                         @php
                                                             $i = 0;
                                                         @endphp
-                                                        @forelse ($carga->notas()->orderBy('destinatario_id','asc')->get() as $nota)
+                                                        @forelse ($carga->notas()->orderBy('destinatario_id','asc')->with('destinatario','status','filial','destinatario.endereco',
+                                                        'destinatario.endereco.cidade','destinatario.endereco.estado')->get() as $nota)
                                                             <tr
                                                                 class="{{ $i % 2 == 0 ? 'bg-white' : '' }} border-secondary border">
                                                                 <td class="py-2">{{ $nota->nota }}</td>
@@ -161,26 +163,30 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="tab-pane fade" id="profile_{{ $carga->id }}"
-                                                role="tabpanel" aria-labelledby="profile-tab_{{ $carga->id }}">
+                                            <div class="tab-pane fade" id="profile_{{ $carga->id }}" role="tabpanel"
+                                                aria-labelledby="profile-tab_{{ $carga->id }}">
                                                 Conhecimento de transporte, Manifesto, assinante, descarrego, canhoto,
                                                 entrada de ceasa....
                                                 <ul>
-                                                    <li><a href="{{ route('gerarListaDevolucao', ['carga' => $carga->id]) }}"
-                                                            target="_blank">Gerar Relatório de devolução</a></li>
+                                                    <li>
+                                                        <a href="{{ route('gerarListaDevolucao', ['carga' => $carga->id]) }}"
+                                                            target="_blank">Gerar Relatório de devolução</a>
+                                                    </li>
+                                                    <li><a href="#">Add Assinante</a></li>
                                                 </ul>
                                             </div>
-                                            <div class="tab-pane fade" id="contact_{{ $carga->id }}"
-                                                role="tabpanel" aria-labelledby="contact-tab_{{ $carga->id }}">
+                                            <div class="tab-pane fade" id="contact_{{ $carga->id }}" role="tabpanel"
+                                                aria-labelledby="contact-tab_{{ $carga->id }}">
                                                 Observacoes da carga e etc</div>
                                             <div class="tab-pane fade" id="entrega_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="entrega-tab_{{ $carga->id }}">
                                                 <ul>
-                                                    @foreach ($carga->entregas()->get() as $item)
+                                                    @foreach ($carga->entregas()->with('veiculo', 'colaborador')->get() as $item)
                                                         <li>{{ $item->colaborador->name }}</li>
                                                         <li>{{ $item->veiculo->placa }}</li>
                                                         <li>{{ $item->getStatus->descricao }}</li>
-                                                        <li>{{ date('d/m/Y H:i:s', strtotime($item->updated_at)) }}</li>
+                                                        <li>{{ date('d/m/Y H:i:s', strtotime($item->updated_at)) }}
+                                                        </li>
                                                     @endforeach
                                                 </ul>
                                             </div>
@@ -198,7 +204,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach($dados as $produto)
+                                                            @foreach ($dados as $produto)
                                                                 <tr>
                                                                     <td>{{ $produto['nome'] }}</td>
                                                                     <td>{{ $produto['total_produto'] }}</td>
@@ -217,7 +223,7 @@
                         </tbody>
                     </table>
                     <div>
-                        {{ $carga->links() }}
+                        {{ $cargas->links() }}
                     </div>
                 </div>
             </div>
