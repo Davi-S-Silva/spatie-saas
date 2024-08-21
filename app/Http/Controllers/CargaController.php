@@ -16,19 +16,35 @@ use App\Models\Uteis;
 use Exception;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class CargaController extends Controller
+class CargaController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:Deletar Carga', only: ['destroy']),
+            new Middleware('permission:Listar Carga', only: ['index']),
+            new Middleware('permission:Show Carga', only: ['show']),
+            new Middleware('permission:Editar Carga', only: ['edit', 'update']),
+            new Middleware('permission:Criar Carga', only: ['create', 'store']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $carga = Carga::with('veiculo','entregas','motorista','notas','notas.filial','notas.status','notas.destinatario','notas.destinatario.endereco'
-        ,'notas.destinatario.endereco.cidade','notas.destinatario.endereco.estado')->orderBy('id','desc')->paginate(15);
-        return view('carga.index', ['cargas' => $carga]);
+        $carga =  Carga::with('veiculo','entregas','notas','notas.filial','notas.status','notas.destinatario','notas.destinatario.endereco');
+        if(Auth::user()->roles()->first()->name== 'tenant-colaborador' || Auth::user()->roles()->first()->name== 'colaborador'){
+            $carga->where('motorista_id',Auth::user()->id);
+        }
+        // dd(Auth::user()->roles()->first()->name);
+        $Carga = $carga->orderBy('id','desc')->paginate(15);
+        return view('carga.index', ['cargas' => $Carga]);
     }
 
     /**
