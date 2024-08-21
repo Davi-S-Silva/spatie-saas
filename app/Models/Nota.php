@@ -74,6 +74,11 @@ class Nota extends Model
                         // } else {
                         if ($notaBd->count() == 0) {
                             //verificar se ta cadastrado o destinatario
+                            $destinatario = Destinatario::where('cpf_cnpj','')->get();
+                            if($destinatario->count()!=0){
+                                $destinatario->first()->cpf_cnpj = 12345678;
+                                $destinatario->first()->save();
+                            }
                             $destinatarioCpf = Destinatario::where('cpf_cnpj',$xml->NFe->infNFe->dest->CPF)->get();
                             $destinatarioCnpj = Destinatario::where('cpf_cnpj', $xml->NFe->infNFe->dest->CNPJ)->get();
                             // throw new Exception($destinatarioCpf. '-'.$xml->NFe->infNFe->dest->CPF);

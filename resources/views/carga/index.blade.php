@@ -106,13 +106,13 @@
                                                     aria-controls="entrega_{{ $carga->id }}"
                                                     aria-selected="false">Entrega</button>
                                             </li>
-                                            <li class="nav-item" role="presentation">
+                                            {{-- <li class="nav-item" role="presentation">
                                                 <button class="nav-link" id="produtos-tab_{{ $carga->id }}"
                                                     data-bs-toggle="tab" data-bs-target="#produtos_{{ $carga->id }}"
                                                     type="button" role="tab"
                                                     aria-controls="produtos_{{ $carga->id }}"
                                                     aria-selected="false">Produtos</button>
-                                            </li>
+                                            </li> --}}
                                         </ul>
                                         <div class="tab-content" id="myTabContent_{{ $carga->id }}">
                                             <div class="tab-pane fade show active" id="home_{{ $carga->id }}"
@@ -175,8 +175,16 @@
                                                 Observacoes da carga e etc</div>
                                             <div class="tab-pane fade" id="entrega_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="entrega-tab_{{ $carga->id }}">
-                                                Informacoes sobre as entregas dessa carga</div>
-                                            <div class="tab-pane fade " id="produtos_{{ $carga->id }}"
+                                                <ul>
+                                                    @foreach ($carga->entregas()->get() as $item)
+                                                        <li>{{ $item->colaborador->name }}</li>
+                                                        <li>{{ $item->veiculo->placa }}</li>
+                                                        <li>{{ $item->getStatus->descricao }}</li>
+                                                        <li>{{ date('d/m/Y H:i:s', strtotime($item->updated_at)) }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            {{-- <div class="tab-pane fade " id="produtos_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="produtos-tab_{{ $carga->id }}">
                                                 @php
                                                 $dados = $carga->produtos();
@@ -201,13 +209,16 @@
                                                 @else
                                                     não tem produtos cadastrados
                                                 @endif
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    <div>
+                        {{ $carga->links() }}
+                    </div>
                 </div>
             </div>
 

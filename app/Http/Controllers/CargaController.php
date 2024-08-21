@@ -26,7 +26,7 @@ class CargaController extends Controller
      */
     public function index()
     {
-        $carga = Carga::with('veiculo','notas','notas.filial','notas.status','notas.destinatario','notas.destinatario.endereco')->orderBy('id','desc')->get();
+        $carga = Carga::with('veiculo','entregas','notas','notas.filial','notas.status','notas.destinatario','notas.destinatario.endereco')->orderBy('id','desc')->paginate(15);
         return view('carga.index', ['cargas' => $carga]);
     }
 
@@ -156,7 +156,7 @@ class CargaController extends Controller
             if(count($response)!=0){
                 return response()->json(['status'=>0,'msg'=>'notas nao encontradas','notas'=>$response]);
             }
-            return response()->json(['status'=>200,'msg'=>$response]);
+            // return response()->json(['status'=>200,'msg'=>$response]);
             DB::commit();
             return response()->json(['status'=>200,'msg'=>'Notas Cadastradas com sucesso!']);
         } catch (Exception $ex) {
