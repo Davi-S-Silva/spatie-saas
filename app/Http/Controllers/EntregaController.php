@@ -17,11 +17,23 @@ use App\Models\Status;
 use App\Models\Veiculo;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class EntregaController extends Controller
+class EntregaController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:Deletar Entrega', only: ['destroy']),
+            new Middleware('permission:Listar Entrega', only: ['index']),
+            new Middleware('permission:Show Entrega', only: ['show']),
+            new Middleware('permission:Editar Entrega', only: ['edit', 'update']),
+            new Middleware('permission:Criar Entrega', only: ['create', 'store']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */

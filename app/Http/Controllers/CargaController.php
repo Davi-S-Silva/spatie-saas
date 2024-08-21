@@ -16,11 +16,23 @@ use App\Models\Uteis;
 use Exception;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class CargaController extends Controller
+class CargaController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:Deletar Carga', only: ['destroy']),
+            new Middleware('permission:Listar Carga', only: ['index']),
+            new Middleware('permission:Show Carga', only: ['show']),
+            new Middleware('permission:Editar Carga', only: ['edit', 'update']),
+            new Middleware('permission:Criar Carga', only: ['create', 'store']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */
