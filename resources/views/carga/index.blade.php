@@ -25,19 +25,19 @@
                             <tr class="border-secondary border">
                                 <th class="p-2">-</th>
                                 <th><input type="checkbox" name="" id=""></th>
+                                <th>Data</th>
                                 <th>Remessa</th>
                                 <th>OS</th>
-                                <th>Data e Hora</th>
-                                <th>Motorista</th>
-                                <th>Origem</th>
-                                <th>Agenda</th>
-                                <th class="col-3">Destino</th>
-                                <th>Veículo</th>
-                                <th>Notas</th>
+                                <th class="col-2">Motorista</th>
+                                <th class="col-2">Origem</th>
+                                <th class="col-2">Destino</th>
+                                {{-- <th>Agenda</th> --}}
+                                <th class="">Veículo</th>
+                                <th class="col-2">Notas</th>
                                 <th>Entregas</th>
-                                <th>Frete</th>
+                                <th class="col-1">Frete</th>
                                 <th>Diária</th>
-                                <th>Status</th>
+                                <th class="col-2">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,30 +47,60 @@
                             @foreach ($cargas as $carga)
                                 <tr
                                     class="{{ $indice % 2 == 0 ? 'bg-claro' : 'bg-mais-claro' }} tr-items border-secondary border">
-                                    <td class="show-detalhe-items p-2 m-1" Item={{ $carga->id }}><i
+                                    <td class="show-detalhe-items px-2 py-3 m-1" Item={{ $carga->id }}><i
                                             class="fa-regular fa-square-plus"></i></td>
                                     <td><input type="checkbox" name="" id=""></td>
+                                    <td>{{ date('d/m/Y', strtotime($carga->data)) }}</td>
                                     <td><a
-                                            href="{{ route('carga.show', ['carga' => $carga->id]) }}">{{ $carga->remessa }}</a>
+                                            href="{{ route('carga.show', ['carga' => $carga->id]) }}" class="click_botao_direito position-relative" copy="{{ $carga->remessa }}"
+                                            title="Clique com o botao direito do mouse para copiar texto">{{ $carga->remessa }}</a>
                                     </td>
                                     <td><a
-                                            href="{{ route('carga.show', ['carga' => $carga->id]) }}">{{ $carga->os }}</a>
+                                            href="{{ route('carga.show', ['carga' => $carga->id]) }}" class="click_botao_direito position-relative" copy="{{ $carga->remessa }}"
+                                            title="Clique com o botao direito do mouse para copiar texto">{{ $carga->os }}</a>
                                     </td>
-                                    <td>{{ date('d/m/Y H:i', strtotime($carga->data)) }}</td>
                                     <td>{{ $carga->motorista->name }}</td>
                                     <td>{{ $carga->filial->nome_fantasia }}</td>
-                                    <td>{{ date('d/m/Y', strtotime($carga->agenda)) }}</td>
-                                    <td class="col-3">{{ $carga->destino }}</td>
+                                    <td>{{ $carga->destino }}</td>
+                                    {{-- <td>{{ date('d/m/Y', strtotime($carga->agenda)) }}</td> --}}
                                     <td class="cursor-pointer" title="">
-                                        {{ isset($carga->veiculo->placa) ? $carga->veiculo->placa : '' }}</td>
-                                    <td>{{ $carga->notas()->count() }}</td>
+                                        {{ isset($carga->veiculo->placa) ? $carga->veiculo->placa : '' }}
+                                    </td>
+                                    <td class="col-12 d-flex align-items-center">
+                                        <div class="col-9 py-3 d-flex align-items-center">
+                                            <div class="progress col-9 bg-info">
+                                                <div class="progress-bar progress-bar-striped bg-primary" style="width: {{ $carga->porcentagemNotas() }}"
+                                                    role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ $carga->notas()->count() }}">
+                                                    {{ $carga->porcentagemNotas() }}
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                {{ ($carga->notasPorStatus('devolvida')->count()+$carga->notasPorStatus('entregue')->count()) }}/{{ $carga->notas()->count() }}
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-around col-3 py-2">
+                                            <div class="text-primary">{{ $carga->notasPorStatus('pendente')->count() }}</div>
+                                            <div class="text-danger">{{ $carga->notasPorStatus('devolvida')->count() }}</div>
+                                            <div class="text-success">{{ $carga->notasPorStatus('entregue')->count() }}</div>
+                                    </div>
+                                    </td>
                                     <td>{{ count($carga->paradas()) }}</td>
                                     <td>R$ {{ number_format($carga->frete, 2, ',', '.') }}</td>
                                     <td class="cursor-pointer" title="Clique para adicionar diária">0</td>
                                     @php
                                         $status = $carga->getStatus();
                                     @endphp
-                                    <td title="{{ $status->descricao }}">{{ $status->name }}</td>
+                                    <td title="{{ $status->descricao }}" class="@php
+                                        if($status->name =='Rota'){
+                                            echo 'text-success';
+                                        }else if($status->name =='Finalizada'){
+                                            echo 'text-dark';
+                                        }else{
+                                            echo 'text-primary';
+                                        }
+                                    @endphp font-bold">
+                                        {{ $status->descricao }}
+                                    </td>
                                 </tr>
                                 @php
                                     $indice++;
@@ -119,18 +149,18 @@
                                             <div class="tab-pane fade show active" id="home_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="home-tab_{{ $carga->id }}">
                                                 {{-- {{ $carga->countNotasPendentes() }} --}}
-                                                <a class="btn btn-primary add-notas-carga"
+                                                {{-- <a class="btn btn-primary add-notas-carga"
                                                     href="{{ route('carga.setNotas', ['carga' => $carga->id]) }}"
-                                                    id="Carga {{ $carga->id }}">Add Notas</a>
+                                                    id="Carga {{ $carga->id }}">Add Notas</a> --}}
                                                 <table class="text-center col-12">
                                                     <thead>
                                                         <tr class="border-secondary border">
-                                                            <th class="py-2">Número</th>
-                                                            <th>Chave de Acesso</th>
-                                                            <th>Emitente</th>
-                                                            <th>Destinatario</th>
-                                                            <th class="col-3">Endereco</th>
-                                                            <th>Status</th>
+                                                            <th class="py-2 col-1">Número</th>
+                                                            <th class="col-3">Chave de Acesso</th>
+                                                            <th class="col-2">Emitente</th>
+                                                            <th class="col-2">Destinatario</th>
+                                                            <th class="col-2">Endereco</th>
+                                                            <th class="col-2">Status</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -142,9 +172,13 @@
                                                             <tr
                                                                 class="{{ $i % 2 == 0 ? 'bg-white' : '' }} border-secondary border">
                                                                 <td class="py-2">{{ $nota->nota }}</td>
-                                                                <td>{{ $nota->chave_acesso }}</td>
+                                                                <td class="click_botao_direito position-relative" copy="{{ $nota->chave_acesso }}"
+                                                                    title="Clique com o botao direito do mouse para copiar texto">{{ $nota->chave_acesso }}</td>
                                                                 <td>{{ $nota->filial->nome_fantasia }}</td>
-                                                                <td>{{ $nota->destinatario->nome_razao_social }}</td>
+                                                                <td>
+                                                                    {{ $nota->destinatario->cpf_cnpj }} -
+                                                                    {{ $nota->destinatario->nome_razao_social }}
+                                                                </td>
                                                                 <td class="col-3">
                                                                     {{ strtolower($nota->destinatario->endereco->endereco) }},
                                                                     {{ $nota->destinatario->endereco->numero }},
@@ -152,7 +186,17 @@
                                                                     {{ $nota->destinatario->endereco->cep }} -
                                                                     {{ $nota->destinatario->endereco->cidade->nome }}
                                                                 </td>
-                                                                <td>{{ $nota->status->descricao }}</td>
+                                                                <td class="
+                                                                @php
+                                                                    if($nota->status->name =='Entregue'){
+                                                                        echo 'text-success';
+                                                                    }else if($nota->status->name =='Devolvida'){
+                                                                        echo 'text-danger';
+                                                                    }else{
+                                                                        echo 'text-primary';
+                                                                    }
+                                                                @endphp
+                                                                ">{{ $nota->status->descricao }}</td>
                                                             </tr>
                                                             @php
                                                                 $i++;
@@ -181,7 +225,7 @@
                                             <div class="tab-pane fade" id="entrega_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="entrega-tab_{{ $carga->id }}">
                                                 <ul>
-                                                    @foreach ($carga->entregas()->with('veiculo', 'colaborador')->get() as $item)
+                                                    @foreach ($carga->entregas()->with('veiculo', 'colaborador','getStatus')->get() as $item)
                                                         <li>{{ $item->colaborador->name }}</li>
                                                         <li>{{ $item->veiculo->placa }}</li>
                                                         <li>{{ $item->getStatus->descricao }}</li>

@@ -35,8 +35,21 @@ class Carga extends Model
         return $this->hasMany(Nota::class);
     }
 
+
     public function notasPorStatus($status){
         return Nota::where('carga_id',$this->id)->where('status_id',(new Nota())->getStatusId($status))->get();
+    }
+    public function porcentagemNotas()
+    {
+        $totalNotas = $this->notas()->count();
+        $devolvidas = $this->notasPorStatus('devolvida')->count();
+        $entregues = $this->notasPorStatus('entregue')->count();
+        $somaNotas = ($devolvidas+$entregues);
+        $percent = 0;
+        if($somaNotas != 0){
+            $percent = $somaNotas / $totalNotas;
+        }
+        return  number_format( $percent * 100, 0 ) . '%';
     }
     public function motorista()
     {
@@ -113,6 +126,10 @@ class Carga extends Model
     public function valor(){
         // return DB::raw();
         return $this->notas()->sum('valor');
+    }
+    public function quantidade(){
+        // return DB::raw();
+        return $this->notas()->sum('volume');
     }
     public function produtos()
     {

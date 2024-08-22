@@ -75,8 +75,8 @@ class CargaController extends Controller implements HasMiddleware
             $carga = new Carga();
             $carga->newId();
             $carga->destino = $request->area;
-            $carga->peso =  Uteis::validaNumero($request->peso);
-            $carga->entregas = $request->entregas;
+            // $carga->peso =  Uteis::validaNumero($request->peso);
+            // $carga->entregas = $request->entregas;
             $carga->motorista_id = $request->colaborador;
             $carga->remessa = $request->remessa;
             $carga->veiculo_id = $request->veiculo;

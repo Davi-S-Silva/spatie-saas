@@ -1,9 +1,9 @@
 // const { data } = require("autoprefixer");
 $(function () {
 
-    var base = 'http://localhost:8080/';
+    // var base = 'http://localhost:8080/';
     // var base = 'http://3.145.53.239/';
-    // var base = 'http://saasportal.com.br/';
+    var base = 'http://saasportal.com.br/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
@@ -16,6 +16,15 @@ $(function () {
     // loading.hide();
 
     // alert(routeStorePermission)
+    $('.click_botao_direito').on('contextmenu', function(){
+        navigator.clipboard.writeText($(this).attr('copy'))
+        // alert(textCopy)
+        var textoCampo =  $(this).text();
+        $(this).append('<span class="span_copy position-absolute left-0"><br />Copiado</span>');
+        $('.span_copy').fadeOut(2000);
+        return false
+    })
+    // $(document).on()
     $('form[name="formAddPermissao"]').submit(function () {
         // alert($(this).serialize())
         $.ajax({

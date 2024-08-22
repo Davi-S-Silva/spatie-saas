@@ -42,7 +42,7 @@
             </div>
             <div>
                 <label for="" class="form-label row">Comprovante</label>
-                <input type="file" name="Comprovantes[]" id="Comprovantenota" class="comprovantes_nota col-12" multiple>
+                <input type="file" name="Comprovantes[]" id="Comprovantenota" class="comprovantes_nota col-12" multiple required>
                 <div id="CloneComprovante">
                 </div>
                 <a href="" id="ClonaInputComprovante">Add Comprovante</a>

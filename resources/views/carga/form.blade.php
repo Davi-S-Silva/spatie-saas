@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class="col-12 d-flex justify-around">
-        <div class="col-sm-2 col-12">
+        {{-- <div class="col-sm-2 col-12">
             <label for="" class="form-label">Peso</label>
             <input type="text" name="peso" id="" class="form-control rounded border"
                 value="{{ isset($carga->peso) ? $carga->peso : '' }}">
@@ -51,7 +51,7 @@
             <label for="" class="form-label">Entregas</label>
             <input type="text" name="entregas" id="" class="form-control rounded border"
                 value="{{ isset($carga->entregas) ? $carga->entregas : '' }}">
-        </div>
+        </div> --}}
         <div class="col-sm-2 col-12">
             <label for="" class="form-label">Remessa</label>
             <input type="text" name="remessa" class="form-control rounded border"
