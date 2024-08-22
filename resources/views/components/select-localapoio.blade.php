@@ -3,7 +3,7 @@
 @endphp
 
 {{-- @unlessrole ('super-admin') --}}
-<div class="col-sm-5 col-12">
+<div class="col-sm-2 col-12">
     <label for="">Empresa e local de apoio</label>
     <select name="empresa_local_apoio_id" id="" class="form-control" required>
         <option value="">Selecione uma opção</option>

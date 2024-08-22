@@ -56,12 +56,12 @@
                                             title="Clique com o botao direito do mouse para copiar texto">{{ $carga->remessa }}</a>
                                     </td>
                                     <td><a
-                                            href="{{ route('carga.show', ['carga' => $carga->id]) }}" class="click_botao_direito position-relative" copy="{{ $carga->remessa }}"
+                                            href="{{ route('carga.show', ['carga' => $carga->id]) }}" class="click_botao_direito position-relative" copy="{{ $carga->os }}"
                                             title="Clique com o botao direito do mouse para copiar texto">{{ $carga->os }}</a>
                                     </td>
-                                    <td>{{ $carga->motorista->name }}</td>
-                                    <td>{{ $carga->filial->nome_fantasia }}</td>
-                                    <td>{{ $carga->destino }}</td>
+                                    <td><div class="div-overflow-carga" title="{{ $carga->motorista->name }}">{{ $carga->motorista->name }}</div></td>
+                                    <td><div class="div-overflow-carga" title="{{ $carga->filial->nome_fantasia }}">{{ $carga->filial->nome_fantasia }}</div></td>
+                                    <td><div class="div-overflow-carga" title="{{ $carga->destino }}">{{ $carga->destino }}</div></td>
                                     {{-- <td>{{ date('d/m/Y', strtotime($carga->agenda)) }}</td> --}}
                                     <td class="cursor-pointer" title="">
                                         {{ isset($carga->veiculo->placa) ? $carga->veiculo->placa : '' }}
@@ -95,6 +95,8 @@
                                             echo 'text-success';
                                         }else if($status->name =='Finalizada'){
                                             echo 'text-dark';
+                                        }else if($status->name =='Aguardando'){
+                                            echo 'text-warning';
                                         }else{
                                             echo 'text-primary';
                                         }

@@ -24,6 +24,8 @@ return new class extends Migration
             $table->foreignId('usuario_id')->references('id')->on('users');
             $table->foreignId('status_id')->references('id')->on('status');
             $table->foreignId('usuario_conclusao_id')->nullable()->references('id')->on('users');
+            $table->foreignId('movimentacao_inicio_id')->nullable()->references('id')->on('movimentacao_veiculos');
+            $table->foreignId('movimentacao_fim_id')->nullable()->references('id')->on('movimentacao_veiculos');
             $table->date('data_conclusao')->nullable();
             $table->timestamps();
         });

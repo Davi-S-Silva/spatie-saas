@@ -56,6 +56,17 @@ cd /etc/apache2/sites-available
 sudo mv virtualhost.conf app.conf
 sudo /etc/init.d/apache2 restart
 
+#sudo apt install net-tools
+
+# sudo apt-get install snapd
+
+# instalar o certificado ssl
+# sudo apt-get update
+# sudo apt install -y certbot python3-certbot-apache
+# sudo apt install certbot
+# sudo certbot --apache
+# sudo certbot renew --dry-run
+
 # sudo cp 000-default.conf $APACHE_DIR/sites-available/$CONFIG_FILE_NAME
 # echo "<VirtualHost *:80>" >> $CONFIG_FILE_NAME
 # echo "  ServerAdmin $SERVER_ADMIN" >> $CONFIG_FILE_NAME

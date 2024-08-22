@@ -1,9 +1,9 @@
 // const { data } = require("autoprefixer");
 $(function () {
 
-    // var base = 'http://localhost:8080/';
+    var base = 'http://localhost:8080/';
     // var base = 'http://3.145.53.239/';
-    var base = 'http://saasportal.com.br/';
+    // var base = 'http://saasportal.com.br/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================

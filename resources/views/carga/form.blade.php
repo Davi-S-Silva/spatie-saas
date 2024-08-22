@@ -69,20 +69,20 @@
         </div>
     </div>
 
-    <div class="col-12 d-flex justify-around">
-        <div class="col-sm-4 col-12">
-            <label for="" class="form-label">Data e Hora Emissão</label>
-            <input type="datetime-local" name="data" id="" class="form-control rounded border"
+    <div class="col-12 d-flex justify-center">
+        <div class="col-sm-1 col-6 mx-5">
+            <label for="" class="form-label">Data Emissão</label>
+            <input type="date" name="data" id="" class="form-control rounded border"
                 value="{{ isset($carga->data) ? $carga->data : '' }}">
         </div>
-        <div class="col-sm-4 col-12">
-            <label for="" class="form-label">Agenda</label>
+        <div class="col-sm-1 col-6 mx-5">
+            <label for="" class="form-label">Data Agenda</label>
             <input type="date" name="agenda" id="" class="form-control rounded border"
                 value="{{ isset($carga->agenda) ? $carga->agenda : '' }}">
         </div>
     </div>
     <div class="d-flex col-12 justify-around">
-        <div class="col-sm-4 col-12">
+        <div class="col-sm-2 col-12">
             @if (isset($carga->veiculo_id))
                 <x-select-veiculo :veiculo="$carga->veiculo_id" />
             @else
