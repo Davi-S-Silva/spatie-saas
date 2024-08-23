@@ -19,16 +19,18 @@
                         {{ print_r($carga->getAttributes()) }}
                     </pre> --}}
                     <ul>
-                        <li>{{ $carga->filial->razao_social }}</li>
-                        <li>{{ $carga->localApoio->name }}</li>
-                        <li>{{ $carga->getStatus()->descricao }}</li>
-                        <li>{{ (isset($carga->veiculo))?$carga->veiculo->placa:'' }}</li>
-                        <li>{{ $carga->frete }}</li>
-                        <li>{{ $carga->destino }}</li>
-                        <li>{{ count($carga->paradas()) }}</li>
+                        <li>Cliente: {{ $carga->filial->razao_social }}</li>
+                        <li>Empresa: {{ $carga->localApoio->name }}</li>
+                        <li>Status: {{ $carga->getStatus()->descricao }}</li>
+                        <li>Veiculo: {{ (isset($carga->veiculo))?$carga->veiculo->placa:'' }}</li>
+                        <li>Frete: R$ {{ number_format($carga->frete,2,',','.') }}</li>
+                        <li>Destino: {{ $carga->destino }}</li>
+                        <li>Remessa: {{ $carga->remessa }}</li>
+                        <li>OS: {{ $carga->os }}</li>
+                        <li>Entregas: {{ count($carga->paradas()) }}</li>
                         <li>Peso Bruto: <b>{{ number_format($carga->pesoBruto(),2,',','.') }}</b></li>
                         <li>Peso Liquido: <b>{{ number_format($carga->pesoLiquido(),2,',','.') }}</b></li>
-                        <li>Valor: <b>{{ number_format($carga->valor(),2,',','.') }}</b></li>
+                        <li>Valor: <b>R$ {{ number_format($carga->valor(),2,',','.') }}</b></li>
                         <li>Quantidade: <b>{{ $carga->quantidade() }}</b></li>
                     </ul>
                     Cidades:

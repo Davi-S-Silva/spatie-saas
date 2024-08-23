@@ -32,7 +32,7 @@ return new class extends Migration
 
         $frete = new Frete();
         $frete->name = 'modelo-um-frete';
-        $frete->descricao = 'Calculo de frete baseado em quantidade de entregas vezes o peso modelo 1';
+        $frete->descricao = 'Calculo de frete baseado em quantidade de entregas vezes o peso - modelo 1';
         $frete->save();
     }
 

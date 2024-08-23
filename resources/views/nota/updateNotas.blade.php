@@ -50,6 +50,7 @@
             </div>
         @endif
         <div>
+            <label for="">Foto Canhotos</label>
             <input type="file" name="FotoCanhotos" id="" class="" multiple>
         </div>
         <div>

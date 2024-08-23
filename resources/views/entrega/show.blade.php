@@ -51,7 +51,7 @@
                                     $kmPercorrido = ($kmFim-$kmInicio);
                                 @endphp
                                 <li>Km Inicio: <b>{{ $kmInicio }}</b></li>
-                                <li>Km Fim: <b>{{ ($entrega->movimentacao->kmFim->km!=0)?$kmFim:'---' }}</b></li>
+                                <li>Km Fim: <b>{{ ($kmFim!=0)?$kmFim:'---' }}</b></li>
                                 <li>Km Percorrido: <b>{{ ($kmPercorrido>0 )?$kmPercorrido:'---' }}</b></li>
                             </ul>
                         </header>
