@@ -1,9 +1,9 @@
 // const { data } = require("autoprefixer");
 $(function () {
 
-    var base = 'http://localhost:8080/';
+    // var base = 'http://localhost:8080/';
     // var base = 'http://3.145.53.239/';
-    // var base = 'http://saasportal.com.br/';
+    var base = 'https://saasportal.com.br/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
@@ -1648,7 +1648,7 @@ $(function () {
                     $('.response-message-ajax').text("Cidade: " + response.msg.cidade + " Frete: " + "R$ " + response.msg.frete)
                     // var nota = response.nota;
 
-                    // console.log(response.msg)
+                    console.log(response.msg)
                     $("#CidadeFrete").text(response.msg.cidade)
                     $("#ValorFrete").text("R$ " + response.msg.frete)
                     $("#FreteCity").show()
@@ -2317,6 +2317,121 @@ var entrega = $('.monitorar_entrega').attr('entrega')
         $('#ResponseSearchAjax').hide()
         return false;
     })
+var IncludeResponseAjax =
+    //AREA FRETES----------------------------
+    //----MODELO UM FRETE-----------
+    $('form[name="FormNovaAreaModeloFreteUm"]').submit(function(){
+        // console.log($(this).serialize())
+        $.ajax({
+            'url': $(this).attr('action'),
+            'data': $(this).serialize(),
+            'type': 'post',
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                console.log(response)
+                if(response.status==200){
+
+                    window.location.href = ''
+                }
+            },
+            error: function (response) {
+                console.log(response)
+            }
+
+        })
+        return false;
+    })
+    //----ATUALIZAR PRECO FRETE AREA
+    $('form[name="ModeloFreteUm"]').submit(function(){
+        console.log('enviando')
+        $.ajax({
+            'url': $(this).attr('action'),
+            'data': $(this).serialize(),
+            'type': 'put',
+            'dataType': 'json',
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                // console.log(response)
+                if(response.status==200){
+                    console.log(response.msg)
+                    // setTimeout(function(){
+                        // window.location.href = ''
+                    // },2000)
+                }
+                // return false
+            },
+            error: function () {
+
+            }
+
+        })
+        return false;
+    })
+    $('form[name="FormFreteCliente"]').submit(function(){
+        // console.log($(this).serialize())
+        $.ajax({
+            'url': $(this).attr('action'),
+            'data': $(this).serialize(),
+            'type': 'post',
+            'dataType': 'json',
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                // console.log(response)
+                if(response.status==200){
+                    console.log(response.msg)
+                    // setTimeout(function(){
+                        // window.location.href = ''
+                    // },2000)
+                }
+                // return false
+                if(response.status==0){
+                    console.log(response.msg)
+                    // setTimeout(function(){
+                        // window.location.href = ''
+                    // },2000)
+                }
+            },
+            error: function (response) {
+                console.log(response)
+            }
+
+        })
+        return false;
+    })
+    // $('form[name="'+name+'"]').submit(function(){
+    //     console.log(name);
+    //     console.log('enviando')
+    //     $.ajax({
+    //         'url': $(this).attr('action'),
+    //         'data': $(this).serialize(),
+    //         'type': 'put',
+    //         'dataType': 'json',
+    //         beforeSend: function () {
+
+    //         },
+    //         success: function (response) {
+    //             console.log(response)
+    //             if(response.status==200){
+
+    //                 // window.location.href = ''
+    //             }
+    //             // return false
+    //         },
+    //         error: function () {
+
+    //         }
+
+    //     })
+    //     return false;
+    // })
+    //----FIM ATUALIZAR PRECO FRETE AREA
+    //----FIM MODELO UM FRETE-----------
 });
 
 // function msgEncerramento() {

@@ -232,7 +232,7 @@ class EntregaController extends Controller implements HasMiddleware
             $Mov->data_hora_inicio = date('Y-m-d H:i:s');
             $Mov->usuario_id = Auth::user()->id;
             $veiculo = Veiculo::find($Mov->veiculo_id);
-            $veiculo->status_id = $veiculo->getStatusId('Disponivel');
+            $veiculo->status_id = $veiculo->getStatusId('Rota');
             $veiculo->save();
 
             $KmModel = new Km();
@@ -243,6 +243,7 @@ class EntregaController extends Controller implements HasMiddleware
             $Mov->setStatus('Rota'); //movimentacao iniciada
             $Mov->save();
             $entrega->setStatus('Rota');
+            $entrega->movimentacao_id = $Mov->id;
             $entrega->save();
 
             //atualizar status da carga
@@ -278,15 +279,16 @@ class EntregaController extends Controller implements HasMiddleware
             // motorista
             $entrega->colaborador->setStatus('Disponivel');
             $entrega->colaborador->save();
-            $Mov = MovimentacaoVeiculo::where('veiculo_id', $entrega->veiculo_id)->get()->last();
+            // $Mov = MovimentacaoVeiculo::where('veiculo_id', $entrega->veiculo_id)->get()->last();
+            $Mov = MovimentacaoVeiculo::find($entrega->movimentacao_id);
 
             //encerrar entrega
             $entrega->status_id = $entrega->getStatusId('Finalizada');
             $entrega->save();
 
             $veiculo = Veiculo::find($Mov->veiculo_id);
-            // $veiculo->status_id=$veiculo->getStatusId('Disponivel');
-            // $veiculo->save();
+            $veiculo->status_id=$veiculo->getStatusId('Disponivel');
+            $veiculo->save();
 
             //verifica km anterior
             //   return response()->json(['status'=>200,'msg'=>$Mov->kmInicio]);

@@ -15,8 +15,6 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-
-
         $array = [
             ['name'=>'Editar Regra', 'model'=>'Role','guard_name'=>'web'],
             ['name'=>'Criar Regra', 'model'=>'Role','guard_name'=>'web'],
@@ -100,6 +98,21 @@ class PermissionSeeder extends Seeder
             ['name'=>'Listar Fiscal', 'model'=>'Fiscal','guard_name'=>'web'],
             ['name'=>'Editar Fiscal', 'model'=>'Fiscal','guard_name'=>'web'],
             ['name'=>'Deletar Fiscal', 'model'=>'Fiscal','guard_name'=>'web'],
+            ['name'=>'Criar Frete', 'model'=>'Frete','guard_name'=>'web'],
+            ['name'=>'Show Frete', 'model'=>'Frete','guard_name'=>'web'],
+            ['name'=>'Listar Frete', 'model'=>'Frete','guard_name'=>'web'],
+            ['name'=>'Editar Frete', 'model'=>'Frete','guard_name'=>'web'],
+            ['name'=>'Deletar Frete', 'model'=>'Frete','guard_name'=>'web'],
+            ['name'=>'Criar Frete Cliente', 'model'=>'Frete Cliente','guard_name'=>'web'],
+            ['name'=>'Show Frete Cliente', 'model'=>'Frete Cliente','guard_name'=>'web'],
+            ['name'=>'Listar Frete Cliente', 'model'=>'Frete Cliente','guard_name'=>'web'],
+            ['name'=>'Editar Frete Cliente', 'model'=>'Frete Cliente','guard_name'=>'web'],
+            ['name'=>'Deletar Frete Cliente', 'model'=>'Frete Cliente','guard_name'=>'web'],
+            ['name'=>'Criar Modelo Um Frete', 'model'=>'Modelo Um Frete','guard_name'=>'web'],
+            ['name'=>'Show Modelo Um Frete', 'model'=>'Modelo Um Frete','guard_name'=>'web'],
+            ['name'=>'Listar Modelo Um Frete', 'model'=>'Modelo Um Frete','guard_name'=>'web'],
+            ['name'=>'Editar Modelo Um Frete', 'model'=>'Modelo Um Frete','guard_name'=>'web'],
+            ['name'=>'Deletar Modelo Um Frete', 'model'=>'Modelo Um Frete','guard_name'=>'web'],
         ];
         foreach($array as $permission){
             $Permission = Permission::where('name',$permission['name'])->get();

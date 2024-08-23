@@ -123,6 +123,18 @@ class Carga extends Model
         // return DB::raw();
         return $this->notas()->sum('pesoLiquido');
     }
+    public function peso(){
+        // return DB::raw();
+        $pesoBruto  = $this->pesoBruto();
+        $pesoLiquido  = $this->pesoLiquido();
+        $peso = 0;
+        if($pesoBruto> $pesoLiquido){
+            $peso = $pesoBruto;
+        }else{
+            $peso = $pesoLiquido;
+        }
+        return $peso;
+    }
     public function valor(){
         // return DB::raw();
         return $this->notas()->sum('valor');
@@ -135,6 +147,7 @@ class Carga extends Model
     {
         $dados = [];
         $notas=$this->notas()->with('produtos');
+        $somaProd = 0;
         if($notas->count()==0){
             return null;
         }
@@ -144,12 +157,13 @@ class Carga extends Model
             if($produtos->count()==0){
                 return null;
             }
-            $somaProd = 0;
+
             foreach($produtos as $produto){
                 $dados['item'][$produto->nome]['nome']= $produto->nome;
                 $somaProd += $produto->quantidade;
                 $dados['item'][$produto->nome]['quantidade'][] = $produto->quantidade;
                 $qtd = $dados['item'][$produto->nome]['quantidade'];
+                $somaProd=0;
                 for($i=0 ;$i<count($qtd);$i++){
                     $somaProd+=$qtd[$i];
                 }

@@ -178,11 +178,11 @@ class Nota extends Model
                             // return $nota;
                             // throw new Exception($Produtos[0]);
                             //apagando o xml usado e movido
-                            // if ($notaBd->count() != 0) {
-                            //     unlink($file);
-                            // } else {
-                            //     unlink($nota->path_xml);
-                            // }
+                            if ($notaBd->count() != 0) {
+                                unlink($file);
+                            } else {
+                                unlink($nota->path_xml);
+                            }
                             // return $arrayNotas[$i];
                         }
                     }

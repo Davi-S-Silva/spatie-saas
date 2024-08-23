@@ -498,6 +498,26 @@ background-color: green;
     /* background-color: #002fff; */
     padding: 10px;
   }
+
+  .form_frete_modelo_um textarea{
+    /* background-color: #0DCAF0; */
+    resize: none;
+  }
+  .form_frete_modelo_um ul{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+  .form_frete_modelo_um ul li{
+    padding: 0 5px;
+    text-align: center;
+    /* width: 140px; */
+    /* background-color: #c04c4c; */
+  }
+  .form_frete_modelo_um ul li input[type="text"]{
+    width: 100%;
+    text-align: center;
+  }
 @media (max-width: 600px) {
     .aside_menu{
         display: none;

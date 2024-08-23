@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use App\Models\Contato;
 use App\Models\Endereco;
 use App\Models\Filial;
+use App\Models\Frete;
 use App\Models\LocalMovimentacao;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -32,7 +33,8 @@ class ClienteController extends Controller implements HasMiddleware
     public function index()
     {
         $clientes = Cliente::all();
-        return view('cliente.index',['clientes'=>$clientes]);
+        $fretes = Frete::all();
+        return view('cliente.index',['clientes'=>$clientes,'fretes'=>$fretes]);
     }
 
     /**

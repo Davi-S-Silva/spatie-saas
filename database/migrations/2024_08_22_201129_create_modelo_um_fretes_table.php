@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Frete;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,6 +15,7 @@ return new class extends Migration
         Schema::create('modelo_um_fretes', function (Blueprint $table) {
             $table->id();
             $table->text('cidades');
+            $table->string('area');
             $table->double('um')->default(0);//1 entrega
             $table->double('dois')->default(0);// 2 a 3 entregas
             $table->double('tres')->default(0);//4 a 5 entregas
@@ -27,6 +29,11 @@ return new class extends Migration
             $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->timestamps();
         });
+
+        $frete = new Frete();
+        $frete->name = 'modelo-um-frete';
+        $frete->descricao = 'Calculo de frete baseado em quantidade de entregas vezes o peso modelo 1';
+        $frete->save();
     }
 
     /**

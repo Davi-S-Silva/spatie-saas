@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Traits\HasRoles;
 
 class Entrega extends Model
@@ -56,5 +57,10 @@ class Entrega extends Model
     public function filial()
     {
         return $this->belongsTo(Filial::class);
+    }
+
+    public function movimentacao()
+    {
+        return $this->belongsTo(MovimentacaoVeiculo::class);
     }
 }

@@ -6,10 +6,9 @@ use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 
-class Cliente extends Model
+class Frete extends Model
 {
-    use Tenantable,HasRoles;
-
+    // use HasRoles, Tenantable;
     protected $guarded = ['id'];
 
     public function newId(){
@@ -20,19 +19,5 @@ class Cliente extends Model
         }else{
           $this->id = $this->withoutGlobalScopes()->get()->last()->id +=1;
         }
-    }
-
-    public function filials()
-    {
-        return $this->belongsToMany(Filial::class);
-    }
-
-    public function veiculos()
-    {
-        return $this->belongsToMany(Veiculo::class);
-    }
-    public function frete()
-    {
-        return $this->belongsToMany(Frete::class);
     }
 }

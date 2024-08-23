@@ -30,7 +30,7 @@
                             @endif
                             @if ($entrega->status_id == $entrega->getStatusId('Rota'))
                                 <a href="{{ route('entrega.stop', ['entrega' => $entrega->id]) }}"
-                                    id="Start_Ent_{{ $entrega->id }}"
+                                    id="Stop_Ent_{{ $entrega->id }}"
                                     class="text-red-600 btn btn-outline-danger stop_entrega  m-2"
                                     entrega="{{ $entrega->id }}" mot="{{ $entrega->colaborador_id }}"><i
                                         class="fa-solid fa-stop"></i></a>
@@ -45,6 +45,14 @@
                                         @endforelse
                                     </b></li>
                                 <li>Veiculo: <b>{{ $entrega->veiculo->placa }}</b></li>
+                                @php
+                                    $kmInicio = (isset($entrega->movimentacao->kmInicio))?$entrega->movimentacao->kmInicio->km:0;
+                                    $kmFim = (isset($entrega->movimentacao->kmFim))?$entrega->movimentacao->kmFim->km:0;
+                                    $kmPercorrido = ($kmFim-$kmInicio);
+                                @endphp
+                                <li>Km Inicio: <b>{{ $kmInicio }}</b></li>
+                                <li>Km Fim: <b>{{ ($entrega->movimentacao->kmFim->km!=0)?$kmFim:'---' }}</b></li>
+                                <li>Km Percorrido: <b>{{ ($kmPercorrido>0 )?$kmPercorrido:'---' }}</b></li>
                             </ul>
                         </header>
                         <section>
@@ -83,11 +91,13 @@
 
                             @csrf
                             {{-- <input type="submit" value="Encerrar Entrega" class="btn btn-primary" name="EncerrarEntrega"> --}}
+                            @if ($entrega->status_id == $entrega->getStatusId('Rota'))
                             <a href="{{ route('entrega.stop', ['entrega' => $entrega->id]) }}"
                                 id="Start_Ent_{{ $entrega->id }}"
                                 class="text-red-600 btn btn-outline-danger stop_entrega  m-2"
                                 entrega="{{ $entrega->id }}" mot="{{ $entrega->colaborador_id }}">Encerrar
                                 Entrega</a>
+                                @endif
                         </footer>
                     </form>
                     <div id="mapEntrega" class="monitorar_entrega" entrega="{{ $entrega->id }}"></div>

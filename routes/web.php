@@ -16,10 +16,13 @@ use App\Http\Controllers\EntregaController;
 use App\Http\Controllers\FilialController;
 use App\Http\Controllers\FiscalController;
 use App\Http\Controllers\FornecedorController;
+use App\Http\Controllers\FreteClienteController;
+use App\Http\Controllers\FreteController;
 use App\Http\Controllers\LocalApoioController;
 use App\Http\Controllers\LocalizacaoVeiculoController;
 use App\Http\Controllers\LocationUserMapsController;
 use App\Http\Controllers\ManutencaoController;
+use App\Http\Controllers\ModelFreteUmController;
 use App\Http\Controllers\MovimentacaoVeiculoController;
 use App\Http\Controllers\NotaController;
 use NFePHP\Common\Certificate;
@@ -43,6 +46,7 @@ use App\Models\Colaborador;
 use App\Models\DistanceCity;
 use App\Models\Empresa;
 use App\Models\Fornecedor;
+use App\Models\ModeloUmFrete;
 use App\Models\Municipio;
 use App\Models\User;
 use App\Models\Veiculo;
@@ -143,6 +147,11 @@ Route::middleware('auth')->group(function () {
 
 
         Route::resource('locations',LocationUserMapsController::class);
+
+        Route::resource('frete-cliente',FreteClienteController::class);
+        Route::resource('frete',FreteController::class);
+        Route::resource('modelo-um-frete',ModelFreteUmController::class);
+        Route::put('modelo-um-frete/{modelo_um_frete}/update',[ModelFreteUmController::class, 'update'])->name('modelo-um-frete.update');
 
         Route::resource('carga',CargaController::class);
         Route::post('carga/{carga}/setnotas',[CargaController::class, 'setNotas'])->name('carga.setNotas');

@@ -53,6 +53,7 @@
                         $dados = $carga->produtos();
                         @endphp
                         @if (!is_null($dados))
+                            <header>Produtos</header>
                             <table class="table-striped table table-hover">
                                 <thead>
                                     <tr>
