@@ -345,6 +345,21 @@ class CargaController extends Controller implements HasMiddleware
             return $ex->getMessage();
         }
     }
+    public function gerarListaComprovante(Carga $carga)
+    {
+        try {
+            $pagamentos = [
+                1,//dinheiro
+                3,//credito
+                4,//debito
+            ];
+            $entregue = $carga->notasPorStatus('Entregue');
+            return view('carga.comprovantes',['notas'=>$entregue,'carga'=>$carga,'pagamentos'=>$pagamentos]);
+            // PdfsSistema::listaDevolucao($dados);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
+        }
+    }
 
     public function uploadCarga(Request $request, $carga)
     {
@@ -353,7 +368,7 @@ class CargaController extends Controller implements HasMiddleware
             $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
             $Carga = Carga::find($carga);
             $TipoFileCarga = $request->TipoFileCarga;
-            $TipoPermitido = ['Assinante','OS','Descarrego','Canhotos','Devolucao'];
+            $TipoPermitido = ['Assinante','OS','Descarrego','AcessoArea','Canhotos','Devolucao'];
             if(!in_array($TipoFileCarga, $TipoPermitido)){
                 throw new Exception('Tipo de arquivo não permitido');
             }
@@ -392,4 +407,5 @@ class CargaController extends Controller implements HasMiddleware
             return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
         }
     }
+
 }

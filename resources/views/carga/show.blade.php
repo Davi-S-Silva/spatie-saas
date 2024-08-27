@@ -117,7 +117,7 @@
                                     <form action="{{ route('carga.uploadCarga',['carga'=>$carga->id]) }}" method="post" name="FormCanhotos" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
                                             <label for="inputGroupFileCanhotos" class="input-group-text">Canhotos</label>
-                                            <input type="file" name="FileCanhotos[]" id="inputGroupFileCanhotos" class="form-control">
+                                            <input type="file" name="FileCanhotos" id="inputGroupFileCanhotos" class="form-control">
                                             <input type="hidden" name="TipoFileCarga" value="Canhotos">
                                             <input type="submit" value="Salvar" class="btn btn-primary">
                                         </div>
@@ -128,7 +128,7 @@
                                     <form action="{{ route('carga.uploadCarga',['carga'=>$carga->id]) }}" method="post" name="FormDevolucao" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
                                             <label for="inputGroupFileDevolucao" class="input-group-text">Devolucao</label>
-                                            <input type="file" name="FileDevolucao[]" id="inputGroupFileDevolucao" class="form-control">
+                                            <input type="file" name="FileDevolucao" id="inputGroupFileDevolucao" class="form-control">
                                             <input type="hidden" name="TipoFileCarga" value="Devolucao">
                                             <input type="submit" value="Salvar" class="btn btn-primary">
                                         </div>
@@ -140,9 +140,13 @@
                                 <header>Arquivos</header>
                                 <ul class="flex-column">
                                     @foreach ($carga->docs as $item)
-                                        <li>{{ $item->name }} <a href=""><i class="fa-solid fa-download"></i></a></li>
+                                        <li>{{ $item->name }}
+                                            <a href="{{ $carga->getAssinante() }}" target="_blank"><i class="fa-solid fa-eye"></i></a>
+                                            <a href="{{ $carga->getAssinante(true) }}"><i class="fa-solid fa-download"></i></a>
+                                        </li>
                                         @endforeach
                                         <li><a href="{{ route('gerarListaDevolucao', ['carga' => $carga->id]) }}" target="_blank">Gerar Relatório de devolução</a></li>
+                                        <li><a href="{{ route('gerarListaComprovante', ['carga' => $carga->id]) }}" target="_blank">Gerar Relatório de Comprovantes</a></li>
                                 </ul>
                             </div>
                         </div>

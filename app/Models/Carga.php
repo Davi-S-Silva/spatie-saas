@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 class Carga extends Model
@@ -35,7 +37,23 @@ class Carga extends Model
         return $this->hasMany(Nota::class);
     }
 
+    public function comprovanteNotasSemTaNoBd()
+    {
+        $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
+        $directory = 'app/public/'.$empresa.'/arquivos/notas/comprovantes/';
+        $files = Storage::files($directory);
+        $notas = $this->notas()->get();
+        $paths = [];
+        foreach ($notas as $nota) {
+            foreach ($files as $file) {
+                if(str_contains($file, $nota->nota)){
+                    $paths[] = $file;
+                }
+            }
+        }
+        return $paths;
 
+    }
     public function notasPorStatus($status){
         return Nota::where('carga_id',$this->id)->where('status_id',(new Nota())->getStatusId($status))->get();
     }
@@ -178,5 +196,28 @@ class Carga extends Model
     public function docs()
     {
         return $this->hasMany(FileCarga::class);
+    }
+    public function getAssinante($download=false){
+        // $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
+        $fileCarga = FileCarga::where('carga_id',$this->id)->where('tipo','Assinante')->get()->first();
+        // $name = '';
+        $filePath =$fileCarga->path;
+        if( $fileCarga->count()!=0){
+            if($download){
+                return Storage::temporaryUrl(
+                    $filePath,
+                    now()->addHour(),
+                    ['ResponseContentDisposition' => 'contentDisposition']
+                );
+            }else{
+                return Storage::temporaryUrl(
+                    $filePath,
+                    now()->addHour(),
+                    // ['ResponseContentDisposition' => 'contentDisposition']
+                );
+            }
+        }else{
+            return false;
+        }
     }
 }

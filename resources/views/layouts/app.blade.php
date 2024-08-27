@@ -15,7 +15,8 @@
     <!-- Fonts -->
 
     <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" media="screen" rel="stylesheet">
+    <link rel="stylesheet" media="print" href="{{ asset('css/print.css') }}" />
     <!-- Scripts -->
 
     {{-- MAPA --}}
@@ -65,7 +66,7 @@ integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/k
 
 
         <!-- Page Heading -->
-        <header class="bg-white overflow-y-hidden shadow d-flex align-items-center">
+        <header class="bg-white overflow-y-hidden shadow d-flex align-items-center header_sistema">
             @if (isset($header))
                 <div class="mx-auto py-6 px-4 sm:px-6 lg:px-7">
                     {{ $header }}

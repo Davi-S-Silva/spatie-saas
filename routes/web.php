@@ -160,6 +160,7 @@ Route::middleware('auth')->group(function () {
         Route::put('carga/{carga}/update',[CargaController::class, 'update'])->name('carga.update');
         Route::post('carga/{carga}/uploadCarga',[CargaController::class, 'uploadCarga'])->name('carga.uploadCarga');
         Route::get('carga/{carga}/devolucao',[CargaController::class, 'gerarListaDevolucao'])->name('gerarListaDevolucao');
+        Route::get('carga/{carga}/comprovantes',[CargaController::class, 'gerarListaComprovante'])->name('gerarListaComprovante');
 
         Route::resource('fornecedor',FornecedorController::class);
 

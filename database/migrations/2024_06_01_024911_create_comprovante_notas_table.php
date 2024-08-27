@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('comprovante_notas', function (Blueprint $table) {
             $table->id();
-            $table->double('valor');
             $table->string('path');
             $table->foreignId('nota_id')->references('id')->on('notas');
-            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
+            $table->foreignId('user_id')->nullable()->references('id')->on('users');
             $table->timestamps();
         });
     }

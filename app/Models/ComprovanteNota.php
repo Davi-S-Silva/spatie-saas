@@ -8,5 +8,5 @@ use Spatie\Permission\Traits\HasRoles;
 
 class ComprovanteNota extends Model
 {
-    use Tenantable,HasRoles;
+    use HasRoles;
 }

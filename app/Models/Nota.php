@@ -259,4 +259,24 @@ class Nota extends Model
     public function getProdutos(){
 
     }
+
+    public function comprovantes()
+    {
+        return $this->hasMany(ComprovanteNota::class);
+    }
+    public function getComprovante($file, $download=false){
+        if($download=='download'){
+            return Storage::temporaryUrl(
+                $file,
+                now()->addHour(),
+                ['ResponseContentDisposition' => 'attachment']
+            );
+        }else{
+            return Storage::temporaryUrl(
+                $file,
+                now()->addHour()
+            );
+        }
+
+    }
 }

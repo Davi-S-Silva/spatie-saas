@@ -1556,13 +1556,13 @@ $(function () {
 
                 if (response.status == 200) {
 
-                    // if(response.acao == 'Receber'){
-                    //     var IncludeResponseAjax = $('#IncludeResponseAjax')
-                    //     IncludeResponseAjax.html(response.form)
-                    //     IncludeResponseAjax.show()
-                    //     console.log(response)
-                    //     return false;
-                    // }
+                    if(response.acao == 'Receber'){
+                        var IncludeResponseAjax = $('#IncludeResponseAjax')
+                        IncludeResponseAjax.html(response.form)
+                        IncludeResponseAjax.show()
+                        console.log(response)
+                        return false;
+                    }
 
                     if (response.acao == 'Calcular') {
                         $('.pesoLiquido').html('');
@@ -1618,7 +1618,7 @@ $(function () {
                 }
             },
             error: function (response) {
-
+                console.log(response)
                 return false;
             }
         })

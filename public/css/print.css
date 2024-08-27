@@ -1,0 +1,16 @@
+@media print{
+    .aside_menu, .header_sistema{
+        display: none;
+    }
+    .print_lista_comprovantes_notas_carga{
+        /* display: block; */
+        margin-top: -5px;
+        background-color: rgb(255, 255, 255);
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 3000;
+    }
+}

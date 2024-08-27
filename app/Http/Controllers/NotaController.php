@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ComprovanteNota;
 use App\Models\Nota;
 use App\Models\Observacao;
 use App\Models\PagamentoDiretoEmpresa;
@@ -146,6 +147,8 @@ class NotaController extends Controller
             $nota->data_conclusao = date('Y-m-d');
             $nota->save();
 
+
+
             // exit;
             // return response()->json(['status'=>200,'msg'=>['nota'=>$nota->id,'status'=>$nota->status_id,'user_conclusao'=>$nota->usuarioConclusao->name,'obs'=>(!is_null($observacao))?$observacao->descricao:''],'input'=>$request->input()]);
             // return response()->json(['status'=>200,'msg'=>['nota'=>$nota,'obs'=>(!is_null($observacao))?$observacao->descricao:''],'input'=>$request->input()]);
@@ -158,7 +161,12 @@ class NotaController extends Controller
                 //     'png'
                 // ];
                 foreach($Comprovantes as $comprovante){
-                    $comprovante->storeAS('app/public/'.$empresa.'/arquivos/notas/comprovantes/'.$nota->nota.'.'.$comprovante->getClientOriginalExtension());
+                    $path = $comprovante->storeAS('app/public/'.$empresa.'/arquivos/notas/comprovantes/'.$nota->nota.'.'.$comprovante->getClientOriginalExtension());
+                    $comprovanteNota = new ComprovanteNota();
+                    $comprovanteNota->path = $path;
+                    $comprovanteNota->nota_id  = $nota->id;
+                    $comprovanteNota->user_id  = Auth::user()->id;
+                    $comprovanteNota->save();
                 }
             }
             return response()->json(['status'=>200,'msg'=>['nota'=>$nota->id,'status'=>$nota->status_id,
