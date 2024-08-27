@@ -47,7 +47,7 @@ class Carga extends Model
         foreach ($notas as $nota) {
             foreach ($files as $file) {
                 if(str_contains($file, $nota->nota)){
-                    $paths[] = $file;
+                    $paths[] = ['file'=>$file,'nota'=>$nota->nota];
                 }
             }
         }

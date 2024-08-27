@@ -152,7 +152,7 @@ class NotaController extends Controller
             // exit;
             // return response()->json(['status'=>200,'msg'=>['nota'=>$nota->id,'status'=>$nota->status_id,'user_conclusao'=>$nota->usuarioConclusao->name,'obs'=>(!is_null($observacao))?$observacao->descricao:''],'input'=>$request->input()]);
             // return response()->json(['status'=>200,'msg'=>['nota'=>$nota,'obs'=>(!is_null($observacao))?$observacao->descricao:''],'input'=>$request->input()]);
-            DB::commit();
+
             if(!is_null($Comprovantes) && is_null($PagoDiretoEmpresa)){
                 //mover para o s3 somente apos salvar alteracoes no banco
                 // $permitido = [
@@ -169,6 +169,7 @@ class NotaController extends Controller
                     $comprovanteNota->save();
                 }
             }
+            DB::commit();
             return response()->json(['status'=>200,'msg'=>['nota'=>$nota->id,'status'=>$nota->status_id,
             'data_conclusao'=>date('d/m/Y H:i:s'),'user_conclusao'=>$nota->usuarioConclusao->name,
             'obs'=>(!is_null($observacao))?$observacao->descricao:''],'input'=>$request->input()]);
@@ -252,7 +253,7 @@ class NotaController extends Controller
 
 
             }
-            DB::commit();
+
             if(!is_null($Comprovantes) && is_null($PagoDiretoEmpresa)){
                 // mover para o s3 somente apos salvar alteracoes no banco
                 // $permitido = [
@@ -262,10 +263,17 @@ class NotaController extends Controller
                 // ];
                 $i=1;
                 foreach($Comprovantes as $comprovante){
-                    $comprovante->storeAS('app/public/'.$empresa.'/arquivos/notas/comprovantes/'.$stringNota.'_'.$i.'.'.$comprovante->getClientOriginalExtension());
+                    $path =  $comprovante->storeAS('app/public/'.$empresa.'/arquivos/notas/comprovantes/'.$stringNota.'_'.$i.'.'.$comprovante->getClientOriginalExtension());
                     $i++;
+                    // $path = $comprovante->storeAS('app/public/'.$empresa.'/arquivos/notas/comprovantes/'.$nota->nota.'.'.$comprovante->getClientOriginalExtension());
+                    $comprovanteNota = new ComprovanteNota();
+                    $comprovanteNota->path = $path;
+                    $comprovanteNota->nota_id  = $nota->id;
+                    $comprovanteNota->user_id  = Auth::user()->id;
+                    $comprovanteNota->save();
                 }
             }
+            DB::commit();
             return response()->json(['status'=>200,'msg'=>['notas'=>$Notas,'status'=>$nota->status_id,
             'data_conclusao'=>date('d/m/Y H:i:s'),'user_conclusao'=>$nota->usuarioConclusao->name,
             'obs'=>(!is_null($observacao))?$observacao->descricao:''],'input'=>$request->input()]);

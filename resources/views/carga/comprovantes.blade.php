@@ -13,32 +13,40 @@
                         <header class="text-center font-bold my-2">Listagem de Comprovantes de Pagamento - AS
                             {{ $carga->os }} - Remessa {{ $carga->remessa }} </header>
                         <div class="d-flex flex-wrap justify-around">
-                            @forelse ($notas as $nota)
-                                @if (in_array($nota->tipo_pagamento_id, $pagamentos) || ($nota->indicacao_pagamento_id = 1))
-                                    @if ($nota->comprovantes()->get()->count() != 0)
-                                        @foreach ($nota->comprovantes as $comprovante)
-                                            <figure class="col-3">
-                                                <img src="{{ $nota->getComprovante($comprovante->path) }}"
-                                                    alt="">
-                                                <figcaption class="text-center">{{ $nota->nota }}</figcaption>
-                                            </figure>
-                                        @endforeach
+                            @if ($semTaNoBd==false)
+                                @foreach ($notas as $nota)
+                                    @if (in_array($nota->tipo_pagamento_id, $pagamentos) || ($nota->indicacao_pagamento_id = 1))
+                                        @if ($nota->comprovantes()->get()->count() != 0)
+                                            @foreach ($nota->comprovantes as $comprovante)
+                                                <figure class="col-3">
+                                                    <img src="{{ $nota->getComprovante($comprovante->path) }}"
+                                                        alt="">
+                                                    <figcaption class="text-center">{{ $nota->nota }}</figcaption>
+                                                </figure>
+                                            @endforeach
+                                        @else
+                                            @php
+                                                $semTaNoBd = true;
+                                            @endphp
+                                        @endif
                                     @endif
-                                @endif
-                            @empty
-
+                                @endforeach
+                            @endif
+                            @if($semTaNoBd==true)
+                                {{-- @foreach --}}
                                 {{-- @if (in_array($nota->tipo_pagamento_id, $pagamentos) || ($nota->indicacao_pagamento_id = 1)) --}}
-                                    {{-- @if ($nota->comprovantes()->get()->count() != 0) --}}
-                                        @foreach ($carga->comprovanteNotasSemTaNoBd() as $comprovante)
-                                            <figure class="col-3">
-                                                <img src="{{ $nota->getComprovante($comprovante) }}"
-                                                    alt="">
-                                                <figcaption class="text-center">{{ $nota->nota }}</figcaption>
-                                            </figure>
-                                        @endforeach
-                                    {{-- @endif --}}
+                                {{-- @if ($nota->comprovantes()->get()->count() != 0) --}}
+                                <header>notas sem ta no bd</header>
+                                @foreach ($carga->comprovanteNotasSemTaNoBd() as $comprovante)
+                                    <figure class="col-3">
+                                        <img src="{{ $nota->getComprovante($comprovante) }}" alt="">
+                                        <figcaption class="text-center">{{ $nota->nota }}</figcaption>
+                                    </figure>
+                                @endforeach
                                 {{-- @endif --}}
-                            @endforelse
+                                {{-- @endif --}}
+                                {{-- @endforeach --}}
+                            @endif
                         </div>
                         <footer class="text-center font-bold my-2">
                             Relatorio emitido por: {{ Auth::user()->name }} - Empresa:

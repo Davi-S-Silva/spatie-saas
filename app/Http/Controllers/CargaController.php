@@ -354,7 +354,8 @@ class CargaController extends Controller implements HasMiddleware
                 4,//debito
             ];
             $entregue = $carga->notasPorStatus('Entregue');
-            return view('carga.comprovantes',['notas'=>$entregue,'carga'=>$carga,'pagamentos'=>$pagamentos]);
+            $semTaNoBd = false;
+            return view('carga.comprovantes',['notas'=>$entregue,'carga'=>$carga,'pagamentos'=>$pagamentos,'semTaNoBd'=>$semTaNoBd]);
             // PdfsSistema::listaDevolucao($dados);
         } catch (Exception $ex) {
             return $ex->getMessage();
