@@ -6,6 +6,7 @@ use App\Models\Carga;
 use App\Models\Cliente;
 use App\Models\DistanceCity;
 use App\Models\Empresa;
+use App\Models\FileCarga;
 use App\Models\Filial;
 use App\Models\LocalApoio;
 use App\Models\ModeloUmFrete;
@@ -228,9 +229,9 @@ class CargaController extends Controller implements HasMiddleware
 
 
 
-            if (!is_null($Carga->frete) && $Carga->frete != 0) {
-                throw new Exception('Frete já calculado! Não é possivel calcular novamente!');
-            }
+            // if (!is_null($Carga->frete) && $Carga->frete != 0) {
+            //     throw new Exception('Frete já calculado! Não é possivel calcular novamente!');
+            // }
 
             foreach ($Carga->cidades() as $cidade) {
                 $distancia = (new DistanceCity($cidade->getCoordenadas($Carga->filial->enderecos->first()->cidade->codigo), "$cidade->longitude,$cidade->latitude"))->showDistance();
@@ -342,6 +343,53 @@ class CargaController extends Controller implements HasMiddleware
             PdfsSistema::listaDevolucao($dados);
         } catch (Exception $ex) {
             return $ex->getMessage();
+        }
+    }
+
+    public function uploadCarga(Request $request, $carga)
+    {
+        try{
+            DB::beginTransaction();
+            $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
+            $Carga = Carga::find($carga);
+            $TipoFileCarga = $request->TipoFileCarga;
+            $TipoPermitido = ['Assinante','OS','Descarrego','Canhotos','Devolucao'];
+            if(!in_array($TipoFileCarga, $TipoPermitido)){
+                throw new Exception('Tipo de arquivo não permitido');
+            }
+            if(is_null($Carga)){
+                throw new Exception('Carga não encontrada');
+            }
+            $permitidos =['jpg','jpeg','pdf'];
+            $file = $request->file('File'.$TipoFileCarga);
+            if(is_null($file)){
+                throw new Exception('Selecione um Arquivo');
+            }
+            $ext = $file->getClientOriginalExtension();
+            if(!in_array($ext, $permitidos)){
+                throw new Exception('formato de arquivo não permitido');
+            }
+            $name = $TipoFileCarga.'_'.$Carga->remessa.'_'.$Carga->os.'.'.$ext;
+            $path = $file->storeAs('app/public/'.$empresa.'/arquivos/cargas/'.$TipoFileCarga,$name);
+            if($path){
+                $FileCarga = new FileCarga();
+                $FileCarga->newId();
+                $FileCarga->tipo =$TipoFileCarga;
+                $FileCarga->name =$name;
+                $FileCarga->path =$path;
+                $FileCarga->carga_id =$carga;
+                $FileCarga->user_id =Auth::user()->id;
+                $FileCarga->save();
+            }else{
+                throw new Exception('Não foi possivel salvar o arquivo. sem permissao no storage, verifique as keys permissions');
+            }
+
+            DB::commit();
+            // return response()->json(['request'=>$file->getClientOriginalExtension(),'carga'=>$carga]);
+            return response()->json(['request'=>$request->input(),'carga'=>$carga,'path'=>$path]);
+        }catch(Exception $ex){
+            DB::rollback();
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
         }
     }
 }

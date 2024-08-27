@@ -263,6 +263,7 @@ input[name="search"]:focus{
     left: 0;
     width: 100%;
     display: none;
+    z-index: 1000;
 }
 #FreteCity{
 display: none;
@@ -518,6 +519,33 @@ background-color: green;
     width: 100%;
     text-align: center;
   }
+
+/* AREA DE UPLOADS DOS ARQUIVOS DAS CARGAS */
+.div_area_uploads_cargas{
+    /* background-color: #999; */
+    padding: 5px;
+}
+.div_area_uploads_cargas ul{
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-between;
+    align-items: start;
+    flex-wrap: wrap;
+}
+.div_area_uploads_cargas ul li{
+    display: block;
+    /* width: 150px; */
+    margin: 5px;
+}
+.div_area_uploads_cargas ul li input[type="file"]{
+    padding: 5px;
+    border: 1px #DEE2E6 solid;
+}
+.div_area_uploads_cargas ul li form label{
+    width: 110px;
+    cursor: pointer;
+}
+/* FIM AREA DE UPLOADS DOS ARQUIVOS DAS CARGAS */
 @media (max-width: 600px) {
     .aside_menu{
         display: none;
