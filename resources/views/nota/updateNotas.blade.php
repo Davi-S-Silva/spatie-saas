@@ -8,6 +8,7 @@
         $valor = 0;
         $notashidden = '';
         $i=0;
+        $comprovate = false;
 @endphp
 <header>
     {{-- {{ $nota->nota }} -
@@ -15,6 +16,9 @@
      @foreach ($notas as $item)
      @php
         $nota = Nota::find($item);
+        if(in_array($nota->tipo_pagamento_id,$pagamentos) || ($nota->tipo_pagamento_id==15 && $nota->indicacao_pagamento_id==1)){
+            $comprovante = true;
+        }
         $valor += $nota->valor;
         $notashidden.= ($i <count($notas)-1)?$nota->id.'-':$nota->id;
         $i++;
@@ -35,7 +39,7 @@
             </select>
         </div> --}}
         <input type="hidden" name="Notas" value="{{ $notashidden }}">
-        @if (in_array($nota->tipo_pagamento_id,$pagamentos) || ($nota->tipo_pagamento_id==15 && $nota->indicacao_pagamento_id==1))
+        @if ($comprovante)
             <div>
                 <label for="PagoDiretoEmpresa">Pagamento direto a empresa</label>
                 <input type="checkbox" name="PagoDiretoEmpresa" id="PagoDiretoEmpresa">

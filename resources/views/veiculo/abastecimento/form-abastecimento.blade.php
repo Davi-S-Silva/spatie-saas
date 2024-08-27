@@ -61,7 +61,7 @@
         @endif
     </div>
 
-    @hasanyrole('super-admin|admin|tenant-admin|tenant-admin-master')
+    @hasanyrole('super-admin|admin|tenant-admin|tenant-admin-master|tenant-user|user')
         <x-select-colaborador :funcao=null :required=true/>
         @if ($errors->has('colaborador'))
         <div class="alert alert-danger">

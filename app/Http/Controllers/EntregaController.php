@@ -279,8 +279,11 @@ class EntregaController extends Controller implements HasMiddleware
             // motorista
             $entrega->colaborador->setStatus('Disponivel');
             $entrega->colaborador->save();
-            // $Mov = MovimentacaoVeiculo::where('veiculo_id', $entrega->veiculo_id)->get()->last();
-            $Mov = MovimentacaoVeiculo::find($entrega->movimentacao_id);
+            if(!is_null($entrega->movimentacao_id)){
+                $Mov = MovimentacaoVeiculo::find($entrega->movimentacao_id);
+            }else{
+                $Mov = MovimentacaoVeiculo::where('veiculo_id', $entrega->veiculo_id)->get()->last();
+            }
 
             //encerrar entrega
             $entrega->status_id = $entrega->getStatusId('Finalizada');
@@ -373,12 +376,16 @@ class EntregaController extends Controller implements HasMiddleware
                         $nota2 = Nota::find($Notas[$i - 1]);
                         if ((($nota->destinatario->id != $nota2->destinatario->id) &&
                             //  (!in_array($nota->tipo_pagamento_id,$pagamentos) || !in_array($nota2->tipo_pagamento_id,$pagamentos)) ||
-                            ($nota->indicacao_pagamento_id != $nota2->indicacao_pagamento_id)) || (in_array($nota2->tipo_pagamento_id,$pagamentos) || in_array($nota->tipo_pagamento_id,$pagamentos))
+                            ($nota->indicacao_pagamento_id != $nota2->indicacao_pagamento_id)) &&
+                             ((in_array($nota2->tipo_pagamento_id,$pagamentos) || in_array($nota->tipo_pagamento_id,$pagamentos)))
                         ) {
                             $msg = "Para concluir varias notas de uma vez tem que ser do mesmo cliente
                             ou de clientes diferentes caso o pagamento nao seja cartao ou avista. somente boleto e bonificacao";
                             return response()->json(['status' => 0, 'acao' => 'Receber', 'msg' => $msg]);
                         }
+                        // if(in_array($nota2->tipo_pagamento_id,$pagamentos) || in_array($nota->tipo_pagamento_id,$pagamentos)){
+
+                        // }
                     }
                     // return view('nota.update',['statusNota'=>$statusNota,'nota'=>$nota]);
 
