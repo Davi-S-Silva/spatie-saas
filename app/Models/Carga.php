@@ -174,4 +174,9 @@ class Carga extends Model
         // dd($dados['item']);
         return $dados['item'];
     }
+
+    public function docs()
+    {
+        return $this->hasMany(FileCarga::class);
+    }
 }

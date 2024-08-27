@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         if(is_null(Auth::user())){
             session(['noTenatable'=>true]);
 
-            dd(session('noTenatable'));
+            // dd(session('noTenatable'));
         }
 
         return redirect()->intended(route('dashboard', absolute: false));
