@@ -198,7 +198,7 @@ class MovimentacaoVeiculoController extends Controller
             // return response()->json(['status'=>0,'msg'=>$movimentacaoVeiculo->kmInicio->km]);
             //verificar se o km digitado é maior que o ultimo km_inicio registrado para o veiculo
             if($movimentacaoVeiculo->kmInicio->km >= $KmFinal || $KmFinal <= $movimentacaoVeiculo->veiculo->kms()->get()->last()->km){
-                throw new Exception('Km Final não pode ser menor ou igual que o km inicial ');
+                throw new Exception('Km Final não pode ser menor ou igual que o km inicial '.$movimentacaoVeiculo->veiculo->kms()->get()->last()->km);
             }
             $veiculo = Veiculo::find($movimentacaoVeiculo->veiculo_id);
             $veiculo->status_id=$veiculo->getStatusId('Disponivel');
