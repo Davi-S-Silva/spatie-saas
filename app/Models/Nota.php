@@ -16,13 +16,13 @@ class Nota extends Model
     use  Tenantable, HasRoles;
 
 
-    public function newId()
-    {
-        $count = $this->all();
-        if ($count->count() == 0) {
+    public function newId(){
+        //contando excluindo o global scope
+        $count = $this->withoutGlobalScopes()->get();
+        if($count->count()==0){
             $this->id = 1;
-        } else {
-            $this->id = $this->all()->last()->id += 1;
+        }else{
+          $this->id = $this->withoutGlobalScopes()->get()->last()->id +=1;
         }
     }
 
@@ -278,5 +278,18 @@ class Nota extends Model
             );
         }
 
+    }
+    public function getComprovanteNotaSemTaNoBd()
+    {
+        $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
+        $directory = 'app/public/'.$empresa.'/arquivos/notas/comprovantes/';
+        $files = Storage::files($directory);
+        $paths = '';
+        foreach ($files as $file) {
+            if(str_contains($file, $this->nota)){
+                $paths = $file;
+            }
+        }
+        return $paths;
     }
 }
