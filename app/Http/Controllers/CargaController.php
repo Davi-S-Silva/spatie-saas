@@ -72,12 +72,14 @@ class CargaController extends Controller implements HasMiddleware
             if ($CargaBD->count() != 0) {
                 throw new Exception('Carga já Cadastrada no Sistema');
             }
+            $CargaMotorista = Carga::where('motorista_id',$request->colaborador)->orwhere('veiculo_id',$request->veiculo)->where('status_id',"!=",(new Carga())->getStatusId('Finalizada'))->get();
+            if($CargaMotorista->count()!=0){
+                throw new Exception('Existe Carga não finalizada para esse motorista no Sistema');
+            }
             DB::beginTransaction();
             $carga = new Carga();
             $carga->newId();
             $carga->destino = $request->area;
-            // $carga->peso =  Uteis::validaNumero($request->peso);
-            // $carga->entregas = $request->entregas;
             $carga->motorista_id = $request->colaborador;
             $carga->remessa = $request->remessa;
             $carga->veiculo_id = $request->veiculo;
@@ -106,6 +108,7 @@ class CargaController extends Controller implements HasMiddleware
         } catch (Exception $ex) {
             DB::rollback();
             // return response()->json([$ex->getMessage(),$ex->getLine()]);
+            // return response()->json(['status'=>'danger','msg'=>$ex->getMessage(). '-'.$ex->getFile().'-'.$ex->getLine()]);
             return response()->json(['status' => 'danger', 'msg' => $ex->getMessage()]);
         }
 
@@ -129,7 +132,8 @@ class CargaController extends Controller implements HasMiddleware
      */
     public function edit(Carga $carga)
     {
-        return view('carga.edit', ['carga' => $carga]);
+        $clientes = Cliente::all();
+        return view('carga.edit', ['carga' => $carga,'clientes' => $clientes]);
     }
 
     /**
@@ -137,7 +141,28 @@ class CargaController extends Controller implements HasMiddleware
      */
     public function update(Request $request, Carga $carga)
     {
-        return response()->json($request->input());
+        try{
+            $carga->destino = $request->area;
+            $carga->motorista_id = $request->colaborador;
+            $carga->remessa = $request->remessa;
+            $carga->veiculo_id = $request->veiculo;
+            $carga->frete = Uteis::validaNumero($request->frete);
+            $carga->os = $request->os;
+            $carga->data = $request->data;
+            $carga->agenda = $request->agenda;
+            $carga->cliente_id = Filial::find($request->Filial)->clientes()->first()->id;
+            $carga->filial_id = $request->Filial;
+            $carga->empresa_id = LocalApoio::find($request->empresa_local_apoio_id)->empresa->id;
+            $carga->local_apoio_id = $request->empresa_local_apoio_id;
+            $carga->usuario_id = Auth::user()->id;
+            $carga->save();
+            return response()->json(['status'=>200,'msg'=>'Carga editada com sucesso']);
+        }catch(Exception $ex){
+            DB::rollback();
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+
+        }
+        // return response()->json($request->input());
     }
 
     /**
@@ -147,7 +172,30 @@ class CargaController extends Controller implements HasMiddleware
     {
         //
     }
-
+    public function formDiaria(Carga $carga)
+    {
+        return view('carga.addDiaria',['carga'=>$carga]);
+    }
+    public function storeFormDiaria(Carga $carga, Request $request)
+    {
+        try{
+            DB::beginTransaction();
+            if($carga->status_id == $carga->getStatusId('Pendente') || $carga->status_id == $carga->getStatusId('Aguardando')){
+                throw new Exception('Não é permitido modificar diaria de carga não iniciada a entrega');
+            }
+            // return response()->json(['status'=>200,'msg'=>$request->input()]);
+            if($request->diaria<0){
+                throw new Exception('Não é permitido valor de diaria negativo');
+            }
+            $carga->diaria = $request->diaria;
+            $carga->save();
+            DB::commit();
+            return response()->json(['status'=>200,'msg'=>'Diaria editada com sucesso','diaria'=>$carga->diaria]);
+        }catch(Exception $ex){
+            DB::rollback();
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage(). '-'.$ex->getFile().'-'.$ex->getLine()]);
+        }
+    }
     public function setNotas(Request $request, $carga)
     {
         try {

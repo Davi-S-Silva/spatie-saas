@@ -24,9 +24,11 @@
                                 <li>Cliente: {{ $carga->filial->razao_social }}</li>
                                 <li>Empresa: {{ $carga->localApoio->name }}</li>
                                 <li>Status: {{ $carga->getStatus()->descricao }}</li>
-                                <li>Veiculo: {{ isset($carga->veiculo) ? $carga->veiculo->placa : '' }}</li>
+                                <li>Veiculo: <span class="click_botao_direito position-relative"
+                                    copy="{{isset($carga->veiculo) ? $carga->veiculo->placa : '' }}"
+                                    title="Clique com o botao direito do mouse para copiar texto">{{ isset($carga->veiculo) ? $carga->veiculo->placa : '' }}</span></li>
                                 <li>Frete: R$ <span class="click_botao_direito position-relative"
-                                    copy="{{ $carga->frete }}"
+                                    copy="{{ number_format($carga->frete, 2, ',', '.') }}"
                                     title="Clique com o botao direito do mouse para copiar texto">{{ number_format($carga->frete, 2, ',', '.') }}</span></li>
                                 <li>Destino: {{ $carga->destino }}</li>
                                 <li>Remessa: <span class="click_botao_direito position-relative"
@@ -37,17 +39,20 @@
                                     title="Clique com o botao direito do mouse para copiar texto">{{ $carga->os }}</span></li>
                                 <li>Entregas: {{ count($carga->paradas()) }}</li>
                                 <li>Peso Bruto: <b><span class="click_botao_direito position-relative"
-                                    copy="{{ $carga->pesoBruto() }}"
+                                    copy="{{ number_format($carga->pesoBruto(), 2, ',', '.') }}"
                                     title="Clique com o botao direito do mouse para copiar texto">{{ number_format($carga->pesoBruto(), 2, ',', '.') }}</span></b></li>
                                 <li>Peso Liquido: <b><span class="click_botao_direito position-relative"
-                                    copy="{{ $carga->pesoLiquido() }}"
+                                    copy="{{ number_format($carga->pesoLiquido(), 2, ',', '.') }}"
                                     title="Clique com o botao direito do mouse para copiar texto">{{ number_format($carga->pesoLiquido(), 2, ',', '.') }}</span></b></li>
                                 <li>Valor: <b>R$ <span class="click_botao_direito position-relative"
-                                    copy="{{ $carga->valor() }}"
+                                    copy="{{ number_format($carga->valor(), 2, ',', '.') }}"
                                     title="Clique com o botao direito do mouse para copiar texto">{{ number_format($carga->valor(), 2, ',', '.') }}</span></b></li>
                                 <li>Quantidade: <b><span class="click_botao_direito position-relative"
                                     copy="{{ $carga->quantidade() }}"
                                     title="Clique com o botao direito do mouse para copiar texto">{{ $carga->quantidade() }}</span></b></li>
+                                    <li>
+                                        <a href="{{ route('carga.edit',['carga'=>$carga->id]) }}" class="btn btn-info">Editar Carga</a>
+                                    </li>
                             </ul>
                             Cidades:
                             <ul class="d-flex">
@@ -217,7 +222,9 @@
                                                 {{ strtolower($nota->destinatario->endereco->endereco) }},
                                                 {{ $nota->destinatario->endereco->numero }},
                                                 {{ strtolower($nota->destinatario->endereco->bairro) }},
-                                                {{ $nota->destinatario->endereco->cep }} -
+                                                <span class="click_botao_direito position-relative"
+                                                copy="{{ $nota->destinatario->endereco->cep }}"
+                                                title="Clique com o botao direito do mouse para copiar texto">{{ $nota->destinatario->endereco->cep }}</span> -
                                                 {{ $nota->destinatario->endereco->cidade->nome }}
                                             </td>
                                             <td

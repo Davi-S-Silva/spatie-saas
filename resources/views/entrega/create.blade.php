@@ -9,28 +9,30 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
                     <form action="{{ route('entrega.store') }}" name="FormEntrega" method="post">
-
-                    @foreach ($clientes as $cliente)
-                        <ul>
-                            {{-- <li><b><a href="{{ route('clientes.show',['cliente'=>$cliente->id]) }}">{{ $cliente->name }}</b></a> --}}
+                        <div class="d-flex justify-around">
+                            @foreach ($clientes as $cliente)
                                 <ul>
-                                    @foreach ( $cliente->filials as $filial )
-                                        <li><a href="{{route('carga.getCargasDisponiveis',['filial'=>str_replace(' ','',strtolower($filial->razao_social))])}}"
-                                            class="link_carga_entrega">{{ $filial->razao_social }}</a></li>
-                                    @endforeach
+                                    <li><b><a
+                                                href="{{ route('clientes.show', ['cliente' => $cliente->id]) }}">{{ $cliente->name }}</b></a>
+                                        <ul>
+                                            @foreach ($cliente->filials as $filial)
+                                                <li><a href="{{ route('carga.getCargasDisponiveis', ['filial' => str_replace(' ', '', strtolower($filial->razao_social))]) }}"
+                                                        class="link_carga_entrega">{{ $filial->razao_social }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
                                 </ul>
-                            </li>
-                        </ul>
-                    @endforeach
-                    <hr>
-                    <section class="cargas_entrega">
-                        <b>Cargas</b>
-                        <div class="local_cargas_entrega d-flex justify-content-around flex-wrap">
-
+                            @endforeach
                         </div>
-                    </section>
-                    @include('entrega.form-entrega')
-                </form>
+                        <hr>
+                        <section class="cargas_entrega">
+                            <b>Cargas</b>
+                            <div class="local_cargas_entrega d-flex justify-content-around flex-wrap">
+
+                            </div>
+                        </section>
+                        @include('entrega.form-entrega')
+                    </form>
                 </div>
             </div>
         </div>

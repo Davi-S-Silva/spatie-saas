@@ -57,6 +57,7 @@ class LocalApoioController extends Controller
             $localMov->status_id = 1;
             $localMov->usuario_id = Auth::user()->id;
             $localMov->save();
+            $localMov->tentants()->attach(Auth::user()->tenant_id);
             $localApoio->locaismovimetacoes()->attach($localMov->id);
 
             DB::commit();

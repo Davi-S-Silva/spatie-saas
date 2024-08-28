@@ -161,6 +161,8 @@ Route::middleware('auth')->group(function () {
         Route::post('carga/{carga}/uploadCarga',[CargaController::class, 'uploadCarga'])->name('carga.uploadCarga');
         Route::get('carga/{carga}/devolucao',[CargaController::class, 'gerarListaDevolucao'])->name('gerarListaDevolucao');
         Route::get('carga/{carga}/comprovantes',[CargaController::class, 'gerarListaComprovante'])->name('gerarListaComprovante');
+        Route::get('carga/{carga}/formDiaria',[CargaController::class, 'formDiaria'])->name('formDiaria');
+        Route::put('carga/{carga}/storeFormDiaria',[CargaController::class, 'storeFormDiaria'])->name('storeFormDiaria');
 
         Route::resource('fornecedor',FornecedorController::class);
 

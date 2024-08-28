@@ -6,7 +6,7 @@
     <div class="form-group col-12 d-flex justify-around area_cliente_carga flex-column border rounded my-2">
         <label for="" class="col-12">Selecione o Cliente</label>
 
-        <div class="col-12 my-3">
+        <div class="col-12 my-3 d-flex justify-around">
             @foreach ($clientes as $filials)
                 @foreach ($filials->filials as $filial)
                     <div>
@@ -27,9 +27,9 @@
     <div class="col-12 d-flex justify-around">
 
         <div class="col-sm-4 col-12">
-            <label for="" class="form-label">Area Atendimento</label>
-            <input type="text" name="area" id="" class="form-control rounded border"
-                value="{{ isset($carga->area) ? $carga->area : '' }}">
+            <label for="" class="form-label">Area Atendimento/Destino</label>
+            <input type="text" name="area" id="" class="form-control rounded border-black"
+                value="{{ isset($carga->destino) ? $carga->destino : '' }}">
         </div>
         <div class="col-sm-4 col-12">
             {{-- <label for="">Motorista</label> --}}
@@ -44,27 +44,27 @@
     <div class="col-12 d-flex justify-around">
         {{-- <div class="col-sm-2 col-12">
             <label for="" class="form-label">Peso</label>
-            <input type="text" name="peso" id="" class="form-control rounded border"
+            <input type="text" name="peso" id="" class="form-control rounded border-black"
                 value="{{ isset($carga->peso) ? $carga->peso : '' }}">
         </div>
         <div class="col-sm-2 col-12">
             <label for="" class="form-label">Entregas</label>
-            <input type="text" name="entregas" id="" class="form-control rounded border"
+            <input type="text" name="entregas" id="" class="form-control rounded border-black"
                 value="{{ isset($carga->entregas) ? $carga->entregas : '' }}">
         </div> --}}
         <div class="col-sm-2 col-12">
             <label for="" class="form-label">Remessa</label>
-            <input type="text" name="remessa" class="form-control rounded border"
+            <input type="text" name="remessa" class="form-control rounded border-black"
                 value="{{ isset($carga->remessa) ? $carga->remessa : '' }}">
         </div>
         <div class="col-sm-2 col-12">
             <label for="" class="form-label">OS</label>
-            <input type="text" name="os" class="form-control rounded border"
+            <input type="text" name="os" class="form-control rounded border-black"
                 value="{{ isset($carga->os) ? $carga->os : '' }}">
         </div>
         <div class="col-sm-2 col-12">
             <label for="" class="form-label">Frete</label>
-            <input type="text" name="frete" id="" class="form-control rounded border"
+            <input type="text" name="frete" id="" class="form-control rounded border-black"
                 value="{{ isset($carga->frete) ? $carga->frete : '' }}">
         </div>
     </div>
@@ -72,12 +72,12 @@
     <div class="col-12 d-flex justify-center">
         <div class="col-sm-1 col-6 mx-5">
             <label for="" class="form-label">Data Emissão</label>
-            <input type="date" name="data" id="" class="form-control rounded border"
+            <input type="date" name="data" id="" class="form-control rounded border-black"
                 value="{{ isset($carga->data) ? $carga->data : '' }}">
         </div>
         <div class="col-sm-1 col-6 mx-5">
             <label for="" class="form-label">Data Agenda</label>
-            <input type="date" name="agenda" id="" class="form-control rounded border"
+            <input type="date" name="agenda" id="" class="form-control rounded border-black"
                 value="{{ isset($carga->agenda) ? $carga->agenda : '' }}">
         </div>
     </div>

@@ -6,6 +6,7 @@ use App\Models\Colaborador;
 use App\Models\Km;
 use App\Models\LocalMovimentacao;
 use App\Models\MovimentacaoVeiculo;
+use App\Models\Tenant;
 use App\Models\Veiculo;
 use Exception;
 use Illuminate\Http\Request;
@@ -28,7 +29,9 @@ class MovimentacaoVeiculoController extends Controller
      */
     public function create()
     {
-        $localMov = LocalMovimentacao::all();
+        $localMov = Tenant::find(Auth::user()->tenant_id)->localMovimentacao()->get();
+
+        // dd($localMov);
         return view('veiculo.movimentacao.create',['localMovimentacao'=>$localMov]);
     }
 

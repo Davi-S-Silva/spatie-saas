@@ -20,8 +20,8 @@ $(function () {
         navigator.clipboard.writeText($(this).attr('copy'))
         // alert(textCopy)
         var textoCampo =  $(this).text();
-        $(this).append('<span class="span_copy position-absolute left-0"><br />Copiado</span>');
-        $('.span_copy').fadeOut(2000);
+        $(this).append('<span class="span_copy position-absolute p-0"><br />Copiado</span>');
+        $('.span_copy').fadeOut(3000);
         return false
     })
     // $(document).on()
@@ -371,19 +371,21 @@ $(function () {
                 // alert('success')
 
 
-                console.log(response)
+                // console.log(response)
 
-                if (response.status === 'success') {
-                    // alert(response.msg)
-                    console.log(response)
-                    // $('.response-message').removeClass('alert-primary')
-                    // $('.response-message').addClass('alert-success')
-                    // window.location.href=routeStoreRole
-                }
-                if (response.status === 'danger') {
+                if (response.status == 200) {
                     // alert(response.msg)
                     // console.log(response)
-                    $('.response-message').html(response.msg)
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').show();
+                    $('.response-message-ajax').text(response.msg)
+                }
+                if (response.status == 0) {
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').show();
+                    $('.response-message-ajax').html(response.msg)
                 }
             },
             error: function (response) {
@@ -396,6 +398,57 @@ $(function () {
         return false;
     });
 
+    $('.add-diaria').click(function(){
+        var IncludeResponseAjax = $('#IncludeResponseAjax')
+        $.ajax({
+            type: 'get',
+            url: $(this).attr('href'),
+            success:function(response){
+                console.log(response)
+                IncludeResponseAjax.html(response)
+                IncludeResponseAjax.show()
+            },
+            error:function(){
+
+            }
+        })
+        return false;
+    })
+    // $(document).on('click','.btn-acao', function(){
+    //     $('form[name="FormDiariaCarga"]').submit();
+    //     return false
+    // })
+    $(document).on('submit','form[name="FormDiariaCarga"]',function(){
+        var IncludeResponseAjax = $('#IncludeResponseAjax')
+        $.ajax({
+            type: 'post',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            dataType: 'json',
+            success:function(response){
+                console.log(response)
+                if(response.status==200){
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').show();
+                    $('.response-message-ajax').text(response.msg)
+                    $('.add-diaria').text('')
+                    $('.add-diaria').text(response.diaria)
+                    IncludeResponseAjax.hide()
+                }
+                if(response.status==0){
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').show();
+                    $('.response-message-ajax').text(response.msg)
+                }
+            },
+            error:function(){
+
+            }
+        })
+        return false
+    })
     $('.exclui_nota').click(function () {
         $.ajax({
             type: 'get',
@@ -567,8 +620,9 @@ $(function () {
                         $('.response-message-ajax').text('Cargas não encontradas para o cliente ' + response.cliente)
                     }
                     $(response.cargas).each(function (i, e) {
-                        $('.local_cargas_entrega').append('<div class="d-flex flex-column"><input type="checkbox" id="Carga_' + e.id + '" name="Cargas[]" title="' + e.os + ' - ' + e.area + ' - ' + e.motorista + '" value="' + e.id + '"/><label for="Carga_' + e.id + '" class=""><div><b>Motorista: </b> ' +
-                            e.motorista + '</div><div><b>OS: </b> ' + e.os + '</div><div><b>Remessa: </b> ' + e.remessa + '</div><div><b>Área: </b>' + e.area + '</div></label></div>');
+                        $('.local_cargas_entrega').append('<div class="d-flex flex-column border border-black rounded p-1 m-2"><input type="checkbox" id="Carga_' + e.id + '" name="Cargas[]" title="'
+                            + e.os + ' - ' + e.destino + ' - ' + e.motorista + '" value="' + e.id + '"/><label for="Carga_' + e.id + '" class=""><div><b>Motorista: </b> ' +
+                            e.motorista + '</div><div><b>OS: </b> ' + e.os + '</div><div><b>Remessa: </b> ' + e.remessa + '</div><div><b>Área: </b>' + e.destino + '</div></label></div>');
                     });
                 }
                 if (response.status == 0) {

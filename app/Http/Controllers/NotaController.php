@@ -43,7 +43,7 @@ class NotaController extends Controller
      */
     public function show(Nota $nota)
     {
-        //
+        return view('nota.show',['nota'=>$nota]);
     }
 
     /**

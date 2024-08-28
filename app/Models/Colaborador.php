@@ -89,4 +89,9 @@ class Colaborador extends Model
     {
         return $this->hasMany(TipoDoc::class);
     }
+
+    public function cpf()
+    {
+        return DocColaborador::where('tipo_id',1)->where('colaborador_id',$this->id)->first()->numero;
+    }
 }

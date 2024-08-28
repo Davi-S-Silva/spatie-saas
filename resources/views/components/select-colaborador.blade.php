@@ -12,7 +12,7 @@
         @endif
         {{-- <a href="#" class="remove_select_colaborador">X</a> --}}
     </div>
-    <select name="colaborador" class="colaborador form-control" id="" {{ ($required)?'required':'' }}>
+    <select name="colaborador" class="colaborador form-control border-black" id="" {{ ($required)?'required':'' }}>
         <option value="">Selecione o Colaborador</option>
 
         @if (!is_null($funcao))

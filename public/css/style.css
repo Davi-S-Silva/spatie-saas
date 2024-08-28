@@ -549,7 +549,18 @@ background-color: green;
         width: 110px;
         cursor: pointer;
     }
-
+    .click_botao_direito{
+        position: relative;
+    }
+    .span_copy{
+        margin-top: -25px;
+        margin-left: 20px;
+        height: fit-content;
+        width: fit-content;
+    }
+    .border{
+        border: #000 5px solid;
+    }
     /* FIM AREA DE UPLOADS DOS ARQUIVOS DAS CARGAS */
     @media (max-width: 600px) {
         .aside_menu {

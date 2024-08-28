@@ -86,7 +86,7 @@
                                     </td>
                                     <td>{{ count($carga->paradas()) }}</td>
                                     <td>R$ {{ number_format($carga->frete, 2, ',', '.') }}</td>
-                                    <td class="cursor-pointer" title="Clique para adicionar diária">0</td>
+                                    <td class="cursor-pointer" title="Clique para adicionar diária"><a href="{{ route('formDiaria',['carga'=>$carga->id]) }}" class="add-diaria">{{ $carga->diaria }}</a></td>
                                     @php
                                         $status = $carga->getStatus();
                                     @endphp
@@ -151,9 +151,9 @@
                                             <div class="tab-pane fade show active" id="home_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="home-tab_{{ $carga->id }}">
                                                 {{-- {{ $carga->countNotasPendentes() }} --}}
-                                                {{-- <a class="btn btn-primary add-notas-carga"
+                                                <a class="btn btn-primary add-notas-carga"
                                                     href="{{ route('carga.setNotas', ['carga' => $carga->id]) }}"
-                                                    id="Carga {{ $carga->id }}">Add Notas</a> --}}
+                                                    id="Carga {{ $carga->id }}">Add Notas</a>
                                                 <table class="text-center col-12">
                                                     <thead>
                                                         <tr class="border-secondary border">
@@ -226,15 +226,17 @@
                                                 Observacoes da carga e etc</div>
                                             <div class="tab-pane fade" id="entrega_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="entrega-tab_{{ $carga->id }}">
-                                                <ul>
-                                                    @foreach ($carga->entregas()->with('veiculo', 'colaborador','getStatus')->get() as $item)
+                                                @foreach ($carga->entregas()->with('veiculo', 'colaborador','getStatus')->get() as $item)
+                                                <a href="{{ route('entrega.show',['entrega'=>$item->id]) }}">
+                                                    <ul>
                                                         <li>{{ $item->colaborador->name }}</li>
                                                         <li>{{ $item->veiculo->placa }}</li>
                                                         <li>{{ $item->getStatus->descricao }}</li>
                                                         <li>{{ date('d/m/Y H:i:s', strtotime($item->updated_at)) }}
                                                         </li>
-                                                    @endforeach
-                                                </ul>
+                                                    </ul>
+                                                </a>
+                                                @endforeach
                                             </div>
                                             {{-- <div class="tab-pane fade " id="produtos_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="produtos-tab_{{ $carga->id }}">

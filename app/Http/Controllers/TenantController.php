@@ -92,7 +92,6 @@ class TenantController extends Controller
             $localMov->usuario_id = Auth::user()->id;
             $localMov->save();
             $localMov->tentants()->attach($tenant->id);
-
             $localApoio->locaismovimetacoes()->attach($localMov->id);
 
             $contato = new Contato();

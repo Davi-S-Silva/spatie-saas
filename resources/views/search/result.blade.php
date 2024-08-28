@@ -3,7 +3,7 @@
     <header>Notas Encontradas</header>
     <ul>
         @foreach ($Notas as $item)
-         <li>{{ $item->nota }}</li>
+         <li><a href="{{ route('notas.show',['nota'=>$item->id]) }}">{{ $item->nota }}</a></li>
         @endforeach
     </ul>
     @endif
@@ -11,7 +11,7 @@
     <header>Cargas Encontradas</header>
     <ul>
         @foreach ($Cargas as $item)
-         <li>{{ $item->remessa }}</li>
+         <li><a href="{{ route('carga.show',['carga'=>$item->id]) }}">Remessa: {{ $item->remessa }} - OS: {{ $item->os }}</a></li>
         @endforeach
     </ul>
     @endif

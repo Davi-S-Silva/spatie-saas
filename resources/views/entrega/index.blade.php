@@ -29,11 +29,13 @@
                                     <td class="p-2">{{ $entrega->colaborador->name }}</td>
                                     <td>{{ $entrega->veiculo->placa }}</td>
                                     <td>
+                                        <ul>
                                         @forelse ($entrega->ajudantes as $ajudante)
-                                            {{ $ajudante->name }}
+                                            <li>{{ $ajudante->name }}</li>
                                         @empty
                                             Não há ajudante
                                         @endforelse
+                                    </ul>
                                     </td>
                                     <td>{{ $entrega->getStatus->descricao }}</td>
                                     <td>
@@ -66,7 +68,7 @@
                                 @endphp
                                 <tr class="">
                                     <td colspan="5">
-                                        <table class="col-12 border-secondary border">
+                                        <table class="col-12 border-secondary border mb-5">
                                             <thead>
                                                 <tr class="border-secondary border">
                                                     <th class="p-2">Remessa</th>
@@ -85,8 +87,8 @@
                                                 @foreach ($entrega->cargas as $carga)
                                                     <tr class="{{ (($i%2)==0)?'bg-claro':'bg-mais-claro' }} border-secondary border">
                                                         <td class="p-2">{{ $carga->remessa }}</td>
-                                                        <td>{{ $carga->os }}</td>
-                                                        <td>{{ $carga->motorista->name }}</td>
+                                                        <td><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->os }}</a></td>
+                                                        <td><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->motorista->name }}</a></td>
                                                         <td>{{ $carga->destino }}</td>
                                                         <td>{{ $carga->notas()->count() }}</td>
                                                         <td>{{ count($carga->paradas()) }}</td>

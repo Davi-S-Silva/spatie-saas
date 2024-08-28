@@ -37,6 +37,16 @@ class Carga extends Model
         return $this->hasMany(Nota::class);
     }
 
+    public function comprovanteNotas()
+    {
+        $notas = $this->notas()->get();
+        $paths = [];
+        foreach($notas as $nota){
+            foreach($nota->comprovantes()->get() as $comprovante){
+                $paths[] = $comprovante->path;
+            }
+        }
+    }
     public function comprovanteNotasSemTaNoBd()
     {
         $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
@@ -47,11 +57,12 @@ class Carga extends Model
         foreach ($notas as $nota) {
             foreach ($files as $file) {
                 if(str_contains($file, $nota->nota)){
-                    $paths[] = ['file'=>$file,'nota'=>$nota->nota];
+                    $paths[] = $file;
                 }
             }
         }
-        return $paths;
+        $dados = array_unique($paths);
+        return $dados;
 
     }
     public function notasPorStatus($status){

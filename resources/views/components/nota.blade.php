@@ -66,6 +66,7 @@ id="Checkbox_Nota_{{ $nota->id }}" value="{{ $nota->id }}">
     </div>
 
     <footer class="bg-white p-2 d-flex justify-around">
-        <a href="{{ route('editStatusNota',['nota'=>$nota->id]) }}" class="btn btn-outline-success atualiza_nota_component">Atualizar</a> <a href="" class="btn btn-outline-primary">Consultar</a>
+        <a href="{{ route('editStatusNota',['nota'=>$nota->id]) }}" class="btn btn-outline-success atualiza_nota_component">Atualizar</a>
+         <a href="{{ route('notas.show',['nota'=>$nota->id]) }}" class="btn btn-outline-primary">Consultar</a>
     </footer>
 </div>
