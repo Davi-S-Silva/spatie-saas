@@ -65,6 +65,7 @@ class Carga extends Model
         return $dados;
 
     }
+
     public function notasPorStatus($status){
         return Nota::where('carga_id',$this->id)->where('status_id',(new Nota())->getStatusId($status))->get();
     }
