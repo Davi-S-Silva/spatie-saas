@@ -8,7 +8,7 @@
     </div>
     <select name="ajudante[]" class="colaborador" id="">
         <option value="">Selecione o Colaborador</option>
-        @foreach (Colaborador::where('funcao_id',2)->orwhere('funcao_id',3)->get() as $item)
+        @foreach (Colaborador::orderBy('name','asc')->where('funcao_id',2)->orwhere('funcao_id',3)->get() as $item)
         @if (isset($colaborador) && $colaborador==$item->id)
             <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
         @else
