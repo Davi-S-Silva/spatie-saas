@@ -70,12 +70,12 @@
     </div>
 
     <div class="col-12 d-flex justify-center">
-        <div class="col-sm-1 col-6 mx-5">
+        <div class="col-sm-2 col-6 mx-5">
             <label for="" class="form-label">Data Emissão</label>
             <input type="date" name="data" id="" class="form-control rounded border-black"
                 value="{{ isset($carga->data) ? $carga->data : '' }}">
         </div>
-        <div class="col-sm-1 col-6 mx-5">
+        <div class="col-sm-2 col-6 mx-5">
             <label for="" class="form-label">Data Agenda</label>
             <input type="date" name="agenda" id="" class="form-control rounded border-black"
                 value="{{ isset($carga->agenda) ? $carga->agenda : '' }}">

@@ -622,7 +622,8 @@ $(function () {
                     $(response.cargas).each(function (i, e) {
                         $('.local_cargas_entrega').append('<div class="d-flex flex-column border border-black rounded p-1 m-2"><input type="checkbox" id="Carga_' + e.id + '" name="Cargas[]" title="'
                             + e.os + ' - ' + e.destino + ' - ' + e.motorista + '" value="' + e.id + '"/><label for="Carga_' + e.id + '" class=""><div><b>Motorista: </b> ' +
-                            e.motorista + '</div><div><b>OS: </b> ' + e.os + '</div><div><b>Remessa: </b> ' + e.remessa + '</div><div><b>Área: </b>' + e.destino + '</div></label></div>');
+                            e.motorista + '</div><div><b>OS: </b> ' + e.os + '</div><div><b>Remessa: </b> ' + e.remessa + '</div><div><b>Área/Destino: </b>' + e.destino + '</div>'+
+                            '<div><b>Placa: </b>'+e.placa+'</div><div><b>Data: </b>'+e.data+'</div></label></div>');
                     });
                 }
                 if (response.status == 0) {

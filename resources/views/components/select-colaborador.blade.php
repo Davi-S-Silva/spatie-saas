@@ -16,7 +16,7 @@
         <option value="">Selecione o Colaborador</option>
 
         @if (!is_null($funcao))
-            @foreach (Colaborador::where('funcao_id',$funcao)->get() as $item)
+            @foreach (Colaborador::orderBy('name','asc')->where('funcao_id',$funcao)->get() as $item)
                 @if (isset($colaborador) && $colaborador==$item->id)
                     <option value="{{ $item->id }}" selected>{{ $item->name }} - {{ $item->funcao->funcao }} -
 

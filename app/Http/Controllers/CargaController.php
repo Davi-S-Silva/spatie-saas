@@ -74,8 +74,12 @@ class CargaController extends Controller implements HasMiddleware
             }
             $CargaVeiculo = Carga::where('veiculo_id',$request->veiculo)->where('status_id',"!=",(new Carga())->getStatusId('Finalizada'))->get();
             $CargaMotorista = Carga::where('motorista_id',$request->colaborador)->where('status_id',"!=",(new Carga())->getStatusId('Finalizada'))->get();
-            if($CargaMotorista->count()!=0 || $CargaVeiculo->count()!=0){
+            if($CargaMotorista->count()!=0)
+            {
                 throw new Exception('Existe Carga não finalizada para esse motorista no Sistema');
+            }
+            if($CargaVeiculo->count()!=0){
+                throw new Exception('Existe Carga não finalizada para esse veiculo no Sistema');
             }
             DB::beginTransaction();
             $carga = new Carga();
@@ -254,7 +258,9 @@ class CargaController extends Controller implements HasMiddleware
                         'destino' => $carga->destino,
                         'remessa' => $carga->remessa,
                         'os' => $carga->os,
-                        'motorista' => $carga->motorista->name
+                        'motorista' => $carga->motorista->name,
+                        'placa' => $carga->veiculo->placa,
+                        'data' => date('d/m/Y', strtotime($carga->data))
                     ];
                 }
             }

@@ -11,48 +11,49 @@
         <div class="mx-auto px-1">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
-                    {{-- <form action="{{ route('carga.uploadCarga',['carga'=>$carga->id]) }}{{ route('carga.update',['carga'=>$carga->id]) }}" method="post" name="EditCarga" enctype="multipart/form-data">
-                        @method('put')
-                        @include('carga.form',['carga'=>$carga])
-                    </form> --}}
-                    {{-- <pre>
-                        {{ print_r($carga->getAttributes()) }}
-                    </pre> --}}
-                    <section class="d-flex justify-between">
+                    <section class="d-flex justify-between flex-wrap">
                         <div class="col-3">
                             <ul>
                                 <li>Cliente: {{ $carga->filial->razao_social }}</li>
                                 <li>Empresa: {{ $carga->localApoio->name }}</li>
                                 <li>Status: {{ $carga->getStatus()->descricao }}</li>
                                 <li>Veiculo: <span class="click_botao_direito position-relative"
-                                    copy="{{isset($carga->veiculo) ? $carga->veiculo->placa : '' }}"
-                                    title="Clique com o botao direito do mouse para copiar texto">{{ isset($carga->veiculo) ? $carga->veiculo->placa : '' }}</span></li>
+                                        copy="{{ isset($carga->veiculo) ? $carga->veiculo->placa : '' }}"
+                                        title="Clique com o botao direito do mouse para copiar texto">{{ isset($carga->veiculo) ? $carga->veiculo->placa : '' }}</span>
+                                </li>
                                 <li>Frete: R$ <span class="click_botao_direito position-relative"
-                                    copy="{{ number_format($carga->frete, 2, ',', '.') }}"
-                                    title="Clique com o botao direito do mouse para copiar texto">{{ number_format($carga->frete, 2, ',', '.') }}</span></li>
+                                        copy="{{ number_format($carga->frete, 2, ',', '.') }}"
+                                        title="Clique com o botao direito do mouse para copiar texto">{{ number_format($carga->frete, 2, ',', '.') }}</span>
+                                </li>
                                 <li>Destino: {{ $carga->destino }}</li>
                                 <li>Remessa: <span class="click_botao_direito position-relative"
-                                    copy="{{ $carga->remessa }}"
-                                    title="Clique com o botao direito do mouse para copiar texto">{{ $carga->remessa }}</span></li>
-                                <li>OS: <span class="click_botao_direito position-relative"
-                                    copy="{{ $carga->os }}"
-                                    title="Clique com o botao direito do mouse para copiar texto">{{ $carga->os }}</span></li>
+                                        copy="{{ $carga->remessa }}"
+                                        title="Clique com o botao direito do mouse para copiar texto">{{ $carga->remessa }}</span>
+                                </li>
+                                <li>OS: <span class="click_botao_direito position-relative" copy="{{ $carga->os }}"
+                                        title="Clique com o botao direito do mouse para copiar texto">{{ $carga->os }}</span>
+                                </li>
                                 <li>Entregas: {{ count($carga->paradas()) }}</li>
                                 <li>Peso Bruto: <b><span class="click_botao_direito position-relative"
-                                    copy="{{ number_format($carga->pesoBruto(), 2, ',', '.') }}"
-                                    title="Clique com o botao direito do mouse para copiar texto">{{ number_format($carga->pesoBruto(), 2, ',', '.') }}</span></b></li>
+                                            copy="{{ number_format($carga->pesoBruto(), 2, ',', '.') }}"
+                                            title="Clique com o botao direito do mouse para copiar texto">{{ number_format($carga->pesoBruto(), 2, ',', '.') }}</span></b>
+                                </li>
                                 <li>Peso Liquido: <b><span class="click_botao_direito position-relative"
-                                    copy="{{ number_format($carga->pesoLiquido(), 2, ',', '.') }}"
-                                    title="Clique com o botao direito do mouse para copiar texto">{{ number_format($carga->pesoLiquido(), 2, ',', '.') }}</span></b></li>
+                                            copy="{{ number_format($carga->pesoLiquido(), 2, ',', '.') }}"
+                                            title="Clique com o botao direito do mouse para copiar texto">{{ number_format($carga->pesoLiquido(), 2, ',', '.') }}</span></b>
+                                </li>
                                 <li>Valor: <b>R$ <span class="click_botao_direito position-relative"
-                                    copy="{{ number_format($carga->valor(), 2, ',', '.') }}"
-                                    title="Clique com o botao direito do mouse para copiar texto">{{ number_format($carga->valor(), 2, ',', '.') }}</span></b></li>
+                                            copy="{{ number_format($carga->valor(), 2, ',', '.') }}"
+                                            title="Clique com o botao direito do mouse para copiar texto">{{ number_format($carga->valor(), 2, ',', '.') }}</span></b>
+                                </li>
                                 <li>Quantidade: <b><span class="click_botao_direito position-relative"
-                                    copy="{{ $carga->quantidade() }}"
-                                    title="Clique com o botao direito do mouse para copiar texto">{{ $carga->quantidade() }}</span></b></li>
-                                    <li>
-                                        <a href="{{ route('carga.edit',['carga'=>$carga->id]) }}" class="btn btn-info">Editar Carga</a>
-                                    </li>
+                                            copy="{{ $carga->quantidade() }}"
+                                            title="Clique com o botao direito do mouse para copiar texto">{{ $carga->quantidade() }}</span></b>
+                                </li>
+                                <li>
+                                    <a href="{{ route('carga.edit', ['carga' => $carga->id]) }}"
+                                        class="btn btn-info">Editar Carga</a>
+                                </li>
                             </ul>
                             Cidades:
                             <ul class="d-flex">
@@ -75,10 +76,13 @@
                         <div class="div_area_uploads_cargas col-9">
                             <ul>
                                 <li>
-                                    <form action="{{ route('carga.uploadCarga',['carga'=>$carga->id]) }}" method="post" name="FormAssinante" enctype="multipart/form-data">
+                                    <form action="{{ route('carga.uploadCarga', ['carga' => $carga->id]) }}"
+                                        method="post" name="FormAssinante" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
-                                            <label for="inputGroupFileAssinante" class="input-group-text">Assinante</label>
-                                            <input type="file" name="FileAssinante" id="inputGroupFileAssinante" class="form-control">
+                                            <label for="inputGroupFileAssinante"
+                                                class="input-group-text">Assinante</label>
+                                            <input type="file" name="FileAssinante" id="inputGroupFileAssinante"
+                                                class="form-control">
                                             <input type="hidden" name="TipoFileCarga" value="Assinante">
                                             <input type="submit" value="Salvar" class="btn btn-primary">
                                         </div>
@@ -86,10 +90,12 @@
                                     </form>
                                 </li>
                                 <li>
-                                    <form action="{{ route('carga.uploadCarga',['carga'=>$carga->id]) }}" method="post" name="FormOS" enctype="multipart/form-data">
+                                    <form action="{{ route('carga.uploadCarga', ['carga' => $carga->id]) }}"
+                                        method="post" name="FormOS" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
                                             <label for="inputGroupFileOS" class="input-group-text">OS</label>
-                                            <input type="file" name="FileOS" id="inputGroupFileOS" class="form-control">
+                                            <input type="file" name="FileOS" id="inputGroupFileOS"
+                                                class="form-control">
                                             <input type="hidden" name="TipoFileCarga" value="OS">
                                             <input type="submit" value="Salvar" class="btn btn-primary">
                                         </div>
@@ -97,10 +103,13 @@
                                     </form>
                                 </li>
                                 <li>
-                                    <form action="{{ route('carga.uploadCarga',['carga'=>$carga->id]) }}" method="post" name="FormDescarrego" enctype="multipart/form-data">
+                                    <form action="{{ route('carga.uploadCarga', ['carga' => $carga->id]) }}"
+                                        method="post" name="FormDescarrego" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
-                                            <label for="inputGroupFileDescarrego" class="input-group-text">Descarrego</label>
-                                            <input type="file" name="FileDescarrego" id="inputGroupFileDescarrego" class="form-control">
+                                            <label for="inputGroupFileDescarrego"
+                                                class="input-group-text">Descarrego</label>
+                                            <input type="file" name="FileDescarrego" id="inputGroupFileDescarrego"
+                                                class="form-control">
                                             <input type="hidden" name="TipoFileCarga" value="Descarrego">
                                             <input type="submit" value="Salvar" class="btn btn-primary">
                                         </div>
@@ -108,10 +117,13 @@
                                     </form>
                                 </li>
                                 <li>
-                                    <form action="{{ route('carga.uploadCarga',['carga'=>$carga->id]) }}" method="post" name="FormAcessoArea" enctype="multipart/form-data">
+                                    <form action="{{ route('carga.uploadCarga', ['carga' => $carga->id]) }}"
+                                        method="post" name="FormAcessoArea" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
-                                            <label for="inputGroupFileAcessoArea" class="input-group-text">Acesso Área</label>
-                                            <input type="file" name="FileAcessoArea" id="inputGroupFileAcessoArea" class="form-control">
+                                            <label for="inputGroupFileAcessoArea" class="input-group-text">Acesso
+                                                Área</label>
+                                            <input type="file" name="FileAcessoArea" id="inputGroupFileAcessoArea"
+                                                class="form-control">
                                             <input type="hidden" name="TipoFileCarga" value="AcessoArea">
                                             <input type="submit" value="Salvar" class="btn btn-primary">
                                         </div>
@@ -119,10 +131,13 @@
                                     </form>
                                 </li>
                                 <li>
-                                    <form action="{{ route('carga.uploadCarga',['carga'=>$carga->id]) }}" method="post" name="FormCanhotos" enctype="multipart/form-data">
+                                    <form action="{{ route('carga.uploadCarga', ['carga' => $carga->id]) }}"
+                                        method="post" name="FormCanhotos" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
-                                            <label for="inputGroupFileCanhotos" class="input-group-text">Canhotos</label>
-                                            <input type="file" name="FileCanhotos" id="inputGroupFileCanhotos" class="form-control">
+                                            <label for="inputGroupFileCanhotos"
+                                                class="input-group-text">Canhotos</label>
+                                            <input type="file" name="FileCanhotos" id="inputGroupFileCanhotos"
+                                                class="form-control">
                                             <input type="hidden" name="TipoFileCarga" value="Canhotos">
                                             <input type="submit" value="Salvar" class="btn btn-primary">
                                         </div>
@@ -130,10 +145,13 @@
                                     </form>
                                 </li>
                                 <li>
-                                    <form action="{{ route('carga.uploadCarga',['carga'=>$carga->id]) }}" method="post" name="FormDevolucao" enctype="multipart/form-data">
+                                    <form action="{{ route('carga.uploadCarga', ['carga' => $carga->id]) }}"
+                                        method="post" name="FormDevolucao" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
-                                            <label for="inputGroupFileDevolucao" class="input-group-text">Devolucao</label>
-                                            <input type="file" name="FileDevolucao" id="inputGroupFileDevolucao" class="form-control">
+                                            <label for="inputGroupFileDevolucao"
+                                                class="input-group-text">Devolucao</label>
+                                            <input type="file" name="FileDevolucao" id="inputGroupFileDevolucao"
+                                                class="form-control">
                                             <input type="hidden" name="TipoFileCarga" value="Devolucao">
                                             <input type="submit" value="Salvar" class="btn btn-primary">
                                         </div>
@@ -146,15 +164,31 @@
                                 <ul class="flex-column">
                                     @foreach ($carga->docs as $item)
                                         <li>{{ $item->name }}
-                                            <a href="{{ $carga->getAssinante() }}" target="_blank"><i class="fa-solid fa-eye"></i></a>
-                                            <a href="{{ $carga->getAssinante(true) }}"><i class="fa-solid fa-download"></i></a>
+                                            <a href="{{ $carga->getAssinante() }}" target="_blank"><i
+                                                    class="fa-solid fa-eye"></i></a>
+                                            <a href="{{ $carga->getAssinante(true) }}"><i
+                                                    class="fa-solid fa-download"></i></a>
                                         </li>
-                                        @endforeach
-                                        <li><a href="{{ route('gerarListaDevolucao', ['carga' => $carga->id]) }}" target="_blank">Gerar Relatório de devolução</a></li>
-                                        <li><a href="{{ route('gerarListaComprovante', ['carga' => $carga->id]) }}" target="_blank">Gerar Relatório de Comprovantes</a></li>
+                                    @endforeach
+                                    <li><a href="{{ route('gerarListaDevolucao', ['carga' => $carga->id]) }}"
+                                            target="_blank">Gerar Relatório de devolução</a></li>
+                                    <li><a href="{{ route('gerarListaComprovante', ['carga' => $carga->id]) }}"
+                                            target="_blank">Gerar Relatório de Comprovantes</a></li>
                                 </ul>
                             </div>
                         </div>
+
+                        @foreach ($carga->entregas()->with('veiculo', 'colaborador', 'getStatus')->get() as $item)
+                            <a href="{{ route('entrega.show', ['entrega' => $item->id]) }}">
+                                <ul>
+                                    <li>{{ $item->colaborador->name }}</li>
+                                    <li>{{ $item->veiculo->placa }}</li>
+                                    <li>{{ $item->getStatus->descricao }}</li>
+                                    <li>{{ date('d/m/Y H:i:s', strtotime($item->updated_at)) }}
+                                    </li>
+                                </ul>
+                            </a>
+                        @endforeach
                     </section>
                     {{-- @endif --}}
                     <div>
@@ -205,8 +239,9 @@
                                 'destinatario.endereco.cidade','destinatario.endereco.estado')->get() as $nota)
                                         <tr class="{{ $i % 2 == 0 ? 'bg-white' : '' }} border-secondary border">
                                             <td class="py-2"><span class="click_botao_direito position-relative"
-                                                copy="{{ $nota->nota }}"
-                                                title="Clique com o botao direito do mouse para copiar texto">{{ $nota->nota }}</span></td>
+                                                    copy="{{ $nota->nota }}"
+                                                    title="Clique com o botao direito do mouse para copiar texto">{{ $nota->nota }}</span>
+                                            </td>
                                             <td class="click_botao_direito position-relative"
                                                 copy="{{ $nota->chave_acesso }}"
                                                 title="Clique com o botao direito do mouse para copiar texto">
@@ -214,8 +249,9 @@
                                             <td>{{ $nota->filial->nome_fantasia }}</td>
                                             <td>
                                                 <span class="click_botao_direito position-relative"
-                                                copy="{{ $nota->destinatario->cpf_cnpj }}"
-                                                title="Clique com o botao direito do mouse para copiar texto">{{ $nota->destinatario->cpf_cnpj }} </span>-
+                                                    copy="{{ $nota->destinatario->cpf_cnpj }}"
+                                                    title="Clique com o botao direito do mouse para copiar texto">{{ $nota->destinatario->cpf_cnpj }}
+                                                </span>-
                                                 {{ $nota->destinatario->nome_razao_social }}
                                             </td>
                                             <td class="col-3">
@@ -223,8 +259,9 @@
                                                 {{ $nota->destinatario->endereco->numero }},
                                                 {{ strtolower($nota->destinatario->endereco->bairro) }},
                                                 <span class="click_botao_direito position-relative"
-                                                copy="{{ $nota->destinatario->endereco->cep }}"
-                                                title="Clique com o botao direito do mouse para copiar texto">{{ $nota->destinatario->endereco->cep }}</span> -
+                                                    copy="{{ $nota->destinatario->endereco->cep }}"
+                                                    title="Clique com o botao direito do mouse para copiar texto">{{ $nota->destinatario->endereco->cep }}</span>
+                                                -
                                                 {{ $nota->destinatario->endereco->cidade->nome }}
                                             </td>
                                             <td
