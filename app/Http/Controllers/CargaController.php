@@ -73,11 +73,6 @@ class CargaController extends Controller implements HasMiddleware
                 throw new Exception('Carga já Cadastrada no Sistema');
             }
             $CargaVeiculo = Carga::where('veiculo_id',$request->veiculo)->where('status_id',"!=",(new Carga())->getStatusId('Finalizada'))->get();
-            $CargaMotorista = Carga::where('motorista_id',$request->colaborador)->where('status_id',"!=",(new Carga())->getStatusId('Finalizada'))->get();
-            if($CargaMotorista->count()!=0)
-            {
-                throw new Exception('Existe Carga não finalizada para esse motorista no Sistema');
-            }
             if($CargaVeiculo->count()!=0){
                 throw new Exception('Existe Carga não finalizada para esse veiculo no Sistema');
             }

@@ -17,7 +17,7 @@
                                     @if (in_array($nota->tipo_pagamento_id, $pagamentos) || ($nota->indicacao_pagamento_id = 1))
                                         @if ($nota->comprovantes()->get()->count() != 0)
                                             @foreach ($nota->comprovantes as $comprovante)
-                                                <figure class="col-3 m-2 bg-success">
+                                                <figure class="col-3 m-2">
                                                     <img src="{{ $nota->getComprovante($comprovante->path) }}"
                                                         alt="">
                                                         @php
@@ -33,12 +33,12 @@
                                                 $path = $nota->getComprovanteNotaSemTaNoBd();
                                             @endphp
                                             @if (!empty($path))
-                                            <figure class="col-3 m-2 bg-danger">
+                                            <figure class="col-3 m-2">
                                                 <img src="{{ $path }}" alt="">
                                                 @php
-                                                    $explode = explode('.',$path);
-                                                    $textPath = explode('/',$explode[0]);
-                                                    $stringNota = explode('_',end($textPath));
+                                                    // $textPath = explode('/',$path);
+                                                    // $explode = explode('_',end($textPath));
+                                                    // $stringNota = explode('.',$explode);
                                                 @endphp
                                                 <figcaption class="text-center">{{ $stringNota[0] }}</figcaption>
                                             </figure>
