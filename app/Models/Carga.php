@@ -209,9 +209,9 @@ class Carga extends Model
     {
         return $this->hasMany(FileCarga::class);
     }
-    public function getAssinante($download=false){
+    public function getDoc($doc,$download=false){
         // $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
-        $fileCarga = FileCarga::where('carga_id',$this->id)->where('tipo','Assinante')->get()->first();
+        $fileCarga = FileCarga::where('carga_id',$this->id)->where('tipo',ucfirst($doc))->get()->first();
         // $name = '';
         $filePath =$fileCarga->path;
         if( $fileCarga->count()!=0){

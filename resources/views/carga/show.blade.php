@@ -163,10 +163,10 @@
                                 <header>Arquivos</header>
                                 <ul class="flex-column">
                                     @foreach ($carga->docs as $item)
-                                        <li>{{ $item->name }}
-                                            <a href="{{ $carga->getAssinante() }}" target="_blank"><i
+                                        <li>Arquivo: {{ $item->name }}
+                                            <a href="{{ $carga->getDoc($item->tipo) }}" target="_blank"><i
                                                     class="fa-solid fa-eye"></i></a>
-                                            <a href="{{ $carga->getAssinante(true) }}"><i
+                                            <a href="{{ $carga->getDoc($item->tipo,true) }}"><i
                                                     class="fa-solid fa-download"></i></a>
                                         </li>
                                     @endforeach

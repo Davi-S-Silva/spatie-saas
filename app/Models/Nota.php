@@ -287,7 +287,10 @@ class Nota extends Model
         $paths = '';
         foreach ($files as $file) {
             if(str_contains($file, $this->nota)){
-                $paths = $file;
+                $paths = Storage::temporaryUrl(
+                    $file,
+                    now()->addHour()
+                );
             }
         }
         return $paths;
