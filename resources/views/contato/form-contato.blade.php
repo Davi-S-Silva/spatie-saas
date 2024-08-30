@@ -1,6 +1,6 @@
 {{-- <form action="" method="post"> --}}
 <div class="form-contato col-12 border p-2">
-    <legend>Contato</legend>
+    {{-- <legend>Contato</legend> --}}
     <div>
         <label for="" class="form-label">Celular</label>
         <input type="tel" class="form-control border-black rounded" name="Telefone" id="" value="{{ !empty($contato) ? $contato->telefone : '' }}">

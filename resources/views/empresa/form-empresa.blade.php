@@ -36,17 +36,20 @@
                         value="{{ isset($empresa) ? $empresa->doc : '' }}">
                 </div>
         </section>
-        <section class="mt-4">
-            <h1 class="font-bold">Endereco</h1>
+        <div class="d-flex justify-around">
 
-            @include('endereco.form-endereco', ['endereco' => isset($endereco) ? $endereco : ''])
-        </section>
-        <section class="mt-4">
-            <h1 class="font-bold">Contato</h1>
 
-            @include('contato.form-contato', ['contato' => isset($contato) ? $contato : ''])
-        </section>
+            <section class="mt-4 col-4">
+                <h1 class="font-bold">Endereco</h1>
 
+                @include('endereco.form-endereco', ['endereco' => isset($endereco) ? $endereco : ''])
+            </section>
+            <section class="mt-4 col-4">
+                <h1 class="font-bold">Contato</h1>
+
+                @include('contato.form-contato', ['contato' => isset($contato) ? $contato : ''])
+            </section>
+        </div>
         @csrf
         @if ($disabled != 'yes')
             <input type="submit" value="Salvar" class="btn btn-primary mt-2">
