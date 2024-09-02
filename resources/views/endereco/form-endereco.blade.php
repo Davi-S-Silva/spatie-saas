@@ -5,7 +5,7 @@
 
 {{-- <form action="" method="post"> --}}
 <div class="col-12 border p-2">
-    <legend>Endereço</legend>
+    {{-- <legend>Endereço</legend> --}}
     <div>
         <label for="">Rua</label>
         <input type="text" class="form-control border-black rounded" name="rua" id=""

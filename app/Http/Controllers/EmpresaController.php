@@ -8,6 +8,7 @@ use App\Models\Empresa;
 use App\Models\Endereco;
 use App\Models\LocalApoio;
 use App\Models\LocalMovimentacao;
+use App\Models\TipoDoc;
 use Exception;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -67,14 +68,7 @@ class EmpresaController extends Controller implements HasMiddleware
             // print_r($request->input());
             // $endereco = Endereco::create($request->all());
 
-            $endereco = new Endereco();
-            $endereco->endereco = $request->rua;
-            $endereco->numero = $request->numero;
-            $endereco->bairro = $request->bairro;
-            $endereco->cep = $request->cep;
-            $endereco->cidade_id = $request->cidade_id;
-            $endereco->estado_id = $request->estado_id;
-            $endereco->save();
+
 
             $empresa = new Empresa();
             $empresa->nome = $request->input('RazaoSocial');
@@ -83,7 +77,15 @@ class EmpresaController extends Controller implements HasMiddleware
             $empresa->doc = $request->CpfCnpj;
             $empresa->usuario_id = Auth::user()->id;
             $empresa->save();
-
+            $endereco = new Endereco();
+            $endereco->endereco = $request->rua;
+            $endereco->numero = $request->numero;
+            $endereco->bairro = $request->bairro;
+            $endereco->cep = $request->cep;
+            $endereco->cidade_id = $request->cidade_id;
+            $endereco->estado_id = $request->estado_id;
+            $endereco->tenant_id = $empresa->tenant_id;
+            $endereco->save();
             $empresa->enderecos()->attach($endereco->id);
 
 
@@ -109,6 +111,7 @@ class EmpresaController extends Controller implements HasMiddleware
             $contato->email = $request->Email;
             $contato->descricao = $request->Descricao;
             $contato->usuario_id = Auth::user()->id;
+            $contato->tenant_id = $empresa->tenant_id;
             $contato->save();
             $empresa->contatos()->attach($contato->id);
 
@@ -143,6 +146,10 @@ class EmpresaController extends Controller implements HasMiddleware
 
         // $Certificados = Certificado::with('empresa')->get();
         // return view('empresa.show',['certificados'=>$Certificados]);
+        // $TipoDoc = TipoDoc::all();
+        // dd($TipoDoc);
+        // $Empresa = Empresa::find($empresa->id);
+        dd($empresa->enderecos()->get());
         return view('empresa.show', ['empresa' => $empresa]);
     }
 
