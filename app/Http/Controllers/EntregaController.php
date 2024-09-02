@@ -131,6 +131,9 @@ class EntregaController extends Controller implements HasMiddleware
             foreach ($request->Cargas as $carga) {
                 $Carga = Carga::find($carga);
                 if ($Carga->status_id == 1) {
+                    if($Carga->notas()->get()->count()==0){
+                        throw new Exception('Inserir Notas na Carga ' . $Carga->remessa .' - ' . $Carga->os);
+                    }
                     $entrega->cargas()->attach($Carga);
                     $Carga->setStatus('Aguardando'); //aguardando seguir rota
                     $Carga->save();

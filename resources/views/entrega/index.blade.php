@@ -11,9 +11,9 @@
                     <x-start-entrega />
                     <x-stop-entrega :localMovimentacao=$localMovimentacao />
                     <table class=" text-center">
-                        <thead>
+                        <thead class="">
                             <tr class="border-secondary border">
-                                <th class="p-2">Motorista</th>
+                                <th class="py-2">Motorista</th>
                                 <th>Veículo</th>
                                 <th>Ajudantes</th>
                                 <th>Status</th>

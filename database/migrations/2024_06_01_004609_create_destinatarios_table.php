@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('destinatarios', function (Blueprint $table) {
             $table->id();
             $table->string('nome_razao_social');
-            $table->string('cpf_cnpj')->unique();
-            $table->string('ie')->nullable();
+            $table->string('cpf_cnpj');
+            $table->string('ie');
             $table->integer('tipo');//fisico ou juridico
             $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->foreignId('usuario_id')->references('id')->on('users');

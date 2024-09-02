@@ -39,7 +39,7 @@
             </select>
         </div> --}}
         <input type="hidden" name="Notas" value="{{ $notashidden }}">
-        @if (isset($comprovante))
+        @if (isset($comprovante) )
             <div>
                 <label for="PagoDiretoEmpresa">Pagamento direto a empresa</label>
                 <input type="checkbox" name="PagoDiretoEmpresa" id="PagoDiretoEmpresa">

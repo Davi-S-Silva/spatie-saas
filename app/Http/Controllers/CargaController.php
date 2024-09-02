@@ -14,6 +14,7 @@ use App\Models\Nota;
 use App\Models\PdfsSistema;
 use App\Models\ProdutoNota;
 use App\Models\Uteis;
+use App\Models\Veiculo;
 use Exception;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
@@ -73,7 +74,11 @@ class CargaController extends Controller implements HasMiddleware
                 throw new Exception('Carga já Cadastrada no Sistema');
             }
             $CargaVeiculo = Carga::where('veiculo_id',$request->veiculo)->where('status_id',"!=",(new Carga())->getStatusId('Finalizada'))->get();
-            if($CargaVeiculo->count()!=0){
+            $veiculo = Veiculo::find($request->veiculo);
+            if($request->veiculo == '' || is_null($request->veiculo)){
+                throw new Exception ('Selecione o veiculo da Carga');
+            }
+            if($CargaVeiculo->count()!=0 && $veiculo->placa != 'KKD1244'){
                 throw new Exception('Existe Carga não finalizada para esse veiculo no Sistema');
             }
             DB::beginTransaction();

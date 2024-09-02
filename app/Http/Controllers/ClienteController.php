@@ -98,11 +98,13 @@ class ClienteController extends Controller implements HasMiddleware
         $filial->enderecos()->attach($end->id);
 
         $localMov = new LocalMovimentacao();
+        $localMov->newId();
         $localMov->title = $filial->nome_fantasia;
         $localMov->descricao = 'local de carregamento e descarremento de carga do cliente '.$cliente->name;
         $localMov->status_id = $localMov->getStatusId('Ativo');
         $localMov->usuario_id = Auth::user()->id;
         $localMov->save();
+        $localMov->tentants()->attach( $localMov->id);
         $filial->locaismovimetacoes()->attach($localMov->id);
 
         // echo '<pre>';
