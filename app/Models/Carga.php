@@ -104,6 +104,10 @@ class Carga extends Model
     {
         return Status::where('name',$status)->where('tipo',1)->get()->first()->id;
     }
+    public function getAllStatus()
+    {
+        return Status::where('tipo',1)->get();
+    }
 
     public function getStatus(){
         return Status::find($this->status_id);

@@ -32,12 +32,42 @@ class AbastecimentoController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // dump($request->input());
         if(Auth::user()->roles()->first()->name== 'tenant-colaborador' || Auth::user()->roles()->first()->name== 'colaborador'){
             $abast = Abastecimento::orderBy('id','desc')->where('colaborador_id',Auth::user()->colaborador->first()->id)->with('veiculo','colaborador');
         }else{
-            $abast = Abastecimento::orderBy('id','desc')->with('veiculo','colaborador');
+            $abast = Abastecimento::with('veiculo','colaborador');
+        }
+        if(!is_null($request->Reset)){
+            session()->forget('order-by-items-item');
+            session()->forget('order-by-items-order');
+            session()->forget('paginate-by-page');
+            session()->forget('abastecimento_data_inicio');
+            session()->forget('abastecimento_data_fim');
+            session()->forget('abastecimento_colaborador_id');
+            session()->forget('abastecimento_veiculo_id');
+        }
+        if(!is_null($request->Inicio)&&!is_null($request->Fim)){
+            session(['abastecimento_data_inicio'=>$request->Inicio]);
+            session(['abastecimento_data_fim'=>$request->Fim]);
+        }
+        if(session()->has('abastecimento_data_inicio') && session()->has('abastecimento_data_fim')){
+            $abast->where('data','>=',session('abastecimento_data_inicio'))->where('data','<=',session('abastecimento_data_fim'));
+        }
+        if(!is_null($request->colaborador)){
+            session(['abastecimento_colaborador_id'=>$request->Fim]);
+            $abast->where('colaborador_id',$request->colaborador);
+        }
+        if(session()->has('abastecimento_colaborador_id')){
+            $abast->where('colaborador_id',session('abastecimento_colaborador_id'));
+        }
+        if(!is_null($request->veiculo)){
+            session(['abastecimento_veiculo_id'=>$request->Fim]);
+        }
+        if(session()->has('abastecimento_veiculo_id')){
+            $abast->where('veiculo_id',session('abastecimento_veiculo_id'));
         }
         if((!empty($_GET['item']) && !empty($_GET['order']))){
             $abast->orderBy($_GET['item'],$_GET['order']);
@@ -56,17 +86,20 @@ class AbastecimentoController extends Controller implements HasMiddleware
         if(session()->has('paginate-by-page')){
             $paginate = session('paginate-by-page');
             $dados->appends($paginate);
+            // dump(session('paginate-by-page'));
         }
         if(session()->has('order-by-items-item') && session()->has('order-by-items-order')){
             $item = session('order-by-items-item');
             $order = session('order-by-items-order');
             $dados->appends(['item'=>$item]);
             $dados->appends(['order'=>$order]);
-            // dd(session('order-by-items-order'));
+            // dump(session('order-by-items-order'));
+            // dump(session('order-by-items-item'));
         }
         // dd(session('order-by-items-order'));
 
         $dados = $abast->paginate($paginate)->withQueryString();
+        // dd($dados);
 
         // foreach(Abastecimento::all() as $abastecimento){
         //     if($abastecimento->colaborador->usuario()->withTrashed()->get()->count()!=0){

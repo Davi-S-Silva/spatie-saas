@@ -23,7 +23,7 @@
                 @endforeach
             </select>
         </div>
-        @if (in_array($nota->tipo_pagamento_id,$pagamentos) || ($nota->tipo_pagamento_id==15 && $nota->indicacao_pagamento_id==1))
+        @if (in_array($nota->tipo_pagamento_id,$pagamentos) || $nota->indicacao_pagamento_id==1)
             <div>
                 <label for="PagoDiretoEmpresa">Pagamento direto a empresa</label>
                 <input type="checkbox" name="PagoDiretoEmpresa" id="PagoDiretoEmpresa">

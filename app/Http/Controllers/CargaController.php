@@ -38,15 +38,76 @@ class CargaController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $carga =  Carga::with('veiculo', 'entregas', 'notas', 'notas.filial', 'notas.status', 'notas.destinatario', 'notas.destinatario.endereco');
         if (Auth::user()->roles()->first()->name == 'tenant-colaborador' || Auth::user()->roles()->first()->name == 'colaborador') {
             $carga->where('motorista_id', Auth::user()->id);
         }
-        // dd(Auth::user()->roles()->first()->name);
+        if(!is_null($request->Reset)){
+            session()->forget('order-by-items-item');
+            session()->forget('order-by-items-order');
+            session()->forget('paginate-by-page');
+            session()->forget('abastecimento_data_inicio');
+            session()->forget('abastecimento_data_fim');
+            session()->forget('abastecimento_colaborador_id');
+            session()->forget('abastecimento_veiculo_id');
+        }
+        dump($request->input());
+        if(!is_null($request->Inicio)&&!is_null($request->Fim)){
+            session(['carga_data_inicio'=>$request->Inicio]);
+            session(['carga_data_fim'=>$request->Fim]);
+        }
+        if(session()->has('abastecimento_data_inicio') && session()->has('abastecimento_data_fim')){
+            $carga->where('data','>=',session('abastecimento_data_inicio'))->where('data','<=',session('abastecimento_data_fim'));
+        }
+        if(!is_null($request->colaborador)){
+            session(['abastecimento_colaborador_id'=>$request->Fim]);
+            $carga->where('colaborador_id',$request->colaborador);
+        }
+        if(session()->has('abastecimento_colaborador_id')){
+            $carga->where('colaborador_id',session('abastecimento_colaborador_id'));
+        }
+        if(!is_null($request->veiculo)){
+            session(['abastecimento_veiculo_id'=>$request->Fim]);
+        }
+        if(session()->has('abastecimento_veiculo_id')){
+            $carga->where('veiculo_id',session('abastecimento_veiculo_id'));
+        }
+        if((!empty($_GET['item']) && !empty($_GET['order']))){
+            $carga->orderBy($_GET['item'],$_GET['order']);
+            session(['order-by-items-item'=>$_GET['item'],'order-by-items-order'=>$_GET['order']]);
+        }
+
+        if(session()->has('order-by-items-item') && session()->has('order-by-items-order')){
+            $carga->orderBy(session('order-by-items-item'),session('order-by-items-order'));
+        }
+        $paginate = 5;
+        if(!empty($_GET['paginate'])){
+            $paginate = $_GET['paginate'];
+            session(['paginate-by-page'=>$paginate]);
+        }
+        $dados = $carga->paginate($paginate);
+        if(session()->has('paginate-by-page')){
+            $paginate = session('paginate-by-page');
+            $dados->appends($paginate);
+            // dump(session('paginate-by-page'));
+        }
+        if(session()->has('order-by-items-item') && session()->has('order-by-items-order')){
+            $item = session('order-by-items-item');
+            $order = session('order-by-items-order');
+            $dados->appends(['item'=>$item]);
+            $dados->appends(['order'=>$order]);
+            // dump(session('order-by-items-order'));
+            // dump(session('order-by-items-item'));
+        }
+        // dd(session('order-by-items-order'));
+
+
+
         $Carga = $carga->orderBy('id', 'desc')->paginate(15);
-        return view('carga.index', ['cargas' => $Carga]);
+        $statusAll = (new Carga())->getAllStatus();
+        return view('carga.index', ['cargas' => $Carga,'statusAll'=>$statusAll]);
     }
 
     /**

@@ -147,9 +147,9 @@ class EmpresaController extends Controller implements HasMiddleware
         // $Certificados = Certificado::with('empresa')->get();
         // return view('empresa.show',['certificados'=>$Certificados]);
         // $TipoDoc = TipoDoc::all();
-        // dd($TipoDoc);
+        // dd($empresa);
         // $Empresa = Empresa::find($empresa->id);
-        dd($empresa->enderecos()->get());
+        // dd( $empresa->enderecos()->get()->first());
         return view('empresa.show', ['empresa' => $empresa]);
     }
 

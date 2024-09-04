@@ -16,7 +16,7 @@
      @foreach ($notas as $item)
      @php
         $nota = Nota::find($item);
-        if(in_array($nota->tipo_pagamento_id,$pagamentos) || ($nota->tipo_pagamento_id==15 && $nota->indicacao_pagamento_id==1)){
+        if(in_array($nota->tipo_pagamento_id,$pagamentos)  $nota->indicacao_pagamento_id==1){
             $comprovante = true;
         }
         $valor += $nota->valor;
@@ -55,7 +55,7 @@
         @endif
         <div>
             <label for="">Foto Canhotos</label>
-            <input type="file" name="FotoCanhotos" id="" class="" multiple>
+            <input type="file" name="FotoCanhotos" id="" class="form-control" required>
         </div>
         <div>
             <label for="">Observações</label>

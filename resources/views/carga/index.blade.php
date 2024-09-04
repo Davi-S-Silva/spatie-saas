@@ -20,6 +20,47 @@
             <x-set-notas-carga />
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
+                    <section>
+                        <form action="{{ route('postQueryIndexCarga') }}" method="post" class="d-flex align-items-end justify-center mb-5 flex-wrap">
+                            <div class="col-1 mr-2">
+                                <label for="" class="form-label">Remessa/OS</label>
+                                <input type="number" name="NumeroDoc" class="form-control rounded border-black" id="">
+                            </div>
+                            <div class="col-2 mr-2">
+                                <x-select-veiculo />
+                            </div>
+                            <div class="col-2 mr-2">
+                                <label for="" class="form-label">Origem</label>
+                                <x-select-cliente />
+                            </div>
+                            <div class="col-2 mr-2">
+                                <x-select-colaborador :funcao=1 :required=false />
+                            </div>
+                            <div class="d-flex mr-2">
+                                <div class=" mr-2">
+                                    <label for=""class="form-label">Data Inicio</label>
+                                    <input type="date" class="form-control rounded border-black" name="Inicio" id="">
+                                </div>
+                                <div class=" mr-2">
+                                    <label for=""class="form-label">Data Final</label>
+                                    <input type="date" class="form-control rounded border-black" name="Fim" id="">
+                                </div>
+                            </div>
+                            <div class="mr-2">
+                                <label for="" class="form-label">Status</label>
+                                <x-select-all-status :statusAll=$statusAll/>
+                            </div>
+                            <div class="mx-5">
+                                <label for="Pernoite" class="form-label">Pernoite</label>
+                                <input type="checkbox" name="Pernoite" class="form-check" id="Pernoite">
+                            </div>
+                            <div>
+                                @csrf
+                                <input type="submit" value="Buscar" class="btn btn-primary">
+                                <input type="submit" name="Reset" value="Limpar filtros" class="btn btn-danger">
+                            </div>
+                        </form>
+                    </section>
                     <table class=" text-center align-items-center">
                         <thead>
                             <tr class="border-secondary border">
@@ -238,40 +279,45 @@
                                                 </a>
                                                 @endforeach
                                             </div>
-                                            {{-- <div class="tab-pane fade " id="produtos_{{ $carga->id }}"
-                                                role="tabpanel" aria-labelledby="produtos-tab_{{ $carga->id }}">
-                                                @php
-                                                $dados = $carga->produtos();
-                                                @endphp
-                                                @if (!is_null($dados))
-                                                    <table class="table-striped table table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <td>Produto</td>
-                                                                <td>Quantidade</td>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($dados as $produto)
-                                                                <tr>
-                                                                    <td>{{ $produto['nome'] }}</td>
-                                                                    <td>{{ $produto['total_produto'] }}</td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                @else
-                                                    não tem produtos cadastrados
-                                                @endif
-                                            </div> --}}
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <div>
-                        {{ $cargas->links() }}
+                        <div class="my-2">
+                            <div class="col-12 text-center">
+                                <b>Paginação</b>
+                                <div class="col-12 d-flex justify-center">
+                                    @php
+                                        $arrayPaginate = [
+                                            ['paginate' => 1],
+                                            ['paginate' => 2],
+                                            ['paginate' => 4],
+                                            ['paginate' => 5],
+                                            ['paginate' => 10],
+                                            ['paginate' => 20],
+                                            ['paginate' => 30],
+                                            ['paginate' => 50],
+                                            ['paginate' => 100],
+                                            ['paginate' => 200],
+                                        ];
+                                    @endphp
+                                    @foreach ($arrayPaginate as $item)
+                                        @if (session()->has('paginate-by-page') && session('paginate-by-page') == $item['paginate'])
+                                            <a href="?paginate={{ $item['paginate'] }}"
+                                                id="Paginate_{{ $item['paginate'] }}"
+                                                class="mx-2 paginate-by-page paginate-by-page-color">{{ $item['paginate'] }}</a>
+                                        @else
+                                            <a href="?paginate={{ $item['paginate'] }}"
+                                                id="Paginate_{{ $item['paginate'] }}"
+                                                class="mx-2 paginate-by-page">{{ $item['paginate'] }}</a>
+                                        @endif
+                                    @endforeach
+
+                                </div>
+                                {{ $cargas->links() }}
+                        </div>{{-- fim paginacao --}}
                     </div>
                 </div>
             </div>

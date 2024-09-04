@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('canhotos', function (Blueprint $table) {
             $table->id();
             $table->string('path');
-            $table->foreignId('prestacao_carga_id')->references('id')->on('prestacao_cargas');
-            $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
+            $table->foreignId('nota_id')->references('id')->on('notas');
             $table->timestamps();
         });
     }

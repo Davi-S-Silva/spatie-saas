@@ -561,6 +561,45 @@ background-color: green;
     .border{
         border: #000 5px solid;
     }
+    .index_entrega{
+
+    }
+    .index_entrega li ul{
+        display: flex;
+        flex-wrap: wrap;
+        /* background-color: #aabac0; */
+    }
+    .index_entrega .title_index_entrega_mobile{
+        display: none;
+    }
+    .index_entrega .title_index_entrega{
+        display: flex;
+        font-weight: bold;
+        margin-left: 5px;
+    }
+    .ul_principal_index_entrega{
+        /* background-color: #156783; */
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+        padding: 5px;
+    }
+    .index_entrega .cargas_index_entrega{
+        /* background-color: #156783; */
+        flex-direction: column;
+        border: 1px solid #ccc;
+        padding: 5px;
+        border-radius: 5px;
+    }
+    .index_entrega .cargas_index_entrega li{
+        display: flex;
+        justify-content: space-between;
+        text-align: right;
+        padding-right: 10px;
+    }
+    .index_entrega .cargas_index_entrega .title_index_entrega_mobile{
+        display: block;
+        font-weight: bold;
+    }
     /* FIM AREA DE UPLOADS DOS ARQUIVOS DAS CARGAS */
     @media (max-width: 600px) {
         .aside_menu {
@@ -575,6 +614,57 @@ background-color: green;
         }
         .section-index-abastecimento {
             display: block;
+        }
+        .index_entrega > li{
+            box-shadow: 1px 5px 5px #ccc;
+        }
+        .index_entrega li ul{
+            display: block;
+            /* background-color: #aabac0; */
+        }
+        .index_entrega li ul li{
+            display: flex;
+            padding: 5px;
+        }
+        .index_entrega li ul li span{
+            margin-right: 10px;
+            width: 150px;
+        }
+        .index_entrega .title_index_entrega{
+            display: none;
+            /* background-color: #0dcaf0; */
+        }
+        .index_entrega .title_index_entrega_mobile{
+            display: block;
+            font-weight: bold;
+        }
+        .index_entrega .ul_principal_index_entrega{
+            /* background-color: #156783; */
+            margin: 0 0 20px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            /* border-bottom: none; */
+        }
+        .index_entrega .ul_principal_index_entrega li{
+            justify-content: space-between;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+        }
+        .index_entrega .cargas_index_entrega{
+            /* background-color: #156783; */
+            border: 1px solid #ccc;
+            /* border-bottom: none; */
+        }
+        .index_entrega .ul_principal_index_entrega header{
+            /* background-color: #0dcaf0; */
+            text-align: center;
+            font-weight: bold;
+        }
+        .index_entrega .cargas_index_entrega li{
+            /* background-color: yellowgreen; */
+            margin: 1px 0;
+            justify-content: space-between;
+            border-bottom: 1px solid #ccc;
         }
     }
 }

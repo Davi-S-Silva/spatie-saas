@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Canhoto;
 use App\Models\ComprovanteNota;
 use App\Models\Nota;
 use App\Models\Observacao;
@@ -196,6 +197,7 @@ class NotaController extends Controller
                 4,//debito
                 ];
             $Comprovantes = $request->file('Comprovantes');
+            $Canhotos = $request->file('FotoCanhotos');
             $Notas = explode('-',$request->Notas);
             $stringNota = '';
             $i=0;
@@ -249,11 +251,26 @@ class NotaController extends Controller
                 $nota->usuario_conclusao_id = Auth::user()->id;
                 $nota->data_conclusao = date('Y-m-d');
                 $nota->setStatus('Entregue');
+                if($nota->status_id ==$nota->getStatusId('Entregue')){
+                    if(is_null($Canhotos)){
+                        throw new Exception('Tirar foto dos canhotos assinados');
+                    }
+                }
                 $nota->save();
 
 
             }
 
+            // return response()->json(['status'=>200,'msg'=>'teste']);
+
+            if(!is_null($Canhotos))
+            {
+                $path = $Canhotos->storeAS('app/public/'.$empresa.'/arquivos/notas/canhotos/'.$stringNota.'.'.$Canhotos->getClientOriginalExtension());
+                $canhoto = new Canhoto();
+                $canhoto->path = $path;
+                $canhoto->nota_id = $nota->id;
+                $canhoto->save();
+            }
             if(!is_null($Comprovantes) && is_null($PagoDiretoEmpresa)){
                 // mover para o s3 somente apos salvar alteracoes no banco
                 // $permitido = [

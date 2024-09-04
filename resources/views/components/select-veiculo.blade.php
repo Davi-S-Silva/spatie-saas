@@ -2,7 +2,7 @@
     use App\Models\Veiculo;
 @endphp
 <div>
-    <label for="">Veiculo</label>
+    <label for="" class="form-label">Veiculo</label>
     <select name="veiculo" id="" {{ (isset($required))?$required:'' }} class="form-control border-black">
         <option value="">Selecione o veiculo</option>
         @foreach (Veiculo::orderBy('placa','asc')->where('tipo_veiculo_id','<>',40)->get() as $item)

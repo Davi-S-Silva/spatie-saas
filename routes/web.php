@@ -159,6 +159,7 @@ Route::middleware('auth')->group(function () {
         Route::get('carga/cidadeFrete/{carga}',[CargaController::class, 'cidadeFrete'])->name('carga.cidadeFrete');
         Route::put('carga/{carga}/update',[CargaController::class, 'update'])->name('carga.update');
         Route::post('carga/{carga}/uploadCarga',[CargaController::class, 'uploadCarga'])->name('carga.uploadCarga');
+        Route::post('carga',[CargaController::class, 'index'])->name('postQueryIndexCarga');
         Route::get('carga/{carga}/devolucao',[CargaController::class, 'gerarListaDevolucao'])->name('gerarListaDevolucao');
         Route::get('carga/{carga}/comprovantes',[CargaController::class, 'gerarListaComprovante'])->name('gerarListaComprovante');
         Route::get('carga/{carga}/formDiaria',[CargaController::class, 'formDiaria'])->name('formDiaria');
@@ -187,6 +188,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('abastecimento/ranking',[AbastecimentoController::class,'getRanking'])->name('getRanking');
         Route::resource('abastecimento',AbastecimentoController::class);
+        Route::post('abastecimento',[AbastecimentoController::class,'index'])->name('postQueryIndexAbastecimento');
 
         Route::resource('fiscal',FiscalController::class);
 

@@ -12,12 +12,38 @@
                         @include('veiculo.abastecimento.form-abastecimento')
                     </form> --}}
 
+                    <section>
+                        <form action="{{ route('postQueryIndexAbastecimento') }}" method="post" class="d-flex align-items-end justify-center mb-5">
+                            <div class="col-2 mr-2">
+                                <x-select-veiculo />
+                            </div>
+                            <div class="col-2 mr-2">
+                                <x-select-colaborador :funcao=1 :required=false />
+                            </div>
+                            <div class="d-flex mr-2">
+                                <div class=" mr-2">
+                                    <label for=""class="form-label">Data Inicio</label>
+                                    <input type="date" class="form-control rounded border-black" name="Inicio" id="">
+                                </div>
+                                <div class=" mr-2">
+                                    <label for=""class="form-label">Data Final</label>
+                                    <input type="date" class="form-control rounded border-black" name="Fim" id="">
+                                </div>
+                            </div>
+                            <div>
+                                @csrf
+                                <input type="submit" value="Buscar" class="btn btn-primary">
+                                <input type="submit" name="Reset" value="Limpar filtros" class="btn btn-danger">
+                            </div>
+                        </form>
+                    </section>
                     <table class="text-center table-index-abastecimento">
                         <thead>
                             <tr>
                                 {{-- <th>Id</th> --}}
                                 @php
                                     $array = [
+                                        ['name' => 'Data', 'item' => 'created_at'],
                                         ['name' => 'Cupom', 'item' => 'cupom'],
                                         ['name' => 'Km Anterior', 'item' => 'kmAnterior'],
                                         ['name' => 'Km Atual', 'item' => 'kmAtual'],
@@ -31,9 +57,7 @@
                                     }else{
                                         $array[]=['name' => 'Colaborador', 'item' => 'colaborador_id'];
                                     }
-                                    if(Auth::user()->roles()->first()->name == 'super-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'tenant-admin' ){
-                                        $array[]=['name' => 'Data', 'item' => 'created_at'];
-                                    }
+
                                     $array[]=['name' => 'Média', 'item' => ''];
 
                                 @endphp
@@ -73,6 +97,7 @@
                             @foreach ($Abastecimentos as $abastecimento)
                                 <tr class="bg-{{ $i % 2 == 0 ? 'claro' : 'mais-claro' }}">
                                     {{-- <td>{{ $abastecimento->id }}</td> --}}
+                                    <td>{{ date('d/m/Y H:i:s', strtotime($abastecimento->created_at)) }}</td>
                                     @php
                                         $kmRodado = $abastecimento->kmAtual - $abastecimento->kmAnterior;
                                     @endphp
@@ -100,9 +125,7 @@
                                             @endif
                                         @endif
                                     </td>
-                                    @if(Auth::user()->roles()->first()->name == 'super-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'tenant-admin' )
-                                        <td>{{ date('d/m/Y H:i:s', strtotime($abastecimento->created_at)) }}</td>
-                                    @endif
+
                                     @php
                                         if ($kmRodado == $abastecimento->kmAtual) {
                                             $kmRodado = 0;
@@ -169,6 +192,7 @@
                                         ['paginate' => 30],
                                         ['paginate' => 50],
                                         ['paginate' => 100],
+                                        ['paginate' => 200],
                                     ];
                                 @endphp
                                 @foreach ($arrayPaginate as $item)

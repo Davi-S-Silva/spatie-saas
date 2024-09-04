@@ -10,7 +10,89 @@
                 <div class="card col-12 p-2">
                     <x-start-entrega />
                     <x-stop-entrega :localMovimentacao=$localMovimentacao />
-                    <table class=" text-center">
+                    <ul class="index_entrega col-12">
+                        <li class=" col-12">
+                            <ul class="title_index_entrega col-12">
+                                <li class=" col-md-2 col-12">Motorista</li>
+                                <li class=" col-md-2 col-12">Veiculo</li>
+                                <li class=" col-md-2 col-12">Ajudante</li>
+                                <li class=" col-md-2 col-12">Status</li>
+                                <li class=" col-md-2 col-12">Ação</li>
+                            </ul>
+                            @foreach ($entregas as $entrega)
+                            <ul class="ul_principal_index_entrega col-12">
+                                <li class=" col-md-2 col-12"> <span class="title_index_entrega_mobile">Motorista</span>{{ $entrega->colaborador->name }}</li>
+                                <li class=" col-md-2 col-12"> <span class="title_index_entrega_mobile">Veículo</span>{{ $entrega->veiculo->placa }}</li>
+                                <li class=" col-md-2 col-12">
+                                    <ul class="pl-1">  <span class="title_index_entrega_mobile">Ajudante</span>
+                                        @forelse ($entrega->ajudantes as $ajudante)
+                                            <li>{{ $ajudante->name }}</li>
+                                        @empty
+                                            Não há ajudante
+                                        @endforelse
+                                    </ul>
+                                </li>
+                                <li class=" col-md-2 col-12"> <span class="title_index_entrega_mobile">Status</span>{{ $entrega->getStatus->descricao }}</li>
+                                <li class=" col-md-2 col-12"> <span class="title_index_entrega_mobile">Ação</span>
+                                    <div>
+                                        @if ($entrega->status_id == $entrega->getStatusId('Pendente'))
+                                            <a href="{{ route('entrega.start', ['entrega' => $entrega->id]) }}"
+                                                id="Start_Ent_{{ $entrega->id }}"
+                                                class="text-green-600 btn btn-outline-success start_entrega "
+                                                entrega="{{ $entrega->id }}"
+                                                mot="{{ $entrega->colaborador_id }}"><i
+                                                    class="fa-solid fa-play"></i></a>
+                                        @elseif($entrega->status_id != $entrega->getStatusId('Finalizada'))
+                                            <a href="{{ route('entrega.stop', ['entrega' => $entrega->id]) }}"
+                                                id="Start_Ent_{{ $entrega->id }}"
+                                                class="text-red-600 btn btn-outline-danger stop_entrega  "
+                                                entrega="{{ $entrega->id }}"
+                                                mot="{{ $entrega->colaborador_id }}"><i
+                                                    class="fa-solid fa-stop"></i></a>
+                                        @endif
+                                        <a href="{{ route('entrega.show', ['entrega' => $entrega->id]) }}"
+                                            id="Start_Ent_{{ $entrega->id }}"
+                                            class="text-blue-600 btn btn-outline-primary  "
+                                            entrega="{{ $entrega->id }}" mot="{{ $entrega->colaborador_id }}"><i
+                                                class="fa-solid fa-eye"></i></a>
+                                    </div>
+                                </li>
+                                <ul class="col-12">
+                                    <li class=" col-md-3 col-12 d-block">
+                                        <header>Cargas</header>
+                                        @foreach ($entrega->cargas as $carga)
+                                                        <ul class="cargas_index_entrega col-12">
+                                                            <div class="d-flex justify-around col-12">
+                                                                <li class="col-6"> <span class="title_index_entrega_mobile">Remessa</span>{{ $carga->remessa }}</li>
+                                                                <li class="col-6"> <span class="title_index_entrega_mobile">OS</span><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->os }}</a></li>
+                                                            </div>
+
+                                                            <li> <span class="title_index_entrega_mobile">Motorista</span><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->motorista->name }}</a></li>
+                                                            <li class="text-right"> <span class="title_index_entrega_mobile text-left">Destino</span>{{ $carga->destino }}</li>
+                                                            <li> <span class="title_index_entrega_mobile">Notas</span>{{ $carga->notas()->count() }}</li>
+                                                            <li> <span class="title_index_entrega_mobile">Entregas</span>{{ count($carga->paradas()) }}</li>
+                                                            <li title="{{ $carga->getStatus()->descricao }}"> <span class="title_index_entrega_mobile">Status</span>{{ $carga->getStatus()->name }}</li>
+                                                        </ul>
+
+                                                    @endforeach
+                                    </li>
+                                </ul>
+                            </ul>
+                            @endforeach
+                        </li>
+                    </ul>
+
+                    <div>{{ $entregas->links() }}</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
+
+
+{{--
+<table class=" text-center">
                         <thead class="">
                             <tr class="border-secondary border">
                                 <th class="py-2">Motorista</th>
@@ -105,11 +187,4 @@
                             @endforeach
                         </tbody>
                     </table>
-
-                    <div>{{ $entregas->links() }}</div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+--}}
