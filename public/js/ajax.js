@@ -305,8 +305,8 @@ $(function () {
 
         if (confirma) {
             $.ajax({
-                // url: $(this).attr('action'),
-                url: routeCarga,
+                url: $(this).attr('action'),
+                // url: routeCarga,
                 type: "post",
                 data: $(this).serialize(),
                 dataType: 'json',
@@ -1509,7 +1509,7 @@ $(function () {
             //         arrayNotas.push(e)
             //     }
             // });
-            // console.log(arrayNotas)
+            // console.log(notas)
             // return false;
 
         }
@@ -1521,7 +1521,7 @@ $(function () {
 
     $(document).on('submit', 'form[name="UpdateStatusNotas"]', function () {
         var IncludeResponseAjax = $('#IncludeResponseAjax')
-        // console.log($(this).attr('action'));
+        console.log($(this).attr('action'));
         $.ajax({
             type: 'post',
             url: $(this).attr('action'),
@@ -1571,7 +1571,7 @@ $(function () {
 
             },
             error: function (response) {
-
+                console.log(response)
                 return false;
             }
         })

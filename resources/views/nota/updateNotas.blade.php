@@ -15,6 +15,12 @@
     {{ $nota->destinatario->nome_razao_social }} --}}
      @foreach ($notas as $item)
      @php
+         $nota = Nota::find($item);
+         $notashidden.= ($i <count($notas)-1)?$nota->id.'-':$nota->id;
+         $i++;
+     @endphp
+     {{ $nota->nota }}
+     {{-- @php
         $nota = Nota::find($item);
         if(in_array($nota->tipo_pagamento_id,$pagamentos)  $nota->indicacao_pagamento_id==1){
             $comprovante = true;
@@ -23,7 +29,7 @@
         $notashidden.= ($i <count($notas)-1)?$nota->id.'-':$nota->id;
         $i++;
      @endphp
-     {{ $nota->nota }}
+     {{ $nota->nota }} --}}
      @endforeach
 </header>
 <form action="{{ route('updateStatusNotas') }}" name="UpdateStatusNotas" method="post" enctype="multipart/form-data">
@@ -55,7 +61,7 @@
         @endif
         <div>
             <label for="">Foto Canhotos</label>
-            <input type="file" name="FotoCanhotos" id="" class="form-control" required>
+            <input type="file" name="FotoCanhotos" id="" class="form-control">
         </div>
         <div>
             <label for="">Observações</label>

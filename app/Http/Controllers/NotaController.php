@@ -177,7 +177,7 @@ class NotaController extends Controller
             // return response()->json(['status'=>200,'msg'=>$nota->id,'input'=>$request->input()]);
         }catch(Exception $ex){
             DB::rollBack();
-            // return response()->json(['status'=>0,'msg'=>$ex->getMessage(). ' - file: '.$ex->getFile().' - line: '.$ex->getLine()]);
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage(). ' - file: '.$ex->getFile().' - line: '.$ex->getLine()]);
             return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
         }
     }
@@ -201,10 +201,20 @@ class NotaController extends Controller
             $Notas = explode('-',$request->Notas);
             $stringNota = '';
             $i=0;
+            // throw new Exception('notas: '.$request->Notas);
+            // foreach($Notas as $item){
+            //     $nota = Nota::find($item);
+            //     $stringNota .= ($i < count($Notas))?$nota->nota.'-':$nota->nota;
+            // }
+            // throw new Exception('notas: '.$stringNota);
             foreach($Notas as $item){
-                $nota= Nota::find($item);
-                $stringNota .= ($i <count($Notas)-1)?$nota->nota.'-':$nota->nota;
-                $i++;
+                // if(!is_null($item)){
+                    $nota = Nota::find($item);
+                    $stringNota .= ($i < count($Notas))?$nota->nota.'-':$nota->nota;
+                    // $stringNota .= $item;
+                    // throw new Exception('nota: '.$nota->nota);
+                    $i++;
+                // }
 
                 if($nota->status_id != $nota->getStatusId('Pendente')){
                     throw new Exception('Nota já Finalizada, para alterar alguma informação entre em contato conosco');
@@ -247,30 +257,29 @@ class NotaController extends Controller
                     $pagEmpresa->observacao_id = $observacao->id;
                     $pagEmpresa->save();
                 }
-
                 $nota->usuario_conclusao_id = Auth::user()->id;
                 $nota->data_conclusao = date('Y-m-d');
                 $nota->setStatus('Entregue');
-                if($nota->status_id ==$nota->getStatusId('Entregue')){
-                    if(is_null($Canhotos)){
-                        throw new Exception('Tirar foto dos canhotos assinados');
-                    }
-                }
+                // if($nota->status_id ==$nota->getStatusId('Entregue')){
+                //     if(is_null($Canhotos)){
+                //         throw new Exception('Tirar foto dos canhotos assinados');
+                //     }
+                // }
+                // throw new Exception('Nota: '.$nota->nota);
                 $nota->save();
-
 
             }
 
             // return response()->json(['status'=>200,'msg'=>'teste']);
 
-            if(!is_null($Canhotos))
-            {
-                $path = $Canhotos->storeAS('app/public/'.$empresa.'/arquivos/notas/canhotos/'.$stringNota.'.'.$Canhotos->getClientOriginalExtension());
-                $canhoto = new Canhoto();
-                $canhoto->path = $path;
-                $canhoto->nota_id = $nota->id;
-                $canhoto->save();
-            }
+            // if(!is_null($Canhotos))
+            // {
+            //     $path = $Canhotos->storeAS('app/public/'.$empresa.'/arquivos/notas/canhotos/'.$stringNota.'.'.$Canhotos->getClientOriginalExtension());
+            //     $canhoto = new Canhoto();
+            //     $canhoto->path = $path;
+            //     $canhoto->nota_id = $nota->id;
+            //     $canhoto->save();
+            // }
             if(!is_null($Comprovantes) && is_null($PagoDiretoEmpresa)){
                 // mover para o s3 somente apos salvar alteracoes no banco
                 // $permitido = [
@@ -278,10 +287,10 @@ class NotaController extends Controller
                 //     'jpeg',
                 //     'png'
                 // ];
-                $i=1;
+                $a=1;
                 foreach($Comprovantes as $comprovante){
-                    $path =  $comprovante->storeAS('app/public/'.$empresa.'/arquivos/notas/comprovantes/'.$stringNota.'_'.$i.'.'.$comprovante->getClientOriginalExtension());
-                    $i++;
+                    $path =  $comprovante->storeAS('app/public/'.$empresa.'/arquivos/notas/comprovantes/'.$stringNota.'_'.$a.'.'.$comprovante->getClientOriginalExtension());
+                    $a++;
                     // $path = $comprovante->storeAS('app/public/'.$empresa.'/arquivos/notas/comprovantes/'.$nota->nota.'.'.$comprovante->getClientOriginalExtension());
                     $comprovanteNota = new ComprovanteNota();
                     $comprovanteNota->path = $path;
@@ -297,7 +306,7 @@ class NotaController extends Controller
             // return response()->json(['status'=>200,'msg'=>$request->input() ]);
         }catch(Exception $ex){
             DB::rollback();
-            // return response()->json(['status'=>0,'msg'=>$ex->getMessage(). ' - file: '.$ex->getFile().' - line: '.$ex->getLine()]);
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage(). ' - file: '.$ex->getFile().' - line: '.$ex->getLine()]);
             return response()->json(['status'=>0,'msg'=>$ex->getMessage() ]);
         }
     }

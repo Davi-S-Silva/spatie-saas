@@ -354,7 +354,7 @@ class EntregaController extends Controller implements HasMiddleware
         try {
             $Entrega = Entrega::find($entrega);
             DB::beginTransaction();
-            $notas = [];
+            // $notas = [];
             // return response()->json(['status' => 200, 'msg' => $request->input()]);
 
             if ($request->Receber || $request->Devolver) {
@@ -370,11 +370,15 @@ class EntregaController extends Controller implements HasMiddleware
                     4, //debito
                 ];
                 //mesmo cliente e mesma forma de pagamento
-
+                $notats = '';
+                // foreach($request->Notas as $nota){
+                //     $notats.=Nota::find($nota)->nota;
+                // }
+                // throw new Exception('erro:'.$notats);
                 $Notas = $request->Notas;
-
                 for ($i = 0; $i < count($Notas); $i++) {
                     $nota = Nota::find($Notas[$i]);
+                    // throw new Exception($nota->nota);
                     if ($i > 0) {
                         $nota2 = Nota::find($Notas[$i - 1]);
                         if ((($nota->destinatario->id != $nota2->destinatario->id) &&
@@ -398,6 +402,8 @@ class EntregaController extends Controller implements HasMiddleware
                 // return response()->json(['status' => 200, 'acao' => 'Receber','form'=> $form]);
                 // return response()->view('nota.update', ['statusNota'=>$statusNota,'nota'=>$nota], 200)->header('Content-Type', 'json');
                 // DB::commit();
+                // throw new Exception($Notas);
+                // dd($Notas);
                 return view('nota.updateNotas', ['statusNota' => $statusNota, 'notas' => $Notas]);
                 // return response()->json(['status' => 200, 'msg' => ['Receber notas', $request->Notas]]);
             }
