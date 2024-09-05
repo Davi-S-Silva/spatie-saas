@@ -34,6 +34,15 @@ class AbastecimentoController extends Controller implements HasMiddleware
      */
     public function index(Request $request)
     {
+        // // apaga todas as sessoes referente as cargas para nao da erro na query
+        // session()->forget('carga_data_inicio');
+        // session()->forget('carga_data_fim');
+        // session()->forget('carga_colaborador_id');
+        // session()->forget('carga_veiculo_id');
+        // session()->forget('carga_origem');
+        // session()->forget('carga_status');
+        // session()->forget('carga_diarias');
+        // session()->forget('carga_NumeroDoc');
         // dump($request->input());
         if(Auth::user()->roles()->first()->name== 'tenant-colaborador' || Auth::user()->roles()->first()->name== 'colaborador'){
             $abast = Abastecimento::orderBy('id','desc')->where('colaborador_id',Auth::user()->colaborador->first()->id)->with('veiculo','colaborador');
@@ -41,9 +50,9 @@ class AbastecimentoController extends Controller implements HasMiddleware
             $abast = Abastecimento::with('veiculo','colaborador');
         }
         if(!is_null($request->Reset)){
-            session()->forget('order-by-items-item');
-            session()->forget('order-by-items-order');
-            session()->forget('paginate-by-page');
+            session()->forget('abastecimento_order-by-items-item');
+            session()->forget('abastecimento_order-by-items-order');
+            session()->forget('abastecimento_paginate-by-page');
             session()->forget('abastecimento_data_inicio');
             session()->forget('abastecimento_data_fim');
             session()->forget('abastecimento_colaborador_id');
@@ -64,27 +73,27 @@ class AbastecimentoController extends Controller implements HasMiddleware
             $abast->where('colaborador_id',session('abastecimento_colaborador_id'));
         }
         if(!is_null($request->veiculo)){
-            session(['abastecimento_veiculo_id'=>$request->Fim]);
+            session(['abastecimento_veiculo_id'=>(int)$request->veiculo]);
         }
         if(session()->has('abastecimento_veiculo_id')){
             $abast->where('veiculo_id',session('abastecimento_veiculo_id'));
         }
         if((!empty($_GET['item']) && !empty($_GET['order']))){
             $abast->orderBy($_GET['item'],$_GET['order']);
-            session(['order-by-items-item'=>$_GET['item'],'order-by-items-order'=>$_GET['order']]);
+            session(['abastecimento_order-by-items-item'=>$_GET['item'],'abastecimento_order-by-items-order'=>$_GET['order']]);
         }
 
-        if(session()->has('order-by-items-item') && session()->has('order-by-items-order')){
-            $abast->orderBy(session('order-by-items-item'),session('order-by-items-order'));
+        if(session()->has('abastecimento_order-by-items-item') && session()->has('abastecimento_order-by-items-order')){
+            $abast->orderBy(session('abastecimento_order-by-items-item'),session('abastecimento_order-by-items-order'));
         }
         $paginate = 5;
         if(!empty($_GET['paginate'])){
             $paginate = $_GET['paginate'];
-            session(['paginate-by-page'=>$paginate]);
+            session(['abastecimento_paginate-by-page'=>$paginate]);
         }
         $dados = $abast->paginate($paginate);
-        if(session()->has('paginate-by-page')){
-            $paginate = session('paginate-by-page');
+        if(session()->has('abastecimento_paginate-by-page')){
+            $paginate = session('abastecimento_paginate-by-page');
             $dados->appends($paginate);
             // dump(session('paginate-by-page'));
         }

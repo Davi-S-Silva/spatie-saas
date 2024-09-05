@@ -47,32 +47,61 @@ class CargaController extends Controller implements HasMiddleware
         if(!is_null($request->Reset)){
             session()->forget('order-by-items-item');
             session()->forget('order-by-items-order');
-            session()->forget('paginate-by-page');
-            session()->forget('abastecimento_data_inicio');
-            session()->forget('abastecimento_data_fim');
-            session()->forget('abastecimento_colaborador_id');
-            session()->forget('abastecimento_veiculo_id');
+            session()->forget('carga_paginate-by-page');
+            session()->forget('carga_data_inicio');
+            session()->forget('carga_data_fim');
+            session()->forget('carga_colaborador_id');
+            session()->forget('carga_veiculo_id');
+            session()->forget('carga_origem');
+            session()->forget('carga_status');
+            session()->forget('carga_diarias');
+            session()->forget('carga_NumeroDoc');
         }
-        dump($request->input());
+
+        // dump($request->input());
         if(!is_null($request->Inicio)&&!is_null($request->Fim)){
             session(['carga_data_inicio'=>$request->Inicio]);
             session(['carga_data_fim'=>$request->Fim]);
         }
-        if(session()->has('abastecimento_data_inicio') && session()->has('abastecimento_data_fim')){
-            $carga->where('data','>=',session('abastecimento_data_inicio'))->where('data','<=',session('abastecimento_data_fim'));
+        if(session()->has('carga_data_inicio') && session()->has('carga_data_fim')){
+            $carga->where('data','>=',session('carga_data_inicio'))->where('data','<=',session('carga_data_fim'));
         }
         if(!is_null($request->colaborador)){
-            session(['abastecimento_colaborador_id'=>$request->Fim]);
-            $carga->where('colaborador_id',$request->colaborador);
+            session(['carga_colaborador_id'=>$request->colaborador]);
         }
-        if(session()->has('abastecimento_colaborador_id')){
-            $carga->where('colaborador_id',session('abastecimento_colaborador_id'));
+        if(session()->has('carga_colaborador_id')){
+            $carga->where('motorista_id',session('carga_colaborador_id'));
         }
         if(!is_null($request->veiculo)){
-            session(['abastecimento_veiculo_id'=>$request->Fim]);
+            session(['carga_veiculo_id'=>$request->veiculo]);
         }
-        if(session()->has('abastecimento_veiculo_id')){
-            $carga->where('veiculo_id',session('abastecimento_veiculo_id'));
+        if(session()->has('carga_veiculo_id')){
+            $carga->where('veiculo_id',session('carga_veiculo_id'));
+        }
+        if(!is_null($request->origem)){
+            session(['carga_origem'=>$request->origem]);
+        }
+        if(session()->has('carga_origem')){
+            $carga->where('filial_id',session('carga_origem'));
+        }
+
+        if(!is_null($request->status)){
+            session(['carga_status'=>(int)$request->status]);
+        }
+        if(session()->has('carga_status')){
+            $carga->where('status_id',session('carga_status'));
+        }
+        if(!is_null($request->NumeroDoc)){
+            session(['carga_NumeroDoc'=>(int)$request->NumeroDoc]);
+        }
+        if(session()->has('carga_NumeroDoc')){
+            $carga->where('remessa','like','%'.session('carga_NumeroDoc').'%')->orwhere('os','like','%'.session('carga_NumeroDoc').'%');
+        }
+        if(!is_null($request->diaria)){
+            session(['carga_diarias'=>1]);
+        }
+        if(session()->has('carga_diarias')){
+            $carga->where('diaria','>=',session('carga_diarias'));
         }
         if((!empty($_GET['item']) && !empty($_GET['order']))){
             $carga->orderBy($_GET['item'],$_GET['order']);
@@ -82,14 +111,14 @@ class CargaController extends Controller implements HasMiddleware
         if(session()->has('order-by-items-item') && session()->has('order-by-items-order')){
             $carga->orderBy(session('order-by-items-item'),session('order-by-items-order'));
         }
-        $paginate = 5;
+        $paginate = 15;
         if(!empty($_GET['paginate'])){
             $paginate = $_GET['paginate'];
-            session(['paginate-by-page'=>$paginate]);
+            session(['carga_paginate-by-page'=>$paginate]);
         }
         $dados = $carga->paginate($paginate);
-        if(session()->has('paginate-by-page')){
-            $paginate = session('paginate-by-page');
+        if(session()->has('carga_paginate-by-page')){
+            $paginate = session('carga_paginate-by-page');
             $dados->appends($paginate);
             // dump(session('paginate-by-page'));
         }
@@ -105,7 +134,7 @@ class CargaController extends Controller implements HasMiddleware
 
 
 
-        $Carga = $carga->orderBy('id', 'desc')->paginate(15);
+        $Carga = $carga->paginate($paginate)->withQueryString();
         $statusAll = (new Carga())->getAllStatus();
         return view('carga.index', ['cargas' => $Carga,'statusAll'=>$statusAll]);
     }
@@ -256,7 +285,7 @@ class CargaController extends Controller implements HasMiddleware
             $carga->diaria = $request->diaria;
             $carga->save();
             DB::commit();
-            return response()->json(['status'=>200,'msg'=>'Diaria editada com sucesso','diaria'=>$carga->diaria]);
+            return response()->json(['status'=>200,'msg'=>'Diaria editada com sucesso','diaria'=>$carga->diaria,'carga'=>$carga->id]);
         }catch(Exception $ex){
             DB::rollback();
             return response()->json(['status'=>0,'msg'=>$ex->getMessage(). '-'.$ex->getFile().'-'.$ex->getLine()]);

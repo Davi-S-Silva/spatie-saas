@@ -1,9 +1,9 @@
 // const { data } = require("autoprefixer");
 $(function () {
 
-    var base = 'http://localhost:8080/';
+    // var base = 'http://localhost:8080/';
     // var base = 'http://3.145.53.239/';
-    // var base = 'https://saasportal.com.br/';
+    var base = 'https://saasportal.com.br/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
@@ -432,8 +432,8 @@ $(function () {
                     $('.response-message-ajax').addClass('alert-success')
                     $('.response-message-ajax').show();
                     $('.response-message-ajax').text(response.msg)
-                    $('.add-diaria').text('')
-                    $('.add-diaria').text(response.diaria)
+                    $('.add-diaria-'+response.carga).text('')
+                    $('.add-diaria-'+response.carga).text(response.diaria)
                     IncludeResponseAjax.hide()
                 }
                 if(response.status==0){

@@ -52,7 +52,7 @@
                             </div>
                             <div class="mx-5">
                                 <label for="Pernoite" class="form-label">Pernoite</label>
-                                <input type="checkbox" name="Pernoite" class="form-check" id="Pernoite">
+                                <input type="checkbox" name="diaria" class="form-check" id="Pernoite">
                             </div>
                             <div>
                                 @csrf
@@ -61,24 +61,58 @@
                             </div>
                         </form>
                     </section>
-                    <table class=" text-center align-items-center">
+                    <table class=" text-center align-items-center text-sm">
                         <thead>
                             <tr class="border-secondary border">
+                                @php
+                                $array = [
+                                    ['name' => 'Data', 'item' => 'created_at','class'=>''],
+                                    ['name' => 'Remessa', 'item' => 'remessa','class'=>'col-1'],
+                                    ['name' => 'OS', 'item' => 'os','class'=>'col-1'],
+                                    ['name' => 'Motorista', 'item' => 'motorista_id','class'=>'col-1'],
+                                    ['name' => 'Origem', 'item' => 'filial_id','class'=>'col-1'],
+                                    ['name' => 'Destino', 'item' => 'destino','class'=>'col-1'],
+                                    ['name' => 'Veiculo', 'item' => 'veiculo_id','class'=>'col-1'],
+                                    ['name' => 'Notas', 'item' => '','class'=>'col-2'],
+                                    ['name' => 'Entregas', 'item' => '','class'=>'col-1'],
+                                    ['name' => 'Frete', 'item' => '','class'=>'col-1'],
+                                    ['name' => 'Diaria', 'item' => 'diaria','class'=>'col-1'],
+                                    ['name' => 'Status', 'item' => 'status_id','class'=>'col-2'],
+                                ];
+                                @endphp
                                 <th class="p-2">-</th>
                                 <th><input type="checkbox" name="" id=""></th>
-                                <th>Data</th>
+
+                                @foreach ($array as $item)
+                                <th class="{{ $item['class'] }}">
+                                    @if (session()->has('order-by-items-item') && session('order-by-items-item')==$item['item'] && session()->has('order-by-items-order') && session('order-by-items-order')=='asc')
+                                        <a href="?item={{ $item['item'] }}&order=asc" class="order-by-items"><i class="fa-solid fa-arrow-up-wide-short text-info"></i></a>
+                                    @else
+                                        <a href="?item={{ $item['item'] }}&order=asc" class="order-by-items"><i class="fa-solid fa-arrow-up-wide-short"></i></a>
+                                    @endif
+
+                                    {{ $item['name'] }}
+                                    @if (session()->has('order-by-items-item') && session('order-by-items-item')==$item['item'] && session()->has('order-by-items-order') && session('order-by-items-order')=='desc')
+                                        <a href="?item={{ $item['item'] }}&order=desc" class="order-by-items"><i class="fa-solid fa-arrow-down-wide-short text-info"></i></a>
+                                    @else
+                                        <a href="?item={{ $item['item'] }}&order=desc" class="order-by-items"><i class="fa-solid fa-arrow-down-wide-short"></i></a>
+                                    @endif
+                                </th>
+                            @endforeach
+
+                                {{-- <th>Data</th>
                                 <th>Remessa</th>
-                                <th>OS</th>
-                                <th class="col-2">Motorista</th>
-                                <th class="col-2">Origem</th>
-                                <th class="col-2">Destino</th>
+                                <th>OS</th> --}}
+                                {{-- <th class="col-2">Motorista</th> --}}
+                                {{-- <th class="col-2">Origem</th>
+                                <th class="col-2">Destino</th> --}}
                                 {{-- <th>Agenda</th> --}}
-                                <th class="">Veículo</th>
-                                <th class="col-2">Notas</th>
-                                <th>Entregas</th>
-                                <th class="col-1">Frete</th>
-                                <th>Diária</th>
-                                <th class="col-2">Status</th>
+                                {{-- <th class="">Veículo</th> --}}
+                                {{-- <th class="col-2">Notas</th> --}}
+                                {{-- <th>Entregas</th> --}}
+                                {{-- <th class="col-1">Frete</th> --}}
+                                {{-- <th>Diária</th> --}}
+                                {{-- <th class="col-2">Status</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -127,7 +161,7 @@
                                     </td>
                                     <td>{{ count($carga->paradas()) }}</td>
                                     <td>R$ {{ number_format($carga->frete, 2, ',', '.') }}</td>
-                                    <td class="cursor-pointer" title="Clique para adicionar diária"><a href="{{ route('formDiaria',['carga'=>$carga->id]) }}" class="add-diaria">{{ $carga->diaria }}</a></td>
+                                    <td class="cursor-pointer" title="Clique para adicionar diária"><a href="{{ route('formDiaria',['carga'=>$carga->id]) }}" class="add-diaria add-diaria-{{ $carga->id }}">{{ $carga->diaria }}</a></td>
                                     @php
                                         $status = $carga->getStatus();
                                     @endphp
