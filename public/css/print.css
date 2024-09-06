@@ -13,4 +13,10 @@
         height: 100vh;
         z-index: 3000;
     }
+
+    .print_lista_comprovantes_notas_carga img
+    {
+        height: 200% !important;
+        width: 200% !important;
+    }
 }

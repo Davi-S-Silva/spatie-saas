@@ -393,6 +393,11 @@ class EmpresaController extends Controller implements HasMiddleware
             // sleep(5);
             while (($arquivo = $diretorio->read()) !== false) {
                 $file = $pasta . '/' . $arquivo;
+                if (!str_contains($arquivo,'.xml')){
+                    if(!is_dir($arquivo) && is_file($file)){
+                        unlink($file);
+                    }
+                }
                 // if ($arquivo != '.' && $arquivo != '..' && $arquivo != 'Autorizada' && $arquivo != 'Nao autorizada' && $arquivo != 'Cancelada' && $arquivo != 'Eventos') {
                 if (str_contains($arquivo,'.xml') && $arquivo != '.' && $arquivo != '..' && $arquivo != 'Autorizada' && $arquivo != 'Nao autorizada' && $arquivo != 'Cancelada' && $arquivo != 'Eventos') {
                     // $data = file_get_contents($file);

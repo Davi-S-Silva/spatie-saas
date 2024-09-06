@@ -153,9 +153,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('modelo-um-frete',ModelFreteUmController::class);
         Route::put('modelo-um-frete/{modelo_um_frete}/update',[ModelFreteUmController::class, 'update'])->name('modelo-um-frete.update');
 
+        Route::resource('carga',CargaController::class);
         Route::get('carga/index',[CargaController::class, 'index'])->name('carga.index');
         Route::post('carga/index',[CargaController::class, 'index'])->name('postQueryIndexCarga');
-        Route::resource('carga',CargaController::class);
         Route::post('carga/{carga}/setnotas',[CargaController::class, 'setNotas'])->name('carga.setNotas');
         Route::get('carga/{filial}/getCargasDisponiveis',[CargaController::class, 'getCargasDisponiveis'])->name('carga.getCargasDisponiveis');
         Route::get('carga/cidadeFrete/{carga}',[CargaController::class, 'cidadeFrete'])->name('carga.cidadeFrete');

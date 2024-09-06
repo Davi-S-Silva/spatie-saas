@@ -241,8 +241,8 @@ $(function () {
         // var dados = new FormData(form)
         if (confirma) {
             $.ajax({
-                url: $(this).attr('action'),
-                // url: routeCarga,
+                // url: $(this).attr('action'),
+                url: routeCarga,
                 type: "post",
                 // data: $(this).serialize(),
                 data: new FormData(this),

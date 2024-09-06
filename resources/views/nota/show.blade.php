@@ -9,6 +9,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-2">
             <pre>
                 {{ print_r($nota->getAttributes()) }}
+                {{ $nota->carga->os }}
             </pre>
             </div>
         </div>

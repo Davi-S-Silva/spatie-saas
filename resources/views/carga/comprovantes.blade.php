@@ -35,12 +35,13 @@
                                             @if (!empty($path))
                                             <figure class="col-3 m-2">
                                                 <img src="{{ $path }}" alt="">
-                                                @php
-                                                    // $textPath = explode('/',$path);
-                                                    // $explode = explode('_',end($textPath));
-                                                    // $stringNota = explode('.',$explode);
+                                                {{-- @php
+                                                    $textPath = explode('/',$path);
+                                                    $explode = explode('_',end($textPath));
+                                                    $stringNota = explode('.',$explode);
                                                 @endphp
-                                                <figcaption class="text-center">{{ $stringNota[0] }}</figcaption>
+                                                --}}
+                                                <figcaption class="text-center">{{ $path }}</figcaption>
                                             </figure>
                                             @endif
                                         @endif

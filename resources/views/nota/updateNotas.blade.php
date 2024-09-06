@@ -18,13 +18,13 @@
          $nota = Nota::find($item);
          $notashidden.= ($i <count($notas)-1)?$nota->id.'-':$nota->id;
          $i++;
+        //  if(in_array($nota->tipo_pagamento_id,$pagamentos)  $nota->indicacao_pagamento_id==1){
+        //      $comprovante = true;
+        //  }
      @endphp
      {{ $nota->nota }}
      {{-- @php
         $nota = Nota::find($item);
-        if(in_array($nota->tipo_pagamento_id,$pagamentos)  $nota->indicacao_pagamento_id==1){
-            $comprovante = true;
-        }
         $valor += $nota->valor;
         $notashidden.= ($i <count($notas)-1)?$nota->id.'-':$nota->id;
         $i++;
@@ -45,7 +45,7 @@
             </select>
         </div> --}}
         <input type="hidden" name="Notas" value="{{ $notashidden }}">
-        @if (isset($comprovante) )
+        {{-- @if (isset($comprovante) ) --}}
             <div>
                 <label for="PagoDiretoEmpresa">Pagamento direto a empresa</label>
                 <input type="checkbox" name="PagoDiretoEmpresa" id="PagoDiretoEmpresa">
@@ -58,7 +58,7 @@
                 <a href="" id="ClonaInputComprovante">Add Comprovante</a>
                 <a href="" id="RemoveComprovante"><i class="fa-regular fa-trash-can"></i></a>
             </div>
-        @endif
+        {{-- @endif --}}
         <div>
             <label for="">Foto Canhotos</label>
             <input type="file" name="FotoCanhotos" id="" class="form-control">
