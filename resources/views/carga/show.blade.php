@@ -164,9 +164,9 @@
                                 <ul class="flex-column">
                                     @foreach ($carga->docs as $item)
                                         <li>Arquivo: {{ $item->name }}
-                                            <a href="{{ $carga->getDoc($item->tipo) }}" target="_blank"><i
+                                            <a href="{{ $carga->getDoc($item->tipo,$item->name) }}" target="_blank"><i
                                                     class="fa-solid fa-eye"></i></a>
-                                            <a href="{{ $carga->getDoc($item->tipo,true) }}"><i
+                                            <a href="{{ $carga->getDoc($item->tipo,$item->name,true) }}"><i
                                                     class="fa-solid fa-download"></i></a>
                                         </li>
                                     @endforeach

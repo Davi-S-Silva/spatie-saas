@@ -530,7 +530,12 @@ class CargaController extends Controller implements HasMiddleware
             if(!in_array($ext, $permitidos)){
                 throw new Exception('formato de arquivo não permitido');
             }
-            $name = $TipoFileCarga.'_'.$Carga->remessa.'_'.$Carga->os.'.'.$ext;
+            $name = $TipoFileCarga;
+            if($TipoFileCarga=='Canhotos'){
+                $explode = explode('.',$file->getClientOriginalName());
+                $name .= '_'.$explode[0];
+            }
+            $name.='_'.$Carga->remessa.'_'.$Carga->os.'.'.$ext;
             $path = $file->storeAs('app/public/'.$empresa.'/arquivos/cargas/'.$TipoFileCarga,$name);
             if($path){
                 $FileCarga = new FileCarga();
