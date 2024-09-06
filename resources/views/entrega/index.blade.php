@@ -60,21 +60,23 @@
                                 <ul class="col-12">
                                     <li class=" col-md-3 col-12 d-block">
                                         <header>Cargas</header>
+                                        <div class="d-flex justify-center flex-wrap">
                                         @foreach ($entrega->cargas as $carga)
-                                                        <ul class="cargas_index_entrega col-12">
-                                                            <div class="d-flex justify-around col-12">
-                                                                <li class="col-6"> <span class="title_index_entrega_mobile">Remessa</span>{{ $carga->remessa }}</li>
-                                                                <li class="col-6"> <span class="title_index_entrega_mobile">OS</span><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->os }}</a></li>
-                                                            </div>
+                                            <ul class="cargas_index_entrega col-12 mr-2">
+                                                <div class="d-flex justify-around col-12">
+                                                    <li class="col-6"> <span class="title_index_entrega_mobile">Remessa</span>{{ $carga->remessa }}</li>
+                                                    <li class="col-6"> <span class="title_index_entrega_mobile">OS</span><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->os }}</a></li>
+                                                </div>
 
-                                                            <li> <span class="title_index_entrega_mobile">Motorista</span><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->motorista->name }}</a></li>
-                                                            <li class="text-right"> <span class="title_index_entrega_mobile text-left">Destino</span>{{ $carga->destino }}</li>
-                                                            <li> <span class="title_index_entrega_mobile">Notas</span>{{ $carga->notas()->count() }}</li>
-                                                            <li> <span class="title_index_entrega_mobile">Entregas</span>{{ count($carga->paradas()) }}</li>
-                                                            <li title="{{ $carga->getStatus()->descricao }}"> <span class="title_index_entrega_mobile">Status</span>{{ $carga->getStatus()->name }}</li>
-                                                        </ul>
+                                                <li> <span class="title_index_entrega_mobile">Motorista</span><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->motorista->name }}</a></li>
+                                                <li class="text-right"> <span class="title_index_entrega_mobile text-left">Destino</span>{{ $carga->destino }}</li>
+                                                <li> <span class="title_index_entrega_mobile">Notas</span>{{ $carga->notas()->count() }}</li>
+                                                <li> <span class="title_index_entrega_mobile">Entregas</span>{{ count($carga->paradas()) }}</li>
+                                                <li title="{{ $carga->getStatus()->descricao }}"> <span class="title_index_entrega_mobile">Status</span>{{ $carga->getStatus()->name }}</li>
+                                            </ul>
 
-                                                    @endforeach
+                                        @endforeach
+                                        </div>
                                     </li>
                                 </ul>
                             </ul>

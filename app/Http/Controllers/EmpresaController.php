@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Certificado;
+use App\Models\Cnae;
 use App\Models\Contato;
 use App\Models\Empresa;
 use App\Models\Endereco;
@@ -150,7 +151,8 @@ class EmpresaController extends Controller implements HasMiddleware
         // dd($empresa);
         // $Empresa = Empresa::find($empresa->id);
         // dd( $empresa->enderecos()->get()->first());
-        return view('empresa.show', ['empresa' => $empresa]);
+        $cnaes= Cnae::all();
+        return view('empresa.show', ['empresa' => $empresa,'cnaes'=>$cnaes]);
     }
 
     /**

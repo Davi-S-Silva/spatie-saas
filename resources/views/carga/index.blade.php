@@ -294,6 +294,7 @@
                                                             target="_blank">Gerar Relatório de devolução</a>
                                                     </li>
                                                     <li><a href="#">Add Assinante</a></li>
+                                                    <li><a href="{{ route('create.cte',['carga'=>$carga->id]) }}" class="btn btn-primary">Emitir Cte</a></li>
                                                 </ul>
                                             </div>
                                             <div class="tab-pane fade" id="contact_{{ $carga->id }}" role="tabpanel"

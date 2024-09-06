@@ -2,25 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carga;
 use App\Models\Cte;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class CteController extends Controller
+class CteController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:Listar CTe', only: ['index']),
+            new Middleware('permission:Criar CTe', only: ['create', 'store']),
+            new Middleware('permission:Show CTe', only: ['show']),
+            new Middleware('permission:Editar CTe', only: ['edit', 'update']),
+            new Middleware('permission:Deletar CTe', only: ['destroy']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $ctes = Cte::all();
+        return view('fiscal.cte.index',['ctes'=>$ctes]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Carga $carga)
     {
-        //
+        // dump($carga);
+        return view('fiscal.cte.create');
     }
 
     /**

@@ -501,11 +501,35 @@
                             </svg>
                         </button>
                         <ul id="dropdown-fiscal" class="hidden py-2 space-y-2">
-                            <li><a href="{{ route('fiscal.index') }}"
+                            @can('Listar CTe')
+                            <li class="hover_menu position-relative"><a href="#"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">CTe</a>
+                                <ul class="position-absolute bg-white w-56">
+                                    <li><a href="{{ route('ctes.index') }}">CTes</a></li>
+                                    @can('Criar CTe')
+                                        <li><a href="{{ route('ctes.create') }}">Novo CTe</a></li>
+                                    @endcan
+                                </ul>
+                            </li>
+                            @endcan
+                            @can('Listar MDFe')
+                            <li class="hover_menu position-relative"><a href="#"
+                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
+                                hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">MDFe</a>
+                                <ul class="position-absolute bg-white w-56">
+                                    <li><a href="{{ route('mdfes.index') }}">MDFes</a></li>
+                                    @can('Criar MDFe')
+                                        <li><a href="{{ route('mdfes.create') }}">Novo MDFe</a></li>
+                                    @endcan
+                                </ul>
+                            </li>
+                            @endcan
+                            {{-- <li><a href="{{ route('fiscal.index') }}"
                                     class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Fiscals</a>
-                            </li>
-                            @can('Criar Fiscal')
+                            </li> --}}
+                            {{-- @can('Criar Fiscal')
                                 <li><a href="{{ route('fiscal.create') }}"
                                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
@@ -514,7 +538,7 @@
                                         class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Novo
                                         MDFe</a></li>
-                            @endcan
+                            @endcan --}}
                         </ul>
                     </li>
                 @endcan

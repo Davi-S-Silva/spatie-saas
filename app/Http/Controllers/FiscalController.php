@@ -11,11 +11,11 @@ class FiscalController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('permission:Listar ...', only: ['index']),
-            new Middleware('permission:Criar ...', only: ['create', 'store']),
-            new Middleware('permission:Show ...', only: ['show']),
-            new Middleware('permission:Editar ...', only: ['edit', 'update']),
-            new Middleware('permission:Deletar ...', only: ['destroy']),
+            new Middleware('permission:Listar Fiscal', only: ['index']),
+            new Middleware('permission:Criar Fiscal', only: ['create', 'store']),
+            new Middleware('permission:Show Fiscal', only: ['show']),
+            new Middleware('permission:Editar Fiscal', only: ['edit', 'update']),
+            new Middleware('permission:Deletar Fiscal', only: ['destroy']),
         ];
     }
     /**

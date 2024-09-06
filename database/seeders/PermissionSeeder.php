@@ -113,6 +113,16 @@ class PermissionSeeder extends Seeder
             ['name'=>'Listar Modelo Um Frete', 'model'=>'Modelo Um Frete','guard_name'=>'web'],
             ['name'=>'Editar Modelo Um Frete', 'model'=>'Modelo Um Frete','guard_name'=>'web'],
             ['name'=>'Deletar Modelo Um Frete', 'model'=>'Modelo Um Frete','guard_name'=>'web'],
+            ['name'=>'Criar CTe', 'model'=>'CTe','guard_name'=>'web'],
+            ['name'=>'Show CTe', 'model'=>'CTe','guard_name'=>'web'],
+            ['name'=>'Listar CTe', 'model'=>'CTe','guard_name'=>'web'],
+            ['name'=>'Editar CTe', 'model'=>'CTe','guard_name'=>'web'],
+            ['name'=>'Deletar CTe', 'model'=>'CTe','guard_name'=>'web'],
+            ['name'=>'Criar MDFe', 'model'=>'MDFe','guard_name'=>'web'],
+            ['name'=>'Show MDFe', 'model'=>'MDFe','guard_name'=>'web'],
+            ['name'=>'Listar MDFe', 'model'=>'MDFe','guard_name'=>'web'],
+            ['name'=>'Editar MDFe', 'model'=>'MDFe','guard_name'=>'web'],
+            ['name'=>'Deletar MDFe', 'model'=>'MDFe','guard_name'=>'web'],
         ];
         foreach($array as $permission){
             $Permission = Permission::where('name',$permission['name'])->get();
