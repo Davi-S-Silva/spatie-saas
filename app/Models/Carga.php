@@ -236,4 +236,20 @@ class Carga extends Model
             return false;
         }
     }
+    public function distanceCity()
+    {
+        $maior = array();
+
+
+        // $cliente  = Cliente::find($Carga->cliente_id);
+        foreach ($this->cidades() as $cidade) {
+            $distancia = (new DistanceCity($cidade->getCoordenadas($this->filial->enderecos->first()->cidade->codigo), "$cidade->longitude,$cidade->latitude"))->showDistance();
+            array_push($maior, [$distancia, $cidade]);
+        }
+        sort($maior);
+        $CidadeFinal = end($maior)[1];
+
+        return $CidadeFinal;
+
+    }
 }

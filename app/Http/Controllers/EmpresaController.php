@@ -9,6 +9,7 @@ use App\Models\Empresa;
 use App\Models\Endereco;
 use App\Models\LocalApoio;
 use App\Models\LocalMovimentacao;
+use App\Models\Municipio;
 use App\Models\TipoDoc;
 use Exception;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -55,7 +56,9 @@ class EmpresaController extends Controller implements HasMiddleware
     public function create()
     {
         $rota = 'empresa.store';
-        return view('empresa.create', ['rota' => $rota]);
+        $cidades = Municipio::orderBy('nome', 'asc');
+        $cidadesGet = $cidades->with('estado')->get();
+        return view('empresa.create', ['rota' => $rota,'cidades'=>$cidadesGet]);
     }
 
     /**

@@ -363,6 +363,7 @@ class CargaController extends Controller implements HasMiddleware
             return response()->json(['status' => 0, 'msg' => $ex->getMessage()]);
         }
     }
+
     public function cidadeFrete($carga)
     {
         try {

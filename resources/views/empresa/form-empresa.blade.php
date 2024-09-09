@@ -42,7 +42,7 @@
             <section class="mt-4 col-4">
                 <h1 class="font-bold">Endereco</h1>
 
-                @include('endereco.form-endereco', ['endereco' => isset($endereco) ? $endereco : ''])
+                @include('endereco.form-endereco', ['endereco' => isset($endereco) ? $endereco->cidade->id : ''])
             </section>
             <section class="mt-4 col-4">
                 <h1 class="font-bold">Contato</h1>

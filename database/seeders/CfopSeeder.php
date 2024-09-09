@@ -28,8 +28,9 @@ class CfopSeeder extends Seeder
                         // echo $exp[1]."\n";
                         if($cfopBD->count()==0){
                             $cfop = new Cfop();
+                            $cfop->newId();
                             $cfop->codigo = $exp[0];
-                            $cfop->descricao = $exp[1];
+                            $cfop->descricao = str_replace('"','',$exp[1]);
                             $cfop->save();
                             echo 'cfop '.$exp[0].' - '.$exp[1].' cadastrado com sucesso'.PHP_EOL;
                         }else{

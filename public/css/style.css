@@ -601,6 +601,17 @@ background-color: green;
         font-weight: bold;
     }
     /* FIM AREA DE UPLOADS DOS ARQUIVOS DAS CARGAS */
+
+
+/* FORM CTE */
+#FormCte legend{
+    line-height: 22px;
+}
+#FormCte legend small{
+    font-size: 13pt;
+}
+/* FIM FRM CTE */
+
     @media (max-width: 600px) {
         .aside_menu {
             display: none;

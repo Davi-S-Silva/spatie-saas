@@ -28,6 +28,7 @@ class cstSeeder extends Seeder
             $CstDb = Cst::where('codigo',$array[$i][0])->get();
             if($CstDb->count()==0){
                 $cst = new Cst();
+                $cst->newId();
                 $cst->codigo = $array[$i][0];
                 $cst->descricao = $array[$i][1];
                 $cst->save();

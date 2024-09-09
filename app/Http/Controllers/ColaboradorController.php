@@ -9,6 +9,7 @@ use App\Models\Empresa;
 use App\Models\Endereco;
 use App\Models\FuncaoColaborador;
 use App\Models\LocalApoio;
+use App\Models\Municipio;
 use App\Models\TipoColaborador;
 use App\Models\User;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -46,7 +47,13 @@ class ColaboradorController extends Controller implements HasMiddleware
     {
         $TipoColaborador = TipoColaborador::orderby('tipo','asc')->get();
         $FuncaoColaborador = FuncaoColaborador::orderby('funcao','asc')->get();
-        return view('colaborador.create',['TipoColaborador'=>$TipoColaborador,'FuncaoColaborador'=>$FuncaoColaborador]);
+        $cidades = Municipio::orderBy('nome', 'asc');
+        // $cidades = DB::table('municipios');
+        // $ufs = ['PE','PB','AL','RN'];
+        // $ufs = ['26','25','27','43'];
+        // $cidades->whereIn('estado_id', $ufs);
+        $cidadesGet = $cidades->with('estado')->get();
+        return view('colaborador.create',['TipoColaborador'=>$TipoColaborador,'FuncaoColaborador'=>$FuncaoColaborador,'cidades'=>$cidadesGet]);
     }
 
     /**

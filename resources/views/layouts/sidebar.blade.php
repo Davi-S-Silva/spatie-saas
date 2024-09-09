@@ -507,9 +507,6 @@
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">CTe</a>
                                 <ul class="position-absolute bg-white w-56">
                                     <li><a href="{{ route('ctes.index') }}">CTes</a></li>
-                                    @can('Criar CTe')
-                                        <li><a href="{{ route('ctes.create') }}">Novo CTe</a></li>
-                                    @endcan
                                 </ul>
                             </li>
                             @endcan
@@ -519,9 +516,6 @@
                                 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">MDFe</a>
                                 <ul class="position-absolute bg-white w-56">
                                     <li><a href="{{ route('mdfes.index') }}">MDFes</a></li>
-                                    @can('Criar MDFe')
-                                        <li><a href="{{ route('mdfes.create') }}">Novo MDFe</a></li>
-                                    @endcan
                                 </ul>
                             </li>
                             @endcan

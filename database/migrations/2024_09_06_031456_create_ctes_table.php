@@ -19,16 +19,16 @@ return new class extends Migration
             $table->foreignId('cfop_id')->references('id')->on('cfops');
             $table->text('natureza');// Natureza da operacao
             $table->integer('tipo_impressao');// Formato de impressao do DACTE: 1-Retrato; 2-Paisagem.
-            $table->integer('tipo_emissao');// Forma de emissao do CTe: 1-Normal; 4-EPEC pela SVC; 5-Contingência
+            $table->foreignId('tipo_emissao_id')->references('id')->on('tipo_emissao_ctes');// Forma de emissao do CTe: 1-Normal; 4-EPEC pela SVC; 5-Contingência
             $table->integer('cdv'); // Codigo verificador
             $table->integer('cct');// Codigo numerico que compoe a chave de acesso
             $table->integer('ambiente');//1 - producao; 2 - homologacao
-            $table->integer('tipo_cte');//0- CT-e Normal; 1 - CT-e de Complemento de Valores; 3 - CTe de Substituição
+            $table->foreignId('tipo_cte_id')->references('id')->on('tipo_ctes');//0- CT-e Normal; 1 - CT-e de Complemento de Valores; 3 - CTe de Substituição
             $table->integer('proc_emi');//0- CT-e Normal; 1 - CT-e de Complemento de Valores; 3 - CTe de Substituição
             $table->integer('versao_emissor');//versao do aplicativo emissor
             $table->string('modal');//Preencher com:01-Rodoviário; 02-Aéreo; 03-Aquaviário;04-
             $table->boolean('globalizado');//globalizado = true/false
-            $table->integer('tipo_servico');//0- Normal; 1- Subcontratação; 2- Redespacho; 3- Redespacho Intermediário; 4- Serviço Vinculado a Multimodal
+            $table->foreignId('tipo_servico_id')->references('id')->on('tipo_servico_ctes');//0- Normal; 1- Subcontratação; 2- Redespacho; 3- Redespacho Intermediário; 4- Serviço Vinculado a Multimodal
             $table->foreignId('remetente_id')->references('id')->on('filials');//remetente
             $table->foreignId('destinatario_id')->references('id')->on('destinatarios');//destinatario
             $table->foreignId('empresa_id')->references('id')->on('empresas');//emitente

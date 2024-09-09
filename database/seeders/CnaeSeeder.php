@@ -2030,6 +2030,7 @@ class CnaeSeeder extends Seeder
             $CnaeDb = Cnae::where('codigo_cnae',$array[$i][0])->get();
             if($CnaeDb->count()==0){
                 $cnae = new Cnae();
+                $cnae->newId();
                 $cnae->codigo_cnae = $array[$i][0];
                 $cnae->desc_cnae = $array[$i][1];
                 $cnae->save();

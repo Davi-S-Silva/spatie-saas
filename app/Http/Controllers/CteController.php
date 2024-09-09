@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carga;
+use App\Models\Cfop;
+use App\Models\Cst;
 use App\Models\Cte;
+use App\Models\Municipio;
+use App\Models\TipoCte;
+use App\Models\TipoEmissaoCte;
+use App\Models\TipoServicoCte;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\DB;
 
 class CteController extends Controller implements HasMiddleware
 {
@@ -32,10 +39,24 @@ class CteController extends Controller implements HasMiddleware
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Carga $carga)
+    public function create($carga)
     {
         // dump($carga);
-        return view('fiscal.cte.create');
+        $tiposCte = TipoCte::all();
+        $TipoEmissaoCte = TipoEmissaoCte::all();
+        $tipoServicoCte = TipoServicoCte::all();
+        $cidades = Municipio::orderBy('nome', 'asc');
+        // $cidades = DB::table('municipios');
+        // $ufs = ['PE','PB','AL','RN'];
+        // $ufs = ['26','25','27','43'];
+        // $cidades->whereIn('estado_id', $ufs);
+        $cidadesGet = $cidades->with('estado')->get();
+        $cfop = Cfop::all();
+        $cst = Cst::all();
+        $Carga = Carga::where('id',$carga)->with('filial')->get()->first();
+        dump($Carga);
+        return view('fiscal.cte.create',['tiposCte'=>$tiposCte,'tipoServicoCte'=>$tipoServicoCte,
+        'TipoEmissaoCte'=>$TipoEmissaoCte,'cfop'=>$cfop,'cidades'=>$cidadesGet,'cst'=>$cst,'carga'=>$Carga]);
     }
 
     /**

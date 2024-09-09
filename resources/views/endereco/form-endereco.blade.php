@@ -27,17 +27,11 @@
             value="{{ !empty($endereco) ? $endereco->cep : '' }}">
     </div>
     <div>
-        <label for="" class="form-label">Cidade</label>
-        <select name="cidade_id" id="" class="form-control border-black">
-            <option value="" selected>Selecione Uma Cidade</option>
-            @foreach (Municipio::orderBy('nome', 'asc')->with('estado')->get() as $cidade)
-                @if ( !empty($endereco) && $cidade->id==$endereco->cidade_id)
-                    <option value="{{ $cidade->id }}" selected>{{ $cidade->nome }} - {{ $cidade->estado->nome }}</option>
-                @else
-                    <option value="{{ $cidade->id }}">{{ $cidade->nome }} - {{ $cidade->estado->nome }}</option>
-                @endif
-            @endforeach
-        </select>
+        @php
+            $cidade = (!empty($endereco))?$endereco->cidade_id:'';
+        @endphp
+        <label for="">Cidade</label>
+        <x-select-cidade :cidades=$cidades :endereco=$cidade  :name=null :required=true/>
     </div>
     <div>
         <label for="" class="form-label">Estado</label>

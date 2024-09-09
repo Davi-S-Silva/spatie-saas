@@ -9,6 +9,7 @@ use App\Models\Empresa;
 use App\Models\Endereco;
 use App\Models\LocalApoio;
 use App\Models\LocalMovimentacao;
+use App\Models\Municipio;
 use App\Models\Tenant;
 use App\Models\User;
 use Exception;
@@ -33,7 +34,9 @@ class TenantController extends Controller
     public function create()
     {
         $rota = 'tenant.store';
-        return view('tenant.create',['rota'=>$rota]);
+        $cidades = Municipio::orderBy('nome', 'asc');
+        $cidadesGet = $cidades->with('estado')->get();
+        return view('tenant.create',['rota'=>$rota,'cidades'=>$cidadesGet]);
     }
 
     /**
