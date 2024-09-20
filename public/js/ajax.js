@@ -305,8 +305,8 @@ $(function () {
 
         if (confirma) {
             $.ajax({
-                url: $(this).attr('action'),
-                // url: routeCarga,
+                // url: $(this).attr('action'),
+                url: routeCarga,
                 type: "post",
                 data: $(this).serialize(),
                 dataType: 'json',

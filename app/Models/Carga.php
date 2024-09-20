@@ -138,6 +138,46 @@ class Carga extends Model
         // dd($array);
         return array_unique($array);
     }
+    public function distanceCity()
+    {
+        $maior = array();
+        // $cliente  = Cliente::find($Carga->cliente_id);
+        foreach ($this->cidades() as $cidade) {
+            $distancia = (new DistanceCity($cidade->getCoordenadas($this->filial->enderecos->first()->cidade->codigo), "$cidade->longitude,$cidade->latitude"))->showDistance();
+            array_push($maior, [$distancia, $cidade]);
+        }
+        sort($maior);
+        $CidadeFinal = end($maior)[1];
+        return $CidadeFinal;
+
+    }
+    public function distanceLastNote()
+    {
+        $notas = $this->notas()->with('destinatario','destinatario.endereco','destinatario.endereco.cidade','destinatario.endereco.estado');
+        $maior = array();
+        $array = [];
+        $notas = $notas->get();
+        foreach( $notas as $nota){
+            $array[] = $nota->destinatario->endereco->cidade;
+        }
+        // dd($array);
+        array_unique($array);
+        // dd($dados);
+        foreach ($this->cidades() as $cidade) {
+            $distancia = (new DistanceCity($cidade->getCoordenadas($this->filial->enderecos->first()->cidade->codigo), "$cidade->longitude,$cidade->latitude"))->showDistance();
+            array_push($maior, [$distancia, $cidade]);
+        }
+        // return ;
+        sort($maior);
+        $CidadeFinal = end($maior)[1];
+        // dd($CidadeFinal);
+        foreach($notas as $nota){
+            if($nota->destinatario->endereco->cidade->codigo == $CidadeFinal->codigo){
+                return $nota;
+                // dd($nota);
+            }
+        }
+    }
 
     public function paradas()
     {
@@ -209,6 +249,13 @@ class Carga extends Model
         return $dados['item'];
     }
 
+    public function historico()
+    {
+        return Historico::where('model', 'Carga')->where('id_model',$this->id)->get();
+    }
+    // public function dadosHistorico(){
+
+    // }
     public function docs()
     {
         return $this->hasMany(FileCarga::class);
@@ -236,20 +283,5 @@ class Carga extends Model
             return false;
         }
     }
-    public function distanceCity()
-    {
-        $maior = array();
 
-
-        // $cliente  = Cliente::find($Carga->cliente_id);
-        foreach ($this->cidades() as $cidade) {
-            $distancia = (new DistanceCity($cidade->getCoordenadas($this->filial->enderecos->first()->cidade->codigo), "$cidade->longitude,$cidade->latitude"))->showDistance();
-            array_push($maior, [$distancia, $cidade]);
-        }
-        sort($maior);
-        $CidadeFinal = end($maior)[1];
-
-        return $CidadeFinal;
-
-    }
 }

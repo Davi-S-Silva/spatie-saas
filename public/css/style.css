@@ -32,6 +32,16 @@
         overflow: hidden;
         max-height: 20px;
     }
+
+    .select-index-carga{
+        border: 0 !important;  /*Removes border*/
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        text-overflow:'';
+        text-indent: 0.01px; /* Removes default arrow from firefox*/
+        text-overflow: "";  /*Removes default arrow from firefox*/
+    }
     .loading {
         position: fixed;
         z-index: 100000;

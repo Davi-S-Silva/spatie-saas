@@ -44,6 +44,9 @@ class MovimentacaoVeiculo extends Model
         // return Status::find($this->status_id);
         return $this->belongsTo(Status::class,'status_id');
     }
+    public function getAllStatus(){
+        return Status::where('tipo',3)->get();
+    }
 
     public function setStatus($status){
         $this->status_id = Status::where('name',$status)->where('tipo',3)->get()->first()->id;

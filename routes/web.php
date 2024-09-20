@@ -157,16 +157,16 @@ Route::middleware('auth')->group(function () {
 
     Route::get('carga/index',[CargaController::class, 'index'])->name('carga.index');
     Route::post('carga/index',[CargaController::class, 'index'])->name('postQueryIndexCarga');
-        Route::resource('carga',CargaController::class);
-        Route::post('carga/{carga}/setnotas',[CargaController::class, 'setNotas'])->name('carga.setNotas');
-        Route::get('carga/{filial}/getCargasDisponiveis',[CargaController::class, 'getCargasDisponiveis'])->name('carga.getCargasDisponiveis');
-        Route::get('carga/cidadeFrete/{carga}',[CargaController::class, 'cidadeFrete'])->name('carga.cidadeFrete');
-        Route::put('carga/{carga}/update',[CargaController::class, 'update'])->name('carga.update');
-        Route::post('carga/{carga}/uploadCarga',[CargaController::class, 'uploadCarga'])->name('carga.uploadCarga');
-        Route::get('carga/{carga}/devolucao',[CargaController::class, 'gerarListaDevolucao'])->name('gerarListaDevolucao');
-        Route::get('carga/{carga}/comprovantes',[CargaController::class, 'gerarListaComprovante'])->name('gerarListaComprovante');
-        Route::get('carga/{carga}/formDiaria',[CargaController::class, 'formDiaria'])->name('formDiaria');
-        Route::put('carga/{carga}/storeFormDiaria',[CargaController::class, 'storeFormDiaria'])->name('storeFormDiaria');
+    Route::resource('carga',CargaController::class);
+    Route::post('carga/{carga}/setnotas',[CargaController::class, 'setNotas'])->name('carga.setNotas');
+    Route::get('carga/{filial}/getCargasDisponiveis',[CargaController::class, 'getCargasDisponiveis'])->name('carga.getCargasDisponiveis');
+    Route::get('carga/cidadeFrete/{carga}',[CargaController::class, 'cidadeFrete'])->name('carga.cidadeFrete');
+    Route::put('carga/{carga}/update',[CargaController::class, 'update'])->name('carga.update');
+    Route::post('carga/{carga}/uploadCarga',[CargaController::class, 'uploadCarga'])->name('carga.uploadCarga');
+    Route::get('carga/{carga}/devolucao',[CargaController::class, 'gerarListaDevolucao'])->name('gerarListaDevolucao');
+    Route::get('carga/{carga}/comprovantes',[CargaController::class, 'gerarListaComprovante'])->name('gerarListaComprovante');
+    Route::get('carga/{carga}/formDiaria',[CargaController::class, 'formDiaria'])->name('formDiaria');
+    Route::put('carga/{carga}/storeFormDiaria',[CargaController::class, 'storeFormDiaria'])->name('storeFormDiaria');
 
     Route::resource('fornecedor', FornecedorController::class);
 
@@ -181,6 +181,9 @@ Route::middleware('auth')->group(function () {
     Route::post('entrega/{entrega}/stop', [EntregaController::class, 'stop'])->name('entrega.stop');
     // Route::get('entrega/{entrega}/stop',[EntregaController::class, 'stop'])->name('entrega.stop');
     Route::post('entrega/{entrega}/receberVariasNotas', [EntregaController::class, 'receberVariasNotas'])->name('receberVariasNotas');
+
+    Route::get('movimentacao/index',[MovimentacaoVeiculoController::class, 'index'])->name('movimentacao.index');
+    Route::post('movimentacao/index',[MovimentacaoVeiculoController::class, 'index'])->name('postQueryIndexMovimentacao');
     Route::resource('movimentacao', MovimentacaoVeiculoController::class);
     // Route::post('movimentacao/{movimentacao}',[MovimentacaoVeiculoController::class, 'toggleMov'])->name('movimentacao.toggleMov');
     // Route::get('movimentacao/{movimentacao}/start',[MovimentacaoVeiculoController::class, 'start'])->name('movimentacao.start');
@@ -189,6 +192,7 @@ Route::middleware('auth')->group(function () {
     Route::post('movimentacao/{movimentacao}/stop', [MovimentacaoVeiculoController::class, 'stop'])->name('movimentacao.stop');
     // });
 
+    Route::get('abastecimento/index', [AbastecimentoController::class, 'index'])->name('abastecimento.index');
     Route::post('abastecimento/index', [AbastecimentoController::class, 'index'])->name('postQueryIndexAbastecimento');
     Route::get('abastecimento/ranking', [AbastecimentoController::class, 'getRanking'])->name('getRanking');
     Route::resource('abastecimento', AbastecimentoController::class);

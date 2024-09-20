@@ -37,6 +37,9 @@
                             </div>
                         </form>
                     </section>
+                    <section>
+                        <a href="{{ route('abastecimento.create') }}" class="btn btn-primary">Novo Abastecimento</a>
+                    </section>
                     <table class="text-center table-index-abastecimento">
                         <thead>
                             <tr>

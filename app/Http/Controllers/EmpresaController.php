@@ -272,7 +272,8 @@ class EmpresaController extends Controller implements HasMiddleware
         $certificado->validate = $request->ValidadeCertificado;
         $certificado->empresa_id = $request->empresa_id;
         $certificado->usuario_id = Auth::user()->id;
-        $path = $request->file('Certificado')->storeAs('public/' . $empresa . '/certificados', $certificado->name . '.pfx');
+        $path = $request->file('Certificado')->storeAs('public/' . $empresa . '/certificados', $certificado->name . '.pfx','local');
+        // $path = $request->file('Certificado')->storeAs('public/' . $empresa . '/certificados', $certificado->name . '.pfx','s3');
         $certificado->path = $path;
         $certificado->save();
         // return redirect()->back()->with('message', ['status' => 'success', 'msg' => 'Certificado carregado com sucesso']);

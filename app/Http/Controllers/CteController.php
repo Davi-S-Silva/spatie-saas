@@ -54,9 +54,11 @@ class CteController extends Controller implements HasMiddleware
         $cfop = Cfop::all();
         $cst = Cst::all();
         $Carga = Carga::where('id',$carga)->with('filial')->get()->first();
-        dump($Carga);
+        $notas = $Carga->notas()->with('destinatario','destinatario.endereco','destinatario.endereco.estado','destinatario.endereco.cidade')->get();
+        // dump($Carga->distanceLastNote());
+        // dd($Carga);
         return view('fiscal.cte.create',['tiposCte'=>$tiposCte,'tipoServicoCte'=>$tipoServicoCte,
-        'TipoEmissaoCte'=>$TipoEmissaoCte,'cfop'=>$cfop,'cidades'=>$cidadesGet,'cst'=>$cst,'carga'=>$Carga]);
+        'TipoEmissaoCte'=>$TipoEmissaoCte,'cfop'=>$cfop,'cidades'=>$cidadesGet,'UltimaNotaDistancia'=>$Carga->distanceLastNote(),'notas'=>$notas,'cst'=>$cst,'carga'=>$Carga]);
     }
 
     /**

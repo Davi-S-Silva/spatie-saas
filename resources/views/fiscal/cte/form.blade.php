@@ -82,7 +82,7 @@
                                 <label for="" class="form-label">Cidade do Final de Prestação</label>
                                 @php
                                     $name = 'cidade_fim';
-                                    echo $cidade= $carga->distanceCity()->id;
+                                    $cidade= $carga->distanceCity()->id;
                                     // dd($cidade);
                                 @endphp
                                 <x-select-cidade :cidades=$cidades :endereco=$cidade  :name=$name :required=true/>
@@ -105,9 +105,19 @@
                                     <label for="" class="form-label">Remetente</label>
                                     <input type="text" name="Remetente" id="" class="form-control rounded border-black" required placeholder="Insira CPF/CNPJ" value="{{ $carga->filial->cnpj }} - {{ $carga->filial->razao_social }}">
                                 </div>
-                                <div class="col-12 col-md-3">
+                                <div class="col-12 col-md-5">
                                     <label for="" class="form-label">Destinatario</label>
-                                    <input type="text" name="Destinatario" id="" class="form-control rounded border-black" required placeholder="Insira CPF/CNPJ">
+                                    {{-- <input type="text" name="Destinatario" id="" class="form-control rounded border-black" required placeholder="Insira CPF/CNPJ"> --}}
+                                    <select name="Destinatario" id="" class="form-control rounded border-black" required>
+                                        <option value="">Selecione o destinatario</option>
+                                        @foreach ($notas as $nota)
+                                        @if ($nota->id == $UltimaNotaDistancia->id)
+                                            <option value="{{ $nota->id }}" selected>{{ $nota->nota }} - {{ $nota->destinatario->cpf_cnpj }} - {{ $nota->destinatario->nome_razao_social  }} - {{ $nota->destinatario->endereco->cidade->nome }}</option>
+                                        @else
+                                            <option value="{{ $nota->id }}">{{ $nota->nota }} - {{ $nota->destinatario->cpf_cnpj }} - {{ $nota->destinatario->nome_razao_social  }} - {{ $nota->destinatario->endereco->cidade->nome }}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12 d-flex justify-between">
@@ -134,7 +144,7 @@
                     <div class="d-flex justify-between col-12">
                         <div class="col-12 col-md-3">
                             <label for="" class="form-label">Valor Carga</label>
-                            <input type="text" name="ValorCarga" id="" class="form-control rounded border-black" required placeholder="Digite/Cole o valor da carga">
+                            <input type="text" name="ValorCarga" id="" class="form-control rounded border-black" required placeholder="Digite/Cole o valor da carga" value="{{ number_format($carga->valor(),2,',','.') }}">
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="" class="form-label">Produto Predominante</label>
@@ -166,12 +176,12 @@
                                                 <option value="0">00 -M3</option>
                                                 <option value="1">01 - KG</option>
                                                 <option value="2">02 - TON</option>
-                                                <option value="3">03 - UNIDADE</option>
+                                                <option value="3" selected>03 - UNIDADE</option>
                                                 <option value="4">04 - LITROS</option>
                                                 <option value="5">05 - MMBTU</option>
                                             </select></td>
                                         <td><input type="text" name="TipoMedida" id="" class="col-12"></td>
-                                        <td><input type="text" name="QtdCarga" id="" class="col-12" required></td>
+                                        <td><input type="text" name="QtdCarga" id="" class="col-12" value="{{ $carga->quantidade() }}" required></td>
                                         <td><a href=""><i class="fa-solid fa-square-plus"></i></a></td>
                                     </tr>
                                 </tbody>
@@ -199,7 +209,7 @@
                             <input type="radio" name="NotaCteSelect" id="UmaNota" value="uma" required>
                         </div>
                         <div>
-                            <label for="AllNotas" >Todas as Notas</label>
+                            <label for="AllNotas" >Todas as {{ count($notas)}} Notas</label>
                             <input type="radio" name="NotaCteSelect" id="AllNotas" value="all" required>
                         </div>
                     </div>
@@ -213,7 +223,7 @@
                         </thead>
                         <tbody>
 
-                            @foreach ($carga->notas()->get() as $item)
+                            @foreach ($notas as $item)
                                 <tr>
                                     <td><a href=""><i class="fa-solid fa-trash"></i></a></td>
                                 <td><input type="text" name="NfeChaves[]" id="" class="col-12" required placeholder="Digite/Cole a Chave de Acesso da Nota Fiscal Eletronica" value="{{ $item->chave_acesso }}"></td>
@@ -235,11 +245,11 @@
                     <div class="col-12 d-flex justify-between">
                         <div class="col-12 col-md-3">
                             <label for="" class="form-label">Valor da Prestação de Serviços</label>
-                            <input type="text" name="ValorPrestacao" id="" class="form-control rounded border-black">
+                            <input type="text" name="ValorPrestacao" id="" class="form-control rounded border-black" value="{{ number_format($carga->frete,2,',','.') }}">
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="" class="form-label">Valor a Receber</label>
-                            <input type="text" name="ValorReceber" id="" class="form-control rounded border-black">
+                            <input type="text" name="ValorReceber" id="" class="form-control rounded border-black" value="{{ number_format($carga->frete,2,',','.') }}">
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="" class="form-label">Valor aproximado dos tributos</label>
@@ -271,7 +281,7 @@
                         <div>
                             <label for="" class="form-label">Observações Gerais</label>
                             <div class="col-12" >
-                                <textarea name="ObsGeral" id="" cols=""rows="10" class="form-control rounded border-black"></textarea>
+                                <textarea name="ObsGeral" id="" cols=""rows="10" class="form-control rounded border-black">Carga: {{ $carga->remessa }} - Motorista: {{ $carga->motorista->name }} - Peso: {{ $carga->peso() }}</textarea>
                             </div>
                         </div>
                     </div>

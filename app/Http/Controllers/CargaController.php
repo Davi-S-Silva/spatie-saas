@@ -8,6 +8,7 @@ use App\Models\DistanceCity;
 use App\Models\Empresa;
 use App\Models\FileCarga;
 use App\Models\Filial;
+use App\Models\Historico;
 use App\Models\LocalApoio;
 use App\Models\ModeloUmFrete;
 use App\Models\Nota;
@@ -22,6 +23,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CargaController extends Controller implements HasMiddleware
 {
@@ -194,10 +196,22 @@ class CargaController extends Controller implements HasMiddleware
             // $carga->setNotas($request->Notas);
 
 
+            $msg = "Carga ".$carga->remessa." cadastrada com sucesso por ".Auth::user()->name." - data: ".date('d/m/Y H:i:s');
+            $historico = new Historico();
+            $historico->newId();
+            $historico->model = 'Carga';
+            $historico->id_model = $carga->id;
+            $historico->descricao = $msg;
+            $historico->dados = $carga;
+            $historico->data = date('Y-m-d');
+            $historico->user_id = Auth::user()->id;
+            $historico->tenant_id = Auth::user()->tenant_id;
+            $historico->save();
 
             // $carga->save();
 
             DB::commit();
+            Log::info("message");
             return response()->json(['status' => 'success', 'carga' => $carga, 'msg' => 'Carga Cadastrada com Sucesso']);
             // return response()->json([$request->input(),(new Nota())->getNotas($request->Notas, $request->Filial, )]);
         } catch (Exception $ex) {
@@ -251,6 +265,18 @@ class CargaController extends Controller implements HasMiddleware
             $carga->local_apoio_id = $request->empresa_local_apoio_id;
             $carga->usuario_id = Auth::user()->id;
             $carga->save();
+
+            $msg = "Carga ".$carga->remessa." editada com sucesso por ".Auth::user()->name." - data: ".date('d/m/Y H:i:s');
+            $historico = new Historico();
+            $historico->newId();
+            $historico->model = 'Carga';
+            $historico->id_model = $carga->id;
+            $historico->descricao = $msg;
+            $historico->dados = $carga;
+            $historico->data = date('Y-m-d');
+            $historico->user_id = Auth::user()->id;
+            $historico->tenant_id = Auth::user()->tenant_id;
+            $historico->save();
             return response()->json(['status'=>200,'msg'=>'Carga editada com sucesso']);
         }catch(Exception $ex){
             DB::rollback();

@@ -67,16 +67,17 @@
                                 @php
                                 $array = [
                                     ['name' => 'Data', 'item' => 'created_at','class'=>''],
-                                    ['name' => 'Remessa', 'item' => 'remessa','class'=>'col-1'],
-                                    ['name' => 'OS', 'item' => 'os','class'=>'col-1'],
+                                    ['name' => 'Remessa - OS', 'item' => 'remessa','class'=>'col-2'],
+                                    // ['name' => 'OS', 'item' => 'os','class'=>'col-1'],
                                     ['name' => 'Motorista', 'item' => 'motorista_id','class'=>'col-1'],
                                     ['name' => 'Origem', 'item' => 'filial_id','class'=>'col-1'],
                                     ['name' => 'Destino', 'item' => 'destino','class'=>'col-1'],
                                     ['name' => 'Veiculo', 'item' => 'veiculo_id','class'=>'col-1'],
-                                    ['name' => 'Notas', 'item' => '','class'=>'col-2'],
+                                    ['name' => 'Progresso', 'item' => '','class'=>'col-2'],
                                     ['name' => 'Entregas', 'item' => '','class'=>'col-1'],
                                     ['name' => 'Frete', 'item' => '','class'=>'col-1'],
-                                    ['name' => 'Diaria', 'item' => 'diaria','class'=>'col-1'],
+                                    // ['name' => 'Diaria', 'item' => 'diaria','class'=>'col-1'],
+                                    ['name' => 'Arquivos', 'item' => '','class'=>'col-1'],
                                     ['name' => 'Status', 'item' => 'status_id','class'=>'col-2'],
                                 ];
                                 @endphp
@@ -126,11 +127,12 @@
                                             class="fa-regular fa-square-plus"></i></td>
                                     <td><input type="checkbox" name="" id=""></td>
                                     <td>{{ date('d/m/Y', strtotime($carga->data)) }}</td>
-                                    <td><a
+                                    <td class="d-flex justify-between px-5"><a
                                             href="{{ route('carga.show', ['carga' => $carga->id]) }}" class="click_botao_direito position-relative" copy="{{ $carga->remessa }}"
                                             title="Clique com o botao direito do mouse para copiar texto">{{ $carga->remessa }}</a>
-                                    </td>
-                                    <td><a
+                                    {{-- </td>
+                                    <td> --}} -
+                                        <a
                                             href="{{ route('carga.show', ['carga' => $carga->id]) }}" class="click_botao_direito position-relative" copy="{{ $carga->os }}"
                                             title="Clique com o botao direito do mouse para copiar texto">{{ $carga->os }}</a>
                                     </td>
@@ -161,7 +163,26 @@
                                     </td>
                                     <td>{{ count($carga->paradas()) }}</td>
                                     <td>R$ {{ number_format($carga->frete, 2, ',', '.') }}</td>
-                                    <td class="cursor-pointer" title="Clique para adicionar diária"><a href="{{ route('formDiaria',['carga'=>$carga->id]) }}" class="add-diaria add-diaria-{{ $carga->id }}">{{ $carga->diaria }}</a></td>
+                                    <td>@forelse ($carga->docs as $item)
+                                        @switch($item->tipo)
+                                            @case('Canhoto')
+                                                <i class="fa-regular fa-file-lines" title="Canhoto"></i>
+                                                @break
+                                            @case('Assinante')
+                                                <i class="fa-solid fa-file-pen" title="Assinante"></i>
+                                                @break
+                                            @case('Descarrego')
+                                                {{-- <i class="fa-solid fa-dolly"></i> --}}
+                                                <i class="fa-solid fa-file-invoice-dollar" title="Descarrego"></i>
+                                                @break
+                                            @default
+                                                <i class="fa-solid fa-file" title="Outros Documentos"></i>
+                                                @break
+                                        @endswitch
+                                    @empty
+                                        Sem Anexos
+                                    @endforelse</td>
+                                    {{-- <td class="cursor-pointer" title="Clique para adicionar diária"><a href="{{ route('formDiaria',['carga'=>$carga->id]) }}" class="add-diaria add-diaria-{{ $carga->id }}">{{ $carga->diaria }}</a></td> --}}
                                     @php
                                         $status = $carga->getStatus();
                                     @endphp
@@ -175,8 +196,21 @@
                                         }else{
                                             echo 'text-primary';
                                         }
-                                    @endphp font-bold">
-                                        {{ $status->descricao }}
+                                    @endphp font-bold ">
+                                        <form action="" method="post" class="">
+                                            <div class="col-12">
+                                                <select name="" id="" class=" form-control select-index-carga">
+                                                    <option value="">Selecione o Status da Carga</option>
+                                                    @foreach ($carga->getAllStatus() as $item)
+                                                    @if (isset($status->descricao) && $status->id==$item->id)
+                                                    <option value="{{ $status->id }}" selected>{{ str_replace('Carga ','',$item->descricao) }}</option>
+                                                    @else
+                                                    <option value="{{ $status->id }}">{{ str_replace('Carga ','',$item->descricao) }}</option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </form>
                                     </td>
                                 </tr>
                                 @php
@@ -299,7 +333,21 @@
                                             </div>
                                             <div class="tab-pane fade" id="contact_{{ $carga->id }}" role="tabpanel"
                                                 aria-labelledby="contact-tab_{{ $carga->id }}">
-                                                Observacoes da carga e etc</div>
+                                                Observacoes da carga e etc
+                                                <ul>
+                                                @forelse ($carga->historico() as $item)
+                                                    <li>{{ $item->descricao }}</li>
+                                                    @php
+                                                    $role = Auth::user()->roles()->first()->name;
+                                                    @endphp
+                                                    @if ($role == 'super-admin' || $role == 'tenant-admin' || $role == 'admin' || $role == 'tenant-admin-master')
+                                                        <li>{{ $item->dados }}</li>
+                                                    @endif
+                                                @empty
+                                                   Não há Historico registrado
+                                                @endforelse
+                                                </ul>
+                                            </div>
                                             <div class="tab-pane fade" id="entrega_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="entrega-tab_{{ $carga->id }}">
                                                 @foreach ($carga->entregas()->with('veiculo', 'colaborador','getStatus')->get() as $item)

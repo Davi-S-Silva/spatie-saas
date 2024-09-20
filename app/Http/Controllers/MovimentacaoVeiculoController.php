@@ -18,10 +18,63 @@ class MovimentacaoVeiculoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $mov = MovimentacaoVeiculo::with('partida','destino','veiculo','colaborador')->orderBy('id','desc')->paginate(20);
-        return view('veiculo.movimentacao.index',['movimentacoes'=>$mov]);
+        $mov = MovimentacaoVeiculo::with('partida','destino','veiculo','colaborador');
+        if(!is_null($request->Reset)){
+            session()->forget('order-by-items-item');
+            session()->forget('order-by-items-order');
+            session()->forget('movimentacao_paginate-by-page');
+            session()->forget('movimentacao_data_inicio');
+            session()->forget('movimentacao_data_fim');
+            session()->forget('movimentacao_colaborador_id');
+            session()->forget('movimentacao_veiculo_id');
+            session()->forget('movimentacao_partida');
+            session()->forget('movimentacao_destino');
+            session()->forget('movimentacao_status');
+        }
+        if(!is_null($request->veiculo)){
+            session(['movimentacao_veiculo_id'=>$request->veiculo]);
+            // dd(session('movimentacao_veiculo_id'));
+        }
+        if(session()->has('movimentacao_veiculo_id')){
+            $mov->where('veiculo_id',session('movimentacao_veiculo_id'));
+        }
+        if(!is_null($request->colaborador)){
+            session(['movimentacao_colaborador_id'=>$request->colaborador]);
+            // dd(session('movimentacao_veiculo_id'));
+        }
+        if(session()->has('movimentacao_colaborador_id')){
+            $mov->where('colaborador_id',session('movimentacao_colaborador_id'));
+        }
+
+        if(!is_null($request->status)){
+            session(['movimentacao_status'=>(int)$request->status]);
+        }
+        if(session()->has('movimentacao_status')){
+            $mov->where('status_id',session('movimentacao_status'));
+        }
+
+        if(!is_null($request->Partida)){
+            session(['movimentacao_partida'=>(int)$request->Partida]);
+        }
+        if(session()->has('movimentacao_partida')){
+            $mov->where('Local_partida_id',session('movimentacao_partida'));
+        }
+        if(!is_null($request->Destino)){
+            session(['movimentacao_destino'=>(int)$request->Destino]);
+        }
+        if(session()->has('movimentacao_destino')){
+            $mov->where('Local_destino_id',session('movimentacao_destino'));
+        }
+        $statusAll = (new MovimentacaoVeiculo())->getAllStatus();
+        if(!is_null(Auth::user()->tenant_id)){
+            $localMov = Tenant::find(Auth::user()->tenant_id)->localMovimentacao()->get();
+        }else{
+            $localMov = LocalMovimentacao::get();
+        }
+        $Mov = $mov->orderBy('id','desc')->paginate(20)->withQueryString();
+        return view('veiculo.movimentacao.index',['movimentacoes'=>$Mov,'statusAll'=>$statusAll,'localMov'=>$localMov]);
     }
 
     /**

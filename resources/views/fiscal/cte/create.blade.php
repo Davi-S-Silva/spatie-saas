@@ -7,7 +7,7 @@
     <div class="py-1">
         <div class="mx-auto sm:px-1 lg:px-1">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-2">
-                <form action="" method="post" id="FormCte">
+                <form action="{{ route('ctes.store') }}" method="post" id="FormCte">
                     @include('fiscal.cte.form')
                 </form>
             </div>
