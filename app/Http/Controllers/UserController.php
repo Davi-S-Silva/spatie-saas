@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Empresa;
 use App\Models\FuncaoColaborador;
+use App\Models\Municipio;
 use App\Models\TipoColaborador;
 use App\Models\User;
 use Exception;
@@ -123,8 +124,14 @@ class UserController extends Controller implements HasMiddleware
         $userRoles = $user->roles->pluck('name', 'name')->all();
         // return redirect()->back()->with('message', ['status' => $status, 'msg' => $msg]);
         $TipoColaborador = TipoColaborador::orderby('tipo','asc')->get();
+        $cidades = Municipio::orderBy('nome', 'asc');
+        // $cidades = DB::table('municipios');
+        // $ufs = ['PE','PB','AL','RN'];
+        // $ufs = ['26','25','27','43'];
+        // $cidades->whereIn('estado_id', $ufs);
+        $cidadesGet = $cidades->with('estado')->get();
         $FuncaoColaborador = FuncaoColaborador::orderby('funcao','asc')->get();
-        return view('user.edit',['user'=>$user,'userLogado'=>$userLogado,'roles'=>$roles, 'userRoles'=>$userRoles,'TipoColaborador'=>$TipoColaborador,'FuncaoColaborador'=>$FuncaoColaborador]);
+        return view('user.edit',['user'=>$user,'userLogado'=>$userLogado,'roles'=>$roles, 'userRoles'=>$userRoles,'TipoColaborador'=>$TipoColaborador,'FuncaoColaborador'=>$FuncaoColaborador,'cidades'=>$cidadesGet]);
     }
 
     /**

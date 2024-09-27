@@ -11,7 +11,7 @@
                     {{-- <form action="{{ route('abastecimento.store') }}" name="FormAbastecimento" method="post" enctype="multipart/form-data">
                         @include('veiculo.abastecimento.form-abastecimento')
                     </form> --}}
-
+                    @if (Auth::user()->roles()->first()->name == 'tenant-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'super-admin')
                     <section>
                         <form action="{{ route('postQueryIndexAbastecimento') }}" method="post" class="d-flex align-items-end justify-center mb-5">
                             <div class="col-2 mr-2">
@@ -37,6 +37,7 @@
                             </div>
                         </form>
                     </section>
+                    @endif
                     <section>
                         <a href="{{ route('abastecimento.create') }}" class="btn btn-primary">Novo Abastecimento</a>
                     </section>
@@ -148,7 +149,7 @@
                         <ul class="col-12">
                             @foreach ($Abastecimentos as $abastecimento)
                                 <li class="d-flex justify-between mx-1 my-4 card-index-abastecimento col-12">
-                                    <ul class="col-6">
+                                    <ul class="col-5">
                                         <li>Cupom</li>
                                         <li>Km Anterior</li>
                                         <li>Km Atual</li>
@@ -161,7 +162,7 @@
                                         <li>Média</li>
                                         <li>Usuário</li>
                                     </ul>
-                                    <ul class="col-6">
+                                    <ul class="col-7">
                                         <li>{{ $abastecimento->cupom }}</li>
                                         <li>{{ $abastecimento->kmAnterior }}</li>
                                         <li>{{ $abastecimento->kmAtual }}</li>
@@ -172,7 +173,7 @@
                                         <li>{{ $abastecimento->litros }}</li>
                                         <li>{{ $abastecimento->valor }}</li>
                                         <li>{{ $abastecimento->veiculo->placa }}</li>
-                                        <li>{{ $abastecimento->colaborador->name }}</li>
+                                        <li class="overflow-hidden">{{ $abastecimento->colaborador->name }}</li>
                                         <li>{{ date('d/m/Y H:i:s', strtotime($abastecimento->created_at)) }}</li>
                                         <li>{{ number_format($kmRodado / $abastecimento->litros, 5, ',', '.') }}</li>
                                         <li>{{ $abastecimento->user->name }}</li>
