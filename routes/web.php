@@ -50,9 +50,13 @@ use App\Models\Empresa;
 use App\Models\Fornecedor;
 use App\Models\ModeloUmFrete;
 use App\Models\Municipio;
+use App\Models\Nota;
 use App\Models\User;
 use App\Models\Veiculo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+
 
 
 // use Spatie\DbDumper\Databases\MySql;
@@ -204,8 +208,44 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('mdfes', MdfeController::class);
 
+    Route::get('download',function(){
 
 
+        echo 'Baixar arquivos do S3';
+
+        // $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
+        // $empresa = 'istransportesltdame';
+        // $directory = 'app/public/'.$empresa.'/arquivos/notas/xml/';
+        // $files = Storage::files($directory);
+        //     $z = new ZipArchive();
+        //     foreach ($files as $file) {
+        //         $name= str_replace($directory,'',$file);
+        //         Storage::disk('local')->put('public/'.$empresa.'/arquivos/xml/download/'.$name, Storage::get($file));
+        //         $direee = env('RAIZ')."/storage/app/public/".$empresa;
+        //         if($z->open($direee."/test.zip", \ZipArchive::CREATE))
+        //         {
+        //             $item = $direee.'/arquivos/xml/download/'.$name;
+        //             if(file_exists($item)){
+        //                 // $z->addFile($item,$name);
+        //                 echo $item;
+        //             }
+        //         }
+        //     }
+        //     $z->close();
+
+        $notas = Nota::paginate(20);
+        $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
+        echo '<pre>';
+        foreach($notas as $nota ){
+            echo str_replace('/storage/local','',$nota->path_xml).'<br />';
+            if(Storage::exists($nota->path_xml)){
+                Storage::disk('local')->put('public/'.$empresa.'/arquivos/xml/download/'.$nota->nota, Storage::get($nota->path_xml));
+            }
+        }
+        echo '</pre>';
+        echo $notas->links();
+
+    });
     Route::resource('manutencao', ManutencaoController::class);
 
     Route::get('add-servico-manutencao/{manutencao}', [ServicoManutencaoController::class, 'create'])->name('add-servico-manutencao');

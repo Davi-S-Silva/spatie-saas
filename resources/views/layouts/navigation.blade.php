@@ -119,7 +119,7 @@
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }} - {{ Auth::user()->roles->first()->name }}</div>
+                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }} - {{ str_replace('tenant-','',Auth::user()->roles->first()->name) }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
             </div>
 
