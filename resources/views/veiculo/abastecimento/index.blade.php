@@ -157,7 +157,7 @@
                                         <li>Litros</li>
                                         <li>Valor</li>
                                         <li>Veículo</li>
-                                        <li>Colaborador</li>
+                                        <li class="h-7">Colaborador</li>
                                         <li>Data</li>
                                         <li>Média</li>
                                         <li>Usuário</li>
@@ -173,7 +173,7 @@
                                         <li>{{ $abastecimento->litros }}</li>
                                         <li>{{ $abastecimento->valor }}</li>
                                         <li>{{ $abastecimento->veiculo->placa }}</li>
-                                        <li class="overflow-hidden">{{ $abastecimento->colaborador->name }}</li>
+                                        <li class="overflow-auto h-7">{{ $abastecimento->colaborador->name }}</li>
                                         <li>{{ date('d/m/Y H:i:s', strtotime($abastecimento->created_at)) }}</li>
                                         <li>{{ number_format($kmRodado / $abastecimento->litros, 5, ',', '.') }}</li>
                                         <li>{{ $abastecimento->user->name }}</li>
