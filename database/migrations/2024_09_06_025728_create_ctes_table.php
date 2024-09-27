@@ -54,7 +54,7 @@ return new class extends Migration
             $table->double('p_icms_ret')->nullable();// Alíquota do ICMS
             $table->double('v_cred')->nullable();// Valor do Crédito Outorgado/Presumido
             $table->double('v_total_tributos')->nullable();// Valor de tributos federais; estaduais e municipais
-            $table->boolean('outra_uf')->default(false);
+            $table->boolean('outra_uf');
             $table->double('v_icms_uf_ini')->nullable();// Valor icms uf inicial
             $table->double('v_icms_uf_fim')->nullable();// Valor icms uf final
             $table->text('info_fisco')->nullable();

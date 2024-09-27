@@ -159,6 +159,7 @@
                                         <li>Colaborador</li>
                                         <li>Data</li>
                                         <li>Média</li>
+                                        <li>Usuário</li>
                                     </ul>
                                     <ul class="col-6">
                                         <li>{{ $abastecimento->cupom }}</li>
@@ -174,6 +175,7 @@
                                         <li>{{ $abastecimento->colaborador->name }}</li>
                                         <li>{{ date('d/m/Y H:i:s', strtotime($abastecimento->created_at)) }}</li>
                                         <li>{{ number_format($kmRodado / $abastecimento->litros, 5, ',', '.') }}</li>
+                                        <li>{{ $abastecimento->user->name }}</li>
                                     </ul>
                                 </li>
                             @endforeach
