@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contato;
 use App\Models\Endereco;
 use App\Models\Fornecedor;
+use App\Models\Municipio;
 use App\Models\TipoDoc;
 use Exception;
 use Illuminate\Http\Request;
@@ -31,7 +32,9 @@ class FornecedorController extends Controller
      */
     public function create()
     {
-        return view('fornecedor.create');
+        $cidades = Municipio::orderBy('nome', 'asc');
+        $cidadesGet = $cidades->with('estado')->get();
+        return view('fornecedor.create',['cidades'=>$cidadesGet]);
     }
 
     /**

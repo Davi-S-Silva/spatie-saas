@@ -101,7 +101,7 @@
     </div>
     <div class="my-3 border border-black rounded text-center pt-2">
         <label for="" class="form-label">Foto Hodometro / Velocimetro</label>
-        <input type="file" name="FotoHodometro" id="" class="form-control p-3" required>
+        <input type="file" name="FotoHodometro" id="FotoHodometro" class="form-control p-3" required>
         {{-- @if ($errors->has('FotoHodometro'))
         <div class="alert alert-danger">
             {{ $errors->first('FotoHodometro') }}

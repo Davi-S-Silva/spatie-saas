@@ -11,7 +11,8 @@
                     {{-- <form action="{{ route('abastecimento.store') }}" name="FormAbastecimento" method="post" enctype="multipart/form-data">
                         @include('veiculo.abastecimento.form-abastecimento')
                     </form> --}}
-                    @if (Auth::user()->roles()->first()->name == 'tenant-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'super-admin')
+                    {{-- {{ Auth::user()->roles()->first()->name }} --}}
+                    @if (Auth::user()->roles()->first()->name == 'tenant-admin-master' || Auth::user()->roles()->first()->name == 'tenant-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'super-admin')
                     <section>
                         <form action="{{ route('postQueryIndexAbastecimento') }}" method="post" class="d-flex align-items-end justify-center mb-5">
                             <div class="col-2 mr-2">

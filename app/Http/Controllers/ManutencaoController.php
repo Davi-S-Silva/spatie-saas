@@ -73,6 +73,7 @@ class ManutencaoController extends Controller implements HasMiddleware
             $servicoManutencao->servico_id = $request->Servico;
             $servicoManutencao->descricao = $request->DescricaoServico;
             $servicoManutencao->manutencao_id = $manutencao->id;
+            $servicoManutencao->valor = $request->Valor;
             $servicoManutencao->save();
 
             if($request->TipoPrazo != "Nao Aplicavel"){
