@@ -8,6 +8,7 @@ use App\Models\Endereco;
 use App\Models\Filial;
 use App\Models\Frete;
 use App\Models\LocalMovimentacao;
+use App\Models\Municipio;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Exception;
@@ -42,7 +43,13 @@ class ClienteController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        return view('cliente.create');
+        // $cidades = DB::table('municipios');
+        // $ufs = ['PE','PB','AL','RN'];
+        // $ufs = ['26','25','27','43'];
+        // $cidades->whereIn('estado_id', $ufs);
+        $cidades = Municipio::orderBy('nome', 'asc');
+        $cidadesGet = $cidades->with('estado')->get();
+        return view('cliente.create',['cidades'=>$cidadesGet]);
     }
 
     /**

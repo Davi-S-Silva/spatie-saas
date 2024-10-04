@@ -85,6 +85,8 @@ class AbastecimentoController extends Controller implements HasMiddleware
 
         if(session()->has('abastecimento_order-by-items-item') && session()->has('abastecimento_order-by-items-order')){
             $abast->orderBy(session('abastecimento_order-by-items-item'),session('abastecimento_order-by-items-order'));
+        }else{
+            $abast->orderBy('id','desc');
         }
         $paginate = 5;
         if(!empty($_GET['paginate'])){
@@ -150,7 +152,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
                 'Litro'=>'required',
                 'Valor'=>'required',
                 'Combustivel'=>'required|numeric',
-                'FotoCupom'=>'required',
+                'FotoCupom'=>'required|size:7000',
                 'FotoHodometro'=>'required',
                 'FotoBomba'=>'required',
             ]);
@@ -187,6 +189,27 @@ class AbastecimentoController extends Controller implements HasMiddleware
 
             // return response()->json(['status'=>200,'msg'=>'Abastecimento cadastrado com sucesso']);
             // exit;
+            $sizeCupom = $FotoCupom->getSize()/1024;
+            $sizeHodometro = $FotoHodometro->getSize()/1024;
+            $sizeBomba = $FotoBomba->getSize()/1024;
+            $size = 5120;
+            if($sizeCupom>$size)
+            {
+                throw new Exception('Tamanho de Arquivo não permitido. Foto do Cupom muito grande('.$sizeCupom.'kb). Maior que '.$size.'kb');
+            }
+
+
+            if($sizeBomba>$size)
+            {
+                throw new Exception('Tamanho de Arquivo não permitido. Foto da Bomba muito grande('.$sizeBomba.'kb). Maior que '.$size.'kb');
+            }
+
+            if($sizeHodometro>$size)
+            {
+                throw new Exception('Tamanho de Arquivo não permitido. Foto do Hodometro muito grande('.$sizeHodometro.'kb). Maior que '.$size.'kb');
+            }
+
+
             if (!in_array($FotoCupom->getClientOriginalExtension(),$arrayFilesPermited)) {
                 // echo $cupom->getClientOriginalExtension();
                 throw new Exception('Adicione a foto do cupom fiscal');
@@ -209,6 +232,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
             $abastecimento->litros = number_format((double)Uteis::validaNumero($request->Litro),2,'.','');
             $abastecimento->valor = number_format((double)Uteis::validaNumero($request->Valor),2,'.','');
             $abastecimento->combustivel_id = $request->Combustivel;
+            $abastecimento->user_id = Auth::user()->id;
 
             // throw new Exception($abastecimento);
             if(count(Auth::user()->colaborador)!=0 && is_null($request->colaborador)){
@@ -313,7 +337,8 @@ class AbastecimentoController extends Controller implements HasMiddleware
         }catch(Exception $ex){
             DB::rollback();
             // return $ex->getMessage(). '-'.$ex->getFile().'-'.$ex->getLine();
-            return response()->json(['status'=>0,'msg'=>$ex->getMessage().'-'.$ex->getLine()]);
+            return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+            // return response()->json(['status'=>0,'msg'=>'Erro: '.$ex->getMessage(). '-'.$ex->getFile().'-'.$ex->getLine()]);
         }
     }
 

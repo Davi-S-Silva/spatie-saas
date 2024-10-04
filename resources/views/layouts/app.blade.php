@@ -39,7 +39,7 @@ integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/k
                 @php
                     $message = session('message');
                 @endphp
-                <div class=" alert alert-{{ $message['status'] }} response-message">
+                <div class=" alert alert-{{ $message['status'] }} ">
                     {{ $message['msg'] }}
                 </div>
             @endif

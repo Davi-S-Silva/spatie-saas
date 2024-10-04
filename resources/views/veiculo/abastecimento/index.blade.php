@@ -11,7 +11,8 @@
                     {{-- <form action="{{ route('abastecimento.store') }}" name="FormAbastecimento" method="post" enctype="multipart/form-data">
                         @include('veiculo.abastecimento.form-abastecimento')
                     </form> --}}
-                    @if (Auth::user()->roles()->first()->name == 'tenant-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'super-admin')
+                    {{-- {{ Auth::user()->roles()->first()->name }} --}}
+                    @if (Auth::user()->roles()->first()->name == 'tenant-admin-master' || Auth::user()->roles()->first()->name == 'tenant-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'super-admin')
                     <section>
                         <form action="{{ route('postQueryIndexAbastecimento') }}" method="post" class="d-flex align-items-end justify-center mb-5">
                             <div class="col-2 mr-2">
@@ -157,9 +158,10 @@
                                         <li>Litros</li>
                                         <li>Valor</li>
                                         <li>Veículo</li>
-                                        <li>Colaborador</li>
+                                        <li class="h-7">Colaborador</li>
                                         <li>Data</li>
                                         <li>Média</li>
+                                        <li>Usuário</li>
                                     </ul>
                                     <ul class="col-7">
                                         <li>{{ $abastecimento->cupom }}</li>
@@ -172,9 +174,10 @@
                                         <li>{{ $abastecimento->litros }}</li>
                                         <li>{{ $abastecimento->valor }}</li>
                                         <li>{{ $abastecimento->veiculo->placa }}</li>
-                                        <li class="overflow-hidden">{{ $abastecimento->colaborador->name }}</li>
+                                        <li class="overflow-auto h-7">{{ $abastecimento->colaborador->name }}</li>
                                         <li>{{ date('d/m/Y H:i:s', strtotime($abastecimento->created_at)) }}</li>
                                         <li>{{ number_format($kmRodado / $abastecimento->litros, 5, ',', '.') }}</li>
+                                        <li>{{ $abastecimento->user->name }}</li>
                                     </ul>
                                 </li>
                             @endforeach

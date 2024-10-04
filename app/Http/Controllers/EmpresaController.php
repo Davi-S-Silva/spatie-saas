@@ -310,7 +310,7 @@ class EmpresaController extends Controller implements HasMiddleware
     public function notasStore(Request $request)
     {
         try {
-            return response()->json(['status' => 0, 'msg' =>Auth::user()->empresa->first()->nome]);
+            // return response()->json(['status' => 0, 'msg' =>Auth::user()->empresa->first()->nome]);
 
             $notas = [];
             // $empresa = preg_replace('/[^A-Za-z0-9]/', '',str_replace(' ','',strtolower(Empresa::find($request->empresa_id)->nome)));

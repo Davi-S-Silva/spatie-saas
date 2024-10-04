@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Tenantable;
+// use App\Models\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 
 class PrazoServico extends Model
 {
-    use HasRoles, Tenantable;
+    use HasRoles;
     protected $guarded = ['id'];
 
     public function newId(){

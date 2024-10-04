@@ -2,7 +2,7 @@
     use App\Models\Fornecedor;
 @endphp --}}
 <label for="">Fornecedor</label>
-<select name="Fornecedor" id="" class="form-control" required>
+<select name="Fornecedor" id="" class="form-control border-black" required>
     <option value="">Selecione o Fornecedor</option>
     @foreach ($fornecedores as $item)
     @if (!is_null(old('Fornecedor')) && old('Fornecedor')==$item->id)

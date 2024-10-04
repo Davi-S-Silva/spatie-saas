@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use App\Models\Contato;
 use App\Models\Endereco;
 use App\Models\Filial;
+use App\Models\Municipio;
 use App\Models\LocalMovimentacao;
 use Exception;
 use Illuminate\Http\Request;
@@ -27,7 +28,9 @@ class FilialController extends Controller
      */
     public function create($cliente)
     {
-        return view('filial.create', ['cliente'=>$cliente]);
+        $cidades = Municipio::orderBy('nome', 'asc');
+        $cidadesGet = $cidades->with('estado')->get();
+        return view('filial.create', ['cliente'=>$cliente,'cidades'=>$cidadesGet]);
     }
 
     /**

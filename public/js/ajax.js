@@ -1,7 +1,7 @@
 // const { data } = require("autoprefixer");
 $(function () {
 
-    var base = 'http://localhost:8090/';
+    var base = 'http://localhost:8080/';
     // var base = 'http://3.145.53.239/';
     // var base = 'https://saasportal.com.br/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
@@ -1731,10 +1731,51 @@ $(function () {
         })
         return false;
     });
-
+    $('.error-cupom').hide()
+    $('.error-km').hide()
+    $('.error-valor').hide()
+    $('.error-litros').hide()
     $('form[name="FormAbastecimento"]').submit(function () {
+        var cupom = $('.abast-cupom');
+        if(cupom.val() == ""){
+            $('.error-cupom').show()
+            $('.error-cupom').text('Insira o numero do cupom')
+            cupom.focus()
+            return false
+        }
+        // $('.error-cupom').fadeOut(3000);
+
+        var km = $('.abast-km');
+        if(km.val() == ""){
+            $('.error-km').show()
+            $('.error-km').text('Insira o km atual')
+            km.focus()
+            return false
+        }
+
+        var litros = $('.abast-litros');
+        if(litros.val() == ""){
+            $('.error-litros').show()
+            $('.error-litros').text('Insira a litragem abastecida')
+            litros.focus()
+            return false
+        }
+
+        var valor = $('.abast-valor');
+        if(valor.val() == ""){
+            $('.error-valor').show()
+            $('.error-valor').text('Insira o valor em Reais abastecido')
+            valor.focus()
+            return false
+        }
+        // $('.error-cupom').fadeOut(3000);
         $('input[name="ajax"]').remove()
         $(this).append('<input type="hidden" name="ajax" value="ajax"/>')
+
+        // filesize = $('#FotoHodometro')
+        // alert(filesize.files[0].size)
+
+
         console.log($(this).attr('action'))
         console.log(new FormData(this))
         // return false;
@@ -1749,8 +1790,8 @@ $(function () {
             contentType: false,
             beforeSend: function () {
                 // alert(routeStorePermission)
-                // loading.css('display', 'flex')
-                // loading.removeClass('d-none');
+                loading.css('display', 'flex')
+                loading.removeClass('d-none');
                 // $("body").css("overflow", "hidden");
             },
             success: function (response) {
@@ -1775,6 +1816,8 @@ $(function () {
                     $('.response-message-ajax').addClass('alert-danger')
                     $('.response-message-ajax').text(response.msg)
                     // console.log(response.msg)
+                    alert(response.msg)
+                    $('html, body').animate({scrollTop:0},800)
                 }
                 loading.addClass('d-none');
             },
