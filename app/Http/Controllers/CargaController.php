@@ -349,7 +349,8 @@ class CargaController extends Controller implements HasMiddleware
         } catch (Exception $ex) {
             DB::rollback();
             // return ['status'=>0,'msg' => $ex->getMessage().' - '. $ex->getCode().' - file '.$ex->getFile().' - line '.$ex->getLine()];
-            return ['status' => 0, 'msg' => $ex->getMessage()];
+            return response()->json(['status'=>0,'msg' => $ex->getMessage().' - '. $ex->getCode().' - file '.$ex->getFile().' - line '.$ex->getLine()]);
+            // return ['status' => 0, 'msg' => $ex->getMessage()];
         }
     }
 

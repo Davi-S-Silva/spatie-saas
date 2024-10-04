@@ -583,7 +583,7 @@ $(function () {
                 }
             },
             error: function (response) {
-                console.log('erro: ' + response)
+                console.log(response)
             }
         });
 

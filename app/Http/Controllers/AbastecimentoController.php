@@ -288,7 +288,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
             if(!file_exists($pathFileTo) && $linux==true){
                 mkdir($pathFileTo,0775, true);
             }
-            $data = date('d-m-Y H-i-s');
+            $data = date('Y-m-d H-i-s');
             // throw new Exception($pathFileTo.'/'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
             // $path = Storage::disk('s3')->putFileAs(
             //     $pathFileTo,  $FotoCupom, 'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension()
