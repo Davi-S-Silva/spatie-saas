@@ -170,7 +170,10 @@ class CargaController extends Controller implements HasMiddleware
             if($request->veiculo == '' || is_null($request->veiculo)){
                 throw new Exception ('Selecione o veiculo da Carga');
             }
-            if($CargaVeiculo->count()!=0 && $veiculo->placa != 'KKD1244'){
+            // if($CargaVeiculo->count()!=0 && $veiculo->placa != 'KKD1244'){
+            //     throw new Exception('Existe Carga não finalizada para esse veiculo no Sistema');
+            // }
+            if($CargaVeiculo->count()!=0){
                 throw new Exception('Existe Carga não finalizada para esse veiculo no Sistema');
             }
             DB::beginTransaction();

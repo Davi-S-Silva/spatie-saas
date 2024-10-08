@@ -9,6 +9,8 @@ use App\Models\Km;
 use App\Models\Uteis;
 use App\Models\Veiculo;
 use Exception;
+use Illuminate\Http\File;
+use Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -16,6 +18,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class AbastecimentoController extends Controller implements HasMiddleware
 {
@@ -152,9 +157,9 @@ class AbastecimentoController extends Controller implements HasMiddleware
                 'Litro'=>'required',
                 'Valor'=>'required',
                 'Combustivel'=>'required|numeric',
-                'FotoCupom'=>'required|size:7000',
-                'FotoHodometro'=>'required',
-                'FotoBomba'=>'required',
+                'FotoCupom'=>'required|max:10240',
+                'FotoHodometro'=>'required|max:10240',
+                'FotoBomba'=>'required|max:10240',
             ]);
             // $validator = $request->validate([
             //     'Cupom'=>'required|numeric',
@@ -189,25 +194,27 @@ class AbastecimentoController extends Controller implements HasMiddleware
 
             // return response()->json(['status'=>200,'msg'=>'Abastecimento cadastrado com sucesso']);
             // exit;
-            $sizeCupom = $FotoCupom->getSize()/1024;
-            $sizeHodometro = $FotoHodometro->getSize()/1024;
-            $sizeBomba = $FotoBomba->getSize()/1024;
-            $size = 5120;
-            if($sizeCupom>$size)
-            {
-                throw new Exception('Tamanho de Arquivo não permitido. Foto do Cupom muito grande('.$sizeCupom.'kb). Maior que '.$size.'kb');
-            }
+            $manager = new ImageManager(new Driver());
+
+            // $sizeCupom = $FotoCupom->getSize()/1024;
+            // $sizeHodometro = $FotoHodometro->getSize()/1024;
+            // $sizeBomba = $FotoBomba->getSize()/1024;
+            // $size = 5120;
+            // if($sizeCupom>$size)
+            // {
+            //     throw new Exception('Tamanho de Arquivo não permitido. Foto do Cupom muito grande('.$sizeCupom.'kb). Maior que '.$size.'kb');
+            // }
 
 
-            if($sizeBomba>$size)
-            {
-                throw new Exception('Tamanho de Arquivo não permitido. Foto da Bomba muito grande('.$sizeBomba.'kb). Maior que '.$size.'kb');
-            }
+            // if($sizeBomba>$size)
+            // {
+            //     throw new Exception('Tamanho de Arquivo não permitido. Foto da Bomba muito grande('.$sizeBomba.'kb). Maior que '.$size.'kb');
+            // }
 
-            if($sizeHodometro>$size)
-            {
-                throw new Exception('Tamanho de Arquivo não permitido. Foto do Hodometro muito grande('.$sizeHodometro.'kb). Maior que '.$size.'kb');
-            }
+            // if($sizeHodometro>$size)
+            // {
+            //     throw new Exception('Tamanho de Arquivo não permitido. Foto do Hodometro muito grande('.$sizeHodometro.'kb). Maior que '.$size.'kb');
+            // }
 
 
             if (!in_array($FotoCupom->getClientOriginalExtension(),$arrayFilesPermited)) {
@@ -220,7 +227,14 @@ class AbastecimentoController extends Controller implements HasMiddleware
             if(!in_array($FotoBomba->getClientOriginalExtension(),$arrayFilesPermited)){
                 throw new Exception('adicione a foto da bomba de abastecimento');
             }
+            // $empresa = str_replace(' ', '', strtolower(Auth::user()->empresa->first()->nome));
 
+            // Storage::put('app/public/' . $empresa . '/arquivos/notas/xml/' . $xml->NFe->infNFe->ide->nNF . '.xml', file_get_contents($file));
+            // if(file_exists(getenv('RAIZ').'/public/uploads/abastecimento/put/'.$imageNameCupom)){
+            //     // throw new Exception('existe');
+            // }
+            // Storage::putFileAs('app/public/'.$empresa.'/abastecimentos/put/'., new File('uploads/abastecimento/put/'.$imageNameCupom),$imageNameCupom);
+            // throw new Exception(getenv('RAIZ').'/public/uploads/abastecimento/put/'.$imageNameCupom);
             // echo 'ola'.$cupom->getClientOriginalExtension();
             // exit;
             // return response()->json(['status'=>200,'msg'=>$request->input()]);
@@ -313,14 +327,42 @@ class AbastecimentoController extends Controller implements HasMiddleware
                 mkdir($pathFileTo,0775, true);
             }
             $data = date('Y-m-d H-i-s');
+            $abastecimento->data = $data;
+
             // throw new Exception($pathFileTo.'/'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
             // $path = Storage::disk('s3')->putFileAs(
             //     $pathFileTo,  $FotoCupom, 'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension()
             // );
             // $abastecimento->pathFotoCupom = $FotoCupom->storeAS($pathFileTo,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
-            $abastecimento->pathFotoCupom = $FotoCupom->storeAS($pathFileTo,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
-            $abastecimento->pathFotoHodometro = $FotoHodometro->storeAS($pathFileTo,'Hodometro_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
-            $abastecimento->pathFotoBomba = $FotoBomba->storeAS($pathFileTo,'Bomba_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            // $abastecimento->pathFotoCupom = $FotoCupom->storeAS($pathFileTo,'Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            // $abastecimento->pathFotoHodometro = $FotoHodometro->storeAS($pathFileTo,'Hodometro_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+            // $abastecimento->pathFotoBomba = $FotoBomba->storeAS($pathFileTo,'Bomba_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension());
+
+            $imageNameCupom = Str::uuid().$FotoCupom->getClientOriginalName();
+            $FotoCupom->move('uploads/abastecimento',$imageNameCupom);
+            $imageCupomRead = $manager->read('uploads/abastecimento/'.$imageNameCupom);
+            $imageCupomRead->scale(height:500)->save(public_path('uploads/abastecimento/put/'.$imageNameCupom));
+            $pathCupom = 'app/public/'.$empresa.'/abastecimentos/Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension();
+            $abastecimento->pathFotoCupom =  $pathCupom ;
+            Storage::put( $pathCupom,file_get_contents(getenv('RAIZ').'/public/uploads/abastecimento/put/'.$imageNameCupom));
+
+            $imageNameHodometro = Str::uuid().$FotoHodometro->getClientOriginalName();
+            $FotoHodometro->move('uploads/abastecimento',$imageNameHodometro);
+            $imageHodometroRead = $manager->read('uploads/abastecimento/'.$imageNameHodometro);
+            $imageHodometroRead->scale(height:500)->save(public_path('uploads/abastecimento/put/'.$imageNameHodometro));
+            $pathHodometro = 'app/public/'.$empresa.'/abastecimentos/Hodometro_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension();
+            $abastecimento->pathFotoHodometro = $pathHodometro;
+            Storage::put($pathHodometro,file_get_contents(getenv('RAIZ').'/public/uploads/abastecimento/put/'.$imageNameHodometro));
+
+            $imageNameBomba = Str::uuid().$FotoBomba->getClientOriginalName();
+            $FotoBomba->move('uploads/abastecimento',$imageNameBomba);
+            $imageBombaRead = $manager->read('uploads/abastecimento/'.$imageNameBomba);
+            $imageBombaRead->scale(height:500)->save(public_path('uploads/abastecimento/put/'.$imageNameBomba));
+            $pathBomba = 'app/public/'.$empresa.'/abastecimentos/Bomba_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'.'.$FotoCupom->getClientOriginalExtension();
+            $abastecimento->pathFotoBomba = $pathBomba ;
+            Storage::put($pathBomba,file_get_contents(getenv('RAIZ').'/public/uploads/abastecimento/put/'.$imageNameBomba));
+
+
             $abastecimento->save();
             // echo '<pre>';
             // print_r($abastecimento->getAttributes());
@@ -329,6 +371,20 @@ class AbastecimentoController extends Controller implements HasMiddleware
             // throw new Exception($abastecimento->colaborador->id);
 
             DB::commit();
+            if(file_exists(getenv('RAIZ').'/public/uploads/abastecimento/put/'.$imageNameCupom)){
+                unlink(getenv('RAIZ').'/public/uploads/abastecimento/put/'.$imageNameCupom);
+                unlink(getenv('RAIZ').'/public/uploads/abastecimento/'.$imageNameCupom);
+            }
+            if(file_exists(getenv('RAIZ').'/public/uploads/abastecimento/put/'.$imageNameHodometro)){
+                unlink(getenv('RAIZ').'/public/uploads/abastecimento/put/'.$imageNameHodometro);
+                unlink(getenv('RAIZ').'/public/uploads/abastecimento/'.$imageNameHodometro);
+            }
+            if(file_exists(getenv('RAIZ').'/public/uploads/abastecimento/put/'.$imageNameBomba)){
+                unlink(getenv('RAIZ').'/public/uploads/abastecimento/put/'.$imageNameBomba);
+                unlink(getenv('RAIZ').'/public/uploads/abastecimento/'.$imageNameBomba);
+            }
+
+            // throw new Exception('ok');
             if(!is_null($request->ajax)){
                 return response()->json(['status'=>200,'msg'=>'Abastecimento cadastrado com sucesso']);
             }else{

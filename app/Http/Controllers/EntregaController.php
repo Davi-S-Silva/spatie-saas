@@ -75,6 +75,15 @@ class EntregaController extends Controller implements HasMiddleware
         DB::beginTransaction();
         try {
             $entrega = new Entrega();
+            $entregaBd = Entrega::where('veiculo_id',$request->veiculo)->where('status_id','!=',$entrega->getStatusId('Finalizada'))->get();
+            if($entregaBd->Count()!=0){
+                throw new Exception('Existe entrega não finalizada para esse veiculo');
+            }
+            $entregaBd = Entrega::where('colaborador_id',$request->colaborador)->where('status_id','!=',$entrega->getStatusId('Finalizada'))->get();
+            if($entregaBd->Count()!=0){
+                throw new Exception('Existe entrega não finalizada para esse Motorista');
+            }
+
             $entrega->newId();
             $Carga = Carga::find($request->Cargas[0]);
             $entrega->cliente_id = $Carga->cliente_id;
