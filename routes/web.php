@@ -11,6 +11,7 @@ use App\Http\Controllers\CargaController;
 use App\Http\Controllers\CEPController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ColaboradorController;
+use App\Http\Controllers\CompressedImage;
 use App\Http\Controllers\CteController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EntregaController;
@@ -115,6 +116,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/compressed',[CompressedImage::class,'index'])->name('compressed');
+    Route::post('/compressed',[CompressedImage::class,'store'])->name('compressed');
 
     // Route::middleware(['role:tenant-colaborador|admin|tenant-admin|super-admin'])->group(function(){
     // Route::group(['middleware'=>['role:tenant-admin|admin|super-admin']],function(){
