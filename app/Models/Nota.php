@@ -194,8 +194,8 @@ class Nota extends Model
             return $diferenca;
         }
         return true;
-
     }
+
     public function produtos()
     {
         return $this->belongsToMany(ProdutoNota::class);
