@@ -80,9 +80,25 @@
         @endif --}}
     @endhasanyrole
 
+    <div id="AreaCameraAbastecimento" class="col-12 bg-white">
+        <video autoplay class="video_camera_abastecimento col-11"></video>
+        <button class="btn btn-primary btn-tirar-foto" id="btnTirarFoto">Tirar Foto</button>
+    </div>
+
     <div class="my-3 border-black border rounded text-center pt-2">
-        <label for="" class="form-label">Foto Cupom</label>
-        <input type="file" name="FotoCupom" id="" class="form-control p-3" required>
+        {{-- <div>
+            <label for="" class="form-label">Foto Cupom</label>
+            <input type="file" name="FotoCupom" id="" class="form-control p-3" required>
+        </div> --}}
+
+        <section id="SectionAreaFotoCupom" class="col-12 d-flex flex-column">
+            <label for="">Cupom</label>
+            <i class="fa-solid fa-camera" id="CameraFotoCupom" name="Cupom"></i>
+            <div id="AreaFotoCupom" class="col-12 overflow-hidden">
+                <canvas id="CanvasCameraFotoCupom" class="d-none"></canvas>
+                {{-- <a href="">teste</a> --}}
+            </div>
+        </section>
         {{-- @if ($errors->has('FotoCupom'))
         <div class="alert alert-danger">
             {{ $errors->first('FotoCupom') }}
@@ -91,27 +107,49 @@
     </div>
 
     <div class="my-3 border border-black rounded text-center pt-2">
-        <label for="" class="form-label">Foto Bomba de Abastecimento</label>
-        <input type="file" name="FotoBomba" id="" class="form-control p-3" required>
+        {{-- <div>
+            <label for="" class="form-label">Foto Bomba de Abastecimento</label>
+            <input type="file" name="FotoBomba" id="" class="form-control p-3" required>
+        </div> --}}
         {{-- @if ($errors->has('FotoBomba'))
         <div class="alert alert-danger">
             {{ $errors->first('FotoBomba') }}
         </div>
         @endif --}}
+        <section id="SectionAreaFotoBomba" class="col-12 d-flex flex-column">
+            <label for="">Bomba</label>
+            <i class="fa-solid fa-camera" id="CameraFotoBomba" name="Bomba"></i>
+            <div id="AreaFotoBomba" class="col-12 overflow-hidden">
+                <canvas id="CanvasCameraFotoBomba" class="d-none"></canvas>
+                {{-- <a href="">teste</a> --}}
+            </div>
+        </section>
     </div>
+
     <div class="my-3 border border-black rounded text-center pt-2">
-        <label for="" class="form-label">Foto Hodometro / Velocimetro</label>
-        <input type="file" name="FotoHodometro" id="FotoHodometro" class="form-control p-3" required>
+        {{-- <div>
+            <label for="" class="form-label">Foto Hodometro / Velocimetro</label>
+            <input type="file" name="FotoHodometro" id="FotoHodometro" class="form-control p-3" required>
+        </div> --}}
         {{-- @if ($errors->has('FotoHodometro'))
         <div class="alert alert-danger">
             {{ $errors->first('FotoHodometro') }}
         </div>
         @endif --}}
+        <section id="SectionAreaFotoHodometro" class="col-12 d-flex flex-column">
+            <label for="">Hodometro</label>
+            <i class="fa-solid fa-camera" id="CameraFotoHodometro" name="Hodometro"></i>
+            <div id="AreaFotoHodometro" class="col-12 overflow-hidden">
+                <canvas id="CanvasCameraFotoHodometro" class="d-none"></canvas>
+                {{-- <a href="">teste</a> --}}
+            </div>
+        </section>
     </div>
 
    {{-- @if (Auth::user()->colaborador()->count() != 0 && Auth::user()->colaborador()->first()->veiculo()->count() == 0)
    <x-select-veiculo/>
    @endif --}}
+
 
     <div class="text-center">
         @csrf

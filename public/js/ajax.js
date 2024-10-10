@@ -1736,6 +1736,60 @@ $(function () {
     $('.error-valor').hide()
     $('.error-litros').hide()
     $('form[name="FormAbastecimento"]').submit(function () {
+
+        console.log($(this).serialize())
+        $.ajax({
+            type: 'post',
+            url: $(this).attr('action'),
+            // data: $(this).serialize(),
+            data: $(this).serialize(),
+            dataType: 'json',
+            // cache: false,
+            // processData: false,
+            // contentType: false,
+            beforeSend: function () {
+                // alert(routeStorePermission)
+                loading.css('display', 'flex')
+                loading.removeClass('d-none');
+                // $("body").css("overflow", "hidden");
+            },
+            success: function (response) {
+                console.log(response)
+                //  return false;
+                if (response.status == 200) {
+
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').text(response.msg)
+                    // var nota = response.nota;
+
+                    // console.log(response.msg)
+                    location.href = base + "abastecimento";
+                    $('html, body').animate({scrollTop:0},800)
+                }
+
+                if (response.status == 0) {
+                    $('.response-message-ajax').show()
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').text(response.msg)
+                    // console.log(response.msg)
+                    alert(response.msg)
+                    $('html, body').animate({scrollTop:0},800)
+                }
+                loading.addClass('d-none');
+            },
+            error: function (response) {
+                // console.log(response)
+                $('.response-message-ajax').show()
+                $('.response-message-ajax').removeClass('alert-success')
+                $('.response-message-ajax').addClass('alert-danger')
+                $('.response-message-ajax').text(response)
+                loading.addClass('d-none');
+            }
+        })
+        return false
         var cupom = $('.abast-cupom');
         if(cupom.val() == ""){
             $('.error-cupom').show()

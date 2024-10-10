@@ -626,6 +626,63 @@ background-color: green;
 #FormCte legend small{
     font-size: 13pt;
 }
+
+
+
+/* CAMERA JS PARA ABASTECIMENTO */
+
+#CameraFotoCupom,#CameraFotoBomba, #CameraFotoHodometro {
+    font-size: 20pt;
+}
+#CameraFotoCupom:hover,#CameraFotoBomba:hover, #CameraFotoHodometro:hover {
+    cursor: pointer;
+}
+#SectionAreaFotoCupom{
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blueviolet; */
+}
+#AreaFotoCupom{
+    position: relative;
+    z-index: 1001;
+    /* height: 100vh; */
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+
+}
+#AreaCameraAbastecimento{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1010;
+    height: 100vh;
+    width: 100vw;
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items:center;
+    border: 5px dotted dodgerblue;
+}
+.video_camera_abastecimento{
+    /* background-color: #1100ff; */
+    z-index: 1002;
+    position: relative;
+    height: 90vh;
+    margin: 0 auto;
+}
+.btn-tirar-foto{
+    position: relative;
+    bottom: 0;
+}
+
+/* FIM CAMERA JS PARA ABASTECIMENTO */
+
+
+
+
 /* FIM FRM CTE */
 
     @media (max-width: 600px) {
