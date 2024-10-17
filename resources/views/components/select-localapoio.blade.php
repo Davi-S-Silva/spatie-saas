@@ -10,7 +10,7 @@
         @foreach (Empresa::All() as $empresa)
             {{-- <option value="{{ $empresa->id }}">{{ $empresa->nome }}</option> --}}
             @foreach ($empresa->localapoios as $local)
-                @if ((isset($carga) && $carga==$local->id) || (isset($colaborador) && $colaborador->empresa_id==$local->id))
+                @if (((isset($carga) && $carga==$local->id) || (isset($colaborador) && $colaborador->empresa_id==$local->id))||(isset($veiculo) && $veiculo->local_apoio_id==$local->id))
                     <option value="{{ $local->id }}" selected>{{ $empresa->nome_fantasia }} - {{ $local->name }}</option>
                 {{-- @elseif($colaborador) --}}
                 @else

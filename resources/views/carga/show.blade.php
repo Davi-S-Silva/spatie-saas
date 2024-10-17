@@ -10,8 +10,10 @@
     <div class="py-1">
         <div class="mx-auto px-1">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                @if (Auth::user()->roles()->first()->name == 'tenant-admin-master' || Auth::user()->roles()->first()->name == 'tenant-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'super-admin')
                 <div class="card col-12 p-2">
                     <section class="d-flex justify-between flex-wrap">
+
                         <div class="col-3">
                             <ul>
                                 <li>Cliente: {{ $carga->filial->razao_social }}</li>
@@ -50,10 +52,12 @@
                                             copy="{{ $carga->quantidade() }}"
                                             title="Clique com o botao direito do mouse para copiar texto">{{ $carga->quantidade() }}</span></b>
                                 </li>
+                                @if(!(Auth::user()->roles()->first()->name== 'tenant-colaborador' || Auth::user()->roles()->first()->name== 'colaborador'))
                                 <li>
                                     <a href="{{ route('carga.edit', ['carga' => $carga->id]) }}"
                                         class="btn btn-info">Editar Carga</a>
                                 </li>
+                                @endif
                             </ul>
                             Cidades:
                             <ul class="d-flex">
@@ -62,6 +66,7 @@
                                 @endforeach
                             </ul>
                             {{-- @if (is_null($carga->frete) || $carga->frete == 0) --}}
+                            @if(!(Auth::user()->roles()->first()->name== 'tenant-colaborador' || Auth::user()->roles()->first()->name== 'colaborador'))
                             <div class="col-5 d-flex justify-between align-items-center">
                                 <a href="{{ route('carga.cidadeFrete', ['carga' => $carga->id]) }}"
                                     class="btn btn-primary cidade_frete m-5">Consultar Destino/Frete</a>
@@ -72,6 +77,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            @endif
                         </div>
                         <div class="div_area_uploads_cargas col-9">
                             <ul>
@@ -190,7 +196,7 @@
                             </a>
                         @endforeach
                     </section>
-                    {{-- @endif --}}
+                    @endif
                     <div>
                         @php
                             $dados = $carga->produtos();
@@ -220,7 +226,7 @@
                     <div>
                         <header>Notas</header>
                         <div>
-                            <table class="text-center col-12">
+                            <table class="text-center col-12 overflow-auto">
                                 <thead>
                                     <tr class="border-secondary border">
                                         <th class="py-2 col-1">Número</th>
@@ -251,6 +257,10 @@
                                                 <span class="click_botao_direito position-relative"
                                                     copy="{{ $nota->destinatario->cpf_cnpj }}"
                                                     title="Clique com o botao direito do mouse para copiar texto">{{ $nota->destinatario->cpf_cnpj }}
+                                                </span>-
+                                                <span class="click_botao_direito position-relative"
+                                                    copy="{{ $nota->destinatario->ie }}"
+                                                    title="Clique com o botao direito do mouse para copiar texto">{{ $nota->destinatario->ie }}
                                                 </span>-
                                                 {{ $nota->destinatario->nome_razao_social }}
                                             </td>

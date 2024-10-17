@@ -283,5 +283,17 @@ class Carga extends Model
             return false;
         }
     }
+    public function setHistorico($msg){
+        $historico = new Historico();
+        $historico->newId();
+        $historico->model = 'Carga';
+        $historico->id_model = $this->id;
+        $historico->descricao = $msg;
+        $historico->dados = $this;
+        $historico->data = date('Y-m-d');
+        $historico->user_id = Auth::user()->id;
+        $historico->tenant_id = Auth::user()->tenant_id;
+        $historico->save();
+    }
 
 }

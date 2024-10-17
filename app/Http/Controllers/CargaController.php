@@ -4,16 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Carga;
 use App\Models\Cliente;
+use App\Models\Colaborador;
 use App\Models\DistanceCity;
 use App\Models\Empresa;
+use App\Models\Entrega;
 use App\Models\FileCarga;
 use App\Models\Filial;
 use App\Models\Historico;
+use App\Models\Km;
 use App\Models\LocalApoio;
+use App\Models\LocalMovimentacao;
 use App\Models\ModeloUmFrete;
+use App\Models\MovimentacaoVeiculo;
 use App\Models\Nota;
 use App\Models\PdfsSistema;
 use App\Models\ProdutoNota;
+use App\Models\Status;
 use App\Models\Uteis;
 use App\Models\Veiculo;
 use Exception;
@@ -165,16 +171,26 @@ class CargaController extends Controller implements HasMiddleware
             if ($CargaBD->count() != 0) {
                 throw new Exception('Carga já Cadastrada no Sistema');
             }
-            $CargaVeiculo = Carga::where('veiculo_id',$request->veiculo)->where('status_id',"!=",(new Carga())->getStatusId('Finalizada'))->get();
-            $veiculo = Veiculo::find($request->veiculo);
-            if($request->veiculo == '' || is_null($request->veiculo)){
-                throw new Exception ('Selecione o veiculo da Carga');
+            if(!is_null($request->veiculo)){
+                $CargaVeiculo = Carga::where('veiculo_id',$request->veiculo)->where('status_id',"!=",(new Carga())->getStatusId('Finalizada'))->get();
+                // $veiculo = Veiculo::find($request->veiculo);
+                // if($request->veiculo == '' || is_null($request->veiculo)){
+                //     throw new Exception ('Selecione o veiculo da Carga');
+                // }
+                // if($CargaVeiculo->count()!=0 && $veiculo->placa != 'KKD1244'){
+                //     throw new Exception('Existe Carga não finalizada para esse veiculo no Sistema');
+                // }
+                if($CargaVeiculo->count()!=0){
+                    throw new Exception('Existe Carga não finalizada para esse veiculo no Sistema');
+                }
+
             }
-            // if($CargaVeiculo->count()!=0 && $veiculo->placa != 'KKD1244'){
-            //     throw new Exception('Existe Carga não finalizada para esse veiculo no Sistema');
-            // }
-            if($CargaVeiculo->count()!=0){
-                throw new Exception('Existe Carga não finalizada para esse veiculo no Sistema');
+
+            if(is_null($request->data)){
+                throw new Exception('Informe a data de emissão da carga');
+            }
+            if(is_null($request->agenda)){
+                throw new Exception('Informe a data de agendamento da carga para o cliente');
             }
             DB::beginTransaction();
             $carga = new Carga();
@@ -325,6 +341,19 @@ class CargaController extends Controller implements HasMiddleware
         try {
             DB::beginTransaction();
             $Carga = Carga::find($carga);
+            if(is_null($Carga->motorista_id)){
+                throw new Exception('Para Add notas na carga informe o motorista que vai efetuar o carregamento da carga');
+            }
+            if(is_null($Carga->remessa)){
+                throw new Exception('Para Add notas na carga informe o numero de remessa');
+            }
+            if(is_null($Carga->os)){
+                throw new Exception('Para Add notas na carga informe o numero de remessa');
+            }
+
+            if(is_null($Carga->veiculo_id)){
+                throw new Exception('Para Add notas na carga informe o veiculo que vai efetuar o carregamento da carga');
+            }
             if ($Carga->getStatusId('Pendente') != $Carga->status_id) {
                 throw new Exception('Não é possivel adicionar nota a uma carga ja esteja em rota ou finalizada');
             }
@@ -587,6 +616,154 @@ class CargaController extends Controller implements HasMiddleware
         }catch(Exception $ex){
             DB::rollback();
             return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+        }
+    }
+    public function UpdateStatusCarga(Carga $carga, Request $request)
+    {
+        try{
+        DB::beginTransaction();
+        if($carga->status_id == $carga->getStatusId('Finalizada')){
+            throw new Exception('não é possivel atualizar o status de carga ja finalizada');
+        }
+        // $carga->status_id = $carga->getStatusId($request->status);
+        // $carga->save();
+        if($carga->notas()->get()->count()==0){
+            throw new Exception('Inserir Notas na carga ' . $carga->remessa .' - ' . $carga->os);
+        }
+        $carga->setStatus($request->status);
+        $carga->save();
+        DB::commit();
+        return response()->json(['status'=>200,'msg'=>$request->status,'carga'=>$carga->id]);
+        // dd($request->input());
+    }catch(Exception $ex){
+        DB::rollback();
+        return response()->json(['status'=>0,'msg'=>$ex->getMessage()]);
+    }
+
+    }
+
+    public function SeguirViagem(Carga $carga, Request $request){
+        DB::beginTransaction();
+        try{
+            if($carga->status_id == $carga->getStatusId("Rota")){
+                throw new Exception('Carga já em Rota para o ');
+                throw new Exception('Carga já em Rota para o Cliente');
+            }
+            $partida = LocalMovimentacao::where('title',Filial::find($carga->cliente_id)->razao_social)->first()->id;
+            $km = (int)$request->Km;
+
+
+            // return response()->json(['status'=>200, 'msg'=>$request->input()]);
+            if(is_null($request->Destino)){
+                throw new Exception('Destino Ínvalido');
+            }
+            $lastMovVeiculo = MovimentacaoVeiculo::where('veiculo_id',$carga->veiculo_id)->get();
+            if($lastMovVeiculo->count()!=0){
+                if($lastMovVeiculo->last()->Local_destino_id != $partida){
+                    throw new Exception('Movimentacao incorreta. o veiculo está atualmente em '.LocalMovimentacao::find($lastMovVeiculo->last()->Local_destino_id)->title);
+                }
+                if($lastMovVeiculo->last()->status_id!=$lastMovVeiculo->last()->getStatusId('Finalizada')){
+                    throw new Exception('Existe movimentação não concluida para o veiculo');
+                }
+            }
+            $Veiculo = Veiculo::find($carga->veiculo_id);
+            $Motorista = Colaborador::find($carga->motorista_id);
+
+            //criar Entrega
+            if($request->Destino == 'Cliente'){
+                //criar nova entrega junto com a movimentacao e ja iniciar
+                $destino = LocalMovimentacao::where('title','Rota')->first()->id;
+                $entrega = new Entrega();
+                $entregaBd = Entrega::where('veiculo_id',$carga->veiculo_id)->where('status_id','!=',$entrega->getStatusId('Finalizada'))->get();
+                if($entregaBd->Count()!=0){
+                    throw new Exception('Existe entrega não finalizada para esse veiculo');
+                }
+                $entregaBd = Entrega::where('colaborador_id',$carga->motorista_id)->where('status_id','!=',$entrega->getStatusId('Finalizada'))->get();
+                if($entregaBd->Count()!=0){
+                    throw new Exception('Existe entrega não finalizada para esse Motorista');
+                }
+                $entrega->newId();
+                $entrega->cliente_id = $carga->cliente_id;
+                $entrega->filial_id = $carga->filial_id;
+                $entrega->empresa_id = $carga->empresa_id;
+                $entrega->local_apoio_id = $carga->local_apoio_id;
+
+                if ($Veiculo->status_id == $Veiculo->getStatusId('Disponivel')) {
+                    $entrega->veiculo_id = $carga->veiculo_id;
+                } else {
+                    throw new Exception('Veiculo está indisponivel');
+                }
+                $Veiculo->setStatus('Rota'); //veiculo indisponivel
+                $Veiculo->save();
+                if ($Motorista->status_id == $Motorista->getStatusId('Disponivel')) {
+                    $entrega->colaborador_id = $carga->motorista_id;
+                } else {
+                    throw new Exception('Motorista está indisponivel ');
+                }
+                $Motorista->status_id = $Motorista->getStatusId('Rota');
+                $Motorista->save();
+
+                $entrega->setStatus('Rota'); //entrega pendente
+                $entrega->usuario_id = Auth::user()->id;
+                $entrega->save();
+
+                $carga->setStatus('Rota');
+                $entrega->cargas()->attach($carga);
+
+                $Mov = new MovimentacaoVeiculo();
+                $Mov->newId();
+                $Mov->Local_partida_id = $partida;
+                $Mov->Local_destino_id = LocalMovimentacao::where('title','Rota')->first()->id;
+                $Mov->colaborador_id = $entrega->colaborador_id;
+                $Mov->veiculo_id = $entrega->veiculo_id;
+                $Mov->descricao = LocalMovimentacao::where('title','Rota')->first()->descricao . ' do cliente: ' . strtoupper($entrega->filial->nome_fantasia);
+                $Mov->data_hora_inicio = date('Y-m-d H:i:s');
+                $Mov->usuario_id = Auth::user()->id;
+                $Mov->usuario_start_id = Auth::user()->id;
+//  return response()->json(['status'=>200, 'msg'=>$request->input(),'km'=>$km]);
+                $KmModel = new Km();
+                $KmModel->setKm($Veiculo, $km);
+                $KmModel->save();
+
+                $Mov->km_inicio_id = $KmModel->id;
+                $Mov->setStatus('Rota'); //movimentacao iniciada
+                $Mov->save();
+
+                $entrega->movimentacao_id = $Mov->id;
+                $entrega->save();
+
+            }else{
+                //cria movimentacao para o Local escolhido "diferente do cliente"
+                $destino = LocalMovimentacao::where('title',$request->Destino)->first()->id;
+                $Mov = new MovimentacaoVeiculo();
+                $Mov->Local_destino_id = $destino;
+                $Mov->Local_partida_id = $partida;
+                $Mov->colaborador_id = $carga->motorista_id;
+                $Mov->veiculo_id = $carga->veiculo_id;
+                $Mov->usuario_id = Auth::user()->id;
+                $Mov->setStatus('Pendente');//movimentacao pendente
+                // $Mov->save();
+
+                //Atualizar status para Aguardando -> aguardando iniciar entrega para seguir rota
+                //movimentado para o local de espera para serguir outro dia para o cliente
+                $carga->setStatus('Aguardando');
+                $KmModel = new Km();
+                $KmModel->setKm($Veiculo, $km);
+                $KmModel->save();
+
+                $Mov->km_inicio_id = $KmModel->id;
+                $Mov->setStatus('Rota'); //movimentacao iniciada
+                $Mov->save();
+            }
+                $msg = "Carga ".$carga->remessa." Atualizada com sucesso por ".Auth::user()->name." - data: ".date('d/m/Y H:i:s');
+                $carga->setHistorico($msg);
+                $carga->save();
+
+            DB::commit();
+            return response()->json(['status'=>200, 'msg'=>$request->input()]);
+        }catch(Exception $ex){
+            DB::rollback();
+            return response()->json(['status'=>0, 'msg'=>$ex->getMessage().'-'.$ex->getLine()]);
         }
     }
 

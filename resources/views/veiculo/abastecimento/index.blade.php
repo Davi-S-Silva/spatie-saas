@@ -164,7 +164,7 @@
                                         <li>Usuário</li>
                                     </ul>
                                     <ul class="col-7">
-                                        <li>{{ $abastecimento->cupom }}</li>
+                                        <li><a href="{{ route('abastecimento.show',['abastecimento'=>$abastecimento->id]) }}">{{ $abastecimento->cupom }}</a></li>
                                         <li>{{ $abastecimento->kmAnterior }}</li>
                                         <li>{{ $abastecimento->kmAtual }}</li>
                                         @php
@@ -177,7 +177,7 @@
                                         <li class="overflow-auto h-7">{{ $abastecimento->colaborador->name }}</li>
                                         <li>{{ date('d/m/Y H:i:s', strtotime($abastecimento->created_at)) }}</li>
                                         <li>{{ number_format($kmRodado / $abastecimento->litros, 5, ',', '.') }}</li>
-                                        <li>{{ $abastecimento->user->name }}</li>
+                                        <li>{{ isset($abastecimento->user->name)?$abastecimento->user->name:'' }}</li>
                                     </ul>
                                 </li>
                             @endforeach

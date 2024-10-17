@@ -540,6 +540,14 @@ background-color: green;
         text-align: center;
     }
 
+    /*CARGAS*/
+    .table-cargas{
+        /* background-color: #1100ff; */
+    }
+    .index-cargas-mobile{
+        display: none;
+    }
+    /*FIM CARGAS*/
     /* AREA DE UPLOADS DOS ARQUIVOS DAS CARGAS */
     .div_area_uploads_cargas {
         /* background-color: #999; */
@@ -643,7 +651,7 @@ background-color: green;
     align-items: center;
     background-color: blueviolet; */
 }
-#AreaFotoCupom{
+#AreaFotoCupom, #AreaFotoHodometro,#AreaFotoBomba{
     position: relative;
     z-index: 1001;
     /* height: 100vh; */
@@ -651,6 +659,11 @@ background-color: green;
     left: 0;
     background-color: #ffffff;
 
+}
+#AreaFotoCupom img, #AreaFotoHodometro img, #AreaFotoBomba img{
+    display: block;
+    float: left;
+    width: 100%;
 }
 #AreaCameraAbastecimento{
     display: none;
@@ -750,6 +763,13 @@ background-color: green;
             margin: 1px 0;
             justify-content: space-between;
             border-bottom: 1px solid #ccc;
+        }
+        .table-cargas{
+            display: none;
+        }
+        .index-cargas-mobile{
+            display: block;
+            /* background-color: #13313a; */
         }
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cargas', function (Blueprint $table) {
             $table->id();
             $table->string('destino');
-            $table->foreignId('motorista_id')->references('id')->on('colaboradors');
+            $table->foreignId('motorista_id')->nullable()->references('id')->on('colaboradors');
             // $table->double('peso');
             // $table->integer('entregas');
             $table->integer('remessa')->nullable();

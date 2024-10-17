@@ -174,6 +174,8 @@ Route::middleware('auth')->group(function () {
     Route::get('carga/{carga}/comprovantes',[CargaController::class, 'gerarListaComprovante'])->name('gerarListaComprovante');
     Route::get('carga/{carga}/formDiaria',[CargaController::class, 'formDiaria'])->name('formDiaria');
     Route::put('carga/{carga}/storeFormDiaria',[CargaController::class, 'storeFormDiaria'])->name('storeFormDiaria');
+    Route::get('carga/{carga}/UpdateStatusCarga',[CargaController::class, 'UpdateStatusCarga'])->name('UpdateStatusCarga');
+    Route::get('carga/{carga}/SeguirViagem',[CargaController::class, 'SeguirViagem'])->name('SeguirViagem');
 
     Route::resource('fornecedor', FornecedorController::class);
 

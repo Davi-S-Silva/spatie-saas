@@ -243,6 +243,7 @@ class EntregaController extends Controller implements HasMiddleware
             $Mov->descricao = $localMov->getLocalMovimentacao('Rota')->descricao . ' do cliente: ' . strtoupper($entrega->filial->nome_fantasia);
             $Mov->data_hora_inicio = date('Y-m-d H:i:s');
             $Mov->usuario_id = Auth::user()->id;
+            $Mov->usuario_start_id = Auth::user()->id;
             $veiculo = Veiculo::find($Mov->veiculo_id);
             $veiculo->status_id = $veiculo->getStatusId('Rota');
             $veiculo->save();

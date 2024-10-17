@@ -125,8 +125,9 @@ class VeiculoController extends Controller implements HasMiddleware
      */
     public function show(Veiculo $veiculo)
     {
-        dd($veiculo->getAttributes());
-        dd($veiculo->kms()->get()->first()->veiculo->placa);
+        // dd($veiculo->getAttributes());
+        // dd($veiculo->kms()->get()->first()->veiculo->placa);
+        return view('veiculo.show',['veiculo'=>$veiculo]);
     }
 
     /**
@@ -135,6 +136,7 @@ class VeiculoController extends Controller implements HasMiddleware
     public function edit(Veiculo $veiculo)
     {
         //
+        return view('veiculo.edit',['veiculo'=>$veiculo]);
     }
 
     /**
@@ -142,7 +144,7 @@ class VeiculoController extends Controller implements HasMiddleware
      */
     public function update(Request $request, Veiculo $veiculo)
     {
-        //
+        dd($request->input());
     }
 
     /**

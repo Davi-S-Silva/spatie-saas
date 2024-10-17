@@ -367,7 +367,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
             list($tipo, $FotoCupom)=explode(',',$FotoCupom);
             $imagemCupom = base64_decode($FotoCupom);
             $img_nome_cupom = $Cupom.'_'.time().'.png';
-            file_put_contents($path.'/uploads/abastecimentos/'.$img_nome_cupom,$imagemCupom);
+            file_put_contents($path.'uploads/abastecimentos/'.$img_nome_cupom,$imagemCupom);
             $pathCupom = 'app/public/'.$empresa.'/abastecimentos/Cupom_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'_'.$img_nome_cupom;
             $abastecimento->pathFotoCupom =  $pathCupom ;
             Storage::put($pathCupom,file_get_contents( $path.'uploads/abastecimentos/'.$img_nome_cupom));
@@ -378,7 +378,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
             list($tipo, $FotoHodometro)=explode(',',$FotoHodometro);
             $imagemHodometro = base64_decode($FotoHodometro);
             $img_nome_hodometro = $Cupom.'_'.time().'.png';
-            file_put_contents($path.'/uploads/abastecimentos/'.$img_nome_hodometro,$imagemHodometro);
+            file_put_contents($path.'uploads/abastecimentos/'.$img_nome_hodometro,$imagemHodometro);
             $pathHodometro = 'app/public/'.$empresa.'/abastecimentos/Hodometro_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'_'.$img_nome_hodometro;
             $abastecimento->pathFotoHodometro =  $pathHodometro ;
             Storage::put($pathHodometro,file_get_contents( $path.'uploads/abastecimentos/'.$img_nome_hodometro));
@@ -388,7 +388,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
             list($tipo, $FotoBomba)=explode(',',$FotoBomba);
             $imagemBomba = base64_decode($FotoBomba);
             $img_nome_bomba = $Cupom.'_'.time().'.png';
-            file_put_contents($path.'/uploads/abastecimentos/'.$img_nome_bomba,$imagemBomba);
+            file_put_contents($path.'uploads/abastecimentos/'.$img_nome_bomba,$imagemBomba);
             $pathBomba = 'app/public/'.$empresa.'/abastecimentos/Bomba_'.$abastecimento->cupom.'_'.$Veiculo->placa.'_'.$data.'_'.$img_nome_bomba;
             $abastecimento->pathFotoBomba =  $pathBomba ;
             Storage::put($pathBomba,file_get_contents( $path.'uploads/abastecimentos/'.$img_nome_bomba));
@@ -418,7 +418,7 @@ class AbastecimentoController extends Controller implements HasMiddleware
             //
             // throw new Exception($abastecimento->colaborador->id);
 
-            // DB::commit();
+            DB::commit();
             if(file_exists($path.'uploads/abastecimentos/'.$img_nome_cupom)){
                 unlink($path.'uploads/abastecimentos/'.$img_nome_cupom);
             }

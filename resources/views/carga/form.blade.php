@@ -28,15 +28,15 @@
 
         <div class="col-sm-4 col-12">
             <label for="" class="form-label">Area Atendimento/Destino</label>
-            <input type="text" name="area" id="" class="form-control rounded border-black"
+            <input type="text" name="area" id="" required class="form-control rounded border-black"
                 value="{{ isset($carga->destino) ? $carga->destino : '' }}">
         </div>
         <div class="col-sm-4 col-12">
             {{-- <label for="">Motorista</label> --}}
             @if (isset($carga->motorista_id))
-                <x-select-colaborador :colaborador="$carga->motorista->id" :funcao=1 :required=true />
+                <x-select-colaborador :colaborador="$carga->motorista->id" :funcao=1 :required=false />
             @else
-                <x-select-colaborador :funcao=1 :required=true />
+                <x-select-colaborador :funcao=1 :required=false />
             @endif
 
         </div>
@@ -72,12 +72,12 @@
     <div class="col-12 d-flex justify-center">
         <div class="col-sm-2 col-6 mx-5">
             <label for="" class="form-label">Data Emissão</label>
-            <input type="date" name="data" id="" class="form-control rounded border-black"
+            <input type="date" name="data" id="" required class="form-control rounded border-black"
                 value="{{ isset($carga->data) ? $carga->data : '' }}">
         </div>
         <div class="col-sm-2 col-6 mx-5">
             <label for="" class="form-label">Data Agenda</label>
-            <input type="date" name="agenda" id="" class="form-control rounded border-black"
+            <input type="date" name="agenda" required id="" class="form-control rounded border-black"
                 value="{{ isset($carga->agenda) ? $carga->agenda : '' }}">
         </div>
     </div>

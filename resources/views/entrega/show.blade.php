@@ -18,6 +18,7 @@
                 <x-start-entrega />
                 <x-stop-entrega :localMovimentacao=$localMovimentacao />
                 <div class="card col-12 p-2 exibe_entrega">
+
                     <form action="{{ route('receberVariasNotas', ['entrega' => $entrega->id]) }}" method="post"
                         name="FormEncerraEntrega">
                         <header>
@@ -68,6 +69,12 @@
                                     </header>
                                     Notas
                                     <hr />
+                                    <section>
+                                        <div>
+                                            <input type="checkbox" name="SelectAllNotas" id="SelectAllNotas">
+                                            <label for="SelectAllNotas">Selecionar Todas as Notas</label>
+                                        </div>
+                                    </section>
                                     <section class="d-flex flex-wrap justify-around col-12 ">
                                         @forelse ($carga->notas()->with('destinatario','carga')->orderBy('destinatario_id','asc')->get() as $nota)
                                             <div class="col-lg-3 col-11 mx-1 d-flex justify-around align-items-center">

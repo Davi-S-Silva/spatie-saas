@@ -18,8 +18,10 @@
                 </form>
             </section> --}}
             <x-set-notas-carga />
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card col-12 p-2">
+                    @if (Auth::user()->roles()->first()->name == 'tenant-admin-master' || Auth::user()->roles()->first()->name == 'tenant-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'super-admin')
                     <section>
                         <form action="{{ route('postQueryIndexCarga') }}" method="post" class="d-flex align-items-end justify-center mb-5 flex-wrap">
                             <div class="col-1 mr-2">
@@ -61,7 +63,11 @@
                             </div>
                         </form>
                     </section>
-                    <table class=" text-center align-items-center text-sm">
+                    <section>
+                        <a href="{{ route('carga.create') }}" class="btn btn-primary my-2">Nova Carga</a>
+                    </section>
+                    @endif
+                    <table class=" text-center align-items-center text-sm table-cargas">
                         <thead>
                             <tr class="border-secondary border">
                                 @php
@@ -127,16 +133,34 @@
                                             class="fa-regular fa-square-plus"></i></td>
                                     <td><input type="checkbox" name="" id=""></td>
                                     <td>{{ date('d/m/Y', strtotime($carga->data)) }}</td>
-                                    <td class="d-flex justify-between px-5"><a
+                                    <td class="d-flex justify-between px-5">
+                                        @if (isset($carga->remessa))
+                                        <a
+                                        href="{{ route('carga.show', ['carga' => $carga->id]) }}" class="click_botao_direito position-relative" copy="{{ $carga->remessa }}"
+                                        title="Clique com o botao direito do mouse para copiar texto">{{ isset($carga->remessa)?$carga->remessa:'editar' }}</a>
+                                        @else
+                                        <a
+                                        href="{{ route('carga.edit', ['carga' => $carga->id]) }}" class="click_botao_direito position-relative" copy="{{ $carga->remessa }}"
+                                        title="Clique com o botao direito do mouse para copiar texto">{{ isset($carga->remessa)?$carga->remessa:'editar' }}</a>
+                                        @endif
+                                        {{-- <a
                                             href="{{ route('carga.show', ['carga' => $carga->id]) }}" class="click_botao_direito position-relative" copy="{{ $carga->remessa }}"
-                                            title="Clique com o botao direito do mouse para copiar texto">{{ $carga->remessa }}</a>
+                                            title="Clique com o botao direito do mouse para copiar texto">{{ isset($carga->remessa)?$carga->remessa:'editar' }}</a> --}}
                                     {{-- </td>
                                     <td> --}} -
+                                        @if (isset($carga->os))
                                         <a
-                                            href="{{ route('carga.show', ['carga' => $carga->id]) }}" class="click_botao_direito position-relative" copy="{{ $carga->os }}"
-                                            title="Clique com o botao direito do mouse para copiar texto">{{ $carga->os }}</a>
+                                        href="{{ route('carga.show', ['carga' => $carga->id]) }}" class="click_botao_direito position-relative" copy="{{ $carga->os }}"
+                                        title="Clique com o botao direito do mouse para copiar texto">{{ isset($carga->os)?$carga->os:'editar' }}</a>
+                                        @else
+                                        <a
+                                        href="{{ route('carga.edit', ['carga' => $carga->id]) }}" class="click_botao_direito position-relative" copy="{{ $carga->os }}"
+                                        title="Clique com o botao direito do mouse para copiar texto">{{ isset($carga->os)?$carga->os:'editar' }}</a>
+                                        @endif
+
                                     </td>
-                                    <td><div class="div-overflow-carga" title="{{ $carga->motorista->name }}">{{ $carga->motorista->name }}</div></td>
+                                    <td><div class="div-overflow-carga" title="{{ isset($carga->motorista->name)?$carga->motorista->name:'-' }}">
+                                        {{ isset($carga->motorista->name)?$carga->motorista->name:'-'  }}</div></td>
                                     <td><div class="div-overflow-carga" title="{{ $carga->filial->nome_fantasia }}">{{ $carga->filial->nome_fantasia }}</div></td>
                                     <td><div class="div-overflow-carga" title="{{ $carga->destino }}">{{ $carga->destino }}</div></td>
                                     {{-- <td>{{ date('d/m/Y', strtotime($carga->agenda)) }}</td> --}}
@@ -159,7 +183,7 @@
                                             <div class="text-primary">{{ $carga->notasPorStatus('pendente')->count() }}</div>
                                             <div class="text-danger">{{ $carga->notasPorStatus('devolvida')->count() }}</div>
                                             <div class="text-success">{{ $carga->notasPorStatus('entregue')->count() }}</div>
-                                    </div>
+                                        </div>
                                     </td>
                                     <td>{{ count($carga->paradas()) }}</td>
                                     <td>R$ {{ number_format($carga->frete, 2, ',', '.') }}</td>
@@ -185,6 +209,7 @@
                                     {{-- <td class="cursor-pointer" title="Clique para adicionar diária"><a href="{{ route('formDiaria',['carga'=>$carga->id]) }}" class="add-diaria add-diaria-{{ $carga->id }}">{{ $carga->diaria }}</a></td> --}}
                                     @php
                                         $status = $carga->getStatus();
+                                        $permissionColaborador = array("Aguardando","Pendente","Rota", "Finalizada","Cancelada");
                                     @endphp
                                     <td title="{{ $status->descricao }}" class="@php
                                         if($status->name =='Rota'){
@@ -197,19 +222,28 @@
                                             echo 'text-primary';
                                         }
                                     @endphp font-bold ">
-                                        <form action="" method="post" class="">
+                                        <form action="{{ route('UpdateStatusCarga',['carga'=>$carga->id]) }}" method="post" class="" name="UpdateStatusCarga_{{ $carga->id }}">
                                             <div class="col-12">
-                                                <select name="" id="" class=" form-control select-index-carga">
+                                                <select name="StatusCarga_{{ $carga->id }}" id="Carga_{{ $carga->id }}" route="{{ route('UpdateStatusCarga',['carga'=>$carga->id]) }}" class=" form-control select-index-carga">
                                                     <option value="">Selecione o Status da Carga</option>
                                                     @foreach ($carga->getAllStatus() as $item)
+                                                    @php
+                                                        if((Auth::user()->roles()->first()->name== 'tenant-colaborador' || Auth::user()->roles()->first()->name== 'colaborador')
+                                                            && in_array($item->name,$permissionColaborador)){
+                                                            $disabledOption = 'disabled';
+                                                        }else{
+                                                            $disabledOption = '';
+                                                        }
+                                                    @endphp
                                                     @if (isset($status->descricao) && $status->id==$item->id)
-                                                    <option value="{{ $status->id }}" selected>{{ str_replace('Carga ','',$item->descricao) }}</option>
+                                                    <option value="{{ $item->id }}" selected {{ $disabledOption }}>{{ str_replace('Carga ','',$item->name) }}</option>
                                                     @else
-                                                    <option value="{{ $status->id }}">{{ str_replace('Carga ','',$item->descricao) }}</option>
+                                                    <option value="{{ $item->id }}" {{ $disabledOption }}>{{ str_replace('Carga ','',$item->name) }}</option>
                                                     @endif
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            @csrf
                                         </form>
                                     </td>
                                 </tr>
@@ -368,6 +402,119 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <section class="index-cargas-mobile">
+                        <ul class="col-12">
+                            @foreach ($cargas as $carga)
+                            <li class="d-flex border border-black rounded mb-3">
+                                <ul class="col-3">
+                                    <li>Data</li>
+                                    <li>Remessa - OS</li>
+                                    <li>Motorista</li>
+                                    <li>Origem</li>
+                                    <li>Destino</li>
+                                    <li>Veiculo</li>
+                                    <li>Progresso</li>
+                                    <li>Status</li>
+                                    <li>Ação</li>
+                                </ul>
+                                <ul class="col-9">
+                                    <li>{{ date('d/m/Y', strtotime($carga->data)) }}</li>
+                                    <li>{{ $carga->remessa }} - {{ $carga->os }}</li>
+                                    <li>{{ isset($carga->motorista->name)?$carga->motorista->name:'-' }}</li>
+                                    <li>{{ $carga->filial->nome_fantasia }}</li>
+                                    <li>{{ $carga->destino }}</li>
+                                    <li>{{ isset($carga->veiculo->placa) ? $carga->veiculo->placa : '' }}</li>
+                                    <li class="d-flex align-items-center">
+                                        <div class="col-9 py-3 d-flex align-items-center">
+                                            <div class="progress col-9 bg-info">
+                                                <div class="progress-bar progress-bar-striped bg-primary" style="width: {{ $carga->porcentagemNotas() }}"
+                                                    role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ $carga->notas()->count() }}">
+                                                    {{ $carga->porcentagemNotas() }}
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                {{ ($carga->notasPorStatus('devolvida')->count()+$carga->notasPorStatus('entregue')->count()) }}/{{ $carga->notas()->count() }}
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-around col-3 py-2">
+                                            <div class="text-primary">{{ $carga->notasPorStatus('pendente')->count() }}</div>
+                                            <div class="text-danger">{{ $carga->notasPorStatus('devolvida')->count() }}</div>
+                                            <div class="text-success">{{ $carga->notasPorStatus('entregue')->count() }}</div>
+                                        </div>
+                                    </li>
+                                    @php
+                                        $status = $carga->getStatus();
+                                        $permissionColaborador = array("Aguardando","Pendente","Rota", "Finalizada","Cancelada");
+                                    @endphp
+                                    <li title="{{ $status->descricao }}" class="@php
+                                        if($status->name =='Rota'){
+                                            echo 'text-success';
+                                        }else if($status->name =='Finalizada'){
+                                            echo 'text-dark';
+                                        }else if($status->name =='Aguardando'){
+                                            echo 'text-warning';
+                                        }else{
+                                            echo 'text-primary';
+                                        }
+                                    @endphp font-bold ">
+                                        <form action="{{ route('UpdateStatusCarga',['carga'=>$carga->id]) }}" method="post" class="" name="UpdateStatusCarga_{{ $carga->id }}">
+                                            <div class="col-12">
+                                                <select name="StatusCarga_{{ $carga->id }}" id="Carga_{{ $carga->id }}" route="{{ route('UpdateStatusCarga',['carga'=>$carga->id]) }}" class=" form-control select-index-carga">
+                                                    <option value="">Selecione o Status da Carga</option>
+                                                    @foreach ($carga->getAllStatus() as $item)
+                                                    @php
+                                                        if((Auth::user()->roles()->first()->name== 'tenant-colaborador' || Auth::user()->roles()->first()->name== 'colaborador')
+                                                            && in_array($item->name,$permissionColaborador)){
+                                                            $disabledOption = 'disabled';
+                                                        }else{
+                                                            $disabledOption = '';
+                                                        }
+                                                    @endphp
+                                                    @if (isset($status->descricao) && $status->id==$item->id)
+                                                    <option value="{{ $item->id }}" selected {{ $disabledOption }}>{{ str_replace('Carga ','',$item->name) }}</option>
+                                                    @else
+                                                    <option value="{{ $item->id }}" {{ $disabledOption }}>{{ str_replace('Carga ','',$item->name) }}</option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @csrf
+                                        </form>
+                                    </li>
+                                    <li>
+                                        @if ($status->id == $carga->getStatusId('Carregado') || $status->id == $carga->getStatusId('Notas') || $status->id == $carga->getStatusId('Aguardando'))
+                                            <a href="" class="btn btn-primary btn-seguir-viagem" data-toggle="modal" Carga="{{ $carga->id }}">Seguir viagem</a>
+                                            <div class="modal fade" id="Modal_{{ $carga->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalLabel">Deseja Seguir viagem para qual destino?</h5>
+                                                      {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                      </button> --}}
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <a href="{{ route('SeguirViagem',['carga'=>$carga->id]) }}" destino="Cliente" class="btn btn-primary destino-viagem">Cliente</a>
+                                                        @foreach (Auth::user()->empresa->first()->localapoios as $item)
+                                                        {{-- Auth::user()->empresa->first()->localapoios --}}
+                                                        <a href="{{ route('SeguirViagem',['carga'=>$carga->id]) }}" destino="{{ $item->name }}" class="btn btn-primary destino-viagem">{{ $item->name }}</a>
+                                                        @endforeach
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-danger" data-dismiss="modal" class="close-modal-viagem">Cancelar</button>
+                                                      {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                        @endif
+                                        <a href="{{ route('carga.show',['carga'=>$carga->id]) }}" class="btn btn-primary">Consultar</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </section>
                         <div class="my-2">
                             <div class="col-12 text-center">
                                 <b>Paginação</b>

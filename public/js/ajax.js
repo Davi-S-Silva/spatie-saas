@@ -1,9 +1,9 @@
 // const { data } = require("autoprefixer");
 $(function () {
 
-    // var base = 'http://localhost:8090/';
+    var base = 'http://localhost:8090/';
     // var base = 'http://3.145.53.239/';
-    var base = 'https://saasportal.com.br/';
+    // var base = 'https://saasportal.com.br/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
 
     //====================================
@@ -352,6 +352,127 @@ $(function () {
         return false;
     });
 
+    var StatusCarga = $('.select-index-carga')
+    var form=''
+    // console.log(StatusCarga)
+    StatusCarga.change(function(){
+        //não consegui pegar o valor do option so o text, tava dando val()=4 em todos e ta errado
+        //sendo assim vou enviar o text e pego pelo metodo getStatusId do model Carga;
+        // console.log($(this).find(':selected').index())
+        // console.log($(this).find(':selected').text())
+        // console.log($(this).attr('route'))
+        // return false
+        var confirma = confirm('Deseja atualizar a carga para '+$(this).find(':selected').text()+'?')
+        // var confirma = confirm('Deseja Cadastrar Entrega? ' + textCargas + '\n');
+        if(confirma){
+
+        $.ajax({
+            url: $(this).attr('route'),
+            // url: routeCarga,
+            type: "get",
+            data: {'status':$(this).find(':selected').text(),'_token':$('input[type="hidden"]').val()},
+            // data: Dados,
+            dataType: 'json',
+            contentType: 'application/json',
+            beforeSend: function () {
+                // alert(routeStorePermission)
+                // loading.show()
+
+            },
+            success: function (response) {
+                // alert('success')
+
+
+                // console.log(response)
+
+                if (response.status == 200) {
+                    // alert(response.msg)
+                    console.log(response)
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').show();
+                    $('.response-message-ajax').text(response.msg.status)
+                }
+                if (response.status == 0) {
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').show();
+                    $('.response-message-ajax').html(response.msg)
+                }
+            },
+            error: function (response) {
+                // alert('error')
+                $('.response-message-ajax').addClass('alert-danger').text('erro: ' + response.responseJSON.message)
+                // console.log(response.responseJSON.message)
+            }
+        })
+    }
+    })
+    // $(function () {
+
+    //  });
+    /* SEGUIR VIAGEM */
+    $('.btn-seguir-viagem').click(function(){
+        $('#Modal_'+$(this).attr('Carga')).modal('toggle');
+        return false
+    })
+    $(document).on('click',$('.close-modal-viagem'), ()=>{
+        $('.modal').modal('hide');
+    })
+    $('.destino-viagem').click(function(){
+        // console.log($(this).attr('href'))
+        km = prompt("Digite o KM atual");
+        // console.log(motivo);
+        if (km == null || km == '') {
+            alert('Km Invalido');
+            return false;
+        }
+        $.ajax({
+            url: $(this).attr('href'),
+            // url: routeCarga,
+            type: "get",
+            data: {'Destino':$(this).attr('destino'),'Km':km},
+            // data: Dados,
+            dataType: 'json',
+            contentType: 'application/json',
+            beforeSend: function () {
+                // alert(routeStorePermission)
+                // loading.show()
+
+            },
+            success: function (response) {
+                // alert('success')
+
+
+                // console.log(response)
+
+                if (response.status == 200) {
+                    // alert(response.msg)
+                    console.log(response)
+                    $('.response-message-ajax').removeClass('alert-danger')
+                    $('.response-message-ajax').addClass('alert-success')
+                    $('.response-message-ajax').show();
+                    $('.response-message-ajax').text(response.msg)
+                }
+                if (response.status == 0) {
+                    $('.response-message-ajax').removeClass('alert-success')
+                    $('.response-message-ajax').addClass('alert-danger')
+                    $('.response-message-ajax').show();
+                    $('.response-message-ajax').html(response.msg)
+                    console.log(response)
+                }
+                $('.modal').modal('hide');
+            },
+            error: function (response) {
+                // alert('error')
+                // $('.response-message-ajax').addClass('alert-danger').text('erro: ' + response.responseJSON.message)
+                console.log(response)
+                $('.modal').modal('hide');
+            }
+        })
+        return false
+    })
+    /* FIM SEGUIR VIAGEM */
     $('form[name="EditCarga"]').submit(function () {
 
         // console.log($(this).serialize())
@@ -1035,6 +1156,14 @@ $(function () {
         })
         return false
     })
+
+    var SelectAllNotas = $('#SelectAllNotas')
+    SelectAllNotas.click(function(){
+        notas = $('input[name="Notas[]"]')
+        $('.nota-select').click()
+
+    })
+
     var NameProp = $('input[name="NameProp"]')
     var DocProp = $('input[name="DocProp"]')
     NameProp.attr('disabled', 'disabled')

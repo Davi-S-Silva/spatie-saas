@@ -8,7 +8,7 @@
     <select name="proprietario" id="PropVeiculo" required class="form-control">
         <option value="">Selecione uma opção</option>
         @foreach(Proprietario::All() as $propietario)
-            <option value="{{ $propietario->id }}">{{ $propietario->nome_razao_social }} </option>
+            <option value="{{ $propietario->id }}" {{ (isset($veiculo)&& $veiculo->proprietario_id==$propietario->id)?'selected':'' }}>{{ $propietario->nome_razao_social }} </option>
         @endforeach
     </select>
     {{-- @endif --}}

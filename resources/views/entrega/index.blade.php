@@ -64,7 +64,7 @@
                                         @foreach ($entrega->cargas as $carga)
                                             <ul class="cargas_index_entrega col-12 mr-2">
                                                 <div class="d-flex justify-around col-12">
-                                                    <li class="col-6"> <span class="title_index_entrega_mobile">Remessa</span>{{ $carga->remessa }}</li>
+                                                    <li class="col-6"> <span class="title_index_entrega_mobile">Remessa</span><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->remessa }}</a></li>
                                                     <li class="col-6"> <span class="title_index_entrega_mobile">OS</span><a href="{{ route('carga.show',['carga'=>$carga->id]) }}">{{ $carga->os }}</a></li>
                                                 </div>
 
