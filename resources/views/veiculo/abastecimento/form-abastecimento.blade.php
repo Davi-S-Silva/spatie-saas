@@ -80,8 +80,8 @@
         @endif --}}
     @endhasanyrole
 
-    <div id="AreaCameraAbastecimento" class="col-12 bg-white">
-        <video autoplay class="video_camera_abastecimento col-11"></video>
+    <div id="AreaCameraAbastecimento" class="col-12 bg-white text-center">
+        <video autoplay class="video_camera_abastecimento col-11 border"></video>
         <button class="btn btn-primary btn-tirar-foto" id="btnTirarFoto">Tirar Foto</button>
     </div>
 

@@ -173,7 +173,8 @@
                                         <li>{{ $kmRodado }}</li>
                                         <li>{{ $abastecimento->litros }}</li>
                                         <li>{{ $abastecimento->valor }}</li>
-                                        <li>{{ $abastecimento->veiculo->placa }}</li>
+                                        <li><a
+                                            href="{{ route('veiculo.show', ['veiculo' => $abastecimento->veiculo->id]) }}">{{ $abastecimento->veiculo->placa }}</a></li>
                                         <li class="overflow-auto h-7">{{ $abastecimento->colaborador->name }}</li>
                                         <li>{{ date('d/m/Y H:i:s', strtotime($abastecimento->created_at)) }}</li>
                                         <li>{{ number_format($kmRodado / $abastecimento->litros, 5, ',', '.') }}</li>

@@ -130,7 +130,7 @@
                                     </td>
                                     <td>{{ $movimentacao->partida->title }}</td>
                                     <td>{{ $movimentacao->destino->title }}</td>
-                                    <td>{{ $movimentacao->veiculo->placa }}</td>
+                                    <td><a href="{{ route('veiculo.show',['veiculo'=>$movimentacao->veiculo->id]) }}">{{ $movimentacao->veiculo->placa }}</a></td>
                                     {{-- <td>{{ date('d/m/Y', strtotime($carga->agenda)) }}</td> --}}
                                     <td>{{ !is_null($movimentacao->data_hora_inicio) ? $movimentacao->data_hora_inicio : '-' }}</td>
                                     <td>{{ !is_null($movimentacao->kmInicio) ? $movimentacao->kmInicio->km : '-' }}</td>

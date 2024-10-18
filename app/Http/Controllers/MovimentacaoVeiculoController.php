@@ -159,9 +159,10 @@ class MovimentacaoVeiculoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MovimentacaoVeiculo $movimentacaoVeiculo)
+    public function show(MovimentacaoVeiculo $movimentacao)
     {
-        //
+        // dd($movimentacao);
+        return view('veiculo.movimentacao.show',['movimentacao'=>$movimentacao]);
     }
 
     /**

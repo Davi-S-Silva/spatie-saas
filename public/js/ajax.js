@@ -1,7 +1,7 @@
 // const { data } = require("autoprefixer");
 $(function () {
 
-    var base = 'http://localhost:8090/';
+    var base = 'http://localhost:8080/';
     // var base = 'http://3.145.53.239/';
     // var base = 'https://saasportal.com.br/';
     // var base = 'http://8ebd-177-206-177-236.ngrok-free.app/';
@@ -453,6 +453,14 @@ $(function () {
                     $('.response-message-ajax').addClass('alert-success')
                     $('.response-message-ajax').show();
                     $('.response-message-ajax').text(response.msg)
+                    if(response.msg.entrega != undefined){
+                        console.log(base+'/entrega/'+response.msg.entrega)
+                        location.href= base+'entrega/'+response.msg.entrega
+                    }
+                    if(response.msg.mov != undefined){
+                        console.log(base+'/entrega/'+response.msg.mov)
+                        location.href= base+'movimentacao/'+response.msg.mov
+                    }
                 }
                 if (response.status == 0) {
                     $('.response-message-ajax').removeClass('alert-success')

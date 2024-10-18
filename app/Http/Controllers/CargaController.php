@@ -646,21 +646,21 @@ class CargaController extends Controller implements HasMiddleware
         DB::beginTransaction();
         try{
             if($carga->status_id == $carga->getStatusId("Rota")){
-                throw new Exception('Carga já em Rota para o ');
+                // throw new Exception('Carga já em Rota para o ');
                 throw new Exception('Carga já em Rota para o Cliente');
             }
             $partida = LocalMovimentacao::where('title',Filial::find($carga->cliente_id)->razao_social)->first()->id;
             $km = (int)$request->Km;
 
 
-            // return response()->json(['status'=>200, 'msg'=>$request->input()]);
             if(is_null($request->Destino)){
                 throw new Exception('Destino Ínvalido');
             }
             $lastMovVeiculo = MovimentacaoVeiculo::where('veiculo_id',$carga->veiculo_id)->get();
+            // return response()->json(['status'=>200, 'msg'=>$request->input(),'id'=>LocalMovimentacao::where('title',$request->Destino)->first()->id.'='.LocalMovimentacao::find($lastMovVeiculo->last()->Local_destino_id)->descricao]);
             if($lastMovVeiculo->count()!=0){
-                if($lastMovVeiculo->last()->Local_destino_id != $partida){
-                    throw new Exception('Movimentacao incorreta. o veiculo está atualmente em '.LocalMovimentacao::find($lastMovVeiculo->last()->Local_destino_id)->title);
+                if($lastMovVeiculo->last()->Local_destino_id == LocalMovimentacao::where('title',($request->Destino=='Cliente')?'Rota':$request->Destino)->first()->id){
+                    throw new Exception('Movimentacao incorreta. o veiculo já está atualmente em '.LocalMovimentacao::find($lastMovVeiculo->last()->Local_destino_id)->title.'.');
                 }
                 if($lastMovVeiculo->last()->status_id!=$lastMovVeiculo->last()->getStatusId('Finalizada')){
                     throw new Exception('Existe movimentação não concluida para o veiculo');
@@ -731,16 +731,20 @@ class CargaController extends Controller implements HasMiddleware
 
                 $entrega->movimentacao_id = $Mov->id;
                 $entrega->save();
-
+                $msg = ['msg'=>'Movimentacao em rota para o cliente','entrega'=>$entrega->id];
             }else{
                 //cria movimentacao para o Local escolhido "diferente do cliente"
-                $destino = LocalMovimentacao::where('title',$request->Destino)->first()->id;
+
+                $destino = LocalMovimentacao::where('title',$request->Destino)->first();
                 $Mov = new MovimentacaoVeiculo();
-                $Mov->Local_destino_id = $destino;
+                $Mov->newId();
+                $Mov->Local_destino_id = $destino->id;
                 $Mov->Local_partida_id = $partida;
                 $Mov->colaborador_id = $carga->motorista_id;
                 $Mov->veiculo_id = $carga->veiculo_id;
                 $Mov->usuario_id = Auth::user()->id;
+                $Mov->descricao = 'Seguir para '.$destino->descricao;
+                $Mov->data_hora_inicio = date('Y-m-d H:i:s');
                 $Mov->setStatus('Pendente');//movimentacao pendente
                 // $Mov->save();
 
@@ -754,13 +758,14 @@ class CargaController extends Controller implements HasMiddleware
                 $Mov->km_inicio_id = $KmModel->id;
                 $Mov->setStatus('Rota'); //movimentacao iniciada
                 $Mov->save();
+                $msg = ['msg'=>'Movimentacao para '.$request->Destino.' iniciada com sucesso','mov'=>$Mov->id];
             }
-                $msg = "Carga ".$carga->remessa." Atualizada com sucesso por ".Auth::user()->name." - data: ".date('d/m/Y H:i:s');
-                $carga->setHistorico($msg);
+                $msgH = "Carga ".$carga->remessa." Atualizada com sucesso por ".Auth::user()->name." - data: ".date('d/m/Y H:i:s');
+                $carga->setHistorico($msgH);
                 $carga->save();
 
             DB::commit();
-            return response()->json(['status'=>200, 'msg'=>$request->input()]);
+            return response()->json(['status'=>200, 'msg'=>$msg]);
         }catch(Exception $ex){
             DB::rollback();
             return response()->json(['status'=>0, 'msg'=>$ex->getMessage().'-'.$ex->getLine()]);

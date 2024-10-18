@@ -18,6 +18,7 @@
                             <ul>
                                 <li>Cliente: {{ $carga->filial->razao_social }}</li>
                                 <li>Empresa: {{ $carga->localApoio->name }}</li>
+                                <li>Motorista: {{ $carga->motorista->name}}</li>
                                 <li>Status: {{ $carga->getStatus()->descricao }}</li>
                                 <li>Veiculo: <span class="click_botao_direito position-relative"
                                         copy="{{ isset($carga->veiculo) ? $carga->veiculo->placa : '' }}"
