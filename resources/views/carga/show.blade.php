@@ -10,7 +10,8 @@
     <div class="py-1">
         <div class="mx-auto px-1">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                @if (Auth::user()->roles()->first()->name == 'tenant-admin-master' || Auth::user()->roles()->first()->name == 'tenant-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'super-admin')
+                {{-- @if (Auth::user()->roles()->first()->name == 'tenant-admin-master' || Auth::user()->roles()->first()->name == 'tenant-admin' || Auth::user()->roles()->first()->name == 'admin' || Auth::user()->roles()->first()->name == 'super-admin') --}}
+                @if (!(Auth::user()->roles()->first()->name == 'tenant-colaborador' || Auth::user()->roles()->first()->name == 'colaborador'))
                 <div class="card col-12 p-2">
                     <section class="d-flex justify-between flex-wrap">
 

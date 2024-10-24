@@ -17,8 +17,8 @@ $(document).ready(function(){
         .getUserMedia({
             video: {
                 facingMode: { exact: "user" },
-                width:500,
-                height:3000
+                width:900,
+                height:900
             }
         })
         .then((stream) => {
@@ -40,9 +40,9 @@ $(document).ready(function(){
         navigator.mediaDevices
         .getUserMedia({
             video: {
-                facingMode: "portrait",
-                width:500,
-                height:3000
+                facingMode: { exact: "environment" },
+                width:900,
+                height:900
             }
         })
         .then((stream) => {
@@ -63,9 +63,9 @@ $(document).ready(function(){
         navigator.mediaDevices
         .getUserMedia({
             video: {
-                facingMode: "portrait",
-                width:500,
-                height:3000
+                facingMode: { exact: "environment" },
+                width:900,
+                height:900
             }
         })
         .then((stream) => {

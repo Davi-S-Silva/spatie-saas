@@ -114,6 +114,9 @@ class CargaController extends Controller implements HasMiddleware
         if((!empty($_GET['item']) && !empty($_GET['order']))){
             $carga->orderBy($_GET['item'],$_GET['order']);
             session(['order-by-items-item'=>$_GET['item'],'order-by-items-order'=>$_GET['order']]);
+        }else{
+            $carga->orderBy('id','desc');
+            session(['order-by-items-item'=>'id','order-by-items-order'=>'desc']);
         }
 
         if(session()->has('order-by-items-item') && session()->has('order-by-items-order')){
@@ -632,7 +635,7 @@ class CargaController extends Controller implements HasMiddleware
         }
         $carga->setStatus($request->status);
         $carga->save();
-        DB::commit();
+        // DB::commit();
         return response()->json(['status'=>200,'msg'=>$request->status,'carga'=>$carga->id]);
         // dd($request->input());
     }catch(Exception $ex){

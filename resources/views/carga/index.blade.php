@@ -80,11 +80,11 @@
                                     ['name' => 'Destino', 'item' => 'destino','class'=>'col-1'],
                                     ['name' => 'Veiculo', 'item' => 'veiculo_id','class'=>'col-1'],
                                     ['name' => 'Progresso', 'item' => '','class'=>'col-2'],
-                                    ['name' => 'Entregas', 'item' => '','class'=>'col-1'],
                                     ['name' => 'Frete', 'item' => '','class'=>'col-1'],
                                     // ['name' => 'Diaria', 'item' => 'diaria','class'=>'col-1'],
                                     ['name' => 'Arquivos', 'item' => '','class'=>'col-1'],
                                     ['name' => 'Status', 'item' => 'status_id','class'=>'col-2'],
+                                    ['name' => 'Ação', 'item' => '','class'=>'col-1'],
                                 ];
                                 @endphp
                                 <th class="p-2">-</th>
@@ -185,7 +185,6 @@
                                             <div class="text-success">{{ $carga->notasPorStatus('entregue')->count() }}</div>
                                         </div>
                                     </td>
-                                    <td>{{ count($carga->paradas()) }}</td>
                                     <td>R$ {{ number_format($carga->frete, 2, ',', '.') }}</td>
                                     <td>@forelse ($carga->docs as $item)
                                         @switch($item->tipo)
@@ -245,6 +244,9 @@
                                             </div>
                                             @csrf
                                         </form>
+                                    </td>
+                                    <td class="col-1">
+                                        <x-acao-carga-index :status=$status :carga=$carga/>
                                     </td>
                                 </tr>
                                 @php
@@ -384,6 +386,7 @@
                                             </div>
                                             <div class="tab-pane fade" id="entrega_{{ $carga->id }}"
                                                 role="tabpanel" aria-labelledby="entrega-tab_{{ $carga->id }}">
+                                                {{ count($carga->paradas()) }}
                                                 @foreach ($carga->entregas()->with('veiculo', 'colaborador','getStatus')->get() as $item)
                                                 <a href="{{ route('entrega.show',['entrega'=>$item->id]) }}">
                                                     <ul>
@@ -482,33 +485,7 @@
                                         </form>
                                     </li>
                                     <li>
-                                        @if ($status->id == $carga->getStatusId('Carregado') || $status->id == $carga->getStatusId('Notas') || $status->id == $carga->getStatusId('Aguardando'))
-                                            <a href="" class="btn btn-primary btn-seguir-viagem" data-toggle="modal" Carga="{{ $carga->id }}">Seguir viagem</a>
-                                            <div class="modal fade" id="Modal_{{ $carga->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                  <div class="modal-content">
-                                                    <div class="modal-header">
-                                                      <h5 class="modal-title" id="exampleModalLabel">Deseja Seguir viagem para qual destino?</h5>
-                                                      {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                      </button> --}}
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <a href="{{ route('SeguirViagem',['carga'=>$carga->id]) }}" destino="Cliente" class="btn btn-primary destino-viagem">Cliente</a>
-                                                        @foreach (Auth::user()->empresa->first()->localapoios as $item)
-                                                        {{-- Auth::user()->empresa->first()->localapoios --}}
-                                                        <a href="{{ route('SeguirViagem',['carga'=>$carga->id]) }}" destino="{{ $item->name }}" class="btn btn-primary destino-viagem">{{ $item->name }}</a>
-                                                        @endforeach
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                      <button type="button" class="btn btn-danger" data-dismiss="modal" class="close-modal-viagem">Cancelar</button>
-                                                      {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                        @endif
-                                        <a href="{{ route('carga.show',['carga'=>$carga->id]) }}" class="btn btn-primary">Consultar</a>
+                                        <x-acao-carga-index :status=$status :carga=$carga/>
                                     </li>
                                 </ul>
                             </li>
